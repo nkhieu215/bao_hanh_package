@@ -1,0 +1,70 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025020",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "san_pham",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sapCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "rdCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tenChungLoai",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "donVi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "toSanXuat",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phanLoai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "not an ignored comment",
+  "jpaMetamodelFiltering": false,
+  "name": "SanPham",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "chiTietSanPhamTiepNhan",
+      "otherEntityRelationshipName": "sanPham",
+      "relationshipName": "chiTietSanPhamTiepNhan",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "nhomSanPham",
+      "otherEntityRelationshipName": "sanPham",
+      "relationshipName": "nhomSanPham",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "kho",
+      "otherEntityRelationshipName": "sanPham",
+      "relationshipName": "kho",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "nganh",
+      "otherEntityRelationshipName": "sanPham",
+      "relationshipName": "nganh",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

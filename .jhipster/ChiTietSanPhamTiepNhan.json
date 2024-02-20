@@ -1,0 +1,71 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025024",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "chi_tiet_san_pham_tiep_nhan",
+  "fields": [
+    {
+      "fieldName": "soLuongKhachHang",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "idKho",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "idBienBan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tongLoiKiThuat",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "tongLoiLinhDong",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "ngayPhanLoai",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "slTiepNhan",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "slTon",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "tinhTrangBaoHanh",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ChiTietSanPhamTiepNhan",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "sanPham",
+      "otherEntityRelationshipName": "chiTietSanPhamTiepNhan",
+      "relationshipName": "sanPham",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "donBaoHanh",
+      "otherEntityRelationshipName": "chiTietSanPhamTiepNhan",
+      "relationshipName": "donBaoHanh",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "phanLoaiChiTietTiepNhan",
+      "otherEntityRelationshipName": "chiTietSanPhamTiepNhan",
+      "relationshipName": "phanLoaiChiTietTiepNhan",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

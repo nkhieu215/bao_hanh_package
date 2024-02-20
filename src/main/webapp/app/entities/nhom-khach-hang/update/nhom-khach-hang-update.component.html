@@ -1,0 +1,84 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-nhom-khach-hang-heading" data-cy="NhomKhachHangCreateUpdateHeading">Create or edit a Nhom Khach Hang</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tenNhomKhachHang">Ten Nhom Khach Hang</label>
+          <input
+            type="text"
+            class="form-control"
+            name="tenNhomKhachHang"
+            id="field_tenNhomKhachHang"
+            data-cy="tenNhomKhachHang"
+            formControlName="tenNhomKhachHang"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_ngayTao">Ngay Tao</label>
+          <div class="d-flex">
+            <input
+              id="field_ngayTao"
+              data-cy="ngayTao"
+              type="datetime-local"
+              class="form-control"
+              name="ngayTao"
+              formControlName="ngayTao"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_ngayCapNhat">Ngay Cap Nhat</label>
+          <div class="d-flex">
+            <input
+              id="field_ngayCapNhat"
+              data-cy="ngayCapNhat"
+              type="datetime-local"
+              class="form-control"
+              name="ngayCapNhat"
+              formControlName="ngayCapNhat"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_username">Username</label>
+          <input type="text" class="form-control" name="username" id="field_username" data-cy="username" formControlName="username" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_trangThai">Trang Thai</label>
+          <input type="text" class="form-control" name="trangThai" id="field_trangThai" data-cy="trangThai" formControlName="trangThai" />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

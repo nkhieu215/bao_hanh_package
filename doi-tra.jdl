@@ -1,0 +1,156 @@
+
+entity TinhThanh {
+	idTinhThanh Integer
+	name String
+}
+
+entity NhomSanPham {
+	name String
+    timeCreate String
+    timeUpdate ZonedDateTime
+    username String
+    trangThai String
+}
+
+// an ignored comment
+/** not an ignored comment */
+entity SanPham {
+	name String
+	sapCode String
+	rdCode String
+    tenChungLoai String
+    donVi String
+    toSanXuat String
+    phanLoai String
+}
+
+entity KhachHang {
+	maKhachHang String
+    tenKhachHang String
+    soDienThoai String
+    diaChi String
+}
+/**
+ * Task entity.
+ * @author The JHipster team.
+ */
+entity NhomKhachHang{
+	tenNhomKhachHang String
+    ngayTao ZonedDateTime
+    ngayCapNhat ZonedDateTime
+    username String
+    trangThai String
+}
+
+/**
+ * The Employee entity.
+ */
+entity DonBaoHanh {
+	ngayTiepNhan String
+    trangThai String
+    nhanVienGiaoHang String
+    ngaykhkb ZonedDateTime
+    nguoiTaoDon String
+    slTiepNhan Integer
+    slDaPhanTich Integer
+    ghiChu	String
+    ngayTraBienBan ZonedDateTime
+}
+
+entity ChiTietSanPhamTiepNhan {
+	soLuongKhachHang Integer
+	idKho String
+	idBienBan String
+    tongLoiKiThuat Integer
+    tongLoiLinhDong Integer
+    ngayPhanLoai ZonedDateTime
+    slTiepNhan Integer
+    slTon Integer
+    tinhTrangBaoHanh String
+}
+
+entity PhanLoaiChiTietTiepNhan{
+	soLuong Integer
+}
+entity DanhSachTinhTrang{
+	tenTinhTrangPhanLoai String
+    ngayTao ZonedDateTime
+    ngayCapNhat ZonedDateTime
+    username String
+    trangThai String
+}
+entity PhanTichSanPham {
+	tenNhanVienPhanTich String
+    theLoaiPhanTich String
+    lotNumber String
+    detail String
+    soLuong Integer
+    ngayKiemTra ZonedDateTime
+    username String
+    namSanXuat String
+    trangThai String
+}
+entity PhanTichLoi{
+soLuong Integer
+ngayPhanTich ZonedDateTime
+username String
+ghiChu String
+}
+entity Loi {
+	errCode String
+    tenLoi String
+    ngayTao ZonedDateTime
+    ngayCapNhat ZonedDateTime
+    username String
+    chiChu String
+    trangThai String
+}
+entity NhomLoi {
+	maNhomLoi String
+    tenNhomLoi String
+    ngayTao ZonedDateTime
+    ngayCapNhat ZonedDateTime
+    username String
+    ghiChu String
+    trangThai String
+}
+entity Kho {
+	maKho String
+    tenKho String
+    ngayTao ZonedDateTime
+    username String
+}
+
+entity ChungLoai {
+	maChungLoai String
+    tenChungLoai String
+    ngayTao ZonedDateTime
+    username String
+}
+entity Nganh {
+	maNganh String
+    tenNganh String
+    ngayTao ZonedDateTime
+    username String
+}
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+    NhomKhachHang to KhachHang
+    TinhThanh to KhachHang
+    ChungLoai to NhomSanPham
+	NhomSanPham to SanPham
+	SanPham to ChiTietSanPhamTiepNhan
+  	DonBaoHanh to ChiTietSanPhamTiepNhan
+    DanhSachTinhTrang to PhanLoaiChiTietTiepNhan
+    NhomLoi to Loi
+    Loi to  PhanTichLoi
+    PhanTichSanPham to PhanTichLoi
+    PhanLoaiChiTietTiepNhan to PhanTichSanPham
+    KhachHang to DonBaoHanh    
+    Kho to SanPham
+    Nganh to SanPham
+    
+}
+relationship ManyToOne {
+PhanLoaiChiTietTiepNhan to ChiTietSanPhamTiepNhan
+}

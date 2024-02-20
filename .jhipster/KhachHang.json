@@ -1,0 +1,51 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025021",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "khach_hang",
+  "fields": [
+    {
+      "fieldName": "maKhachHang",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tenKhachHang",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "soDienThoai",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "diaChi",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "KhachHang",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "donBaoHanh",
+      "otherEntityRelationshipName": "khachHang",
+      "relationshipName": "donBaoHanh",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "nhomKhachHang",
+      "otherEntityRelationshipName": "khachHang",
+      "relationshipName": "nhomKhachHang",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "tinhThanh",
+      "otherEntityRelationshipName": "khachHang",
+      "relationshipName": "tinhThanh",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

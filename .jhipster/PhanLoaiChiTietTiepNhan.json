@@ -1,0 +1,39 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025025",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "phan_loai_chi_tiet_tiep_nhan",
+  "fields": [
+    {
+      "fieldName": "soLuong",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "PhanLoaiChiTietTiepNhan",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "phanTichSanPham",
+      "otherEntityRelationshipName": "phanLoaiChiTietTiepNhan",
+      "relationshipName": "phanTichSanPham",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "chiTietSanPhamTiepNhan",
+      "otherEntityRelationshipName": "phanLoaiChiTietTiepNhan",
+      "relationshipName": "chiTietSanPhamTiepNhan",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "danhSachTinhTrang",
+      "otherEntityRelationshipName": "phanLoaiChiTietTiepNhan",
+      "relationshipName": "danhSachTinhTrang",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,96 @@
+<div>
+  <h2 id="page-heading" data-cy="ChungLoaiHeading">
+    <span>Chung Loais</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-chung-loai"
+        [routerLink]="['/chung-loai/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Chung Loai </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="chungLoais?.length === 0">
+    <span>No chungLoais found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="chungLoais && chungLoais.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>ID</span></th>
+          <th scope="col"><span>Ma Chung Loai</span></th>
+          <th scope="col"><span>Ten Chung Loai</span></th>
+          <th scope="col"><span>Ngay Tao</span></th>
+          <th scope="col"><span>Username</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chungLoai of chungLoais; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/chung-loai', chungLoai.id, 'view']">{{ chungLoai.id }}</a>
+          </td>
+          <td>{{ chungLoai.maChungLoai }}</td>
+          <td>{{ chungLoai.tenChungLoai }}</td>
+          <td>{{ chungLoai.ngayTao | formatMediumDatetime }}</td>
+          <td>{{ chungLoai.username }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/chung-loai', chungLoai.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/chung-loai', chungLoai.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(chungLoai)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div id="demo-container" class="container-fuild">
+  <h2>
+    {{title}}
+  </h2>
+
+  <button class="btn btn-sm btn-outline-primary" (click)="addItem()">Thêm mới</button>
+  <angular-slickgrid
+  gridId="chung-loai"
+  [columnDefinitions]=""
+  ></angular-slickgrid>
+</div> -->

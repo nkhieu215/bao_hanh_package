@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025022",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "nhom_khach_hang",
+  "fields": [
+    {
+      "fieldName": "tenNhomKhachHang",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTao",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "ngayCapNhat",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Task entity.\\n@author The JHipster team.",
+  "jpaMetamodelFiltering": false,
+  "name": "NhomKhachHang",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "khachHang",
+      "otherEntityRelationshipName": "nhomKhachHang",
+      "relationshipName": "khachHang",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,85 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-phan-loai-chi-tiet-tiep-nhan-heading" data-cy="PhanLoaiChiTietTiepNhanCreateUpdateHeading">
+        Create or edit a Phan Loai Chi Tiet Tiep Nhan
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_soLuong">So Luong</label>
+          <input type="number" class="form-control" name="soLuong" id="field_soLuong" data-cy="soLuong" formControlName="soLuong" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_chiTietSanPhamTiepNhan">Chi Tiet San Pham Tiep Nhan</label>
+          <select
+            class="form-control"
+            id="field_chiTietSanPhamTiepNhan"
+            data-cy="chiTietSanPhamTiepNhan"
+            name="chiTietSanPhamTiepNhan"
+            formControlName="chiTietSanPhamTiepNhan"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                chiTietSanPhamTiepNhanOption.id === editForm.get('chiTietSanPhamTiepNhan')!.value?.id
+                  ? editForm.get('chiTietSanPhamTiepNhan')!.value
+                  : chiTietSanPhamTiepNhanOption
+              "
+              *ngFor="let chiTietSanPhamTiepNhanOption of chiTietSanPhamTiepNhansSharedCollection; trackBy: trackChiTietSanPhamTiepNhanById"
+            >
+              {{ chiTietSanPhamTiepNhanOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_danhSachTinhTrang">Danh Sach Tinh Trang</label>
+          <select
+            class="form-control"
+            id="field_danhSachTinhTrang"
+            data-cy="danhSachTinhTrang"
+            name="danhSachTinhTrang"
+            formControlName="danhSachTinhTrang"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                danhSachTinhTrangOption.id === editForm.get('danhSachTinhTrang')!.value?.id
+                  ? editForm.get('danhSachTinhTrang')!.value
+                  : danhSachTinhTrangOption
+              "
+              *ngFor="let danhSachTinhTrangOption of danhSachTinhTrangsSharedCollection; trackBy: trackDanhSachTinhTrangById"
+            >
+              {{ danhSachTinhTrangOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

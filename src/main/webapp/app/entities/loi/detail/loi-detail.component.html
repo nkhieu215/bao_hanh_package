@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="loi">
+      <h2 data-cy="loiDetailsHeading"><span>Loi</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ loi.id }}</span>
+        </dd>
+        <dt><span>Err Code</span></dt>
+        <dd>
+          <span>{{ loi.errCode }}</span>
+        </dd>
+        <dt><span>Ten Loi</span></dt>
+        <dd>
+          <span>{{ loi.tenLoi }}</span>
+        </dd>
+        <dt><span>Ngay Tao</span></dt>
+        <dd>
+          <span>{{ loi.ngayTao | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Ngay Cap Nhat</span></dt>
+        <dd>
+          <span>{{ loi.ngayCapNhat | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Username</span></dt>
+        <dd>
+          <span>{{ loi.username }}</span>
+        </dd>
+        <dt><span>Chi Chu</span></dt>
+        <dd>
+          <span>{{ loi.chiChu }}</span>
+        </dd>
+        <dt><span>Trang Thai</span></dt>
+        <dd>
+          <span>{{ loi.trangThai }}</span>
+        </dd>
+        <dt><span>Nhom Loi</span></dt>
+        <dd>
+          <div *ngIf="loi.nhomLoi">
+            <a [routerLink]="['/nhom-loi', loi.nhomLoi?.id, 'view']">{{ loi.nhomLoi?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/loi', loi.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

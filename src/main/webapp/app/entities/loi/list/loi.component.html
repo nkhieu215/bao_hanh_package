@@ -1,0 +1,86 @@
+<div>
+  <h2 id="page-heading" data-cy="LoiHeading">
+    <span>Lois</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-loi"
+        [routerLink]="['/loi/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Loi </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="lois?.length === 0">
+    <span>No lois found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="lois && lois.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>ID</span></th>
+          <th scope="col"><span>Err Code</span></th>
+          <th scope="col"><span>Ten Loi</span></th>
+          <th scope="col"><span>Ngay Tao</span></th>
+          <th scope="col"><span>Ngay Cap Nhat</span></th>
+          <th scope="col"><span>Username</span></th>
+          <th scope="col"><span>Chi Chu</span></th>
+          <th scope="col"><span>Trang Thai</span></th>
+          <th scope="col"><span>Nhom Loi</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let loi of lois; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/loi', loi.id, 'view']">{{ loi.id }}</a>
+          </td>
+          <td>{{ loi.errCode }}</td>
+          <td>{{ loi.tenLoi }}</td>
+          <td>{{ loi.ngayTao | formatMediumDatetime }}</td>
+          <td>{{ loi.ngayCapNhat | formatMediumDatetime }}</td>
+          <td>{{ loi.username }}</td>
+          <td>{{ loi.chiChu }}</td>
+          <td>{{ loi.trangThai }}</td>
+          <td>
+            <div *ngIf="loi.nhomLoi">
+              <a [routerLink]="['/nhom-loi', loi.nhomLoi?.id, 'view']">{{ loi.nhomLoi?.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/loi', loi.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/loi', loi.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(loi)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

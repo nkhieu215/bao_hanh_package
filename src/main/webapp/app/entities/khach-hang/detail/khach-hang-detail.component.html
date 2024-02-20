@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="khachHang">
+      <h2 data-cy="khachHangDetailsHeading"><span>Khach Hang</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ khachHang.id }}</span>
+        </dd>
+        <dt><span>Ma Khach Hang</span></dt>
+        <dd>
+          <span>{{ khachHang.maKhachHang }}</span>
+        </dd>
+        <dt><span>Ten Khach Hang</span></dt>
+        <dd>
+          <span>{{ khachHang.tenKhachHang }}</span>
+        </dd>
+        <dt><span>So Dien Thoai</span></dt>
+        <dd>
+          <span>{{ khachHang.soDienThoai }}</span>
+        </dd>
+        <dt><span>Dia Chi</span></dt>
+        <dd>
+          <span>{{ khachHang.diaChi }}</span>
+        </dd>
+        <dt><span>Nhom Khach Hang</span></dt>
+        <dd>
+          <div *ngIf="khachHang.nhomKhachHang">
+            <a [routerLink]="['/nhom-khach-hang', khachHang.nhomKhachHang?.id, 'view']">{{ khachHang.nhomKhachHang?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Tinh Thanh</span></dt>
+        <dd>
+          <div *ngIf="khachHang.tinhThanh">
+            <a [routerLink]="['/tinh-thanh', khachHang.tinhThanh?.id, 'view']">{{ khachHang.tinhThanh?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/khach-hang', khachHang.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

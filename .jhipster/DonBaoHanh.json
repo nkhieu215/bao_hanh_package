@@ -1,0 +1,66 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025023",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "don_bao_hanh",
+  "fields": [
+    {
+      "fieldName": "ngayTiepNhan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nhanVienGiaoHang",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngaykhkb",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "nguoiTaoDon",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "slTiepNhan",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "slDaPhanTich",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "ghiChu",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTraBienBan",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "The Employee entity.",
+  "jpaMetamodelFiltering": false,
+  "name": "DonBaoHanh",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "chiTietSanPhamTiepNhan",
+      "otherEntityRelationshipName": "donBaoHanh",
+      "relationshipName": "chiTietSanPhamTiepNhan",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "khachHang",
+      "otherEntityRelationshipName": "donBaoHanh",
+      "relationshipName": "khachHang",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="phanLoaiChiTietTiepNhan">
+      <h2 data-cy="phanLoaiChiTietTiepNhanDetailsHeading"><span>Phan Loai Chi Tiet Tiep Nhan</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ phanLoaiChiTietTiepNhan.id }}</span>
+        </dd>
+        <dt><span>So Luong</span></dt>
+        <dd>
+          <span>{{ phanLoaiChiTietTiepNhan.soLuong }}</span>
+        </dd>
+        <dt><span>Chi Tiet San Pham Tiep Nhan</span></dt>
+        <dd>
+          <div *ngIf="phanLoaiChiTietTiepNhan.chiTietSanPhamTiepNhan">
+            <a [routerLink]="['/chi-tiet-san-pham-tiep-nhan', phanLoaiChiTietTiepNhan.chiTietSanPhamTiepNhan?.id, 'view']">{{
+              phanLoaiChiTietTiepNhan.chiTietSanPhamTiepNhan?.id
+            }}</a>
+          </div>
+        </dd>
+        <dt><span>Danh Sach Tinh Trang</span></dt>
+        <dd>
+          <div *ngIf="phanLoaiChiTietTiepNhan.danhSachTinhTrang">
+            <a [routerLink]="['/danh-sach-tinh-trang', phanLoaiChiTietTiepNhan.danhSachTinhTrang?.id, 'view']">{{
+              phanLoaiChiTietTiepNhan.danhSachTinhTrang?.id
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/phan-loai-chi-tiet-tiep-nhan', phanLoaiChiTietTiepNhan.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

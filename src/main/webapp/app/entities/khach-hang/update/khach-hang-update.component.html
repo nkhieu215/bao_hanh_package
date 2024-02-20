@@ -1,0 +1,109 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-khach-hang-heading" data-cy="KhachHangCreateUpdateHeading">Create or edit a Khach Hang</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_maKhachHang">Ma Khach Hang</label>
+          <input
+            type="text"
+            class="form-control"
+            name="maKhachHang"
+            id="field_maKhachHang"
+            data-cy="maKhachHang"
+            formControlName="maKhachHang"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tenKhachHang">Ten Khach Hang</label>
+          <input
+            type="text"
+            class="form-control"
+            name="tenKhachHang"
+            id="field_tenKhachHang"
+            data-cy="tenKhachHang"
+            formControlName="tenKhachHang"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_soDienThoai">So Dien Thoai</label>
+          <input
+            type="text"
+            class="form-control"
+            name="soDienThoai"
+            id="field_soDienThoai"
+            data-cy="soDienThoai"
+            formControlName="soDienThoai"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_diaChi">Dia Chi</label>
+          <input type="text" class="form-control" name="diaChi" id="field_diaChi" data-cy="diaChi" formControlName="diaChi" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_nhomKhachHang">Nhom Khach Hang</label>
+          <select
+            class="form-control"
+            id="field_nhomKhachHang"
+            data-cy="nhomKhachHang"
+            name="nhomKhachHang"
+            formControlName="nhomKhachHang"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                nhomKhachHangOption.id === editForm.get('nhomKhachHang')!.value?.id
+                  ? editForm.get('nhomKhachHang')!.value
+                  : nhomKhachHangOption
+              "
+              *ngFor="let nhomKhachHangOption of nhomKhachHangsSharedCollection; trackBy: trackNhomKhachHangById"
+            >
+              {{ nhomKhachHangOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tinhThanh">Tinh Thanh</label>
+          <select class="form-control" id="field_tinhThanh" data-cy="tinhThanh" name="tinhThanh" formControlName="tinhThanh">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="tinhThanhOption.id === editForm.get('tinhThanh')!.value?.id ? editForm.get('tinhThanh')!.value : tinhThanhOption"
+              *ngFor="let tinhThanhOption of tinhThanhsSharedCollection; trackBy: trackTinhThanhById"
+            >
+              {{ tinhThanhOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

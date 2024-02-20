@@ -1,0 +1,78 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="chiTietSanPhamTiepNhan">
+      <h2 data-cy="chiTietSanPhamTiepNhanDetailsHeading"><span>Chi Tiet San Pham Tiep Nhan</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.id }}</span>
+        </dd>
+        <dt><span>So Luong Khach Hang</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.soLuongKhachHang }}</span>
+        </dd>
+        <dt><span>Id Kho</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.idKho }}</span>
+        </dd>
+        <dt><span>Id Bien Ban</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.idBienBan }}</span>
+        </dd>
+        <dt><span>Tong Loi Ki Thuat</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.tongLoiKiThuat }}</span>
+        </dd>
+        <dt><span>Tong Loi Linh Dong</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.tongLoiLinhDong }}</span>
+        </dd>
+        <dt><span>Ngay Phan Loai</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.ngayPhanLoai | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Sl Tiep Nhan</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.slTiepNhan }}</span>
+        </dd>
+        <dt><span>Sl Ton</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.slTon }}</span>
+        </dd>
+        <dt><span>Tinh Trang Bao Hanh</span></dt>
+        <dd>
+          <span>{{ chiTietSanPhamTiepNhan.tinhTrangBaoHanh }}</span>
+        </dd>
+        <dt><span>San Pham</span></dt>
+        <dd>
+          <div *ngIf="chiTietSanPhamTiepNhan.sanPham">
+            <a [routerLink]="['/san-pham', chiTietSanPhamTiepNhan.sanPham?.id, 'view']">{{ chiTietSanPhamTiepNhan.sanPham?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Don Bao Hanh</span></dt>
+        <dd>
+          <div *ngIf="chiTietSanPhamTiepNhan.donBaoHanh">
+            <a [routerLink]="['/don-bao-hanh', chiTietSanPhamTiepNhan.donBaoHanh?.id, 'view']">{{
+              chiTietSanPhamTiepNhan.donBaoHanh?.id
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/chi-tiet-san-pham-tiep-nhan', chiTietSanPhamTiepNhan.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

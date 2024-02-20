@@ -1,0 +1,49 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025019",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "nhom_san_pham",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "timeCreate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "timeUpdate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "NhomSanPham",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "sanPham",
+      "otherEntityRelationshipName": "nhomSanPham",
+      "relationshipName": "sanPham",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "chungLoai",
+      "otherEntityRelationshipName": "nhomSanPham",
+      "relationshipName": "chungLoai",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

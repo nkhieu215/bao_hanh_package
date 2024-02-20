@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity DonBaoHanh.
+    -->
+    <changeSet id="20231215025023-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="khach_hang_id"
+                                 baseTableName="don_bao_hanh"
+                                 constraintName="fk_don_bao_hanh__khach_hang_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="khach_hang"/>
+    </changeSet>
+</databaseChangeLog>

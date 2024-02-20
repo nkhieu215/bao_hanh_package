@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="nhomLoi">
+      <h2 data-cy="nhomLoiDetailsHeading"><span>Nhom Loi</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ nhomLoi.id }}</span>
+        </dd>
+        <dt><span>Ma Nhom Loi</span></dt>
+        <dd>
+          <span>{{ nhomLoi.maNhomLoi }}</span>
+        </dd>
+        <dt><span>Ten Nhom Loi</span></dt>
+        <dd>
+          <span>{{ nhomLoi.tenNhomLoi }}</span>
+        </dd>
+        <dt><span>Ngay Tao</span></dt>
+        <dd>
+          <span>{{ nhomLoi.ngayTao | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Ngay Cap Nhat</span></dt>
+        <dd>
+          <span>{{ nhomLoi.ngayCapNhat | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Username</span></dt>
+        <dd>
+          <span>{{ nhomLoi.username }}</span>
+        </dd>
+        <dt><span>Ghi Chu</span></dt>
+        <dd>
+          <span>{{ nhomLoi.ghiChu }}</span>
+        </dd>
+        <dt><span>Trang Thai</span></dt>
+        <dd>
+          <span>{{ nhomLoi.trangThai }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/nhom-loi', nhomLoi.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

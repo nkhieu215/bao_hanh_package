@@ -1,0 +1,108 @@
+<div>
+  <h2 id="page-heading" data-cy="ChiTietSanPhamTiepNhanHeading">
+    <span>Chi Tiet San Pham Tiep Nhans</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-chi-tiet-san-pham-tiep-nhan"
+        [routerLink]="['/chi-tiet-san-pham-tiep-nhan/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Chi Tiet San Pham Tiep Nhan </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="chiTietSanPhamTiepNhans?.length === 0">
+    <span>No chiTietSanPhamTiepNhans found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="chiTietSanPhamTiepNhans && chiTietSanPhamTiepNhans.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>ID</span></th>
+          <th scope="col"><span>So Luong Khach Hang</span></th>
+          <th scope="col"><span>Id Kho</span></th>
+          <th scope="col"><span>Id Bien Ban</span></th>
+          <th scope="col"><span>Tong Loi Ki Thuat</span></th>
+          <th scope="col"><span>Tong Loi Linh Dong</span></th>
+          <th scope="col"><span>Ngay Phan Loai</span></th>
+          <th scope="col"><span>Sl Tiep Nhan</span></th>
+          <th scope="col"><span>Sl Ton</span></th>
+          <th scope="col"><span>Tinh Trang Bao Hanh</span></th>
+          <th scope="col"><span>San Pham</span></th>
+          <th scope="col"><span>Don Bao Hanh</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chiTietSanPhamTiepNhan of chiTietSanPhamTiepNhans; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/chi-tiet-san-pham-tiep-nhan', chiTietSanPhamTiepNhan.id, 'view']">{{ chiTietSanPhamTiepNhan.id }}</a>
+          </td>
+          <td>{{ chiTietSanPhamTiepNhan.soLuongKhachHang }}</td>
+          <td>{{ chiTietSanPhamTiepNhan.idKho }}</td>
+          <td>{{ chiTietSanPhamTiepNhan.idBienBan }}</td>
+          <td>{{ chiTietSanPhamTiepNhan.tongLoiKiThuat }}</td>
+          <td>{{ chiTietSanPhamTiepNhan.tongLoiLinhDong }}</td>
+          <td>{{ chiTietSanPhamTiepNhan.ngayPhanLoai | formatMediumDatetime }}</td>
+          <td>{{ chiTietSanPhamTiepNhan.slTiepNhan }}</td>
+          <td>{{ chiTietSanPhamTiepNhan.slTon }}</td>
+          <td>{{ chiTietSanPhamTiepNhan.tinhTrangBaoHanh }}</td>
+          <td>
+            <div *ngIf="chiTietSanPhamTiepNhan.sanPham">
+              <a [routerLink]="['/san-pham', chiTietSanPhamTiepNhan.sanPham?.id, 'view']">{{ chiTietSanPhamTiepNhan.sanPham?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="chiTietSanPhamTiepNhan.donBaoHanh">
+              <a [routerLink]="['/don-bao-hanh', chiTietSanPhamTiepNhan.donBaoHanh?.id, 'view']">{{
+                chiTietSanPhamTiepNhan.donBaoHanh?.id
+              }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/chi-tiet-san-pham-tiep-nhan', chiTietSanPhamTiepNhan.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/chi-tiet-san-pham-tiep-nhan', chiTietSanPhamTiepNhan.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(chiTietSanPhamTiepNhan)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

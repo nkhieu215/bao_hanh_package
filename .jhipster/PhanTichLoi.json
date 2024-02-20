@@ -1,0 +1,45 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025028",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "phan_tich_loi",
+  "fields": [
+    {
+      "fieldName": "soLuong",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "ngayPhanTich",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ghiChu",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "PhanTichLoi",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "loi",
+      "otherEntityRelationshipName": "phanTichLoi",
+      "relationshipName": "loi",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "phanTichSanPham",
+      "otherEntityRelationshipName": "phanTichLoi",
+      "relationshipName": "phanTichSanPham",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

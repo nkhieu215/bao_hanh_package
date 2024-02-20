@@ -1,0 +1,57 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025029",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "loi",
+  "fields": [
+    {
+      "fieldName": "errCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tenLoi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTao",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "ngayCapNhat",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "chiChu",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Loi",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "phanTichLoi",
+      "otherEntityRelationshipName": "loi",
+      "relationshipName": "phanTichLoi",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "nhomLoi",
+      "otherEntityRelationshipName": "loi",
+      "relationshipName": "nhomLoi",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

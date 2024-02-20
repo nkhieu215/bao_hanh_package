@@ -1,0 +1,65 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025027",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "phan_tich_san_pham",
+  "fields": [
+    {
+      "fieldName": "tenNhanVienPhanTich",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "theLoaiPhanTich",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lotNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "detail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "soLuong",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "ngayKiemTra",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "namSanXuat",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "PhanTichSanPham",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "phanTichLoi",
+      "otherEntityRelationshipName": "phanTichSanPham",
+      "relationshipName": "phanTichLoi",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "phanLoaiChiTietTiepNhan",
+      "otherEntityRelationshipName": "phanTichSanPham",
+      "relationshipName": "phanLoaiChiTietTiepNhan",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

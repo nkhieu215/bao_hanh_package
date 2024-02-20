@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025018",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "tinh_thanh",
+  "fields": [
+    {
+      "fieldName": "idTinhThanh",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "TinhThanh",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "khachHang",
+      "otherEntityRelationshipName": "tinhThanh",
+      "relationshipName": "khachHang",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

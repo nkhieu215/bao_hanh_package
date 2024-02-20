@@ -1,0 +1,43 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025026",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "danh_sach_tinh_trang",
+  "fields": [
+    {
+      "fieldName": "tenTinhTrangPhanLoai",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTao",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "ngayCapNhat",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "trangThai",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "DanhSachTinhTrang",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "phanLoaiChiTietTiepNhan",
+      "otherEntityRelationshipName": "danhSachTinhTrang",
+      "relationshipName": "phanLoaiChiTietTiepNhan",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

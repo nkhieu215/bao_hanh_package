@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="kho">
+      <h2 data-cy="khoDetailsHeading"><span>Kho</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ kho.id }}</span>
+        </dd>
+        <dt><span>Ma Kho</span></dt>
+        <dd>
+          <span>{{ kho.maKho }}</span>
+        </dd>
+        <dt><span>Ten Kho</span></dt>
+        <dd>
+          <span>{{ kho.tenKho }}</span>
+        </dd>
+        <dt><span>Ngay Tao</span></dt>
+        <dd>
+          <span>{{ kho.ngayTao | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Username</span></dt>
+        <dd>
+          <span>{{ kho.username }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/kho', kho.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

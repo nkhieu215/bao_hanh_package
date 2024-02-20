@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="phanTichSanPham">
+      <h2 data-cy="phanTichSanPhamDetailsHeading"><span>Phan Tich San Pham</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.id }}</span>
+        </dd>
+        <dt><span>Ten Nhan Vien Phan Tich</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.tenNhanVienPhanTich }}</span>
+        </dd>
+        <dt><span>The Loai Phan Tich</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.theLoaiPhanTich }}</span>
+        </dd>
+        <dt><span>Lot Number</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.lotNumber }}</span>
+        </dd>
+        <dt><span>Detail</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.detail }}</span>
+        </dd>
+        <dt><span>So Luong</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.soLuong }}</span>
+        </dd>
+        <dt><span>Ngay Kiem Tra</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.ngayKiemTra | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Username</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.username }}</span>
+        </dd>
+        <dt><span>Nam San Xuat</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.namSanXuat }}</span>
+        </dd>
+        <dt><span>Trang Thai</span></dt>
+        <dd>
+          <span>{{ phanTichSanPham.trangThai }}</span>
+        </dd>
+        <dt><span>Phan Loai Chi Tiet Tiep Nhan</span></dt>
+        <dd>
+          <div *ngIf="phanTichSanPham.phanLoaiChiTietTiepNhan">
+            <a [routerLink]="['/phan-loai-chi-tiet-tiep-nhan', phanTichSanPham.phanLoaiChiTietTiepNhan?.id, 'view']">{{
+              phanTichSanPham.phanLoaiChiTietTiepNhan?.id
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/phan-tich-san-pham', phanTichSanPham.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

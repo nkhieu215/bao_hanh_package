@@ -1,0 +1,39 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025033",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "nganh",
+  "fields": [
+    {
+      "fieldName": "maNganh",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tenNganh",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTao",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Nganh",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "sanPham",
+      "otherEntityRelationshipName": "nganh",
+      "relationshipName": "sanPham",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

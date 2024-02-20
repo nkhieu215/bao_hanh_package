@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity PhanTichLoi.
+    -->
+    <changeSet id="20231215025028-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="loi_id"
+                                 baseTableName="phan_tich_loi"
+                                 constraintName="fk_phan_tich_loi__loi_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="loi"/>
+
+        <addForeignKeyConstraint baseColumnNames="phan_tich_san_pham_id"
+                                 baseTableName="phan_tich_loi"
+                                 constraintName="fk_phan_tich_loi__phan_tich_san_pham_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="phan_tich_san_pham"/>
+    </changeSet>
+</databaseChangeLog>

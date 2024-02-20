@@ -1,0 +1,39 @@
+{
+  "applications": "*",
+  "changelogDate": "20231215025031",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "kho",
+  "fields": [
+    {
+      "fieldName": "maKho",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tenKho",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ngayTao",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Kho",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "sanPham",
+      "otherEntityRelationshipName": "kho",
+      "relationshipName": "sanPham",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

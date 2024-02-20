@@ -1,0 +1,10 @@
+<div id="demo-container" class="container-fluid">
+  <h2>
+    {{ title }}
+  </h2>
+
+  <button class="btn btn-sm btn-outline-primary" (click)="addItem()">Thêm mới</button>
+
+  <angular-slickgrid gridId="san-pham" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="sanPhams">
+  </angular-slickgrid>
+</div>

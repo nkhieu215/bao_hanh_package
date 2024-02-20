@@ -1,0 +1,98 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-phan-tich-loi-heading" data-cy="PhanTichLoiCreateUpdateHeading">Create or edit a Phan Tich Loi</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_soLuong">So Luong</label>
+          <input type="number" class="form-control" name="soLuong" id="field_soLuong" data-cy="soLuong" formControlName="soLuong" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_ngayPhanTich">Ngay Phan Tich</label>
+          <div class="d-flex">
+            <input
+              id="field_ngayPhanTich"
+              data-cy="ngayPhanTich"
+              type="datetime-local"
+              class="form-control"
+              name="ngayPhanTich"
+              formControlName="ngayPhanTich"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_username">Username</label>
+          <input type="text" class="form-control" name="username" id="field_username" data-cy="username" formControlName="username" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_ghiChu">Ghi Chu</label>
+          <input type="text" class="form-control" name="ghiChu" id="field_ghiChu" data-cy="ghiChu" formControlName="ghiChu" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_loi">Loi</label>
+          <select class="form-control" id="field_loi" data-cy="loi" name="loi" formControlName="loi">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="loiOption.id === editForm.get('loi')!.value?.id ? editForm.get('loi')!.value : loiOption"
+              *ngFor="let loiOption of loisSharedCollection; trackBy: trackLoiById"
+            >
+              {{ loiOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_phanTichSanPham">Phan Tich San Pham</label>
+          <select
+            class="form-control"
+            id="field_phanTichSanPham"
+            data-cy="phanTichSanPham"
+            name="phanTichSanPham"
+            formControlName="phanTichSanPham"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                phanTichSanPhamOption.id === editForm.get('phanTichSanPham')!.value?.id
+                  ? editForm.get('phanTichSanPham')!.value
+                  : phanTichSanPhamOption
+              "
+              *ngFor="let phanTichSanPhamOption of phanTichSanPhamsSharedCollection; trackBy: trackPhanTichSanPhamById"
+            >
+              {{ phanTichSanPhamOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

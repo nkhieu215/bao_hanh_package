@@ -1,0 +1,87 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-nhom-san-pham-heading" data-cy="NhomSanPhamCreateUpdateHeading">Create or edit a Nhom San Pham</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_timeCreate">Time Create</label>
+          <input
+            type="text"
+            class="form-control"
+            name="timeCreate"
+            id="field_timeCreate"
+            data-cy="timeCreate"
+            formControlName="timeCreate"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_timeUpdate">Time Update</label>
+          <div class="d-flex">
+            <input
+              id="field_timeUpdate"
+              data-cy="timeUpdate"
+              type="datetime-local"
+              class="form-control"
+              name="timeUpdate"
+              formControlName="timeUpdate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_username">Username</label>
+          <input type="text" class="form-control" name="username" id="field_username" data-cy="username" formControlName="username" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_trangThai">Trang Thai</label>
+          <input type="text" class="form-control" name="trangThai" id="field_trangThai" data-cy="trangThai" formControlName="trangThai" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_chungLoai">Chung Loai</label>
+          <select class="form-control" id="field_chungLoai" data-cy="chungLoai" name="chungLoai" formControlName="chungLoai">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="chungLoaiOption.id === editForm.get('chungLoai')!.value?.id ? editForm.get('chungLoai')!.value : chungLoaiOption"
+              *ngFor="let chungLoaiOption of chungLoaisSharedCollection; trackBy: trackChungLoaiById"
+            >
+              {{ chungLoaiOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="donBaoHanh">
+      <h2 data-cy="donBaoHanhDetailsHeading"><span>Don Bao Hanh</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.id }}</span>
+        </dd>
+        <dt><span>Ngay Tiep Nhan</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.ngayTiepNhan }}</span>
+        </dd>
+        <dt><span>Trang Thai</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.trangThai }}</span>
+        </dd>
+        <dt><span>Nhan Vien Giao Hang</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.nhanVienGiaoHang }}</span>
+        </dd>
+        <dt><span>Ngaykhkb</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.ngaykhkb }}</span>
+        </dd>
+        <dt><span>Nguoi Tao Don</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.nguoiTaoDon }}</span>
+        </dd>
+        <dt><span>Sl Tiep Nhan</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.slTiepNhan }}</span>
+        </dd>
+        <dt><span>Sl Da Phan Tich</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.slDaPhanTich }}</span>
+        </dd>
+        <dt><span>Ghi Chu</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.ghiChu }}</span>
+        </dd>
+        <dt><span>Ngay Tra Bien Ban</span></dt>
+        <dd>
+          <span>{{ donBaoHanh.ngayTraBienBan }}</span>
+        </dd>
+        <dt><span>Khach Hang</span></dt>
+        <dd>
+          <div *ngIf="donBaoHanh.khachHang">
+            <a [routerLink]="['/khach-hang', donBaoHanh.khachHang?.id, 'view']">{{ donBaoHanh.khachHang?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/don-bao-hanh', donBaoHanh.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="nhomKhachHang">
+      <h2 data-cy="nhomKhachHangDetailsHeading"><span>Nhom Khach Hang</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ nhomKhachHang.id }}</span>
+        </dd>
+        <dt><span>Ten Nhom Khach Hang</span></dt>
+        <dd>
+          <span>{{ nhomKhachHang.tenNhomKhachHang }}</span>
+        </dd>
+        <dt><span>Ngay Tao</span></dt>
+        <dd>
+          <span>{{ nhomKhachHang.ngayTao | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Ngay Cap Nhat</span></dt>
+        <dd>
+          <span>{{ nhomKhachHang.ngayCapNhat | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Username</span></dt>
+        <dd>
+          <span>{{ nhomKhachHang.username }}</span>
+        </dd>
+        <dt><span>Trang Thai</span></dt>
+        <dd>
+          <span>{{ nhomKhachHang.trangThai }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/nhom-khach-hang', nhomKhachHang.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

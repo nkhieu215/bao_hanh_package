@@ -1,0 +1,100 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-loi-heading" data-cy="LoiCreateUpdateHeading">Create or edit a Loi</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_errCode">Err Code</label>
+          <input type="text" class="form-control" name="errCode" id="field_errCode" data-cy="errCode" formControlName="errCode" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tenLoi">Ten Loi</label>
+          <input type="text" class="form-control" name="tenLoi" id="field_tenLoi" data-cy="tenLoi" formControlName="tenLoi" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_ngayTao">Ngay Tao</label>
+          <div class="d-flex">
+            <input
+              id="field_ngayTao"
+              data-cy="ngayTao"
+              type="datetime-local"
+              class="form-control"
+              name="ngayTao"
+              formControlName="ngayTao"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_ngayCapNhat">Ngay Cap Nhat</label>
+          <div class="d-flex">
+            <input
+              id="field_ngayCapNhat"
+              data-cy="ngayCapNhat"
+              type="datetime-local"
+              class="form-control"
+              name="ngayCapNhat"
+              formControlName="ngayCapNhat"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_username">Username</label>
+          <input type="text" class="form-control" name="username" id="field_username" data-cy="username" formControlName="username" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_chiChu">Chi Chu</label>
+          <input type="text" class="form-control" name="chiChu" id="field_chiChu" data-cy="chiChu" formControlName="chiChu" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_trangThai">Trang Thai</label>
+          <input type="text" class="form-control" name="trangThai" id="field_trangThai" data-cy="trangThai" formControlName="trangThai" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_nhomLoi">Nhom Loi</label>
+          <select class="form-control" id="field_nhomLoi" data-cy="nhomLoi" name="nhomLoi" formControlName="nhomLoi">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="nhomLoiOption.id === editForm.get('nhomLoi')!.value?.id ? editForm.get('nhomLoi')!.value : nhomLoiOption"
+              *ngFor="let nhomLoiOption of nhomLoisSharedCollection; trackBy: trackNhomLoiById"
+            >
+              {{ nhomLoiOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

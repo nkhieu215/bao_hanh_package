@@ -1,0 +1,21 @@
+<div id="demo-container" class="container-fluid">
+  <h2>{{ title }}</h2>
+  <angular-slickgrid
+    gridId="phan-tich-san-pham"
+    [columnDefinitions]="columnDefinitions1"
+    [gridOptions]="gridOptions1"
+    [dataset]="phanLoaiChiTietTiepNhans"
+  >
+  </angular-slickgrid>
+  <br />
+  <br />
+  <hr />
+  <br />
+  <angular-slickgrid
+    gridId="phan-tich-chi-tiet-san-pham"
+    [columnDefinitions]="columnDefinitions2"
+    [gridOptions]="gridOptions2"
+    [dataset]="phanLoaiChiTietTiepNhans"
+  >
+  </angular-slickgrid>
+</div>
