@@ -188,18 +188,23 @@ export class DonBaoHanhComponent implements OnInit {
 
   buttonBBTN: Formatter<any> = (_row, _cell, value) =>
     value
-      ? `<button class="btn btn-primary" style="height: 28px; line-height: 14px">TN</button>`
-      : { text: '<i class="fa fa-snowflake-o" aria-hidden="true"></i>' };
+      ? `<button class="btn btn-primary fa fa-print" style="height: 28px; line-height: 14px"></button>`
+      : { text: '<i class="fa fa-print" aria-hidden="true"></i>' };
 
-  // buttonBBKN: Formatter<any> = (_row, _cell, value) =>
-  //   value ? `<button class="btn btn-primary">KN</button>` : { text: '<i class="fa fa-snowflake-o" aria-hidden="true"></i>' };
-
-  // buttonBBTL: Formatter<any> = (_row, _cell, value) =>
-  //   value ? `<button class="btn btn-primary">TL</button>` : { text: '<i class="fa fa-snowflake-o" aria-hidden="true"></i>' };
   buttonPL: Formatter<any> = (_row, _cell, value) =>
     value
-      ? `<button class="btn btn-primary" style="height: 28px; line-height: 14px; width: 15px">PL</button>`
-      : { text: '<button class="btn btn-primary" style="height: 28px; line-height: 14px">PL</button>' };
+      ? `<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px; width: 15px">PL</button>`
+      : { text: '<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px"></button>' };
+
+  buttonEdit: Formatter<any> = (_row, _cell, value) =>
+    value
+      ? `<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px; width: 15px"></button>`
+      : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px"></button>' };
+
+  buttonDelete: Formatter<any> = (_row, _cell, value) =>
+    value
+      ? `<button class="btn btn-danger fa fa-pencil" style="height: 28px; line-height: 14px; width: 15px"></button>`
+      : { text: '<button class="btn btn-danger fa fa-trash" style="height: 28px; line-height: 14px"></button>' };
 
   loadAll(): void {
     this.isLoading = true;
@@ -249,8 +254,8 @@ export class DonBaoHanhComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         formatter: this.buttonBBTN,
-        maxWidth: 50,
-        minWidth: 50,
+        maxWidth: 60,
+        minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.idDonBaoHanh = args.dataContext.id;
           this.donBaoHanh = args.dataContext;
@@ -267,6 +272,7 @@ export class DonBaoHanhComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         formatter: this.buttonPL,
+
         maxWidth: 60,
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
@@ -281,13 +287,11 @@ export class DonBaoHanhComponent implements OnInit {
       },
       {
         id: 'edit',
-        field: 'id',
-        name: 'Options',
+        field: 'idEdit',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        formatter: Formatters.editIcon,
-        params: { iconCssClass: 'fa fa-pencil pointer' },
+        formatter: this.buttonEdit,
         minWidth: 60,
         maxWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
@@ -303,14 +307,13 @@ export class DonBaoHanhComponent implements OnInit {
 
       {
         id: 'delete',
-        field: 'id',
+        field: 'idDelete',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        formatter: Formatters.deleteIcon,
-        // params: { iconCssClass: 'fa fa-trash pointer' },
-        minWidth: 30,
-        maxWidth: 30,
+        formatter: this.buttonDelete,
+        minWidth: 60,
+        maxWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
           console.log(args);
           if (confirm('Are u sure?')) {
