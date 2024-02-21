@@ -863,7 +863,7 @@ export class DonBaoHanhComponent implements OnInit {
     this.resultChiTietSanPhamTiepNhans = this.rowDetailViewComponent.showData(id);
     setTimeout(() => {
       const result = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
-      // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
+      this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
       this.danhSachGocPopupPhanLoai = JSON.parse(result as string);
     }, 1000);
   }
@@ -1233,7 +1233,7 @@ export class DonBaoHanhComponent implements OnInit {
     this.themMoiBienBan.soLanIn++;
     this.http.post<any>(this.postMaBienBanUrl, this.themMoiBienBan).subscribe(res => {
       console.log('thành công:', res);
-      window.location.reload();
+      // window.location.reload();
     });
   }
   //--------------------------------------------------- import file --------------------------------------------------------
