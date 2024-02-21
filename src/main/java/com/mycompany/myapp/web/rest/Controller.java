@@ -3,11 +3,9 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.domain.*;
 import com.mycompany.myapp.service.FullServices;
 import java.util.List;
-
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("/api")
@@ -48,55 +46,75 @@ public class Controller {
     public List<ChiTietSanPhamTiepNhan> getChiTietDonBaoHanh(@PathVariable Long id) {
         return this.fullServices.getChiTietDonBaoHanh(id);
     }
+
     //☺ cap nhat trang thai don bao hanh
     @PutMapping("/don-bao-hanhs/update-trang-thai")
     public void updateTrangThaiDonBaoHanh(@RequestBody DonBaoHanh request) {
         this.fullServices.updateTrangThaiDonBaoHanh(request);
     }
+
     //☺ cập nhật đơn bảo hành
     @PutMapping("/update-don-bao-hanh")
-    public void updateDonBaoHanh(@RequestBody DonBaoHanh request){
+    public void updateDonBaoHanh(@RequestBody DonBaoHanh request) {
         this.fullServices.updateDonBaoHanh(request);
     }
+
     //☺ thêm mới đơn bảo hành
     @PostMapping("don-bao-hanh/them-moi")
-    public DonBaoHanh postDonBaoHanh(@RequestBody DonBaoHanh request){
+    public DonBaoHanh postDonBaoHanh(@RequestBody DonBaoHanh request) {
         this.fullServices.postDonBaoHanh(request);
         return request;
     }
+
     //☺ Thêm mới chi Tiết đơn bảo hành
     @PostMapping("don-bao-hanh/them-moi-chi-tiet")
-    public List<ChiTietSanPhamTiepNhan> postChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> request){
-        List<ChiTietSanPhamTiepNhan>chiTietSanPhamTiepNhanList = this.fullServices.postChiTietSanPhamTiepNhan(request);
+    public List<ChiTietSanPhamTiepNhan> postChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> request) {
+        List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList = this.fullServices.postChiTietSanPhamTiepNhan(request);
         return chiTietSanPhamTiepNhanList;
     }
+
     //☺ Thêm mới phân loại chi tiết tiếp nhận
     @PostMapping("don-bao-hanh/them-moi-phan-loai")
-    public List<PhanLoaiChiTietTiepNhan> postPhanLoaiChiTietTiepNhan(@RequestBody List<PhanLoaiChiTietTiepNhan> phanLoaiChiTietTiepNhanList){
-        List<PhanLoaiChiTietTiepNhan> phanLoaiChiTietTiepNhanList1 = this.fullServices.postPhanLoaiChiTietTiepNhan(phanLoaiChiTietTiepNhanList);
+    public List<PhanLoaiChiTietTiepNhan> postPhanLoaiChiTietTiepNhan(
+        @RequestBody List<PhanLoaiChiTietTiepNhan> phanLoaiChiTietTiepNhanList
+    ) {
+        List<PhanLoaiChiTietTiepNhan> phanLoaiChiTietTiepNhanList1 =
+            this.fullServices.postPhanLoaiChiTietTiepNhan(phanLoaiChiTietTiepNhanList);
         return phanLoaiChiTietTiepNhanList1;
     }
+
     //☺ update phân loại chi tiết đơn hàng tiếp nhận
     @PutMapping("don-bao-hanh/phan-loai/update-phan-loai-chi-tiet-tiep-nhan")
-    public void updatePhanLoaiChiTietDonHangTiepNhan(@RequestBody List<PhanLoaiChiTietTiepNhan> requestList){
+    public void updatePhanLoaiChiTietDonHangTiepNhan(@RequestBody List<PhanLoaiChiTietTiepNhan> requestList) {
         this.fullServices.updatePhanLoaiChiTietDonHangTiepNhan(requestList);
     }
+
     //☺ update chi tiết sản phẩm tiếp nhận
     @PutMapping("don-bao-hanh/phan-loai/update-chi-tiet-san-pham-tiep-nhan")
-    public void updateChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> requestList){
+    public void updateChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> requestList) {
         this.fullServices.updateChiTietSanPhamTiepNhan(requestList);
     }
+
     //☺ hoàn thành phân loại
     @PutMapping("don-bao-hanh/hoan-thanh-phan-loai")
-    public void hoanThanhPhanLoai(@RequestBody DonBaoHanh request){
+    public void hoanThanhPhanLoai(@RequestBody DonBaoHanh request) {
         this.fullServices.hoanThanhPhanLoai(request);
     }
+
     //☺ lấy danh sách mã biên bản
     @GetMapping("ma-bien-bans")
-    public List<MaBienBan> getAllMaBienBan(){
+    public List<MaBienBan> getAllMaBienBan() {
         List<MaBienBan> maBienBanList = this.fullServices.getAllMaBienBan();
         return maBienBanList;
     }
+
+    //☺ cập nhật thông tin in biên bản
+    @PostMapping("ma-bien-ban/post")
+    public MaBienBan postMaBienBan(@RequestBody MaBienBan request) {
+        MaBienBan maBienBan = this.fullServices.postMaBienBan(request);
+        return maBienBan;
+    }
+
     // * ============================== quản lý sản phẩm ===========================
     //☺ cập nhật thông tin 1 sản phẩm
     @PostMapping("san-phams/update/{id}")

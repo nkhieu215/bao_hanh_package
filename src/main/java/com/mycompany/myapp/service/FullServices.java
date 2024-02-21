@@ -4,10 +4,9 @@ import com.mycompany.myapp.domain.*;
 import com.mycompany.myapp.repository.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 // ! chưa làm được
 // ? Chưa test với front-end
@@ -131,8 +130,9 @@ public class FullServices {
         donBaoHanh.setTrangThai(request.getTrangThai());
         this.donBaoHanhRepository.save(donBaoHanh);
     }
+
     //☺ cập nhật đơn bảo hành
-    public void updateDonBaoHanh(DonBaoHanh request){
+    public void updateDonBaoHanh(DonBaoHanh request) {
         DonBaoHanh donBaoHanh = this.donBaoHanhRepository.findById(request.getId()).orElse(null);
         donBaoHanh.setKhachHang(request.getKhachHang());
         donBaoHanh.setSlTiepNhan(request.getSlTiepNhan());
@@ -141,63 +141,79 @@ public class FullServices {
         donBaoHanh.setNguoiTaoDon(request.getNguoiTaoDon());
         this.donBaoHanhRepository.save(donBaoHanh);
     }
+
     //☺ thêm mới đơn bảo hành
-    public DonBaoHanh postDonBaoHanh(DonBaoHanh request){
-      this.donBaoHanhRepository.save(request);
-      return request;
+    public DonBaoHanh postDonBaoHanh(DonBaoHanh request) {
+        this.donBaoHanhRepository.save(request);
+        return request;
     }
+
     //☺ thêm mới chi tiết sản phẩm tiếp nhận
-    public  List<ChiTietSanPhamTiepNhan>postChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList){
+    public List<ChiTietSanPhamTiepNhan> postChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList) {
         List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList = new ArrayList<>();
-        for (ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan:requestList){
+        for (ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan : requestList) {
             this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan);
             chiTietSanPhamTiepNhanList.add(chiTietSanPhamTiepNhan);
         }
         return chiTietSanPhamTiepNhanList;
     }
+
     //☺ Thêm mới phân loại chi tiết sản phẩm
-    public List<PhanLoaiChiTietTiepNhan>postPhanLoaiChiTietTiepNhan(List<PhanLoaiChiTietTiepNhan> requestList){
+    public List<PhanLoaiChiTietTiepNhan> postPhanLoaiChiTietTiepNhan(List<PhanLoaiChiTietTiepNhan> requestList) {
         List<PhanLoaiChiTietTiepNhan> phanLoaiChiTietTiepNhanList = new ArrayList<>();
-        for (PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan:requestList){
+        for (PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan : requestList) {
             this.phanLoaiChiTietTiepNhanRepository.save(phanLoaiChiTietTiepNhan);
             phanLoaiChiTietTiepNhanList.add(phanLoaiChiTietTiepNhan);
         }
         return phanLoaiChiTietTiepNhanList;
     }
+
     //☺ update phân loại chi tiết đơn hàng tiếp nhận
-    public void updatePhanLoaiChiTietDonHangTiepNhan(List<PhanLoaiChiTietTiepNhan> requestList){
-        for(PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan:requestList){
-            PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan1 = this.phanLoaiChiTietTiepNhanRepository.findById(phanLoaiChiTietTiepNhan.getId()).orElse(null);
-            if(phanLoaiChiTietTiepNhan1 == null){
+    public void updatePhanLoaiChiTietDonHangTiepNhan(List<PhanLoaiChiTietTiepNhan> requestList) {
+        for (PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan : requestList) {
+            PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan1 =
+                this.phanLoaiChiTietTiepNhanRepository.findById(phanLoaiChiTietTiepNhan.getId()).orElse(null);
+            if (phanLoaiChiTietTiepNhan1 == null) {
                 this.phanLoaiChiTietTiepNhanRepository.save(phanLoaiChiTietTiepNhan);
-            }else {
+            } else {
                 phanLoaiChiTietTiepNhan1.setSoLuong(phanLoaiChiTietTiepNhan.getSoLuong());
                 this.phanLoaiChiTietTiepNhanRepository.save(phanLoaiChiTietTiepNhan1);
             }
         }
     }
+
     //☺ update chi tiết sản phẩm tiếp nhận
-    public void updateChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList){
-        for (ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan: requestList){
-            ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan1 = this.chiTietSanPhamTiepNhanRepository.findById(chiTietSanPhamTiepNhan.getId()).orElse(null);
-            if (chiTietSanPhamTiepNhan1 == null){
+    public void updateChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList) {
+        for (ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan : requestList) {
+            ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan1 =
+                this.chiTietSanPhamTiepNhanRepository.findById(chiTietSanPhamTiepNhan.getId()).orElse(null);
+            if (chiTietSanPhamTiepNhan1 == null) {
                 this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan);
-            }else{
+            } else {
                 chiTietSanPhamTiepNhan1.setSanPham(chiTietSanPhamTiepNhan.getSanPham());
                 chiTietSanPhamTiepNhan1.setNgayPhanLoai(chiTietSanPhamTiepNhan.getNgayPhanLoai());
                 this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan1);
             }
         }
     }
+
     //☺ hoàn thành phân loại
     //☺ Lấy danh sách mã biên bản
-    public List<MaBienBan> getAllMaBienBan(){
+    public List<MaBienBan> getAllMaBienBan() {
         List<MaBienBan> maBienBanList = this.maBienBanRepository.findAll();
         return maBienBanList;
     }
-    public void hoanThanhPhanLoai(DonBaoHanh request){
+
+    //☺ cập nhật thông tin in biên bản
+    public MaBienBan postMaBienBan(MaBienBan request) {
+        this.maBienBanRepository.save(request);
+        return request;
+    }
+
+    public void hoanThanhPhanLoai(DonBaoHanh request) {
         this.donBaoHanhRepository.save(request);
     }
+
     // * ============================ Template Phân tích =================================
     // * Trang chủ
     //☺ lấy danh sách tất cả các đơn bảo hành

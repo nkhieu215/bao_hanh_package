@@ -76,7 +76,7 @@
         <div class="btn-group-phanloai">
           <div class="group-header-tiepnhan">
             <button class="btn-add btn-option" (click)="addRow()">Thêm mới</button>
-            <p style="margin-top: 20px">Tổng số lượng sản phẩm</p>
+            <p style="margin-top: 20px">Tổng số lượng sản phẩm: {{ ExcelData.length }}</p>
           </div>
           <div>
             <button
@@ -288,8 +288,14 @@
 
           <tbody>
             <tr data-cy="entityTable">
-              <td style="padding-top: 15px">
-                {{ donBaoHanh.id }}
+              <td>
+                <input
+                  type="text"
+                  class="input-table form-control"
+                  [(ngModel)]="donBaoHanh.id"
+                  [ngModelOptions]="{ standalone: true }"
+                  disableds
+                />
               </td>
               <td>
                 <input
@@ -353,7 +359,7 @@
         <div class="btn-group-phanloai">
           <div class="group-header-phanloai">
             <button class="btn-add btn-option" (click)="addRow()">Thêm mới</button>
-            <p style="margin-top: 20px">Tổng số lượng sản phẩm</p>
+            <p style="margin-top: 20px">Tổng số lượng sản phẩm: {{ resultChiTietSanPhamTiepNhans.length }}</p>
             <p style="margin-top: 20px">Tiến độ</p>
           </div>
           <div class="btn-header-phanloai">
@@ -484,7 +490,7 @@
                 <input type="checkbox" class="ui-checkbox" />
               </td>
               <td>
-                <button class="btn btn-danger">Xóa</button>
+                <button class="btn btn-danger" (click)="deleteRowPopupPhanLoai(data.tenSanPham)">Xóa</button>
               </td>
             </tr>
           </tbody>
@@ -519,13 +525,13 @@
   </div>
 </div>
 
-<!-- In liên 1 -->
+<!-- -----------------------------------------------------------  In liên 1 -------------------------------------------------------------->
 <div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN1 === true">
   <div class="popup-container">
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN1()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN1" ngxPrint>In</button>
+        <button type="button" class="btn btn-primary" printSectionId="BBTN1" ngxPrint (click)="xacNhanInBienBan()">In</button>
       </div>
       <div id="BBTN1">
         <div id="lien1">
@@ -602,13 +608,13 @@
   </div>
 </div>
 
-<!-- In liên 2 -->
+<!-- -----------------------------------------------------------  In liên 2 -------------------------------------------------------------->
 <div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN2 === true">
   <div class="popup-container">
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN2()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN2" ngxPrint>In</button>
+        <button type="button" class="btn btn-primary" printSectionId="BBTN2" ngxPrint (click)="xacNhanInBienBan()">In</button>
       </div>
       <div id="BBTN2">
         <div id="lien2">
@@ -685,13 +691,13 @@
   </div>
 </div>
 
-<!-- In liên 3 -->
+<!-- -----------------------------------------------------------  In liên 3 -------------------------------------------------------------->
 <div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN3 === true">
   <div class="popup-container">
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN3()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN3" ngxPrint>In</button>
+        <button type="button" class="btn btn-primary" printSectionId="BBTN3" ngxPrint (click)="xacNhanInBienBan()">In</button>
       </div>
       <div id="BBTN3">
         <div id="lien3">
@@ -768,13 +774,13 @@
   </div>
 </div>
 
-<!-- In liên 4 -->
+<!-- -----------------------------------------------------------  In liên 4 -------------------------------------------------------------->
 <div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN4 === true">
   <div class="popup-container">
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN4()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN4" ngxPrint>In</button>
+        <button type="button" class="btn btn-primary" printSectionId="BBTN4" ngxPrint (click)="xacNhanInBienBan()">In</button>
       </div>
       <div id="BBTN4">
         <div id="lien4">

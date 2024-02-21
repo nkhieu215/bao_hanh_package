@@ -61,6 +61,7 @@ export class DonBaoHanhComponent implements OnInit {
     'api/don-bao-hanh/phan-loai/update-chi-tiet-san-pham-tiep-nhan'
   );
   hoanThanhPhanLoaiUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanh/hoan-thanh-phan-loai');
+  postMaBienBanUrl = this.applicationConfigService.getEndpointFor('api/ma-bien-ban/post');
   // biến lưu danh sách dữ liệu
   donBaoHanhs: any[] = [];
   khachHangs?: IKhachHang[];
@@ -75,6 +76,7 @@ export class DonBaoHanhComponent implements OnInit {
   donBaoHanh: any;
   chiTietDonBaoHanh: IChiTietSanPhamTiepNhan[] = [];
   themMoiPhanLoaiChiTietTiepNhan: IPhanLoaiChiTietTiepNhan[] = [];
+  themMoiBienBan: any;
   //------------------------------------------------
   message = '';
   flashAlertType = 'info';
@@ -170,6 +172,7 @@ export class DonBaoHanhComponent implements OnInit {
   page?: number;
 
   constructor(
+    protected rowDetailViewComponent: RowDetailViewComponent,
     protected donBaoHanhService: DonBaoHanhService,
     protected khachHangService: KhachHangService,
     protected modalService: NgbModal,
@@ -250,6 +253,7 @@ export class DonBaoHanhComponent implements OnInit {
         minWidth: 50,
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.idDonBaoHanh = args.dataContext.id;
+          this.donBaoHanh = args.dataContext;
           this.openPopupBBTN(args.dataContext.id);
           console.log('id? ', args.dataContext.id);
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
@@ -289,6 +293,7 @@ export class DonBaoHanhComponent implements OnInit {
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.openPopupEdit(args.dataContext.id);
           console.log('edit', args.dataContext.id);
+          //lưu thông tin đơn bảo hành vào session
           sessionStorage.setItem('sessionStorage', JSON.stringify(args));
           // this.alertWarning = `Editing: ${args.dataContext.title}`
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
@@ -543,31 +548,31 @@ export class DonBaoHanhComponent implements OnInit {
       enableSorting: true,
       enableFiltering: true,
       enablePagination: true,
-      enableColumnPicker: true,
-      enableRowDetailView: true,
-      rowDetailView: {
-        columnIndexPosition: 3,
-        process: items => this.simulateServerAsyncCall(items),
-        loadOnce: false,
-        singleRowExpand: true,
-        useRowClick: true,
-        panelRows: 10,
-        // Preload View Component
-        preloadComponent: RowDetailPreloadComponent,
-        viewComponent: RowDetailViewComponent,
-        parent: true,
-      },
+      // enableColumnPicker: true,
+      // enableRowDetailView: true,
+      // rowDetailView: {
+      //   columnIndexPosition: 3,
+      //   process: items => this.simulateServerAsyncCall(items),
+      //   loadOnce: false,
+      //   singleRowExpand: true,
+      //   useRowClick: true,
+      //   panelRows: 10,
+      //   // Preload View Component
+      //   preloadComponent: RowDetailPreloadComponent,
+      //   viewComponent: RowDetailViewComponent,
+      //   parent: true,
+      // },
       pagination: {
         pageSizes: [30, 50, 100],
         pageSize: 30,
       },
-      columnPicker: {
-        hideForceFitButton: true,
-        hideSyncResizeButton: true,
-        onColumnsChanged(e, args) {
-          console.log(args.visibleColumns);
-        },
-      },
+      // columnPicker: {
+      //   hideForceFitButton: true,
+      //   hideSyncResizeButton: true,
+      //   onColumnsChanged(e, args) {
+      //     console.log(args.visibleColumns);
+      //   },
+      // },
       editable: true,
       enableCellNavigation: true,
       gridHeight: 600,
@@ -622,6 +627,7 @@ export class DonBaoHanhComponent implements OnInit {
   getDanhSachBienBan(): void {
     this.http.get<any>('api/ma-bien-bans').subscribe(res => {
       console.log('danh sach bien ban: ', res);
+      this.danhSachBienBan = res;
     });
   }
   // lấy danh sách sản phẩm
@@ -667,16 +673,18 @@ export class DonBaoHanhComponent implements OnInit {
   addRow(): void {
     const newRow = {
       id: 0,
-      idMaTiepNhan: this.idMaTiepNhan,
-      tenSanPham: this.tenSanPham,
-      soLuong: this.soLuong,
-      doiMoi: this.doiMoi,
-      suaChua: this.suaChua,
-      khongBaoHanh: this.khongBaoHanh,
-      soLuongDaNhan: this.soLuongDaNhan,
+      tenSanPham: '',
+      donVi: '',
+      slKhachGiao: '',
+      slTiepNhanTong: 0,
+      slTiepNhan: 0,
+      slDoiMoi: 0,
+      slSuaChua: 0,
+      slKhongBaoHanh: 0,
     };
-    this.listOfMaTiepNhan = [...this.listOfMaTiepNhan, newRow];
-    console.log('them dong', this.listOfMaTiepNhan);
+    this.resultChiTietSanPhamTiepNhans = [...this.resultChiTietSanPhamTiepNhans, newRow];
+    this.danhSachGocPopupPhanLoai = [...this.danhSachGocPopupPhanLoai, newRow];
+    console.log('them dong', this.resultChiTietSanPhamTiepNhans);
   }
   // ================================= popup chỉnh sửa thông tin ==================================
   openPopupEdit(id: number): void {
@@ -840,17 +848,21 @@ export class DonBaoHanhComponent implements OnInit {
       }
     }
   }
+  closePopupThemMoi(): void {
+    this.popupThemMoi = false;
+  }
   //=============================================== Popup phân loại ================================================
   closePopupPhanLoai(): void {
     this.popupPhanLoai = false;
   }
   openPopupPhanLoai(id: number): void {
     this.popupPhanLoai = true;
+    this.resultChiTietSanPhamTiepNhans = this.rowDetailViewComponent.showData(id);
     setTimeout(() => {
       const result = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
-      this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
+      // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
       this.danhSachGocPopupPhanLoai = JSON.parse(result as string);
-    }, 2000);
+    }, 1000);
   }
   updateTenSanPham(): void {
     this.isChanged = true;
@@ -983,6 +995,22 @@ export class DonBaoHanhComponent implements OnInit {
   searchInPopupPhanLoai(): void {
     this.resultChiTietSanPhamTiepNhans = this.danhSachGocPopupPhanLoai.filter(a => a.tenSanPham.includes(this.searchKey));
   }
+  deleteRowPopupPhanLoai(tenSanPham: any): void {
+    this.isChanged = true;
+    if (confirm('Bạn chắc chắn muốn xóa thông số này?') === true) {
+      this.donBaoHanh.slTiepNhan = 0;
+      this.resultChiTietSanPhamTiepNhans = this.resultChiTietSanPhamTiepNhans.filter((d: any) => d.tenSanPham !== tenSanPham);
+      this.danhSachGocPopupPhanLoai = this.danhSachGocPopupPhanLoai.filter((d: any) => d.tenSanPham !== tenSanPham);
+      // cập nhật lại tổng số lượng tiếp nhận
+      for (let i = 0; i < this.resultChiTietSanPhamTiepNhans.length; i++) {
+        this.donBaoHanh.slTiepNhan =
+          Number(this.donBaoHanh.slTiepNhan) +
+          Number(this.resultChiTietSanPhamTiepNhans[i].slDoiMoi) +
+          Number(this.resultChiTietSanPhamTiepNhans[i].slSuaChua) +
+          Number(this.resultChiTietSanPhamTiepNhans[i].slKhongBaoHanh);
+      }
+    }
+  }
   //==================================================   Popup biên bản tiếp nhận =====================================================
   openPopupBBTN(id: number): void {
     this.popupInBBTN = true;
@@ -997,9 +1025,12 @@ export class DonBaoHanhComponent implements OnInit {
     for (let i = 0; i < this.danhSachBienBan.length; i++) {
       if (this.loaiBienBan === this.danhSachBienBan[i].loaiBienBan && this.idDonBaoHanh === this.danhSachBienBan[i].donBaoHanh.id) {
         this.maBienBan = this.danhSachBienBan[i].maBienBan;
+        //lưu thông tin thêm mới biên bản
+        this.themMoiBienBan = this.danhSachBienBan[i];
+        console.log('Cap nhat thong tin bien ban:', this.themMoiBienBan);
       }
     }
-    if (this.maBienBan) {
+    if (this.maBienBan === '') {
       const date = new Date();
       this.year = date.getFullYear().toString().slice(-2);
       const getMonth = date.getMonth() + 1;
@@ -1028,120 +1059,152 @@ export class DonBaoHanhComponent implements OnInit {
       } else {
         this.seconds = date.getSeconds().toString();
       }
-      if (this.maBienBan === '') {
-        this.maBienBan = `TN${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
-      }
+      this.maBienBan = `TN${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
+      this.themMoiBienBan = { id: null, maBienBan: this.maBienBan, loaiBienBan: this.loaiBienBan, soLanIn: 0, donBaoHanh: this.donBaoHanh };
+      console.log('them moi bien ban:', this.themMoiBienBan);
     }
     this.popupInBBTN1 = true;
   }
 
   openPopupInBBTN2(): void {
-    const date = new Date();
-    this.year = date.getFullYear().toString().slice(-2);
-    const getMonth = date.getMonth() + 1;
-    if (getMonth < 10) {
-      this.month = `0${getMonth}`;
-    } else {
-      this.month = getMonth.toString();
-    }
-    if (date.getDate() < 10) {
-      this.date = `0${date.getDate()}`;
-    } else {
-      this.date = date.getDate().toString();
-    }
-    if (date.getHours() < 10) {
-      this.hours = `0${date.getHours()}`;
-    } else {
-      this.hours = date.getHours().toString();
-    }
-    if (date.getMinutes() < 10) {
-      this.minutes = `0${date.getMinutes()}`;
-    } else {
-      this.minutes = date.getMinutes().toString();
-    }
-    if (date.getSeconds() < 10) {
-      this.seconds = `0${date.getSeconds()}`;
-    } else {
-      this.seconds = date.getSeconds().toString();
+    this.maBienBan = '';
+    this.loaiBienBan = 'Tiếp nhận';
+    for (let i = 0; i < this.danhSachBienBan.length; i++) {
+      if (this.loaiBienBan === this.danhSachBienBan[i].loaiBienBan && this.idDonBaoHanh === this.danhSachBienBan[i].donBaoHanh.id) {
+        this.maBienBan = this.danhSachBienBan[i].maBienBan;
+        //lưu thông tin thêm mới biên bản
+        this.themMoiBienBan = this.danhSachBienBan[i];
+        console.log('Cap nhat thong tin bien ban:', this.themMoiBienBan);
+      }
     }
     if (this.maBienBan === '') {
+      const date = new Date();
+      this.year = date.getFullYear().toString().slice(-2);
+      const getMonth = date.getMonth() + 1;
+      if (getMonth < 10) {
+        this.month = `0${getMonth}`;
+      } else {
+        this.month = getMonth.toString();
+      }
+      if (date.getDate() < 10) {
+        this.date = `0${date.getDate()}`;
+      } else {
+        this.date = date.getDate().toString();
+      }
+      if (date.getHours() < 10) {
+        this.hours = `0${date.getHours()}`;
+      } else {
+        this.hours = date.getHours().toString();
+      }
+      if (date.getMinutes() < 10) {
+        this.minutes = `0${date.getMinutes()}`;
+      } else {
+        this.minutes = date.getMinutes().toString();
+      }
+      if (date.getSeconds() < 10) {
+        this.seconds = `0${date.getSeconds()}`;
+      } else {
+        this.seconds = date.getSeconds().toString();
+      }
       this.maBienBan = `TN${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
+      this.themMoiBienBan = { id: null, maBienBan: this.maBienBan, loaiBienBan: this.loaiBienBan, soLanIn: 0, donBaoHanh: this.donBaoHanh };
+      console.log('them moi bien ban:', this.themMoiBienBan);
     }
     this.popupInBBTN2 = true;
   }
 
   openPopupInBBTN3(): void {
-    const date = new Date();
-    this.year = date.getFullYear().toString().slice(-2);
-    const getMonth = date.getMonth() + 1;
-    if (getMonth < 10) {
-      this.month = `0${getMonth}`;
-    } else {
-      this.month = getMonth.toString();
-    }
-    if (date.getDate() < 10) {
-      this.date = `0${date.getDate()}`;
-    } else {
-      this.date = date.getDate().toString();
-    }
-    if (date.getHours() < 10) {
-      this.hours = `0${date.getHours()}`;
-    } else {
-      this.hours = date.getHours().toString();
-    }
-    if (date.getMinutes() < 10) {
-      this.minutes = `0${date.getMinutes()}`;
-    } else {
-      this.minutes = date.getMinutes().toString();
-    }
-    if (date.getSeconds() < 10) {
-      this.seconds = `0${date.getSeconds()}`;
-    } else {
-      this.seconds = date.getSeconds().toString();
+    this.maBienBan = '';
+    this.loaiBienBan = 'Tiếp nhận';
+    for (let i = 0; i < this.danhSachBienBan.length; i++) {
+      if (this.loaiBienBan === this.danhSachBienBan[i].loaiBienBan && this.idDonBaoHanh === this.danhSachBienBan[i].donBaoHanh.id) {
+        this.maBienBan = this.danhSachBienBan[i].maBienBan;
+        //lưu thông tin thêm mới biên bản
+        this.themMoiBienBan = this.danhSachBienBan[i];
+        console.log('Cap nhat thong tin bien ban:', this.themMoiBienBan);
+      }
     }
     if (this.maBienBan === '') {
+      const date = new Date();
+      this.year = date.getFullYear().toString().slice(-2);
+      const getMonth = date.getMonth() + 1;
+      if (getMonth < 10) {
+        this.month = `0${getMonth}`;
+      } else {
+        this.month = getMonth.toString();
+      }
+      if (date.getDate() < 10) {
+        this.date = `0${date.getDate()}`;
+      } else {
+        this.date = date.getDate().toString();
+      }
+      if (date.getHours() < 10) {
+        this.hours = `0${date.getHours()}`;
+      } else {
+        this.hours = date.getHours().toString();
+      }
+      if (date.getMinutes() < 10) {
+        this.minutes = `0${date.getMinutes()}`;
+      } else {
+        this.minutes = date.getMinutes().toString();
+      }
+      if (date.getSeconds() < 10) {
+        this.seconds = `0${date.getSeconds()}`;
+      } else {
+        this.seconds = date.getSeconds().toString();
+      }
       this.maBienBan = `TN${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
+      this.themMoiBienBan = { id: null, maBienBan: this.maBienBan, loaiBienBan: this.loaiBienBan, soLanIn: 0, donBaoHanh: this.donBaoHanh };
+      console.log('them moi bien ban:', this.themMoiBienBan);
     }
     this.popupInBBTN3 = true;
   }
 
   openPopupInBBTN4(): void {
-    const date = new Date();
-    this.year = date.getFullYear().toString().slice(-2);
-    const getMonth = date.getMonth() + 1;
-    if (getMonth < 10) {
-      this.month = `0${getMonth}`;
-    } else {
-      this.month = getMonth.toString();
-    }
-    if (date.getDate() < 10) {
-      this.date = `0${date.getDate()}`;
-    } else {
-      this.date = date.getDate().toString();
-    }
-    if (date.getHours() < 10) {
-      this.hours = `0${date.getHours()}`;
-    } else {
-      this.hours = date.getHours().toString();
-    }
-    if (date.getMinutes() < 10) {
-      this.minutes = `0${date.getMinutes()}`;
-    } else {
-      this.minutes = date.getMinutes().toString();
-    }
-    if (date.getSeconds() < 10) {
-      this.seconds = `0${date.getSeconds()}`;
-    } else {
-      this.seconds = date.getSeconds().toString();
+    this.maBienBan = '';
+    this.loaiBienBan = 'Tiếp nhận';
+    for (let i = 0; i < this.danhSachBienBan.length; i++) {
+      if (this.loaiBienBan === this.danhSachBienBan[i].loaiBienBan && this.idDonBaoHanh === this.danhSachBienBan[i].donBaoHanh.id) {
+        this.maBienBan = this.danhSachBienBan[i].maBienBan;
+        //lưu thông tin thêm mới biên bản
+        this.themMoiBienBan = this.danhSachBienBan[i];
+        console.log('Cap nhat thong tin bien ban:', this.themMoiBienBan);
+      }
     }
     if (this.maBienBan === '') {
+      const date = new Date();
+      this.year = date.getFullYear().toString().slice(-2);
+      const getMonth = date.getMonth() + 1;
+      if (getMonth < 10) {
+        this.month = `0${getMonth}`;
+      } else {
+        this.month = getMonth.toString();
+      }
+      if (date.getDate() < 10) {
+        this.date = `0${date.getDate()}`;
+      } else {
+        this.date = date.getDate().toString();
+      }
+      if (date.getHours() < 10) {
+        this.hours = `0${date.getHours()}`;
+      } else {
+        this.hours = date.getHours().toString();
+      }
+      if (date.getMinutes() < 10) {
+        this.minutes = `0${date.getMinutes()}`;
+      } else {
+        this.minutes = date.getMinutes().toString();
+      }
+      if (date.getSeconds() < 10) {
+        this.seconds = `0${date.getSeconds()}`;
+      } else {
+        this.seconds = date.getSeconds().toString();
+      }
       this.maBienBan = `TN${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
+      this.themMoiBienBan = { id: null, maBienBan: this.maBienBan, loaiBienBan: this.loaiBienBan, soLanIn: 0, donBaoHanh: this.donBaoHanh };
+      console.log('them moi bien ban:', this.themMoiBienBan);
     }
     this.popupInBBTN4 = true;
-  }
-
-  closePopupThemMoi(): void {
-    this.popupThemMoi = false;
   }
 
   closePopupBBTN(): void {
@@ -1163,6 +1226,14 @@ export class DonBaoHanhComponent implements OnInit {
   closePopupBBTN4(): void {
     this.popupInBBTN4 = false;
   }
+  xacNhanInBienBan(): void {
+    this.themMoiBienBan.soLanIn++;
+    this.http.post<any>(this.postMaBienBanUrl, this.themMoiBienBan).subscribe(res => {
+      console.log('thành công:', res);
+      window.location.reload();
+    });
+  }
+  //--------------------------------------------------- import file --------------------------------------------------------
   ReadExcel(event: any): void {
     this.ExcelData = [];
     this.donBaoHanh.slTiepNhan = 0;

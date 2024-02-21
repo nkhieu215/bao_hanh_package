@@ -22,6 +22,6 @@ import { DonBaoHanhRoutingModule } from './route/don-bao-hanh-routing.module';
     ButtonPrintComponent,
   ],
   entryComponents: [DonBaoHanhDeleteDialogComponent],
-  providers: [ContainerService],
+  providers: [ContainerService, RowDetailViewComponent],
 })
 export class DonBaoHanhModule {}
