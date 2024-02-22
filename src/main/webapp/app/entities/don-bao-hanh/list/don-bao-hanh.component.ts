@@ -327,7 +327,7 @@ export class DonBaoHanhComponent implements OnInit {
       {
         id: 'id',
         name: 'Mã tiếp nhận',
-        field: 'id',
+        field: 'maTiepNhan',
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -747,6 +747,8 @@ export class DonBaoHanhComponent implements OnInit {
   }
   // thêm mới đơn bảo hành và chi tiết
   postDonBaoHanh(): void {
+    //tạo mã tiếp nhận theo thời gian thực
+    this.donBaoHanh.maTiepNhan = this.taoMaTiepNhan();
     // thêm mới đơn bảo hành
     this.http.post<any>(this.postDonBaoHanhUrl, this.donBaoHanh).subscribe(res => {
       console.log('donbao hanh:', res);
@@ -847,6 +849,39 @@ export class DonBaoHanhComponent implements OnInit {
   closePopupThemMoi(): void {
     this.popupThemMoi = false;
   }
+  taoMaTiepNhan(): string {
+    const date = new Date();
+    this.year = date.getFullYear().toString().slice(-2);
+    const getMonth = date.getMonth() + 1;
+    if (getMonth < 10) {
+      this.month = `0${getMonth}`;
+    } else {
+      this.month = getMonth.toString();
+    }
+    if (date.getDate() < 10) {
+      this.date = `0${date.getDate()}`;
+    } else {
+      this.date = date.getDate().toString();
+    }
+    if (date.getHours() < 10) {
+      this.hours = `0${date.getHours()}`;
+    } else {
+      this.hours = date.getHours().toString();
+    }
+    if (date.getMinutes() < 10) {
+      this.minutes = `0${date.getMinutes()}`;
+    } else {
+      this.minutes = date.getMinutes().toString();
+    }
+    if (date.getSeconds() < 10) {
+      this.seconds = `0${date.getSeconds()}`;
+    } else {
+      this.seconds = date.getSeconds().toString();
+    }
+    const maTiepNhan = `DBH${this.date}${this.month}${this.year}${this.hours}${this.minutes}${this.seconds}`;
+    console.log('tao moi ma tiep nhan:', maTiepNhan);
+    return maTiepNhan;
+  }
   //=============================================== Popup phân loại ================================================
   closePopupPhanLoai(): void {
     this.popupPhanLoai = false;
@@ -902,6 +937,10 @@ export class DonBaoHanhComponent implements OnInit {
     this.themMoiPhanLoaiChiTietTiepNhan = [];
     this.chiTietDonBaoHanh = [];
     // xử lý dữ liệu để lưu vào DB
+    console.log('trước khi chỉnh sửa:', this.resultChiTietSanPhamTiepNhans);
+    // loại bỏ các phẩn tử không có tên sản phẩm
+    this.resultChiTietSanPhamTiepNhans = this.resultChiTietSanPhamTiepNhans.filter(item => item.tenSanPham !== '');
+    console.log('sau khi chỉnh sửa:', this.resultChiTietSanPhamTiepNhans);
     //cập nhật thông tin sản phẩm trong chi tiết sản phẩm tiếp nhận
     for (let i = 0; i < this.resultChiTietSanPhamTiepNhans.length; i++) {
       for (let j = 0; j < this.danhSachSanPham.length; j++) {

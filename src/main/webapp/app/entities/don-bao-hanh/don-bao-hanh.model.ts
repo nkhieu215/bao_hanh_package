@@ -4,6 +4,7 @@ import { IKhachHang } from 'app/entities/khach-hang/khach-hang.model';
 
 export interface IDonBaoHanh {
   id?: number;
+  maTiepNhan?: string | null;
   ngayTiepNhan?: string | null;
   trangThai?: string | null;
   nhanVienGiaoHang?: string | null;
@@ -21,6 +22,7 @@ export interface IDonBaoHanh {
 export class DonBaoHanh implements IDonBaoHanh {
   constructor(
     public id?: number,
+    public maTiepNhan?: string | null,
     public ngayTiepNhan?: string | null,
     public trangThai?: string | null,
     public nhanVienGiaoHang?: string | null,

@@ -24,6 +24,9 @@ public class DonBaoHanh implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "ma_tiep_nhan")
+    private String maTiepNhan;
+
     @Column(name = "ngay_tiep_nhan")
     private String ngayTiepNhan;
 
@@ -71,6 +74,14 @@ public class DonBaoHanh implements Serializable {
     public DonBaoHanh id(Long id) {
         this.setId(id);
         return this;
+    }
+
+    public String getMaTiepNhan() {
+        return maTiepNhan;
+    }
+
+    public void setMaTiepNhan(String maTiepNhan) {
+        this.maTiepNhan = maTiepNhan;
     }
 
     public String getTrangThaiIn() {
@@ -264,5 +275,4 @@ public class DonBaoHanh implements Serializable {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
-
 }
