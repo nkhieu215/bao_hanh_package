@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PhanLoaiChiTietTiepNhanRepository extends JpaRepository<PhanLoaiChiTietTiepNhan, Long> {
     public void deleteByChiTietSanPhamTiepNhanId(Long id);
+
+    public PhanLoaiChiTietTiepNhan findByChiTietSanPhamTiepNhanIdAndDanhSachTinhTrangId(Long id1, Long id2);
 }

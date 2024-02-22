@@ -115,6 +115,13 @@ public class Controller {
         return maBienBan;
     }
 
+    // ☺ lấy thông tin id lớn nhất trong chi tiết sản phẩm tiếp nhận
+    @GetMapping("chi-tiet-san-pham-tiep-nhan-max-id")
+    public ChiTietSanPhamTiepNhan getMaxId() {
+        ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan = this.fullServices.getMaxId();
+        return chiTietSanPhamTiepNhan;
+    }
+
     // * ============================== quản lý sản phẩm ===========================
     //☺ cập nhật thông tin 1 sản phẩm
     @PostMapping("san-phams/update/{id}")

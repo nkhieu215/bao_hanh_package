@@ -171,8 +171,13 @@ public class FullServices {
     //☺ update phân loại chi tiết đơn hàng tiếp nhận
     public void updatePhanLoaiChiTietDonHangTiepNhan(List<PhanLoaiChiTietTiepNhan> requestList) {
         for (PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan : requestList) {
+            //☺ check chi tiết sản phẩm tiếp nhận
+            if (phanLoaiChiTietTiepNhan.getChiTietSanPhamTiepNhan() == null) {}
             PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan1 =
-                this.phanLoaiChiTietTiepNhanRepository.findById(phanLoaiChiTietTiepNhan.getId()).orElse(null);
+                this.phanLoaiChiTietTiepNhanRepository.findByChiTietSanPhamTiepNhanIdAndDanhSachTinhTrangId(
+                        phanLoaiChiTietTiepNhan.getChiTietSanPhamTiepNhan().getId(),
+                        phanLoaiChiTietTiepNhan.getDanhSachTinhTrang().getId()
+                    );
             if (phanLoaiChiTietTiepNhan1 == null) {
                 this.phanLoaiChiTietTiepNhanRepository.save(phanLoaiChiTietTiepNhan);
             } else {
@@ -208,6 +213,12 @@ public class FullServices {
     public MaBienBan postMaBienBan(MaBienBan request) {
         this.maBienBanRepository.save(request);
         return request;
+    }
+
+    // ☺ lấy thông tin id lớn nhất trong chi tiết sản phẩm tiếp nhận
+    public ChiTietSanPhamTiepNhan getMaxId() {
+        ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan = this.chiTietSanPhamTiepNhanRepository.getMaxID();
+        return chiTietSanPhamTiepNhan;
     }
 
     public void hoanThanhPhanLoai(DonBaoHanh request) {

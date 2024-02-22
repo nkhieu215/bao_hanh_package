@@ -446,7 +446,8 @@
                   [(ngModel)]="data.tenSanPham"
                   [ngModelOptions]="{ standalone: true }"
                   list="field_danh_sach_san_pham"
-                  (change)="updateTenSanPham()"
+                  (change)="updateTenSanPham(data.tenSanPham, i)"
+                  disabled
                 />
                 <datalist id="field_danh_sach_san_pham">
                   <option *ngFor="let item of danhSachSanPham" value="{{ item.name }}"></option>

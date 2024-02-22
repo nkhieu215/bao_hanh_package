@@ -75,7 +75,7 @@ export class RowDetailViewComponent {
     protected modalService: NgbModal,
     protected http: HttpClient,
     protected applicationConfigService: ApplicationConfigService,
-    protected sanPhamService :SanPhamService
+    protected sanPhamService: SanPhamService
   ) {}
 
   loadAll(): void {
@@ -149,7 +149,8 @@ export class RowDetailViewComponent {
         filter: {
           placeholder: 'search',
           model: Filters.compoundInputText,
-        }, editor: {
+        },
+        editor: {
           model: Editors.autoComplete,
           placeholder: '🔎︎ search city',
 
@@ -166,8 +167,8 @@ export class RowDetailViewComponent {
               /** with JSONP AJAX will work locally but not on the GitHub demo because of CORS */
             },
           } as unknown as AutocompleteOption,
-      }
-    },
+        },
+      },
       {
         id: 'slDoiMoi',
         name: 'Đổi mới',
@@ -186,9 +187,10 @@ export class RowDetailViewComponent {
           editorOptions: {
             onCellClick: (e: Event, args: OnEventArgs) => {
               console.log(args);
-              args.dataContext.slTiepNhan = Number(args.dataContext.slDoiMoi) +  Number(args.dataContext.slSuaChua) +  Number(args.dataContext.slKhongBaoHanh) ,
-              // this.alertWarning = `Editing: ${args.dataContext.title}`
-              this.angularGrid?.gridService.highlightRow(args.row, 1500);
+              (args.dataContext.slTiepNhan =
+                Number(args.dataContext.slDoiMoi) + Number(args.dataContext.slSuaChua) + Number(args.dataContext.slKhongBaoHanh)),
+                // this.alertWarning = `Editing: ${args.dataContext.title}`
+                this.angularGrid?.gridService.highlightRow(args.row, 1500);
               this.angularGrid?.gridService.setSelectedRow(args.row);
             },
             cols: 42,
@@ -276,8 +278,8 @@ export class RowDetailViewComponent {
     ];
     this.gridOptions1 = {
       enableCellNavigation: true,
-      editable:true,
-      autoEdit:true,
+      editable: true,
+      autoEdit: true,
       enableAutoResize: true,
       enableSorting: true,
       enableFiltering: true,
@@ -293,13 +295,13 @@ export class RowDetailViewComponent {
     this.resultChiTietSanPhamTiepNhans = this.showData(item.id);
     this.getSanPham();
   }
-  getSanPham():void{
+  getSanPham(): void {
     this.sanPhamService.query().subscribe({
-      next:(res:HttpResponse<ISanPham[]>)=>{
-        this.sanPhams = res.body??[];
-        console.log("sanPham:",this.sanPhams);
-      }
-    })
+      next: (res: HttpResponse<ISanPham[]>) => {
+        this.sanPhams = res.body ?? [];
+        console.log('sanPham:', this.sanPhams);
+      },
+    });
   }
   mockData(count: number): any {
     // mock a dataset
@@ -343,6 +345,7 @@ export class RowDetailViewComponent {
               slDoiMoi: 0,
               slSuaChua: 0,
               slKhongBaoHanh: 0,
+              chiTietSanPhamTiepNhan: this.chiTietSanPhamTiepNhans[i],
             };
             for (let j = 0; j < this.phanLoaiChiTietTiepNhans.length; j++) {
               if (item.id === this.phanLoaiChiTietTiepNhans[j].chiTietSanPhamTiepNhan?.id) {
