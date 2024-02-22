@@ -36,16 +36,17 @@ import { PhanTichMaTiepNhanComponent } from './phan-tich-ma-tiep-nhan.component'
   styleUrls: ['../../../slickgrid-theme-booststrap.css'],
 })
 export class PhanTichSanPhamComponent implements OnInit {
+  // danh sách url
   loisUrl = this.applicationConfigService.getEndpointFor('api/lois');
   sanPhamsUrl = this.applicationConfigService.getEndpointFor('api/san-phams');
   phanLoaiChiTietTiepNhanUrl = this.applicationConfigService.getEndpointFor('api/phan-loai-chi-tiet-tiep-nhans');
   chiTietSanPhamTiepNhanUrl = this.applicationConfigService.getEndpointFor('api/chi-tiet-don-bao-hanhs');
   danhSachTinhTrangUrl = this.applicationConfigService.getEndpointFor('api/danh-sach-tinh-trangs');
   loiUrl = this.applicationConfigService.getEndpointFor('api/lois');
-
+  // biến chứa danh sách cần dùng
   donBaoHanhs: any[] = [];
   isLoading = false;
-  //set up khung hien thi loi
+  //---------------------------------------------------------------set up khung hien thi loi-----------------------------------------
   columnOne = 0;
   columnTwo = 0;
   columnThree = 0;
@@ -65,23 +66,13 @@ export class PhanTichSanPhamComponent implements OnInit {
   phanTichChiTietSanPham?: { tenSanPham: string; tinhTrang: string; slTiepNhan: number; slTon: number };
   predicate!: string;
   ascending!: boolean;
-
+  //--------------------------------------------------------------------------------------------------------
   title = 'Phân tích sản phẩm';
-
-  formSearch = this.formBuilder.group({
-    id: [],
-    tenSanPham: [],
-    lot: [],
-    partNumber: [],
-    namSanXuat: [],
-    userName: [],
-    ngayKiemTra: [],
-    user: [],
-    trangThai: [],
-  });
-
-  editForm = this.formBuilder.group({});
-
+  //danh sách Thông tin chi tiết sản phẩm phân tích
+  listOfChiTietSanPhamPhanTich: any[] = [];
+  // biến chứa thông tin đơn bảo hành
+  donBaoHanh: IDonBaoHanh = {};
+  // biến bật tắt popup
   popupPTMTN = false;
   popupChiTietLoi = false;
   type = '';
@@ -124,6 +115,9 @@ export class PhanTichSanPhamComponent implements OnInit {
       next: (res: HttpResponse<IDonBaoHanh[]>) => {
         this.isLoading = false;
         this.donBaoHanhs = res.body ?? [];
+        for (let i = 0; i < this.donBaoHanhs.length; i++) {
+          this.donBaoHanhs[i].tienDo = 0;
+        }
         console.log('bbbb', this.donBaoHanhs);
       },
       error: () => {
@@ -168,6 +162,10 @@ export class PhanTichSanPhamComponent implements OnInit {
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.openPopupPTMTN();
+          this.donBaoHanh = args.dataContext;
+          // khởi tạo giá trị để lưu vào trong session
+          console.log('don bao hanh: ', this.donBaoHanh);
+          this.showData(args.dataContext.id);
         },
       },
 
@@ -181,41 +179,6 @@ export class PhanTichSanPhamComponent implements OnInit {
         maxWidth: 70,
         minWidth: 70,
       },
-
-      // {
-      //   id: 'edit',
-      //   field: 'id',
-      //   name: 'Options',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   formatter: Formatters.editIcon,
-      //   params: { iconCssClass: 'fa fa-pencil pointer' },
-      //   minWidth: 60,
-      //   maxWidth: 60,
-      //   onCellClick: (e: Event, args: OnEventArgs) => {
-      //     console.log(args);
-      //     // this.alertWarning = `Editing: ${args.dataContext.title}`
-      //     this.angularGrid?.gridService.highlightRow(args.row, 1500);
-      //     this.angularGrid?.gridService.setSelectedRow(args.row);
-      //   },
-      // },
-      // {
-      //   id: 'delete',
-      //   field: 'id',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   formatter: Formatters.deleteIcon,
-      //   params: { iconCssClass: 'fa fa-trash pointer' },
-      //   minWidth: 30,
-      //   maxWidth: 30,
-      //   onCellClick: (e: Event, args: OnEventArgs) => {
-      //     console.log(args);
-      //     this.angularGrid?.gridService.deleteItemById(args.row);
-      //     this.angularGrid?.gridService.deleteItems(args.row);
-      //   },
-      // },
       {
         id: 'id',
         name: 'Mã tiếp nhận',
@@ -261,9 +224,9 @@ export class PhanTichSanPhamComponent implements OnInit {
       },
 
       {
-        id: 'tongTiepNhan',
+        id: 'slTiepNhan',
         name: 'Tổng tiếp nhận',
-        field: 'tongTiepNhan',
+        field: 'slTiepNhan',
         sortable: true,
         filterable: true,
         formatter: Formatters.complexObject,
@@ -275,9 +238,9 @@ export class PhanTichSanPhamComponent implements OnInit {
       },
 
       {
-        id: 'daXuLy',
+        id: 'slDaPhanTich',
         name: 'Đã xử lý',
-        field: 'daXuLy',
+        field: 'slDaPhanTich',
         sortable: true,
         filterable: true,
         formatter: Formatters.complexObject,
@@ -294,7 +257,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         field: 'tienDo',
         sortable: true,
         filterable: true,
-        formatter: Formatters.complexObject,
+        formatter: Formatters.progressBar,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -376,13 +339,13 @@ export class PhanTichSanPhamComponent implements OnInit {
         pageSizes: [5, 10, 20],
         pageSize: 10,
       },
-      columnPicker: {
-        hideForceFitButton: true,
-        hideSyncResizeButton: true,
-        onColumnsChanged(e, args) {
-          console.log(args.visibleColumns);
-        },
-      },
+      // columnPicker: {
+      //   hideForceFitButton: true,
+      //   hideSyncResizeButton: true,
+      //   onColumnsChanged(e, args) {
+      //     console.log(args.visibleColumns);
+      //   },
+      // },
       editable: true,
       enableCellNavigation: true,
       gridHeight: 650,
@@ -393,29 +356,66 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.getSanPhams();
   }
 
-  addItem(): void {
-    this.donBaoHanhs = [
-      ...this.donBaoHanhs,
-      {
-        id: this.donBaoHanhs.length + 1,
-        // id: this.donBaoHanhs[this.donBaoHanhs.length]?.id,
-        username: this.donBaoHanhs[this.donBaoHanhs.length]?.username,
-        ngayKiemTra: this.donBaoHanhs[this.donBaoHanhs.length]?.ngayKiemTra,
-        trangThai: this.donBaoHanhs[this.donBaoHanhs.length]?.trangThai,
-      },
-    ];
+  //=========================================================== popup chi tiết sản phẩm phân tích ======================================================
+  // hàm xử lý thông tin chi tiết sản phẩm phân tích
+  showData(id: number | undefined): void {
+    // lấy danh sách chi tiết sản phẩm tiếp nhận lấy theo id
+    this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${id as number}`).subscribe(res => {
+      this.chiTietSanPhamTiepNhans = res;
+      console.log('b', res);
+      // lấy danh sách tình trạng
+      this.http.get<any>(this.danhSachTinhTrangUrl).subscribe(resTT => {
+        this.danhSachTinhTrang = resTT;
+        // sessionStorage.setItem('danhSachTinhTrang', JSON.stringify(resTT));
+        // console.log('danh sách tình trạng', resTT);
+        // lấy danh sách phân loại chi tiết tiếp nhận
+        this.http.get<any>(this.phanLoaiChiTietTiepNhanUrl).subscribe(res1 => {
+          this.phanLoaiChiTietTiepNhans = res1;
+          // sessionStorage.setItem('phan loai chi tiet tiep nhan', JSON.stringify(res1));
+          console.log('phan loai chi tiet tiep nhan', res1);
+          // Khởi tạo danh sacsah result hiển thị trên giao diện
+          // => gán dataset = resutl
+          // khởi tạo danh sách rỗng
+          const list: any[] = [];
+          var count = 0;
+          for (let i = 0; i < this.phanLoaiChiTietTiepNhans.length; i++) {
+            for (let j = 0; j < this.chiTietSanPhamTiepNhans.length; j++) {
+              if (
+                this.phanLoaiChiTietTiepNhans[i].danhSachTinhTrang?.id !== 3 &&
+                this.phanLoaiChiTietTiepNhans[i].chiTietSanPhamTiepNhan?.id === this.chiTietSanPhamTiepNhans[j].id
+              ) {
+                const item = {
+                  stt: count,
+                  id: this.phanLoaiChiTietTiepNhans[i].id,
+                  maTiepNhan: this.donBaoHanh.id,
+                  tenSanPham: this.chiTietSanPhamTiepNhans[j].sanPham?.name as string,
+                  tinhTrang: this.phanLoaiChiTietTiepNhans[i].danhSachTinhTrang?.tenTinhTrangPhanLoai as string,
+                  slTiepNhan: this.phanLoaiChiTietTiepNhans[i].soLuong as number,
+                  slDaPhanTich: 0,
+                  slConLai: 0,
+                  tienDo: 0,
+                  check: true,
+                };
+                list.push(item); // list đã có dữ liệu
+                count++;
+              }
+            }
+          }
+          sessionStorage.setItem(`PhanTich ${id as number}`, JSON.stringify(list));
+        });
+      });
+    });
+    setTimeout(() => {
+      // lấy dữ liệu từ sessision
+      var result = sessionStorage.getItem(`PhanTich ${id as number}`);
+      // dữ liệu lưu trong sessison(dạng string) -> chuyển về dạng JSON (giống arr,obj)
+      this.listOfChiTietSanPhamPhanTich = JSON.parse(result as string);
+      console.log('Danh sách chi tiết sản phẩm phân tích', this.listOfChiTietSanPhamPhanTich);
+    }, 1000);
   }
-
-  mockData(count: number): any {
-    const mockDataset = [];
-    for (let i = 1; i < count; i++) {
-      mockDataset[i] = {
-        id: i,
-      };
-    }
-    return mockDataset;
+  testCheck(test: any): void {
+    console.log(test);
   }
-
   simulateServerAsyncCall(item: any): Promise<unknown> {
     // random set of names to use for more item detail
     console.log('tessst:0', item);
@@ -430,14 +430,6 @@ export class PhanTichSanPhamComponent implements OnInit {
         resolve(itemDetail);
       }, 1000);
     });
-  }
-
-  randomNumber(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
-  updateForm(phanTichSanPham: IPhanTichSanPham): void {
-    this.editForm;
   }
 
   resultPopup(a: boolean, type: string): void {

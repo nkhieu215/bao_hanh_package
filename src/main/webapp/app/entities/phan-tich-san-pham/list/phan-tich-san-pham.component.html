@@ -1,11 +1,9 @@
 <div id="demo-container" class="container-fluid">
   <h2>{{ title }}</h2>
-
-  <button class="btn btn-sm btn-outline-primary" (click)="addItem()">Thêm mới</button>
   <angular-slickgrid gridId="grid1" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="donBaoHanhs">
   </angular-slickgrid>
 </div>
-
+<!---------------------------------------------------------- popup chi tiết sản phẩm phân tích --------------------------------------------------->
 <div class="table-responsive popup-background" role="dialog" *ngIf="popupPTMTN === true">
   <div class="popup-container">
     <div class="popup-header">
@@ -43,13 +41,13 @@
           </thead>
           <tbody>
             <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td><input type="text" value="{{ donBaoHanh.id }}" disabled /></td>
+              <td><input type="text" value="{{ donBaoHanh.khachHang?.tenKhachHang }}" disabled /></td>
+              <td><input type="text" value="{{ donBaoHanh.slTiepNhan }}" disabled /></td>
+              <td><input type="text" value="{{ donBaoHanh.slDaPhanTich }}" disabled /></td>
+              <td><input type="text" value="{{ donBaoHanh.id }}" disabled /></td>
+              <td>{{ donBaoHanh.ngayTiepNhan | date: 'YYYY-MM-dd hh:mm:ss ' }}</td>
+              <td><input type="text" value="{{ donBaoHanh.trangThai }}" disabled /></td>
             </tr>
           </tbody>
         </table>
@@ -69,7 +67,7 @@
                   <span>STT</span>
                 </th>
                 <th scope="col" jhiSortBy="id">
-                  <span>Mã sản phẩm</span>
+                  <span>Mã tiếp nhận</span>
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span>Tên sản phẩm</span>
@@ -95,16 +93,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr *ngFor="let data of listOfChiTietSanPhamPhanTich; let i = index">
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><input type="text" value="{{ i + 1 }}" disabled /></td>
+                <td><input type="text" value="{{ data.maTiepNhan }}" disabled /></td>
+                <td><input type="text" value="{{ data.tenSanPham }}" disabled /></td>
+                <td><input type="text" value="{{ data.tinhTrang }}" disabled /></td>
+                <td><input type="text" value="{{ data.slTiepNhan }}" disabled /></td>
+                <td><input type="text" value="{{ data.slDaPhanTich }}" disabled /></td>
+                <td><input type="text" value="{{ data.slConLai }}" disabled /></td>
+                <td><input type="range" value="{{ data.tienDo }}" disabled />{{ data.tienDo }}%</td>
+                <td><input type="checkbox" [(ngModel)]="data.check" [ngModelOptions]="{ standalone: true }" disabled /></td>
               </tr>
             </tbody>
           </table>
@@ -120,7 +119,7 @@
     </div>
   </div>
 </div>
-
+<!------------------------------------------------------------ popup khai báo lỗi  ---------------------------------------------------------------->
 <div class="table-responsive popup-background" role="dialog" *ngIf="popupChiTietLoi === true">
   <div class="popup-container">
     <div class="popup-header">
@@ -128,14 +127,8 @@
       <hr />
       <span class="close-btn" (click)="closePopup()">&times;</span>
     </div>
-    <!-- <div *ngIf="type === 'lot'">
-      <h1>Phân tích theo LOT</h1>
-    </div>
-    <div *ngIf="type === 'serial'">
-      <h1>Phân tích theo Serial</h1>
-    </div> -->
     <div class="popup-content">
-      <form [formGroup]="formSearch">
+      <form>
         <table class="table table-striped" aria-describedby="page-heading">
           <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
@@ -314,7 +307,7 @@
   </div>
 </div>
 
-<!-- popup in bb -->
+<!--------------------------------------------------------- popup in bb --------------------------------------------------------------------->
 <div class="table-responsive popup-background" role="dialog" *ngIf="popupSelectButton === true">
   <div class="popup-container-btn">
     <div class="popup-header-btn">

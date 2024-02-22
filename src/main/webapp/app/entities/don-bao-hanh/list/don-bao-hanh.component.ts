@@ -861,6 +861,7 @@ export class DonBaoHanhComponent implements OnInit {
       this.danhSachGocPopupPhanLoai = JSON.parse(result as string);
     }, 1000);
   }
+  // cập nhật tên sản phẩm
   updateTenSanPham(tenSanPham: string, index: number): void {
     this.isChanged = true;
     const result = sessionStorage.getItem(this.keySession);
