@@ -82,6 +82,7 @@ export class PhanTichSanPhamComponent implements OnInit {
 
   editForm = this.formBuilder.group({});
 
+  popupPTMTN = false;
   popupChiTietLoi = false;
   type = '';
   popupInBBTN = false;
@@ -107,7 +108,15 @@ export class PhanTichSanPhamComponent implements OnInit {
   ) {}
 
   buttonIn: Formatter<any> = (_row, _cell, value) =>
-    value ? `<button class="btn btn-primary">In</button>` : { text: '<i class="fa fa-snowflake-o" aria-hidden="true"></i>' };
+    value
+      ? `<button class="btn btn-primary fa fa-print" style="height: 28px; line-height: 14px"></button>`
+      : { text: '<i class="fa fa-print" aria-hidden="true"></i>' };
+
+  buttonPT: Formatter<any> = (_row, _cell, value) =>
+    value ? `<button class="btn btn-primary">PT</button>` : { text: '<button class="btn btn-primary">PT</button>' };
+
+  buttonCTL: Formatter<any> = (_row, _cell, value) =>
+    value ? `<button class="btn btn-primary">CTL</button>` : { text: '<button class="btn btn-primary">CTL</button>' };
 
   loadAll(): void {
     this.isLoading = true;
@@ -146,40 +155,67 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.angularGrid?.gridService.setSelectedRow(args.row);
         },
       },
+
       {
-        id: 'edit',
-        field: 'id',
+        id: 'popupPT',
+        field: 'idPT',
         name: 'Options',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        formatter: Formatters.editIcon,
-        params: { iconCssClass: 'fa fa-pencil pointer' },
-        minWidth: 60,
+        formatter: this.buttonPT,
         maxWidth: 60,
+        minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
-          // this.alertWarning = `Editing: ${args.dataContext.title}`
-          this.angularGrid?.gridService.highlightRow(args.row, 1500);
-          this.angularGrid?.gridService.setSelectedRow(args.row);
+          this.openPopupPTMTN();
         },
       },
+
       {
-        id: 'delete',
-        field: 'id',
+        id: 'popupCTL',
+        field: 'idCTL',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        formatter: Formatters.deleteIcon,
-        params: { iconCssClass: 'fa fa-trash pointer' },
-        minWidth: 30,
-        maxWidth: 30,
-        onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
-          this.angularGrid?.gridService.deleteItemById(args.row);
-          this.angularGrid?.gridService.deleteItems(args.row);
-        },
+        formatter: this.buttonCTL,
+        maxWidth: 70,
+        minWidth: 70,
       },
+
+      // {
+      //   id: 'edit',
+      //   field: 'id',
+      //   name: 'Options',
+      //   excludeFromColumnPicker: true,
+      //   excludeFromGridMenu: true,
+      //   excludeFromHeaderMenu: true,
+      //   formatter: Formatters.editIcon,
+      //   params: { iconCssClass: 'fa fa-pencil pointer' },
+      //   minWidth: 60,
+      //   maxWidth: 60,
+      //   onCellClick: (e: Event, args: OnEventArgs) => {
+      //     console.log(args);
+      //     // this.alertWarning = `Editing: ${args.dataContext.title}`
+      //     this.angularGrid?.gridService.highlightRow(args.row, 1500);
+      //     this.angularGrid?.gridService.setSelectedRow(args.row);
+      //   },
+      // },
+      // {
+      //   id: 'delete',
+      //   field: 'id',
+      //   excludeFromColumnPicker: true,
+      //   excludeFromGridMenu: true,
+      //   excludeFromHeaderMenu: true,
+      //   formatter: Formatters.deleteIcon,
+      //   params: { iconCssClass: 'fa fa-trash pointer' },
+      //   minWidth: 30,
+      //   maxWidth: 30,
+      //   onCellClick: (e: Event, args: OnEventArgs) => {
+      //     console.log(args);
+      //     this.angularGrid?.gridService.deleteItemById(args.row);
+      //     this.angularGrid?.gridService.deleteItems(args.row);
+      //   },
+      // },
       {
         id: 'id',
         name: 'Mã tiếp nhận',
@@ -223,6 +259,49 @@ export class PhanTichSanPhamComponent implements OnInit {
           } as LongTextEditorOption,
         },
       },
+
+      {
+        id: 'tongTiepNhan',
+        name: 'Tổng tiếp nhận',
+        field: 'tongTiepNhan',
+        sortable: true,
+        filterable: true,
+        formatter: Formatters.complexObject,
+        type: FieldType.string,
+        filter: {
+          placeholder: 'search',
+          model: Filters.compoundInputText,
+        },
+      },
+
+      {
+        id: 'daXuLy',
+        name: 'Đã xử lý',
+        field: 'daXuLy',
+        sortable: true,
+        filterable: true,
+        formatter: Formatters.complexObject,
+        type: FieldType.string,
+        filter: {
+          placeholder: 'search',
+          model: Filters.compoundInputText,
+        },
+      },
+
+      {
+        id: 'tienDo',
+        name: 'Tiến độ',
+        field: 'tienDo',
+        sortable: true,
+        filterable: true,
+        formatter: Formatters.complexObject,
+        type: FieldType.string,
+        filter: {
+          placeholder: 'search',
+          model: Filters.compoundInputText,
+        },
+      },
+
       {
         id: 'ngayTiepNhan',
         name: 'Ngày tiếp nhận',
@@ -271,28 +350,28 @@ export class PhanTichSanPhamComponent implements OnInit {
       enableSorting: true,
       enableFiltering: true,
       enablePagination: true,
-      enableColumnPicker: true,
-      enableRowDetailView: true,
-      rowDetailView: {
-        // đặt button ở vị trí mong muốn
-        columnIndexPosition: 1,
-        // hàm thực thi
-        process: item => this.simulateServerAsyncCall(item),
-        // chạy lệnh 1 lần , những lần sau sẽ hiển thị dữ liệu của lần chạy đầu tiên
-        loadOnce: true,
-        // mở rộng hàng
-        singleRowExpand: true,
-        // sử dụng chức năng click trên 1 hàng
-        useRowClick: true,
-        // số lượng hàng dùng để hiển thị thông tin của row detail
-        panelRows: 10,
-        // component loading
-        preloadComponent: PhanTichSanPhamReLoadComponent,
-        // component hiển thị row detail
-        viewComponent: PhanTichMaTiepNhanComponent,
-        // chức năng xác định parent
-        parent: true,
-      },
+      // enableColumnPicker: true,
+      // enableRowDetailView: true,
+      // rowDetailView: {
+      //   // đặt button ở vị trí mong muốn
+      //   columnIndexPosition: 1,
+      //   // hàm thực thi
+      //   process: item => this.simulateServerAsyncCall(item),
+      //   // chạy lệnh 1 lần , những lần sau sẽ hiển thị dữ liệu của lần chạy đầu tiên
+      //   loadOnce: true,
+      //   // mở rộng hàng
+      //   singleRowExpand: true,
+      //   // sử dụng chức năng click trên 1 hàng
+      //   useRowClick: true,
+      //   // số lượng hàng dùng để hiển thị thông tin của row detail
+      //   panelRows: 10,
+      //   // component loading
+      //   preloadComponent: PhanTichSanPhamReLoadComponent,
+      //   // component hiển thị row detail
+      //   viewComponent: PhanTichMaTiepNhanComponent,
+      //   // chức năng xác định parent
+      //   parent: true,
+      // },
       pagination: {
         pageSizes: [5, 10, 20],
         pageSize: 10,
@@ -391,9 +470,17 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.popupChiTietLoi = false;
   }
 
+  closePopupPTMTN(): void {
+    this.popupPTMTN = false;
+  }
+
   // mở popup chọn loại biên bản
   openPopupBtn(): void {
     this.popupSelectButton = true;
+  }
+
+  openPopupPTMTN(): void {
+    this.popupPTMTN = true;
   }
 
   // đóng popup chọn loại biên bản

@@ -6,6 +6,121 @@
   </angular-slickgrid>
 </div>
 
+<div class="table-responsive popup-background" role="dialog" *ngIf="popupPTMTN === true">
+  <div class="popup-container">
+    <div class="popup-header">
+      <h2>Thông tin mã tiếp nhận</h2>
+      <hr />
+      <span class="close-btn" (click)="closePopupPTMTN()">&times;</span>
+    </div>
+    <div class="popup-content">
+      <form>
+        <table class="table table-striped" aria-describedby="page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+              <th scope="col" jhiSortBy="id">
+                <span>Mã tiếp nhận</span>
+              </th>
+              <th scope="col" jhiSortBy="id">
+                <span>Khách hàng</span>
+              </th>
+              <th scope="col" jhiSortBy="id">
+                <span>Tổng tiếp nhận</span>
+              </th>
+              <th scope="col" jhiSortBy="id">
+                <span>Đã xử lý</span>
+              </th>
+              <th scope="col" jhiSortBy="id">
+                <span>Tiến độ</span>
+              </th>
+              <th scope="col" jhiSortBy="id">
+                <span>Ngày tiếp nhận</span>
+              </th>
+              <th scope="col" jhiSortBy="id">
+                <span>Trạng thái</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      <br />
+      <br />
+      <form>
+        <div>
+          <h2>Thông tin sản phẩm mã tiếp nhận</h2>
+          <table class="table tablel-striped" aria-describedby="page-heading">
+            <thead>
+              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+                <th scope="col" jhiSortBy="id">
+                  <span>Option</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span>STT</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span>Mã sản phẩm</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span>Tên sản phẩm</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span>Tình trạng</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span>Số lượng nhận</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span>Số lượng đã phân tích</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span>Số lượng còn lại</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span>Tiến độ (%)</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span>Checked</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+    <div class="row mb-6">
+      <div class="popup-footer">
+        <button class="btn btn-danger btn-option"><fa-icon icon="ban"></fa-icon>&nbsp;Huỷ</button>
+        <button class="btn btn-primary btn-option"><fa-icon icon="save"></fa-icon>&nbsp;Lưu</button>
+        <!-- <button class="btn btn-success btn-option"><fa-icon icon="check"></fa-icon>&nbsp;Xác nhận</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="table-responsive popup-background" role="dialog" *ngIf="popupChiTietLoi === true">
   <div class="popup-container">
     <div class="popup-header">
