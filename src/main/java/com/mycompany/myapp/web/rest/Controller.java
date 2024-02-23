@@ -91,8 +91,9 @@ public class Controller {
 
     //☺ update chi tiết sản phẩm tiếp nhận
     @PutMapping("don-bao-hanh/phan-loai/update-chi-tiet-san-pham-tiep-nhan")
-    public void updateChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> requestList) {
-        this.fullServices.updateChiTietSanPhamTiepNhan(requestList);
+    public List<ChiTietSanPhamTiepNhan> updateChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> requestList) {
+        List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList = this.fullServices.updateChiTietSanPhamTiepNhan(requestList);
+        return chiTietSanPhamTiepNhanList;
     }
 
     //☺ hoàn thành phân loại
@@ -120,6 +121,12 @@ public class Controller {
     public ChiTietSanPhamTiepNhan getMaxId() {
         ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan = this.fullServices.getMaxId();
         return chiTietSanPhamTiepNhan;
+    }
+
+    //☺ xóa 1 dòng trong chi tiết popup phân loại
+    @DeleteMapping("phan-loai/delete/{id}")
+    public void deleteDetailRowById(@PathVariable Long id) {
+        this.fullServices.deleteDetailDonBaoHanh(id);
     }
 
     // * ============================== quản lý sản phẩm ===========================

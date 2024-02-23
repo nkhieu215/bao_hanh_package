@@ -184,7 +184,7 @@
       <span class="close-btn" (click)="closePopupEdit()">&times;</span>
     </div>
     <div class="popup-content">
-      <form [formGroup]="formSearch">
+      <form>
         <div class="row mb-3">
           <label for="field_khachHang" class="form-label">Khách hàng</label>
           <input
@@ -492,7 +492,7 @@
                 <input type="checkbox" class="ui-checkbox" />
               </td>
               <td>
-                <button class="btn btn-danger" (click)="deleteRowPopupPhanLoai(data.tenSanPham)">Xóa</button>
+                <button class="btn btn-danger" (click)="deleteRowPopupPhanLoai(data.id)">Xóa</button>
               </td>
             </tr>
           </tbody>
