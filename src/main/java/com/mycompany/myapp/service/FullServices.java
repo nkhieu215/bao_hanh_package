@@ -90,25 +90,11 @@ public class FullServices {
     }
 
     //☺ xóa chi tiết đơn bảo hành
-    public void deleteDetailDonBaoHanh(ChiTietSanPhamTiepNhan request) {
+    public void deleteDetailDonBaoHanh(Long id) {
         //☺ B1: xóa thông tin trạng thái của từng sản phẩm trong chi tiết đơn bảo hành
-        this.phanLoaiChiTietTiepNhanRepository.deleteByChiTietSanPhamTiepNhanId(request.getId());
+        this.phanLoaiChiTietTiepNhanRepository.deleteByChiTietSanPhamTiepNhanId(id);
         //☺ B2: xóa thông tin chi tiết đơn bảo hành
-        this.chiTietSanPhamTiepNhanRepository.deleteById(request.getId());
-    }
-
-    //☺ Xóa đơn bảo hành
-    public void deleteDonBaoHanh(DonBaoHanh request) {
-        List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList =
-            this.chiTietSanPhamTiepNhanRepository.findAllByDonBaoHanhId(request.getId());
-        //☺ B1: xóa hết thông tin trạng thái của từng SP trong chi tiết đơn bảo hành
-        for (ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan : chiTietSanPhamTiepNhanList) {
-            this.phanLoaiChiTietTiepNhanRepository.deleteByChiTietSanPhamTiepNhanId(chiTietSanPhamTiepNhan.getId());
-        }
-        //☺ B2: Xóa hết thông tin chi tiết đơn bảo hành
-        this.chiTietSanPhamTiepNhanRepository.deleteByDonBaoHanhId(request.getId());
-        //☺ B3: Xóa thông tin đơn bảo hành
-        this.donBaoHanhRepository.deleteById(request.getId());
+        this.chiTietSanPhamTiepNhanRepository.deleteById(id);
     }
 
     // ☺ Chuyển đổi trạng thái đơn bảo hành
@@ -188,18 +174,22 @@ public class FullServices {
     }
 
     //☺ update chi tiết sản phẩm tiếp nhận
-    public void updateChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList) {
+    public List<ChiTietSanPhamTiepNhan> updateChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList) {
+        List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList = new ArrayList<>();
         for (ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan : requestList) {
             ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan1 =
                 this.chiTietSanPhamTiepNhanRepository.findById(chiTietSanPhamTiepNhan.getId()).orElse(null);
             if (chiTietSanPhamTiepNhan1 == null) {
                 this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan);
+                chiTietSanPhamTiepNhanList.add(chiTietSanPhamTiepNhan);
             } else {
                 chiTietSanPhamTiepNhan1.setSanPham(chiTietSanPhamTiepNhan.getSanPham());
                 chiTietSanPhamTiepNhan1.setNgayPhanLoai(chiTietSanPhamTiepNhan.getNgayPhanLoai());
                 this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan1);
+                chiTietSanPhamTiepNhanList.add(chiTietSanPhamTiepNhan1);
             }
         }
+        return chiTietSanPhamTiepNhanList;
     }
 
     //☺ hoàn thành phân loại
@@ -221,8 +211,14 @@ public class FullServices {
         return chiTietSanPhamTiepNhan;
     }
 
+    //☺ button hoàn thành
     public void hoanThanhPhanLoai(DonBaoHanh request) {
         this.donBaoHanhRepository.save(request);
+    }
+
+    //☺ xóa 1 dòng trong chi tiết popup phân loại
+    public void deleteDetailRowById(Long id) {
+        this.phanLoaiChiTietTiepNhanRepository.deleteById(id);
     }
 
     // * ============================ Template Phân tích =================================
