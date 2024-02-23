@@ -21,7 +21,7 @@ import {
   Formatter,
 } from 'angular-slickgrid';
 import { IDonBaoHanh } from './../../don-bao-hanh/don-bao-hanh.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -66,6 +66,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   phanTichChiTietSanPham?: { tenSanPham: string; tinhTrang: string; slTiepNhan: number; slTon: number };
   predicate!: string;
   ascending!: boolean;
+
+  @Input() searchKey = '';
 
   year = '';
   month = '';

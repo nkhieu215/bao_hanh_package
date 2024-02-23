@@ -16,22 +16,22 @@
         <table class="table table-striped" aria-describedby="page-heading">
           <thead style="background-color: #006699">
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
-              <th scope="col" jhiSortBy="id">
+              <th scope="col" jhiSortBy="id" style="width: 3rem">
                 <span class="span-table-phantich">Mã tiếp nhận</span>
               </th>
-              <th scope="col" jhiSortBy="id">
+              <th scope="col" jhiSortBy="id" style="width: 50rem">
                 <span class="span-table-phantich">Khách hàng</span>
               </th>
-              <th scope="col" jhiSortBy="id">
+              <th scope="col" jhiSortBy="id" style="width: 5rem">
                 <span class="span-table-phantich">Tổng tiếp nhận</span>
               </th>
-              <th scope="col" jhiSortBy="id">
+              <th scope="col" jhiSortBy="id" style="width: 5rem">
                 <span class="span-table-phantich">Đã xử lý</span>
               </th>
-              <th scope="col" jhiSortBy="id">
+              <th scope="col" jhiSortBy="id" style="width: 5rem">
                 <span class="span-table-phantich">Tiến độ</span>
               </th>
-              <th scope="col" jhiSortBy="id">
+              <th scope="col" jhiSortBy="id" style="width: 18rem">
                 <span class="span-table-phantich">Ngày tiếp nhận</span>
               </th>
               <th scope="col" jhiSortBy="id">
@@ -41,13 +41,35 @@
           </thead>
           <tbody>
             <tr>
-              <td><input type="text" value="{{ donBaoHanh.id }}" disabled /></td>
-              <td><input type="text" value="{{ donBaoHanh.khachHang?.tenKhachHang }}" disabled /></td>
-              <td><input type="text" value="{{ donBaoHanh.slTiepNhan }}" disabled /></td>
-              <td><input type="text" value="{{ donBaoHanh.slDaPhanTich }}" disabled /></td>
-              <td><input type="text" value="{{ donBaoHanh.id }}" disabled /></td>
+              <td>
+                <input
+                  type="text"
+                  class="inp-ptich-sp"
+                  style="background-color: #f2f2f2; width: 7rem"
+                  value="{{ donBaoHanh.id }}"
+                  disabled
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="inp-ptich-sp"
+                  style="background-color: #f2f2f2"
+                  value="{{ donBaoHanh.khachHang?.tenKhachHang }}"
+                  disabled
+                />
+              </td>
+              <td>
+                <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.slTiepNhan }}" disabled />
+              </td>
+              <td>
+                <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.slDaPhanTich }}" disabled />
+              </td>
+              <td><input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.id }}" disabled /></td>
               <td>{{ donBaoHanh.ngayTiepNhan | date: 'YYYY-MM-dd hh:mm:ss ' }}</td>
-              <td><input type="text" value="{{ donBaoHanh.trangThai }}" disabled /></td>
+              <td>
+                <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.trangThai }}" disabled />
+              </td>
             </tr>
           </tbody>
         </table>
@@ -69,33 +91,92 @@
               <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Option</span>
+                  <input class="inp-hidden" style="height: 35px; width: 3.2rem" disabled />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">STT</span>
+                  <input class="inp-hidden" style="height: 35px; width: 3.2rem" disabled />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Mã tiếp nhận</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Tên sản phẩm</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Tình trạng</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Số lượng nhận</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Số lượng đã phân tích</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Số lượng còn lại</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Tiến độ (%)</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Checked</span>
+                  <input type="checkbox" class="ui-checkbox" />
                 </th>
               </tr>
             </thead>
@@ -106,13 +187,13 @@
                     <fa-icon icon="pencil"></fa-icon>
                   </button>
                 </td>
-                <td><input type="text" value="{{ i + 1 }}" disabled /></td>
-                <td><input type="text" value="{{ data.maTiepNhan }}" disabled /></td>
-                <td><input type="text" value="{{ data.tenSanPham }}" disabled /></td>
-                <td><input type="text" value="{{ data.tinhTrang }}" disabled /></td>
-                <td><input type="text" value="{{ data.slTiepNhan }}" disabled /></td>
-                <td><input type="text" value="{{ data.slDaPhanTich }}" disabled /></td>
-                <td><input type="text" value="{{ data.slConLai }}" disabled /></td>
+                <td><input type="text" class="inp-ptich-sp" value="{{ i + 1 }}" disabled /></td>
+                <td><input type="text" class="inp-ptich-sp" value="{{ data.maTiepNhan }}" disabled /></td>
+                <td><input type="text" class="inp-ptich-sp" value="{{ data.tenSanPham }}" disabled /></td>
+                <td><input type="text" class="inp-ptich-sp" value="{{ data.tinhTrang }}" disabled /></td>
+                <td><input type="text" class="inp-ptich-sp" value="{{ data.slTiepNhan }}" disabled /></td>
+                <td><input type="text" class="inp-ptich-sp" value="{{ data.slDaPhanTich }}" disabled /></td>
+                <td><input type="text" class="inp-ptich-sp" value="{{ data.slConLai }}" disabled /></td>
                 <td><input type="range" value="{{ data.tienDo }}" disabled />{{ data.tienDo }}%</td>
                 <td>
                   <input type="checkbox" class="ui-checkbox" [(ngModel)]="data.check" [ngModelOptions]="{ standalone: true }" disabled />
@@ -294,42 +375,139 @@
               <tr>
                 <th scope="col">
                   <span class="span-table-phantich">STT</span>
+                  <input class="inp-hidden" style="height: 35px; width: 3rem" disabled />
                 </th>
                 <th scope="col" style="width: 40em">
                   <span class="span-table-phantich">Tên sản phẩm</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Mã sản phẩm</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Số lô</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">LOT Number</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Năm sản xuất</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Tổng lỗi</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Nhân viên phân tích</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Ngày kiểm tra</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Username</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Trạng thái</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Lỗi kỹ thuật</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
                 <th scope="col">
                   <span class="span-table-phantich">Lỗi linh động</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
                 </th>
               </tr>
             </thead>
@@ -451,42 +629,139 @@
             <tr>
               <th scope="col">
                 <span class="span-table-phantich">STT</span>
+                <input class="inp-hidden" style="height: 35px" disabled />
               </th>
               <th scope="col" style="width: 40em">
                 <span class="span-table-phantich">Tên sản phẩm</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Mã sản phẩm</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Số lô</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">LOT Number</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Năm sản xuất</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Tổng lỗi</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Nhân viên phân tích</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Ngày kiểm tra</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Username</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Trạng thái</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Lỗi kỹ thuật</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Lỗi linh động</span>
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                />
               </th>
             </tr>
           </thead>
@@ -521,7 +796,9 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN1()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printTitle="disabled" printSectionId="BBTN1" ngxPrint>In</button>
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI" printSectionId="BBTN1" ngxPrint>
+          In
+        </button>
       </div>
       <div id="BBTN1">
         <div id="lien1">
@@ -606,7 +883,9 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN2()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN2" ngxPrint>In</button>
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI" printSectionId="BBTN2" ngxPrint>
+          In
+        </button>
       </div>
       <div id="BBTN2">
         <div id="lien2">
@@ -619,7 +898,7 @@
             </div>
           </header>
           <div align="center">
-            <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
+            <!-- <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5> -->
             <p>Liên 2: Khách hàng</p>
           </div>
           <div align="right" style="margin-right: 70px">
@@ -691,7 +970,9 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN3()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN3" ngxPrint>In</button>
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI" printSectionId="BBTN3" ngxPrint>
+          In
+        </button>
       </div>
       <div id="BBTN3">
         <div id="lien3">
@@ -704,7 +985,7 @@
             </div>
           </header>
           <div align="center">
-            <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
+            <!-- <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5> -->
             <p>Liên 3: P. KHTT</p>
           </div>
           <div align="right" style="margin-right: 70px">
@@ -776,7 +1057,9 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN4()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN4" ngxPrint>In</button>
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI" printSectionId="BBTN4" ngxPrint>
+          In
+        </button>
       </div>
       <div id="BBTN4">
         <div id="lien4">
@@ -789,7 +1072,7 @@
             </div>
           </header>
           <div align="center">
-            <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
+            <!-- <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5> -->
             <p>Liên 4: Phòng BH1</p>
           </div>
           <div align="right" style="margin-right: 70px">
@@ -861,7 +1144,9 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBKN()">&times;</span>
       <div class="hiddenToolbar">
-        <button type="button" class="btn btn-primary">In</button>
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH" printSectionId="BBkhoA" ngxPrint>
+          In
+        </button>
       </div>
 
       <div id="BBkhoA">
@@ -873,9 +1158,9 @@
             <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM02 Ban hành lần 1</div>
           </div>
         </header>
-        <div align="center" style="margin-bottom: 1rem">
+        <!-- <div align="center" style="margin-bottom: 1rem">
           <strong style="font-size: 18px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH </strong>
-        </div>
+        </div> -->
 
         <div align="right" style="margin-right: 70px">Số: <input type="text" id="idDonA" size="10" style="color: black" disabled /></div>
         <div align="right" style="margin-right: 62px">
@@ -931,7 +1216,7 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTL()">&times;</span>
       <div class="hiddenToolbar">
-        <button type="button" class="btn btn-primary">In</button>
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN THANH LÝ SẢN PHẨM MẤT PHẨM CHẤT" ngxPrint>In</button>
       </div>
       <div id="BBTL">
         <div id="BBkhoA">
