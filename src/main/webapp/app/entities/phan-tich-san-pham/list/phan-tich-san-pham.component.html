@@ -91,24 +91,13 @@
               <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">Option</span>
-                  <input class="inp-hidden" style="height: 35px; width: 3.2rem" disabled />
+                  <input class="inp-hidden" style="height: 35px; width: 3rem" disabled />
                 </th>
                 <th scope="col" jhiSortBy="id">
                   <span class="span-table-phantich">STT</span>
-                  <input class="inp-hidden" style="height: 35px; width: 3.2rem" disabled />
+                  <input class="inp-hidden" style="height: 35px; width: 11rem" disabled />
                 </th>
-                <th scope="col" jhiSortBy="id">
-                  <span class="span-table-phantich">Mã tiếp nhận</span>
-                  <input
-                    type="text"
-                    placeholder="Tìm kiếm"
-                    class="form-control"
-                    list="ten_san_pham"
-                    [(ngModel)]="searchKey"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
-                </th>
-                <th scope="col" jhiSortBy="id">
+                <th scope="col" jhiSortBy="id" style="width: 24rem">
                   <span class="span-table-phantich">Tên sản phẩm</span>
                   <input
                     type="text"
@@ -188,7 +177,6 @@
                   </button>
                 </td>
                 <td><input type="text" class="inp-ptich-sp" value="{{ i + 1 }}" disabled /></td>
-                <td><input type="text" class="inp-ptich-sp" value="{{ data.maTiepNhan }}" disabled /></td>
                 <td><input type="text" class="inp-ptich-sp" value="{{ data.tenSanPham }}" disabled /></td>
                 <td><input type="text" class="inp-ptich-sp" value="{{ data.tinhTrang }}" disabled /></td>
                 <td><input type="text" class="inp-ptich-sp" value="{{ data.slTiepNhan }}" disabled /></td>
@@ -207,7 +195,7 @@
   </div>
 </div>
 <!------------------------------------------------------------ popup khai báo lỗi  ---------------------------------------------------------------->
-<div class="table-responsive popup-background" role="dialog" *ngIf="popupChiTietLoi === true">
+<div class="table-responsive popup-background" role="dialog" *ngIf="popupChiTietLoi === false">
   <div class="popup-container" style="min-width: 90vw; width: 96vw">
     <div class="popup-header">
       <h2>Phân tích chi tiết sản phẩm</h2>
