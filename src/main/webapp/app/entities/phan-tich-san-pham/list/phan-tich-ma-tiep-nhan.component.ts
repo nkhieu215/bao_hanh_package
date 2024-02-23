@@ -336,7 +336,7 @@ export class PhanTichMaTiepNhanComponent {
 
   //--------------------------
   openPopupChiTietLoi(): void {
-    this.aaaa.openPopupChiTietLoi(this.idBBTN, this.idDBH);
+    this.aaaa.openPopupChiTietLoi();
   }
 
   simulateServerAsyncCall(item: any): Promise<unknown> {

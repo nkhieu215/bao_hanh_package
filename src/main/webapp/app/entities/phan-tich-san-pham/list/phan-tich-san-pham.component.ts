@@ -66,6 +66,13 @@ export class PhanTichSanPhamComponent implements OnInit {
   phanTichChiTietSanPham?: { tenSanPham: string; tinhTrang: string; slTiepNhan: number; slTon: number };
   predicate!: string;
   ascending!: boolean;
+
+  year = '';
+  month = '';
+  date = '';
+  hours = '';
+  minutes = '';
+  seconds = '';
   //--------------------------------------------------------------------------------------------------------
   title = 'Phân tích sản phẩm';
   //danh sách Thông tin chi tiết sản phẩm phân tích
@@ -75,6 +82,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   // biến bật tắt popup
   popupPTMTN = false;
   popupChiTietLoi = false;
+  popupShowChiTietLoi = false;
+
   type = '';
   popupInBBTN = false;
   popupInBBTN1 = false;
@@ -104,10 +113,14 @@ export class PhanTichSanPhamComponent implements OnInit {
       : { text: '<i class="fa fa-print" aria-hidden="true"></i>' };
 
   buttonPT: Formatter<any> = (_row, _cell, value) =>
-    value ? `<button class="btn btn-primary">PT</button>` : { text: '<button class="btn btn-primary">PT</button>' };
+    value
+      ? `<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px; width: 15px"></button>`
+      : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px"></button>' };
 
   buttonCTL: Formatter<any> = (_row, _cell, value) =>
-    value ? `<button class="btn btn-primary">CTL</button>` : { text: '<button class="btn btn-primary">CTL</button>' };
+    value
+      ? `<button class="btn btn-success fa fa-exclamation-triangle" style="height: 28px; line-height: 14px; "></button>`
+      : { text: '<button class="btn btn-success fa fa-exclamation-triangle" style="height: 28px; line-height: 14px; "></button>' };
 
   loadAll(): void {
     this.isLoading = true;
@@ -176,8 +189,11 @@ export class PhanTichSanPhamComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         formatter: this.buttonCTL,
-        maxWidth: 70,
-        minWidth: 70,
+        maxWidth: 60,
+        minWidth: 60,
+        onCellClick: (e: Event, args: OnEventArgs) => {
+          this.openPopupShowChiTietLoi();
+        },
       },
       {
         id: 'id',
@@ -456,6 +472,14 @@ export class PhanTichSanPhamComponent implements OnInit {
   resultPopupPrintBBTN(type: string): void {
     this.popupInBBTN = true;
     this.type = type;
+  }
+
+  openPopupShowChiTietLoi(): void {
+    this.popupShowChiTietLoi = true;
+  }
+
+  closePopupShowChiTietLoi(): void {
+    this.popupShowChiTietLoi = false;
   }
 
   closePopup(): void {
@@ -858,15 +882,23 @@ export class PhanTichSanPhamComponent implements OnInit {
     count++;
   }
 
-  openPopupChiTietLoi(idChiTiet: number, idDBH: number): void {
+  // openPopupChiTietLoi(idChiTiet: number, idDBH: number): void {
+  //   this.popupChiTietLoi = true;
+  //   console.log({ 1: idChiTiet, 2: idDBH });
+  //   const result: any[] = JSON.parse(sessionStorage.getItem(`PhanTich ${idDBH.toString()}`) as string);
+  //   for (let i = 0; i < result.length; i++) {
+  //     if (idChiTiet === result[i].id) {
+  //       this.phanTichChiTietSanPham = result[i];
+  //     }
+  //   }
+  //   console.log('khai bao loi', this.phanTichChiTietSanPham);
+  // }
+
+  openPopupChiTietLoi(): void {
     this.popupChiTietLoi = true;
-    console.log({ 1: idChiTiet, 2: idDBH });
-    const result: any[] = JSON.parse(sessionStorage.getItem(`PhanTich ${idDBH.toString()}`) as string);
-    for (let i = 0; i < result.length; i++) {
-      if (idChiTiet === result[i].id) {
-        this.phanTichChiTietSanPham = result[i];
-      }
-    }
-    console.log('khai bao loi', this.phanTichChiTietSanPham);
+  }
+
+  print(): void {
+    window.print();
   }
 }

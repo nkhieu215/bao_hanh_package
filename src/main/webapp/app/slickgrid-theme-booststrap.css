@@ -3707,6 +3707,7 @@ body .slickgrid-container .slick-header-columns .slick-header-column.ui-state-de
 .btn-scan {
   box-shadow: 8px 8px 5px #aaaaaa;
   margin: 5px;
+  margin: 1em 0;
 }
 
 .inp-name-error {
@@ -3718,8 +3719,8 @@ body .slickgrid-container .slick-header-columns .slick-header-column.ui-state-de
   --edge-light: hsla(0, 0%, 50%, 0.8);
   --text-light: rgba(255, 255, 255, 0.4); */
   /* --back-color: 240, 40%; */
-  background-color: #0e8e92;
-  color: #ef7335;
+  background-color: #3399cc;
+  color: #fff;
   cursor: pointer;
   padding: 0.7em 1em;
   border-radius: 0.5em;
@@ -3857,6 +3858,10 @@ body .slickgrid-container .slick-header-columns .slick-header-column.ui-state-de
   box-shadow: none;
 }
 
+.container-lot-serial {
+  width: 45em;
+}
+
 .btn-err {
   width: auto;
   height: 80%;
@@ -3927,7 +3932,8 @@ body .slickgrid-container .slick-header-columns .slick-header-column.ui-state-de
   width: 10rem;
 } */
 
-.span-table-phanloai {
+.span-table-phanloai,
+.span-table-phantich {
   color: #fff;
 }
 
@@ -4069,4 +4075,11 @@ datalist option focus {
   box-shadow: none;
   transition: none;
   opacity: 1;
+}
+
+.container-serial {
+  min-width: 95vw;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
 }
