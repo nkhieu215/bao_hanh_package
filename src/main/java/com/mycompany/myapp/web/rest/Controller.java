@@ -129,6 +129,16 @@ public class Controller {
         this.fullServices.deleteDetailDonBaoHanh(id);
     }
 
+    // * ============================ Template Tiếp nhận =================================
+    // * Trang chủ
+    // * Popup khai báo lỗi
+    //☺ lấy thông tin sản phẩm phân tích theo id phân loại chi tiết tiếp nhận đơn hàng
+    @GetMapping("phan-tich-san-pham/{id}")
+    public List<PhanTichSanPham> getDanhSachByPhanLoaiChiTietTiepNhanId(@PathVariable Long id) {
+        List<PhanTichSanPham> phanTichSanPhamList = this.fullServices.getDanhSachByPhanLoaiChiTietTiepNhanId(id);
+        return phanTichSanPhamList;
+    }
+
     // * ============================== quản lý sản phẩm ===========================
     //☺ cập nhật thông tin 1 sản phẩm
     @PostMapping("san-phams/update/{id}")

@@ -412,7 +412,10 @@
                     <option *ngFor="let item of danhSachGocPopupPhanLoai" value="{{ item.tenSanPham }}"></option>
                   </datalist>
                 </th>
-
+                <th scope="col">
+                  <span class="span-table-phanloai" style="display: block">Số lượng khách giao</span>
+                  <input class="inp-hidden" style="height: 35px" disabled />
+                </th>
                 <th scope="col">
                   <span class="span-table-phanloai" style="display: block">Đổi mới</span>
                   <input class="inp-hidden" style="height: 35px" disabled />
@@ -464,6 +467,15 @@
                   <input
                     type="number"
                     class="input-table form-control"
+                    [(ngModel)]="data.slKhachGiao"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="updatePopupPhanLoai(i)"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="input-table form-control"
                     [(ngModel)]="data.slDoiMoi"
                     [ngModelOptions]="{ standalone: true }"
                     (change)="updatePopupPhanLoai(i)"
@@ -497,7 +509,13 @@
                   />
                 </td>
                 <td>
-                  <input type="checkbox" class="ui-checkbox" />
+                  <input
+                    type="checkbox"
+                    class="ui-checkbox"
+                    [(ngModel)]="data.tinhTrangBaoHanh"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="updatePopupPhanLoai(i)"
+                  />
                 </td>
                 <td>
                   <button class="btn btn-danger" (click)="deleteRowPopupPhanLoai(data.id)">Xóa</button>

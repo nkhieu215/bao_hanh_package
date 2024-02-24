@@ -757,7 +757,7 @@ export class DonBaoHanhComponent implements OnInit {
           ngayPhanLoai: null,
           slTiepNhan: this.themMoiDonBaoHanh[i].slTiepNhan,
           slTon: 0,
-          tinhTrangBaoHanh: '',
+          tinhTrangBaoHanh: 'false',
           trangThaiIn: null,
           sanPham: this.themMoiDonBaoHanh[i].sanPham,
           donBaoHanh: res,
@@ -964,6 +964,11 @@ export class DonBaoHanhComponent implements OnInit {
             sanPham: this.danhSachSanPham[j],
             donBaoHanh: this.donBaoHanh,
           };
+          if (this.resultChiTietSanPhamTiepNhans[i].tinhTrangBaoHanh) {
+            item.tinhTrangBaoHanh = 'true';
+          } else {
+            item.tinhTrangBaoHanh = 'false';
+          }
           this.chiTietDonBaoHanh.push(item);
           break;
         }

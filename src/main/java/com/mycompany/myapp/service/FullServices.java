@@ -185,6 +185,8 @@ public class FullServices {
             } else {
                 chiTietSanPhamTiepNhan1.setSanPham(chiTietSanPhamTiepNhan.getSanPham());
                 chiTietSanPhamTiepNhan1.setNgayPhanLoai(chiTietSanPhamTiepNhan.getNgayPhanLoai());
+                chiTietSanPhamTiepNhan1.setTinhTrangBaoHanh(chiTietSanPhamTiepNhan.getTinhTrangBaoHanh());
+                chiTietSanPhamTiepNhan1.setSoLuongKhachHang(chiTietSanPhamTiepNhan.getSoLuongKhachHang());
                 this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan1);
                 chiTietSanPhamTiepNhanList.add(chiTietSanPhamTiepNhan1);
             }
@@ -223,7 +225,13 @@ public class FullServices {
 
     // * ============================ Template Phân tích =================================
     // * Trang chủ
-    //☺ lấy danh sách tất cả các đơn bảo hành
+    // * Popup khai báo lỗi
+    //☺ lấy thông tin sản phẩm phân tích theo id phân loại chi tiết tiếp nhận đơn hàng
+    public List<PhanTichSanPham> getDanhSachByPhanLoaiChiTietTiepNhanId(Long id) {
+        List<PhanTichSanPham> phanTichSanPhamList = this.phanTichSanPhamRepository.findAllByPhanLoaiChiTietTiepNhanId(id);
+        return phanTichSanPhamList;
+    }
+
     // * Chi tiết đơn bảo hành
     // * ============================ Template Tổng hợp =================================
     // * Trang chủ

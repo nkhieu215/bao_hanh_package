@@ -24,6 +24,7 @@ import { stringify } from 'querystring';
 import { SanPhamService } from 'app/entities/san-pham/service/san-pham.service';
 import { ISanPham } from 'app/entities/san-pham/san-pham.model';
 import { IKhachHang } from 'app/entities/khach-hang/khach-hang.model';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const NB_ITEMS = 10;
 
@@ -345,7 +346,11 @@ export class RowDetailViewComponent {
               slSuaChua: 0,
               slKhongBaoHanh: 0,
               chiTietSanPhamTiepNhan: this.chiTietSanPhamTiepNhans[i],
+              tinhTrangBaoHanh: false,
             };
+            if (this.chiTietSanPhamTiepNhans[i].tinhTrangBaoHanh === 'true') {
+              item.tinhTrangBaoHanh = true;
+            }
             for (let j = 0; j < this.phanLoaiChiTietTiepNhans.length; j++) {
               if (item.id === this.phanLoaiChiTietTiepNhans[j].chiTietSanPhamTiepNhan?.id) {
                 // gán số lượng vào biến slDoiMoi
