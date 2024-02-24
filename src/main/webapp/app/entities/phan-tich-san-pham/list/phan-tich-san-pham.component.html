@@ -173,7 +173,7 @@
               <tbody>
                 <tr *ngFor="let data of listOfChiTietSanPhamPhanTich; let i = index">
                   <td>
-                    <button class="btn btn-success" (click)="openPopupChiTietLoi()">
+                    <button class="btn btn-success" (click)="openPopupChiTietLoi(data.id, i)">
                       <fa-icon icon="pencil"></fa-icon>
                     </button>
                   </td>
@@ -240,15 +240,15 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ phanTichChiTietSanPham?.tenSanPham }}</td>
-              <td>{{ phanTichChiTietSanPham?.tinhTrang }}</td>
-              <td>{{ phanTichChiTietSanPham?.slTiepNhan }}</td>
-              <td>{{ phanTichChiTietSanPham?.slTon }}</td>
-              <td>{{ phanTichChiTietSanPham?.slTon }}</td>
-              <td>{{ phanTichChiTietSanPham?.slTon }}</td>
-              <td>{{ phanTichChiTietSanPham?.slTon }}</td>
-              <td>{{ phanTichChiTietSanPham?.slTon }}</td>
-              <td>{{ phanTichChiTietSanPham?.slTon }}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].tenSanPham }}</td>
+              <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].tinhTrang }}</td>
+              <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].slTiepNhan }}</td>
+              <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].slDaPhanTich }}</td>
+              <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].slConLai }}</td>
+              <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].tienDo }}</td>
             </tr>
           </tbody>
         </table>
@@ -378,17 +378,6 @@
                 />
               </th>
               <th scope="col">
-                <span class="span-table-phantich">Mã sản phẩm</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
                 <span class="span-table-phantich">LOT Number</span>
                 <input
                   type="text"
@@ -501,20 +490,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
+            <tr *ngFor="let data of listOfPhanTichSanPhamByPLCTTN; let i = index">
+              <td class="body-column">{{ i + 1 }}</td>
+              <td class="body-column">{{ data.tenSanPham }}</td>
+              <td class="body-column">{{ data.lotNumber }}</td>
+              <td class="body-column">{{ data.detail }}</td>
+              <td class="body-column">{{ data.namSanXuat }}</td>
+              <td class="body-column">{{ data.soLuong }}</td>
+              <td class="body-column">{{ data.tenNhanVienPhanTich }}</td>
+              <td class="body-column">{{ data.ngayKiemTra }}</td>
+              <td class="body-column">{{ data.username }}</td>
+              <td class="body-column">{{ data.trangThai }}</td>
+              <td class="body-column">{{ data.loiKyThuat }}</td>
+              <td class="body-column">{{ data.loiLinhDong }}</td>
             </tr>
           </tbody>
         </table>

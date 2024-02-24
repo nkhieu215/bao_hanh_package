@@ -116,7 +116,7 @@ export class PhanTichMaTiepNhanComponent {
         onCellClick: (e: Event, args: OnEventArgs) => {
           console.log(args);
           this.idBBTN = args.dataContext.id;
-          this.openPopupChiTietLoi();
+          // this.openPopupChiTietLoi();
           // this.resultPopup('lot');
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
@@ -335,9 +335,9 @@ export class PhanTichMaTiepNhanComponent {
   }
 
   //--------------------------
-  openPopupChiTietLoi(): void {
-    this.aaaa.openPopupChiTietLoi();
-  }
+  // openPopupChiTietLoi(): void {
+  //   this.aaaa.openPopupChiTietLoi();
+  // }
 
   simulateServerAsyncCall(item: any): Promise<unknown> {
     return new Promise(resolve => {

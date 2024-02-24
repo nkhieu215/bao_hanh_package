@@ -70,7 +70,6 @@ export class DonBaoHanhComponent implements OnInit {
   isLoading = false;
   danhSachTinhTrangs: IDanhSachTinhTrang[] = [];
   danhSachSanPham: ISanPham[] = [];
-  danhSachPhanLoaiChiTietTiepNhan: IPhanLoaiChiTietTiepNhan[] = [];
   danhSachGocPopupPhanLoai: any[] = [];
   danhSachBienBan: any[] = [];
   // biến lưu key session
@@ -225,8 +224,8 @@ export class DonBaoHanhComponent implements OnInit {
               }
             }
           }
-          sessionStorage.setItem('phan loai chi tiet tiep nhan', JSON.stringify(res));
-          console.log('phan loai chi tiet tiep nhan', res);
+          // sessionStorage.setItem('phan loai chi tiet tiep nhan', JSON.stringify(res));
+          // console.log('phan loai chi tiet tiep nhan', res);
         });
       },
       error: () => {
@@ -350,6 +349,7 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'ngayTiepNhan',
         dataKey: 'ngayTiepNhan',
         sortable: true,
+        defaultSortAsc: false,
         filterable: true,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
@@ -650,7 +650,7 @@ export class DonBaoHanhComponent implements OnInit {
   getPhanLoaiChiTietTiepNhan(): void {
     this.http.get<any>(this.phanLoaiChiTietTiepNhanUrl).subscribe(resPLTN => {
       this.phanLoaiChiTietTiepNhans = resPLTN;
-      sessionStorage.setItem('sessionStorage', JSON.stringify(resPLTN));
+      // sessionStorage.setItem('sessionStorage', JSON.stringify(resPLTN));
       console.log('sessionStorage', resPLTN);
     });
   }
@@ -724,6 +724,7 @@ export class DonBaoHanhComponent implements OnInit {
       ngayTiepNhan: new Date(),
       nguoiTaoDon: this.account?.login,
       trangThai: 'Chờ phân loại',
+      slDaPhanTich: 0,
     };
   }
   checkDuLieuThemMoi(tenKhachHang: string): void {
@@ -978,8 +979,6 @@ export class DonBaoHanhComponent implements OnInit {
             // tạo danh sách phân loại sau khi cập nhật thông tin chi tiết sản phẩm tiếp nhận
             setTimeout(() => {
               for (let i = 0; i < res.length; i++) {
-                const results = sessionStorage.getItem('phanLoaiChiTietTiepNhan');
-                this.danhSachPhanLoaiChiTietTiepNhan = JSON.parse(results!);
                 for (let k = 0; k < this.danhSachTinhTrangs.length; k++) {
                   // trường hợp đổi mới
                   if (this.danhSachTinhTrangs[k].id === 1) {

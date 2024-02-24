@@ -328,7 +328,6 @@ export class RowDetailViewComponent {
         // lấy danh sách phân loại chi tiết tiếp nhận
         this.http.get<any>(this.phanLoaiChiTietTiepNhanUrl).subscribe(res1 => {
           this.phanLoaiChiTietTiepNhans = res1;
-          sessionStorage.setItem('phanLoaiChiTietTiepNhan', JSON.stringify(res1));
           //  console.log('phan loai chi tiet tiep nhan', res1);
           // Khởi tạo danh sacsah result hiển thị trên giao diện
           // => gán dataset = resutl

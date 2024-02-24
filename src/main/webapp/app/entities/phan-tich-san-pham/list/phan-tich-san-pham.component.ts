@@ -29,6 +29,10 @@ import { IPhanTichSanPham } from '../phan-tich-san-pham.model';
 import { PhanTichSanPhamService } from '../service/phan-tich-san-pham.service';
 import { PhanTichSanPhamReLoadComponent } from './phan-tich-san-pham-reload.component';
 import { PhanTichMaTiepNhanComponent } from './phan-tich-ma-tiep-nhan.component';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
+
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-phan-tich-san-pham',
@@ -46,6 +50,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   // biến chứa danh sách cần dùng
   donBaoHanhs: any[] = [];
   isLoading = false;
+  listOfPhanTichSanPhamByPLCTTN: any[] = [];
   //---------------------------------------------------------------set up khung hien thi loi-----------------------------------------
   columnOne = 0;
   columnTwo = 0;
@@ -84,13 +89,15 @@ export class PhanTichSanPhamComponent implements OnInit {
 
   scanLot = true;
   scanSerial = true;
-
+  // lưu thông tin account
+  account: Account | null = null;
   // biến bật tắt popup
   popupPTMTN = false;
   popupChiTietLoi = false;
   popupShowChiTietLoi = false;
 
   type = '';
+  //biến đóng mở popup
   popupInBBTN = false;
   popupInBBTN1 = false;
   popupInBBTN2 = false;
@@ -102,7 +109,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   popupInBBTL = false;
   idBBTN = 0;
   popupSelectButton = false;
-
+  // biến chứa index của danh sách sản phẩm cần phân tích
+  indexOfPhanTichSanPham = 0;
   constructor(
     protected phanTichSanPhamService: PhanTichSanPhamService,
     protected donBaoHanhService: DonBaoHanhService,
@@ -110,7 +118,8 @@ export class PhanTichSanPhamComponent implements OnInit {
     protected modalService: NgbModal,
     protected formBuilder: FormBuilder,
     protected applicationConfigService: ApplicationConfigService,
-    protected http: HttpClient
+    protected http: HttpClient,
+    protected accountService: AccountService
   ) {}
 
   buttonIn: Formatter<any> = (_row, _cell, value) =>
@@ -376,8 +385,16 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.loadAll();
     this.getLois();
     this.getSanPhams();
+    this.accountService.identity().subscribe(account => {
+      this.account = account;
+    });
   }
-
+  getPhanTichSanPhamByPLCTTN(id: number): void {
+    this.http.get<any>(`api/phan-tich-san-pham/${id}`).subscribe(res => {
+      this.listOfPhanTichSanPhamByPLCTTN = res;
+      console.log('Danh sach phan tich san pham:', this.listOfPhanTichSanPhamByPLCTTN);
+    });
+  }
   //=========================================================== popup chi tiết sản phẩm phân tích ======================================================
   // hàm xử lý thông tin chi tiết sản phẩm phân tích
   showData(id: number | undefined): void {
@@ -903,8 +920,34 @@ export class PhanTichSanPhamComponent implements OnInit {
   //   console.log('khai bao loi', this.phanTichChiTietSanPham);
   // }
 
-  openPopupChiTietLoi(): void {
+  openPopupChiTietLoi(id: number, index: number): void {
     this.popupChiTietLoi = true;
+    this.indexOfPhanTichSanPham = index;
+    // lấy danh sách chi tiết sản phẩm phân tích
+    this.getPhanTichSanPhamByPLCTTN(id);
+    setTimeout(() => {
+      if (this.listOfPhanTichSanPhamByPLCTTN.length === 0) {
+        for (let i = 0; i < this.listOfChiTietSanPhamPhanTich[index].slTiepNhan; i++) {
+          const item = {
+            tenSanPham: this.listOfChiTietSanPhamPhanTich[index].tenSanPham,
+            tenNhanVienPhanTich: `${this.account?.firstName as string} ${this.account?.lastName as string}`,
+            theLoaiPhanTich: '',
+            lotNumber: '',
+            detail: '',
+            soLuong: 0,
+            ngayKiemTra: null,
+            username: this.account?.login,
+            namSanXuat: '',
+            trangThai: 'active',
+            loiKyThuat: 0,
+            loiLinhDong: 0,
+          };
+          this.listOfPhanTichSanPhamByPLCTTN.push(item);
+        }
+        // them moi danh sach khai bao loi theo san pham
+        console.log('them moi danh sach khai bao loi theo san pham:', this.listOfPhanTichSanPhamByPLCTTN);
+      }
+    }, 500);
   }
 
   buttonScanLot(): void {
