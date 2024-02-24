@@ -81,6 +81,10 @@ export class PhanTichSanPhamComponent implements OnInit {
   listOfChiTietSanPhamPhanTich: any[] = [];
   // biến chứa thông tin đơn bảo hành
   donBaoHanh: IDonBaoHanh = {};
+
+  scanLot = true;
+  scanSerial = true;
+
   // biến bật tắt popup
   popupPTMTN = false;
   popupChiTietLoi = false;
@@ -200,7 +204,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       {
         id: 'id',
         name: 'Mã tiếp nhận',
-        field: 'id',
+        field: 'maTiepNhan',
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -354,8 +358,8 @@ export class PhanTichSanPhamComponent implements OnInit {
       //   parent: true,
       // },
       pagination: {
-        pageSizes: [5, 10, 20],
-        pageSize: 10,
+        pageSizes: [5, 10, this.donBaoHanhs.length],
+        pageSize: this.donBaoHanhs.length,
       },
       // columnPicker: {
       //   hideForceFitButton: true,
@@ -481,11 +485,14 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
 
   closePopupShowChiTietLoi(): void {
+    // đóng popup
     this.popupShowChiTietLoi = false;
   }
 
   closePopup(): void {
     this.popupChiTietLoi = false;
+    this.scanLot = true;
+    this.scanSerial = true;
   }
 
   closePopupPTMTN(): void {
@@ -900,7 +907,11 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.popupChiTietLoi = true;
   }
 
-  print(): void {
-    window.print();
+  buttonScanLot(): void {
+    this.scanSerial = !this.scanSerial;
+  }
+
+  buttonScanSerial(): void {
+    this.scanLot = !this.scanLot;
   }
 }

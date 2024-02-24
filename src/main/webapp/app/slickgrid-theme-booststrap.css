@@ -3707,7 +3707,7 @@ body .slickgrid-container .slick-header-columns .slick-header-column.ui-state-de
 .btn-scan {
   box-shadow: 8px 8px 5px #aaaaaa;
   margin: 5px;
-  margin: 1em 0;
+  margin: 1em 1rem;
 }
 
 .inp-name-error {
@@ -4088,4 +4088,20 @@ datalist option focus {
   border: none;
   background-color: #fff;
   font-size: 16px;
+}
+
+.fixed-header-table {
+  overflow: auto;
+  height: 60vh;
+}
+
+.fixed-header-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
 }

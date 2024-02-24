@@ -106,71 +106,78 @@
             </button>
           </div>
         </div>
-        <table class="table table-striped" aria-describedby="page-heading">
-          <thead style="background-color: #006699">
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
-              <th scope="col"><span class="span-table-phanloai">STT</span></th>
-              <th scope="col"><span class="span-table-phanloai">Tên sản phẩm</span></th>
-              <th scope="col"><span class="span-table-phanloai">Số lượng giao</span></th>
-              <th scope="col"><span class="span-table-phanloai">Đổi mới</span></th>
-              <th scope="col"><span class="span-table-phanloai">Sửa chữa</span></th>
-              <th scope="col"><span class="span-table-phanloai">Không bảo hành</span></th>
-              <th scope="col"><span class="span-table-phanloai">Số lượng đã nhận</span></th>
-              <th scope="col"><span class="span-table-phanloai">Option</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of ExcelData; let i = index">
-              <td>
-                {{ i + 1 }}
-              </td>
-              <td>
-                <input class="input-table form-control" type="text" [(ngModel)]="data.tenSanPham" [ngModelOptions]="{ standalone: true }" />
-              </td>
-              <td>
-                <input
-                  class="input-table form-control"
-                  type="text"
-                  [(ngModel)]="data.slKhachGiao"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </td>
-              <td>
-                <input
-                  class="input-table form-control"
-                  type="text"
-                  [(ngModel)]="data.slDoiMoi"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)"
-                />
-              </td>
-              <td>
-                <input
-                  class="input-table form-control"
-                  type="text"
-                  [(ngModel)]="data.slSuaChua"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)"
-                />
-              </td>
-              <td>
-                <input
-                  class="input-table form-control"
-                  type="text"
-                  [(ngModel)]="data.slKhongBaoHanh"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)"
-                />
-              </td>
-              <td>
-                <input class="input-table form-control" type="text" [(ngModel)]="data.slNhan" [ngModelOptions]="{ standalone: true }" />
-              </td>
-              <td>
-                <button class="btn btn-danger" (click)="deleteRow(data.tenSanPham)">Xoá</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="fixed-header-table">
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead style="background-color: #006699">
+              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+                <th scope="col"><span class="span-table-phanloai">STT</span></th>
+                <th scope="col"><span class="span-table-phanloai">Tên sản phẩm</span></th>
+                <th scope="col"><span class="span-table-phanloai">Số lượng giao</span></th>
+                <th scope="col"><span class="span-table-phanloai">Đổi mới</span></th>
+                <th scope="col"><span class="span-table-phanloai">Sửa chữa</span></th>
+                <th scope="col"><span class="span-table-phanloai">Không bảo hành</span></th>
+                <th scope="col"><span class="span-table-phanloai">Số lượng đã nhận</span></th>
+                <th scope="col"><span class="span-table-phanloai">Option</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of ExcelData; let i = index">
+                <td>
+                  {{ i + 1 }}
+                </td>
+                <td>
+                  <input
+                    class="input-table form-control"
+                    type="text"
+                    [(ngModel)]="data.tenSanPham"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </td>
+                <td>
+                  <input
+                    class="input-table form-control"
+                    type="text"
+                    [(ngModel)]="data.slKhachGiao"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </td>
+                <td>
+                  <input
+                    class="input-table form-control"
+                    type="text"
+                    [(ngModel)]="data.slDoiMoi"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)"
+                  />
+                </td>
+                <td>
+                  <input
+                    class="input-table form-control"
+                    type="text"
+                    [(ngModel)]="data.slSuaChua"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)"
+                  />
+                </td>
+                <td>
+                  <input
+                    class="input-table form-control"
+                    type="text"
+                    [(ngModel)]="data.slKhongBaoHanh"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)"
+                  />
+                </td>
+                <td>
+                  <input class="input-table form-control" type="text" [(ngModel)]="data.slNhan" [ngModelOptions]="{ standalone: true }" />
+                </td>
+                <td>
+                  <button class="btn btn-danger" (click)="deleteRow(data.tenSanPham)">Xoá</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </form>
     </div>
   </div>
@@ -381,122 +388,124 @@
             </button>
           </div>
         </div>
-        <table class="table table-striped" aria-describedby="page-heading">
-          <thead style="background-color: #006699">
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
-              <th scope="col">
-                <span class="span-table-phanloai" style="display: block">STT</span>
-                <input class="inp-hidden" style="height: 35px; width: 10px" disabled />
-              </th>
+        <div class="fixed-header-table">
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead style="background-color: #006699">
+              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+                <th scope="col">
+                  <span class="span-table-phanloai" style="display: block">STT</span>
+                  <input class="inp-hidden" style="height: 35px; width: 10px" disabled />
+                </th>
 
-              <th scope="col">
-                <span class="span-table-phanloai" style="display: block; width: 45em">Tên sản phẩm</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="searchInPopupPhanLoai()"
-                />
-                <datalist id="ten_san_pham">
-                  <option *ngFor="let item of danhSachGocPopupPhanLoai" value="{{ item.tenSanPham }}"></option>
-                </datalist>
-              </th>
+                <th scope="col">
+                  <span class="span-table-phanloai" style="display: block; width: 45em">Tên sản phẩm</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="searchInPopupPhanLoai()"
+                  />
+                  <datalist id="ten_san_pham">
+                    <option *ngFor="let item of danhSachGocPopupPhanLoai" value="{{ item.tenSanPham }}"></option>
+                  </datalist>
+                </th>
 
-              <th scope="col">
-                <span class="span-table-phanloai" style="display: block">Đổi mới</span>
-                <input class="inp-hidden" style="height: 35px" disabled />
-              </th>
+                <th scope="col">
+                  <span class="span-table-phanloai" style="display: block">Đổi mới</span>
+                  <input class="inp-hidden" style="height: 35px" disabled />
+                </th>
 
-              <th scope="col">
-                <span class="span-table-phanloai" style="display: block">Sửa chữa</span>
-                <input class="inp-hidden" style="height: 35px" disabled />
-              </th>
+                <th scope="col">
+                  <span class="span-table-phanloai" style="display: block">Sửa chữa</span>
+                  <input class="inp-hidden" style="height: 35px" disabled />
+                </th>
 
-              <th scope="col">
-                <span class="span-table-phanloai" style="display: block">Không bảo hành</span>
-                <input class="inp-hidden" style="height: 35px" disabled />
-              </th>
+                <th scope="col">
+                  <span class="span-table-phanloai" style="display: block">Không bảo hành</span>
+                  <input class="inp-hidden" style="height: 35px" disabled />
+                </th>
 
-              <th scope="col">
-                <span class="span-table-phanloai" style="display: block">Số lượng đã nhận</span>
-                <input class="inp-hidden" style="height: 35px" disabled />
-              </th>
+                <th scope="col">
+                  <span class="span-table-phanloai" style="display: block">Số lượng đã nhận</span>
+                  <input class="inp-hidden" style="height: 35px" disabled />
+                </th>
 
-              <th scope="col">
-                <span class="span-table-phanloai" style="display: block">checkBox</span>
-                <input type="checkbox" class="ui-checkbox" />
-              </th>
+                <th scope="col">
+                  <span class="span-table-phanloai" style="display: block">checkBox</span>
+                  <input type="checkbox" class="ui-checkbox" />
+                </th>
 
-              <th scope="col">
-                <span class="span-table-phanloai" style="display: block">Option</span>
-                <input class="inp-hidden" style="height: 37px; width: 10px" disabled />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let i = index; let data; of: resultChiTietSanPhamTiepNhans" class="editable-row">
-              <td>{{ i + 1 }}</td>
-              <td>
-                <input
-                  type="text"
-                  class="input-table form-control"
-                  [(ngModel)]="data.tenSanPham"
-                  [ngModelOptions]="{ standalone: true }"
-                  list="field_danh_sach_san_pham"
-                  (change)="updateTenSanPham(data.tenSanPham, i)"
-                />
-                <datalist id="field_danh_sach_san_pham">
-                  <option *ngFor="let item of danhSachSanPham" value="{{ item.name }}"></option>
-                </datalist>
-              </td>
-              <td>
-                <input
-                  type="number"
-                  class="input-table form-control"
-                  [(ngModel)]="data.slDoiMoi"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="updatePopupPhanLoai(i)"
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  class="input-table form-control"
-                  [(ngModel)]="data.slSuaChua"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="updatePopupPhanLoai(i)"
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  class="input-table form-control"
-                  [(ngModel)]="data.slKhongBaoHanh"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="updatePopupPhanLoai(i)"
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  class="input-table form-control"
-                  [(ngModel)]="data.slTiepNhan"
-                  [ngModelOptions]="{ standalone: true }"
-                  disabled
-                />
-              </td>
-              <td>
-                <input type="checkbox" class="ui-checkbox" />
-              </td>
-              <td>
-                <button class="btn btn-danger" (click)="deleteRowPopupPhanLoai(data.id)">Xóa</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <th scope="col">
+                  <span class="span-table-phanloai" style="display: block">Option</span>
+                  <input class="inp-hidden" style="height: 37px; width: 10px" disabled />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let i = index; let data; of: resultChiTietSanPhamTiepNhans" class="editable-row">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <input
+                    type="text"
+                    class="input-table form-control"
+                    [(ngModel)]="data.tenSanPham"
+                    [ngModelOptions]="{ standalone: true }"
+                    list="field_danh_sach_san_pham"
+                    (change)="updateTenSanPham(data.tenSanPham, i)"
+                  />
+                  <datalist id="field_danh_sach_san_pham">
+                    <option *ngFor="let item of danhSachSanPham" value="{{ item.name }}"></option>
+                  </datalist>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="input-table form-control"
+                    [(ngModel)]="data.slDoiMoi"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="updatePopupPhanLoai(i)"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="input-table form-control"
+                    [(ngModel)]="data.slSuaChua"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="updatePopupPhanLoai(i)"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="input-table form-control"
+                    [(ngModel)]="data.slKhongBaoHanh"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="updatePopupPhanLoai(i)"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="input-table form-control"
+                    [(ngModel)]="data.slTiepNhan"
+                    [ngModelOptions]="{ standalone: true }"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <input type="checkbox" class="ui-checkbox" />
+                </td>
+                <td>
+                  <button class="btn btn-danger" (click)="deleteRowPopupPhanLoai(data.id)">Xóa</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div>
           <div>
             <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
@@ -533,28 +542,42 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN1()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN1" ngxPrint (click)="xacNhanInBienBan()">In</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+          printSectionId="BBTN1"
+          ngxPrint
+          (click)="xacNhanInBienBan()"
+        >
+          In
+        </button>
       </div>
       <div id="BBTN1">
         <div id="lien1">
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+                <img
+                  src="../../../../content/images/logoRD.png"
+                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150"
+                  style="margin-top: -30px; margin-left: 30px"
+                />
               </div>
-              <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
+              <div class="col-6" align="right" style="">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
           </header>
           <div align="center">
-            <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
-            <p style="text-align: center">Liên 1: lưu tổ phục vụ đổi sản phẩm</p>
+            <h5 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
+            <p style="text-align: center">Liên 1: Lưu tổ phục vụ đổi sản phẩm</p>
           </div>
           <div align="right" style="margin-right: 70px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): "tên khách hàng"</p>
-          <p>Địa chỉ: "địa chỉ khách hàng"</p>
+          <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+          <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
           <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
           <div>
             <table id="table" class="table-TN" style="border-spacing: 0px">
@@ -616,28 +639,42 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN2()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN2" ngxPrint (click)="xacNhanInBienBan()">In</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+          printSectionId="BBTN2"
+          ngxPrint
+          (click)="xacNhanInBienBan()"
+        >
+          In
+        </button>
       </div>
       <div id="BBTN2">
         <div id="lien2">
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+                <img
+                  src="../../../../content/images/logoRD.png"
+                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150"
+                  style="margin-top: -30px; margin-left: 30px"
+                />
               </div>
               <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
           </header>
           <div align="center">
-            <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
+            <h5 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
             <p style="text-align: center">Liên 2: Khách hàng</p>
           </div>
           <div align="right" style="margin-right: 70px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): "tên khách hàng"</p>
-          <p>Địa chỉ: "địa chỉ khách hàng"</p>
+          <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+          <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
           <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
           <div>
             <table id="table" class="table-TN" style="border-spacing: 0px">
@@ -699,28 +736,42 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN3()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN3" ngxPrint (click)="xacNhanInBienBan()">In</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+          printSectionId="BBTN3"
+          ngxPrint
+          (click)="xacNhanInBienBan()"
+        >
+          In
+        </button>
       </div>
       <div id="BBTN3">
         <div id="lien3">
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+                <img
+                  src="../../../../content/images/logoRD.png"
+                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150"
+                  style="margin-top: -30px; margin-left: 30px"
+                />
               </div>
               <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
           </header>
           <div align="center">
-            <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
+            <h5 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
             <p style="text-align: center">Liên 3: P. KHTT</p>
           </div>
           <div align="right" style="margin-right: 70px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): "tên khách hàng"</p>
-          <p>Địa chỉ: "địa chỉ khách hàng"</p>
+          <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+          <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
           <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
           <div>
             <table id="table" class="table-TN" style="border-spacing: 0px">
@@ -782,28 +833,42 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN4()">&times;</span>
       <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printSectionId="BBTN4" ngxPrint (click)="xacNhanInBienBan()">In</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+          printSectionId="BBTN4"
+          ngxPrint
+          (click)="xacNhanInBienBan()"
+        >
+          In
+        </button>
       </div>
       <div id="BBTN4">
         <div id="lien4">
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+                <img
+                  src="../../../../content/images/logoRD.png"
+                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150"
+                  style="margin-top: -30px; margin-left: 30px"
+                />
               </div>
               <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
           </header>
           <div align="center">
-            <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
+            <h5 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5>
             <p style="text-align: center">Liên 4: Phòng BH1</p>
           </div>
           <div align="right" style="margin-right: 70px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): "tên khách hàng"</p>
-          <p>Địa chỉ: "địa chỉ khách hàng"</p>
+          <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+          <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
           <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
           <div>
             <table id="table" class="table-TN" style="border-spacing: 0px">

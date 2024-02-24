@@ -300,22 +300,22 @@ export class DonBaoHanhComponent implements OnInit {
         },
       },
 
-      {
-        id: 'delete',
-        field: 'idDelete',
-        excludeFromColumnPicker: true,
-        excludeFromGridMenu: true,
-        excludeFromHeaderMenu: true,
-        formatter: this.buttonDelete,
-        minWidth: 60,
-        maxWidth: 60,
-        onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
-          if (confirm('Are u sure?')) {
-            this.angularGrid?.gridService.deleteItemById(args.dataContext.id);
-          }
-        },
-      },
+      // {
+      //   id: 'delete',
+      //   field: 'idDelete',
+      //   excludeFromColumnPicker: true,
+      //   excludeFromGridMenu: true,
+      //   excludeFromHeaderMenu: true,
+      //   formatter: this.buttonDelete,
+      //   minWidth: 60,
+      //   maxWidth: 60,
+      //   onCellClick: (e: Event, args: OnEventArgs) => {
+      //     console.log(args);
+      //     if (confirm('Are u sure?')) {
+      //       this.angularGrid?.gridService.deleteItemById(args.dataContext.id);
+      //     }
+      //   },
+      // },
 
       {
         id: 'id',
