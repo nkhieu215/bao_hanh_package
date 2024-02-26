@@ -322,8 +322,6 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'maTiepNhan',
         sortable: true,
         filterable: true,
-        minWidth: 200,
-        maxWidth: 200,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -338,8 +336,6 @@ export class DonBaoHanhComponent implements OnInit {
         formatter: Formatters.complexObject,
         sortable: true,
         filterable: true,
-        minWidth: 400,
-        maxWidth: 400,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -355,8 +351,6 @@ export class DonBaoHanhComponent implements OnInit {
         sortable: true,
         defaultSortAsc: false,
         filterable: true,
-        minWidth: 160,
-        maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -423,8 +417,6 @@ export class DonBaoHanhComponent implements OnInit {
         dataKey: 'ngaykhkb',
         sortable: true,
         filterable: true,
-        minWidth: 160,
-        maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -448,8 +440,6 @@ export class DonBaoHanhComponent implements OnInit {
         dataKey: 'ngayTraBienBan',
         sortable: true,
         filterable: true,
-        minWidth: 160,
-        maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -572,7 +562,7 @@ export class DonBaoHanhComponent implements OnInit {
       // },
       pagination: {
         pageSizes: [30, 50, 100],
-        pageSize: this.donBaoHanhs.length,
+        pageSize: 30,
       },
       // columnPicker: {
       //   hideForceFitButton: true,
@@ -583,8 +573,8 @@ export class DonBaoHanhComponent implements OnInit {
       // },
       editable: true,
       enableCellNavigation: true,
-      gridHeight: 620,
-      gridWidth: 1750,
+      gridHeight: 600,
+      gridWidth: 1800,
     };
     this.loadAll();
     this.getKhachHangs();

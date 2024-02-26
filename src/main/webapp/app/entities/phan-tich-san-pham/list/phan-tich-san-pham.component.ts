@@ -71,7 +71,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   phanTichChiTietSanPham?: { tenSanPham: string; tinhTrang: string; slTiepNhan: number; slTon: number };
   predicate!: string;
   ascending!: boolean;
-
+  //-----------------------------------------------------------------------------------------------------------------------------------------
   @Input() searchKey = '';
 
   year = '';
@@ -85,7 +85,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   //danh sách Thông tin chi tiết sản phẩm phân tích
   listOfChiTietSanPhamPhanTich: any[] = [];
   // biến chứa thông tin đơn bảo hành
-  donBaoHanh: IDonBaoHanh = {};
+  donBaoHanh: any = {};
 
   scanLot = true;
   scanSerial = true;
@@ -111,6 +111,12 @@ export class PhanTichSanPhamComponent implements OnInit {
   popupSelectButton = false;
   // biến chứa index của danh sách sản phẩm cần phân tích
   indexOfPhanTichSanPham = 0;
+  // Biến chứa vị trí index của phần tử cần khai báo lỗi
+  indexOfChiTietPhanTichSanPham = 0;
+  //Biến chứa thông tin scan
+  lotNumber = '';
+  //Biến chứa thể loại scan
+  scanType = '';
   constructor(
     protected phanTichSanPhamService: PhanTichSanPhamService,
     protected donBaoHanhService: DonBaoHanhService,
@@ -425,6 +431,7 @@ export class PhanTichSanPhamComponent implements OnInit {
               ) {
                 const item = {
                   stt: count,
+                  phanLoaiChiTietTiepNhan: this.phanLoaiChiTietTiepNhans[i],
                   id: this.phanLoaiChiTietTiepNhans[i].id,
                   maTiepNhan: this.donBaoHanh.maTiepNhan,
                   sanPham: this.chiTietSanPhamTiepNhans[j].sanPham,
@@ -434,7 +441,7 @@ export class PhanTichSanPhamComponent implements OnInit {
                   slDaPhanTich: 0,
                   slConLai: 0,
                   tienDo: 0,
-                  check: true,
+                  check: false,
                 };
                 list.push(item); // list đã có dữ liệu
                 count++;
@@ -446,10 +453,15 @@ export class PhanTichSanPhamComponent implements OnInit {
       });
     });
     setTimeout(() => {
+      this.donBaoHanh.slCanPhanTich = 0;
       // lấy dữ liệu từ sessision
       var result = sessionStorage.getItem(`PhanTich ${id as number}`);
       // dữ liệu lưu trong sessison(dạng string) -> chuyển về dạng JSON (giống arr,obj)
       this.listOfChiTietSanPhamPhanTich = JSON.parse(result as string);
+      //cập nhật số lượng sản phẩm cần phân tích
+      for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
+        this.donBaoHanh.slCanPhanTich = Number(this.donBaoHanh.slCanPhanTich) + Number(this.listOfChiTietSanPhamPhanTich[i].slTiepNhan);
+      }
       console.log('Danh sách chi tiết sản phẩm phân tích', this.listOfChiTietSanPhamPhanTich);
     }, 1000);
   }
@@ -919,8 +931,9 @@ export class PhanTichSanPhamComponent implements OnInit {
   //   }
   //   console.log('khai bao loi', this.phanTichChiTietSanPham);
   // }
-
+  //==================================================== Popup chi tiết phân tích sản phẩm và khai báo lỗi ====================================================
   openPopupChiTietLoi(id: number, index: number): void {
+    this.indexOfChiTietPhanTichSanPham = 0;
     this.popupChiTietLoi = true;
     this.listOfPhanTichSanPhamByPLCTTN = [];
     this.indexOfPhanTichSanPham = index;
@@ -939,23 +952,107 @@ export class PhanTichSanPhamComponent implements OnInit {
             ngayKiemTra: null,
             username: this.account?.login,
             namSanXuat: '',
-            trangThai: 'active',
+            trangThai: false,
             loiKyThuat: 0,
             loiLinhDong: 0,
+            phanLoaiChiTietTiepNhan: this.listOfChiTietSanPhamPhanTich[index].phanLoaiChiTietTiepNhan,
           };
           this.listOfPhanTichSanPhamByPLCTTN.push(item);
         }
         // them moi danh sach khai bao loi theo san pham
         console.log('them moi danh sach khai bao loi theo san pham:', this.listOfPhanTichSanPhamByPLCTTN);
+      } else {
+        //cập nhật tổng lỗi kĩ thuật và lỗi linh động
+        for (let i = 0; i < this.listOfPhanTichSanPhamByPLCTTN.length; i++) {
+          if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'false') {
+            this.listOfPhanTichSanPhamByPLCTTN[i].trangThai = false;
+          }
+          if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'true') {
+            this.listOfPhanTichSanPhamByPLCTTN[i].trangThai = true;
+          }
+          this.listOfPhanTichSanPhamByPLCTTN[i].loiKyThuat = 0;
+          this.listOfPhanTichSanPhamByPLCTTN[i].loiLinhDong = 0;
+        }
+        // cập nhật số lượng sản phẩm đã phân tích, số lượng còn lại, tiến độ phân tích(chưa làm)
       }
     }, 500);
   }
-
+  //focus con trỏ chuột vào ô input Lot
   buttonScanLot(): void {
     this.scanSerial = !this.scanSerial;
+    this.scanType = 'lot';
+    const input = document.getElementById(this.scanType);
+    if (input) {
+      input.focus();
+    }
   }
-
+  //focus con trỏ chuột vào ô input Serial
   buttonScanSerial(): void {
     this.scanLot = !this.scanLot;
+    this.scanType = 'serial';
+    const input = document.getElementById(this.scanType);
+    if (input) {
+      input.focus();
+    }
+  }
+  // Bắt sự kiện scan LOT
+  scanLotEvent(): void {
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
+      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string
+    }`;
+  }
+  //Bắt sự kiện scan serial
+  scanSerialEvent(): void {
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber =
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(13);
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
+      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(0, 2) as string
+    }`;
+  }
+  //Cập nhật thông tin sau khi khai báo lỗi
+  updatePhanTichSanPham(): void {
+    if (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo === 100) {
+      alert('Hoàn thành phân tích');
+      // cập nhật check sản phẩm phân tích
+      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].check = true;
+    }
+    const input = document.getElementById(this.scanType);
+    if (input) {
+      input.focus();
+    }
+    if (this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '') {
+      alert('Vui lòng cập nhật mã LOT');
+    } else {
+      //cập nhật trạng thái sản phẩm khai báo lỗi
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].trangThai = true;
+      //chuyển đến phân tích sản phẩm tiếp theo
+      this.indexOfChiTietPhanTichSanPham++;
+      // cập nhật tiến độ của phân tích sản phẩm
+      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich += 1;
+      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slConLai =
+        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan -
+        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich;
+      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo =
+        (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich /
+          this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan) *
+        100;
+      // cập nhật tiến độ chung của đơn bảo hành
+      this.donBaoHanh.slDaPhanTich! += 1;
+      this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+      console.log('check thông tin trạng thái: ', this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham]);
+    }
+  }
+  //Lưu thông tin chi tiết phân tích sản phẩm và khai báo lỗi
+  postChiTietPhanTichSanPham(): void {
+    this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
+      alert('Cập nhật thành công');
+      console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', res);
+    });
+    // cập nhật phân tích lỗi
+    // cập nhật số lượng đã phân tích ở đơn bảo hành
   }
 }

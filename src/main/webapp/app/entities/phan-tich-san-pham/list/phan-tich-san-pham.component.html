@@ -23,10 +23,10 @@
                 <span class="span-table-phantich">Khách hàng</span>
               </th>
               <th scope="col" jhiSortBy="id" style="width: 5rem">
-                <span class="span-table-phantich">Tổng tiếp nhận</span>
+                <span class="span-table-phantich">Số lượng phân tích</span>
               </th>
               <th scope="col" jhiSortBy="id" style="width: 5rem">
-                <span class="span-table-phantich">Đã xử lý</span>
+                <span class="span-table-phantich">Đã phân tích</span>
               </th>
               <th scope="col" jhiSortBy="id" style="width: 5rem">
                 <span class="span-table-phantich">Tiến độ</span>
@@ -60,12 +60,20 @@
                 />
               </td>
               <td>
-                <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.slTiepNhan }}" disabled />
+                <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.slCanPhanTich }}" disabled />
               </td>
               <td>
                 <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.slDaPhanTich }}" disabled />
               </td>
-              <td><input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.id }}" disabled /></td>
+              <td>
+                <input
+                  type="range"
+                  class="inp-ptich-sp"
+                  style="background-color: #f2f2f2"
+                  value="{{ donBaoHanh.tienDo.toFixed(2) }}"
+                  disabled
+                />{{ donBaoHanh.tienDo.toFixed(2) }}%
+              </td>
               <td>{{ donBaoHanh.ngayTiepNhan | date: 'YYYY-MM-dd hh:mm:ss ' }}</td>
               <td>
                 <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.trangThai }}" disabled />
@@ -183,7 +191,7 @@
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slTiepNhan }}" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slDaPhanTich }}" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slConLai }}" disabled /></td>
-                  <td><input type="range" value="{{ data.tienDo }}" disabled />{{ data.tienDo }}%</td>
+                  <td><input type="range" value="{{ data.tienDo }}" disabled />{{ data.tienDo.toFixed(2) }}%</td>
                   <td>
                     <input type="checkbox" class="ui-checkbox" [(ngModel)]="data.check" [ngModelOptions]="{ standalone: true }" disabled />
                   </td>
@@ -248,7 +256,13 @@
               <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].slTiepNhan }}</td>
               <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].slDaPhanTich }}</td>
               <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].slConLai }}</td>
-              <td>{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].tienDo }}</td>
+              <td>
+                <input
+                  type="range"
+                  [(ngModel)]="listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].tienDo"
+                  [ngModelOptions]="{ standalone: true }"
+                />{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].tienDo.toFixed(2) }}%
+              </td>
             </tr>
           </tbody>
         </table>
@@ -257,7 +271,9 @@
       <div class="group-btn-scan">
         <div class="popup-footer">
           <button class="btn btn-danger btn-option"><fa-icon icon="ban"></fa-icon>&nbsp;Huỷ</button>
-          <button class="btn btn-primary btn-option"><fa-icon icon="save"></fa-icon>&nbsp;Lưu</button>
+          <button class="btn btn-primary btn-option" (click)="postChiTietPhanTichSanPham()">
+            <fa-icon icon="save"></fa-icon>&nbsp;Lưu
+          </button>
           <button class="btn btn-success btn-option"><fa-icon icon="check"></fa-icon>&nbsp;Xác nhận</button>
         </div>
 
@@ -269,12 +285,27 @@
               <div class="container-serial">
                 <div>
                   <label class="form-label" style="margin-bottom: 0.5rem">Serrial</label>
-                  <input type="text" class="form-control inp-err-nsx container-lot-serial" [disabled]="!scanSerial" />
+                  <input
+                    type="text"
+                    class="form-control inp-err-nsx container-lot-serial"
+                    id="serial"
+                    [disabled]="!scanSerial"
+                    [(ngModel)]="listOfPhanTichSanPhamByPLCTTN[indexOfChiTietPhanTichSanPham].detail"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="scanSerialEvent()"
+                  />
                 </div>
 
                 <div>
                   <label class="form-label" style="margin-bottom: 0.5rem">LOT</label>
-                  <input type="text" class="form-control inp-err-nsx container-lot-serial" />
+                  <input
+                    type="text"
+                    class="form-control inp-err-nsx container-lot-serial"
+                    id="lot"
+                    [(ngModel)]="listOfPhanTichSanPhamByPLCTTN[indexOfChiTietPhanTichSanPham].lotNumber"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="scanLotEvent()"
+                  />
                 </div>
 
                 <div>
@@ -286,6 +317,8 @@
                     id="field_namSanXuat"
                     data-cy="namSanXuat"
                     style="width: 20rem"
+                    [(ngModel)]="listOfPhanTichSanPhamByPLCTTN[indexOfChiTietPhanTichSanPham].namSanXuat"
+                    [ngModelOptions]="{ standalone: true }"
                   />
                 </div>
               </div>
@@ -298,7 +331,8 @@
     <!-- danh sach loi -->
 
     <h2>Chi tiết lỗi</h2>
-    <button class="btn btn-primary btn-option"><fa-icon icon="save"></fa-icon>&nbsp;Lưu</button>
+    <p>Sản phẩm đang được phân tích: {{ indexOfChiTietPhanTichSanPham + 1 }}</p>
+    <button class="btn btn-primary btn-option" (click)="updatePhanTichSanPham()"><fa-icon icon="save"></fa-icon>&nbsp;Lưu</button>
 
     <form class="form-loi">
       <div class="loi-ky-thuat">
@@ -354,7 +388,7 @@
         </table>
       </div>
     </form>
-
+    <!-- --------------------------------------------- Table chi tiết phân tích sản phẩm--------------------------------------------------- -->
     <h2>Chi tiết thông tin sản phẩm</h2>
 
     <form action="">
@@ -500,7 +534,7 @@
               <td class="body-column">{{ data.tenNhanVienPhanTich }}</td>
               <td class="body-column">{{ data.ngayKiemTra }}</td>
               <td class="body-column">{{ data.username }}</td>
-              <td class="body-column">{{ data.trangThai }}</td>
+              <td class="body-column"><input type="checkbox" [(ngModel)]="data.trangThai" [ngModelOptions]="{ standalone: true }" /></td>
               <td class="body-column">{{ data.loiKyThuat }}</td>
               <td class="body-column">{{ data.loiLinhDong }}</td>
             </tr>
