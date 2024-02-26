@@ -170,9 +170,8 @@ export class PhanTichSanPhamComponent implements OnInit {
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.openPopupBtn();
           console.log(args);
-          // gán idBBTn = id don-bao-hanh (xác định id trong key)
           this.idBBTN = args.dataContext.id;
-          // this.resultPopupBtn(e,args);
+          this.showData(args.dataContext.id);
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
         },
@@ -192,6 +191,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.openPopupPTMTN();
           this.donBaoHanh = args.dataContext;
           // khởi tạo giá trị để lưu vào trong session
+          sessionStorage.setItem('DonBaoHanh', JSON.stringify(args.dataContext));
           console.log('don bao hanh: ', this.donBaoHanh);
           this.showData(args.dataContext.id);
         },
@@ -426,7 +426,8 @@ export class PhanTichSanPhamComponent implements OnInit {
                 const item = {
                   stt: count,
                   id: this.phanLoaiChiTietTiepNhans[i].id,
-                  maTiepNhan: this.donBaoHanh.id,
+                  maTiepNhan: this.donBaoHanh.maTiepNhan,
+                  sanPham: this.chiTietSanPhamTiepNhans[j].sanPham,
                   tenSanPham: this.chiTietSanPhamTiepNhans[j].sanPham?.name as string,
                   tinhTrang: this.phanLoaiChiTietTiepNhans[i].danhSachTinhTrang?.tenTinhTrangPhanLoai as string,
                   slTiepNhan: this.phanLoaiChiTietTiepNhans[i].soLuong as number,
@@ -898,7 +899,6 @@ export class PhanTichSanPhamComponent implements OnInit {
   getSanPhams(): void {
     this.http.get<any>(this.sanPhamsUrl).subscribe(resSP => {
       this.danhSachSanPhams = resSP;
-      sessionStorage.setItem('san pham', JSON.stringify(resSP));
       console.log('san pham', resSP);
     });
   }
@@ -922,6 +922,7 @@ export class PhanTichSanPhamComponent implements OnInit {
 
   openPopupChiTietLoi(id: number, index: number): void {
     this.popupChiTietLoi = true;
+    this.listOfPhanTichSanPhamByPLCTTN = [];
     this.indexOfPhanTichSanPham = index;
     // lấy danh sách chi tiết sản phẩm phân tích
     this.getPhanTichSanPhamByPLCTTN(id);
@@ -929,7 +930,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       if (this.listOfPhanTichSanPhamByPLCTTN.length === 0) {
         for (let i = 0; i < this.listOfChiTietSanPhamPhanTich[index].slTiepNhan; i++) {
           const item = {
-            tenSanPham: this.listOfChiTietSanPhamPhanTich[index].tenSanPham,
+            tenSanPham: '',
             tenNhanVienPhanTich: `${this.account?.firstName as string} ${this.account?.lastName as string}`,
             theLoaiPhanTich: '',
             lotNumber: '',
