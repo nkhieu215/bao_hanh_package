@@ -68,6 +68,11 @@ export class PhanTichSanPhamComponent implements OnInit {
   phanLoaiChiTietTiepNhans: IPhanLoaiChiTietTiepNhan[] = [];
   phanTichMaTiepNhans?: IPhanTichSanPham[];
   phanTichLoi?: IPhanTichLoi[];
+  donBaoHanh1: any;
+  danhSachBienBan: any[] = [];
+  loaiBienBan = '';
+  idDonBaoHanh = '';
+  themMoiBienBan: any;
   phanTichChiTietSanPham?: { tenSanPham: string; tinhTrang: string; slTiepNhan: number; slTon: number };
   predicate!: string;
   ascending!: boolean;
@@ -80,6 +85,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   hours = '';
   minutes = '';
   seconds = '';
+  maBienBan = '';
+
   //--------------------------------------------------------------------------------------------------------
   title = 'Phân tích sản phẩm';
   //danh sách Thông tin chi tiết sản phẩm phân tích
@@ -103,7 +110,9 @@ export class PhanTichSanPhamComponent implements OnInit {
   popupInBBTN2 = false;
   popupInBBTN3 = false;
   popupInBBTN4 = false;
-  groupOptions = false;
+  groupOptionsTN = false;
+  groupOptionsKN = false;
+  groupOptionsTL = false;
 
   popupInBBKN = false;
   popupInBBTL = false;
@@ -859,16 +868,24 @@ export class PhanTichSanPhamComponent implements OnInit {
     }
   }
 
-  showGroupOptions(): void {
-    this.groupOptions = true;
+  showGroupOptionsTN(): void {
+    this.groupOptionsTN = true;
   }
 
-  openPopupBBKN(): void {
-    this.popupInBBKN = true;
+  showGroupOptionsKN(): void {
+    this.groupOptionsKN = true;
   }
 
-  openPopupBBTL(): void {
-    this.popupInBBTL = true;
+  showGroupOptionsTL(): void {
+    this.groupOptionsTL = true;
+  }
+
+  openPopupInBBKN(): void {
+    this.popupInBBKN = true
+  }
+
+  openPopupInBBTL(): void {
+    this.popupInBBTL = true
   }
 
   //đóng popup biên bản tiếp nhận

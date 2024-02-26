@@ -554,7 +554,7 @@
     </div>
     <div id="hiddenToolbar" class="group-btn-inBBPT">
       <div>
-        <button type="button" class="btn btn-primary btn-popup-in" (click)="showGroupOptions()">Biên bản tiếp nhận</button>
+        <button type="button" class="btn btn-primary btn-popup-in" (click)="showGroupOptionsTN()">Biên bản tiếp nhận</button>
         <div class="group-btn-options" *ngIf="groupOptions === true">
           <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTN1()">Liên 1 (Tổ đổi)</button>
           <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTN2()">Liên 2 (Khách hàng)</button>
@@ -563,19 +563,19 @@
         </div>
       </div>
       <div>
-        <button type="button" class="btn btn-primary btn-popup-in" (click)="openPopupBBKN()">Biên bản kiểm nghiệm</button>
+        <button type="button" class="btn btn-primary btn-popup-in" (click)="showGroupOptionsKN()">Biên bản kiểm nghiệm</button>
         <div class="group-btn-options" *ngIf="groupOptions === true">
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTN1()">Kho 1</button>
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTN2()">Kho 2</button>
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTN3()">Kho 3</button>
+          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBKN()">Kho 1</button>
+          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBKN()">Kho 2</button>
+          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBKN()">Kho 3</button>
         </div>
       </div>
       <div>
-        <button type="button" class="btn btn-primary btn-popup-in-2" (click)="openPopupBBTL()">Biên bản thanh lý</button>
+        <button type="button" class="btn btn-primary btn-popup-in-2" (click)="showGroupOptionsTLopenPopupInBBKN()">Biên bản thanh lý</button>
         <div class="group-btn-options" *ngIf="groupOptions === true">
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTN1()">Kho 1</button>
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTN2()">Kho 2</button>
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTN3()">Kho 3</button>
+          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTL()">Kho 1</button>
+          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTL()">Kho 2</button>
+          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTL()">Kho 3</button>
         </div>
       </div>
     </div>
@@ -815,24 +815,24 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
           </header>
           <div align="center">
-            <!-- <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5> -->
-            <p>Liên 1: Lưu tổ phục vụ đổi sản phẩm</p>
+            <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
+            <p style="text-align: center">Liên 1: Lưu tổ phục vụ đổi sản phẩm</p>
           </div>
-          <div align="right" style="margin-right: 70px">
-            Số: <input type="text" class="idDon" size="10" style="color: black" disabled />
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">
+            Số: {{ maBienBan }}
           </div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): "tên khách hàng"</p>
-          <p>Địa chỉ: "địa chỉ khách hàng"</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ...... tháng ...... năm 202....</div>
+          <p>Ông (Bà): {{ donBaoHanh1.khachHang.tenKhachHang }}</p>
+          <p>Địa chỉ: {{ donBaoHanh1.khachHang.diaChi }}</p>
+          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
           <div>
             <table id="table" class="table-TN" style="border-spacing: 0px">
               <thead>
@@ -902,24 +902,22 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
           </header>
           <div align="center">
-            <!-- <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5> -->
-            <p>Liên 2: Khách hàng</p>
+            <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
+            <p style="text-align: center">Liên 2: Khách hàng</p>
           </div>
-          <div align="right" style="margin-right: 70px">
-            Số: <input type="text" class="idDon" size="10" style="color: black" disabled />
-          </div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): "tên khách hàng"</p>
-          <p>Địa chỉ: "địa chỉ khách hàng"</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ...... tháng ...... năm 202....</div>
+          <p>Ông (Bà): {{ donBaoHanh1.khachHang.tenKhachHang }}</p>
+          <p>Địa chỉ: {{ donBaoHanh1.khachHang.diaChi }}</p>
+          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
           <div>
             <table id="table" class="table-TN" style="border-spacing: 0px">
               <thead>
@@ -989,24 +987,22 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
           </header>
           <div align="center">
-            <!-- <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5> -->
-            <p>Liên 3: P. KHTT</p>
+            <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
+            <p style="text-align: center">Liên 3: P. KHTT</p>
           </div>
-          <div align="right" style="margin-right: 70px">
-            Số: <input type="text" class="idDon" size="10" style="color: black" disabled />
-          </div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): "tên khách hàng"</p>
-          <p>Địa chỉ: "địa chỉ khách hàng"</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ...... tháng ...... năm 202....</div>
+          <p>Ông (Bà): {{ donBaoHanh1.khachHang.tenKhachHang }}</p>
+          <p>Địa chỉ: {{ donBaoHanh1.khachHang.diaChi }}</p>
+          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
           <div>
             <table id="table" class="table-TN" style="border-spacing: 0px">
               <thead>
@@ -1076,24 +1072,22 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
           </header>
           <div align="center">
-            <!-- <h5>BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h5> -->
-            <p>Liên 4: Phòng BH1</p>
+            <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
+            <p style="text-align: center">Liên 4: Phòng BH1</p>
           </div>
-          <div align="right" style="margin-right: 70px">
-            Số: <input type="text" class="idDon" size="10" style="color: black" disabled />
-          </div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): "tên khách hàng"</p>
-          <p>Địa chỉ: "địa chỉ khách hàng"</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày ...... tháng ...... năm 202....</div>
+          <p>Ông (Bà): {{ donBaoHanh1.khachHang.tenKhachHang }}</p>
+          <p>Địa chỉ: {{ donBaoHanh1.khachHang.diaChi }}</p>
+          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
           <div>
             <table id="table" class="table-TN" style="border-spacing: 0px">
               <thead>
@@ -1163,21 +1157,24 @@
         <header>
           <div class="row">
             <div class="col-6" align="left" style="height: 0px">
-              <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+              <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
             </div>
             <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM02 Ban hành lần 1</div>
           </div>
         </header>
-        <!-- <div align="center" style="margin-bottom: 1rem">
-          <strong style="font-size: 18px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH </strong>
-        </div> -->
+        <div align="center">
+          <h3 style="margin-top: -20px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH </h3>
+          <p>Kho 1</p>
+        </div>
 
-        <div align="right" style="margin-right: 70px">Số: <input type="text" id="idDonA" size="10" style="color: black" disabled /></div>
+        <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+        <br>
         <div align="right" style="margin-right: 62px">
           Kho: <input type="text" id="khoA" size="10" style="color: black" value="1" disabled />
         </div>
-        <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) ____ nhóm khách hàng ____</p>
-        <p class="description">Căn cứ biên bản giao nhận sản phẩm số ___ ngày __ tháng __ năm ____</p>
+        <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) nhóm khách hàng </p>
+        <p class="description">Căn cứ biên bản giao nhận sản phẩm số {{ maBienBan }} ngày {{date}} tháng {{month}} năm {{year}}
+        </p>
         <table id="tableA">
           <thead>
             <tr>
@@ -1195,7 +1192,18 @@
               <th style="width: 7rem; border: 0.5px solid black">SL SP sửa chữa thay thế</th>
             </tr>
           </thead>
-          <tbody id="body-tableA"></tbody>
+          <tbody id="body-tableA">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tbody>
         </table>
 
         <div class="notes">
@@ -1233,20 +1241,22 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
+                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM02 Ban hành lần 1</div>
             </div>
           </header>
-          <div align="center" style="margin-bottom: 1rem">
-            <strong style="font-size: 18px">BIÊN BẢN THANH LÝ SẢN PHẨM MẤT PHẨM CHẤT </strong>
+          <div align="center">
+            <strong style="margin-top: -20px">BIÊN BẢN THANH LÝ SẢN PHẨM MẤT PHẨM CHẤT </strong>
+            <p>Kho 1</p>
           </div>
-          <div align="right" style="margin-right: 70px">Số: <input type="text" id="idDonA" size="10" style="color: black" disabled /></div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+
           <div align="right" style="margin-right: 62px">
             Kho: <input type="text" id="khoA" size="10" style="color: black" value="1" disabled />
           </div>
           <div style="padding-left: 2rem">
-            <p class="ngayTN">Ngày __ tháng __ năm ____ tại Công ty cổ phần Bóng đèn Phích nước Rạng Đông</p>
+            <p class="ngayTN">Ngày {{date}} tháng {{month}} năm {{year}} tại Công ty cổ phần Bóng đèn Phích nước Rạng Đông</p>
             Thành phần:
           </div>
 
@@ -1257,8 +1267,9 @@
           </div>
           <div style="text-indent: 2rem">
             <p class="description">
-              Căn cứ Biên bản kiểm nghiệm sản phẩm kém chất lượng số ____ đối với lô hàng đổi của khách hàng tại Biên bản giao nhận sản phẩm
-              đổi số ____ ngày __ tháng __ năm ____
+              Căn cứ Biên bản kiểm nghiệm sản phẩm kém chất lượng số {{maBienBan}} đối với lô hàng đổi của khách hàng tại Biên bản
+              giao nhận sản phẩm
+              đổi số {{maBienBan}} ngày {{date}} tháng {{month}} năm {{year}}
             </p>
             <p>Chúng tôi thống nhất thanh lý số sản phẩm mất phẩm chất như sau :</p>
           </div>
