@@ -379,8 +379,8 @@ export class PhanTichSanPhamComponent implements OnInit {
       // },
       editable: true,
       enableCellNavigation: true,
-      gridHeight: 650,
-      gridWidth: 1800,
+      gridHeight: 620,
+      gridWidth: 1750,
     };
     this.loadAll();
     this.getLois();
