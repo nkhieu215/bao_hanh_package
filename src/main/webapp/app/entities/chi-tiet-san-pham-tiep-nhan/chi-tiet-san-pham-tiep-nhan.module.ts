@@ -5,6 +5,8 @@ import { ChiTietSanPhamTiepNhanDetailComponent } from './detail/chi-tiet-san-pha
 import { ChiTietSanPhamTiepNhanUpdateComponent } from './update/chi-tiet-san-pham-tiep-nhan-update.component';
 import { ChiTietSanPhamTiepNhanDeleteDialogComponent } from './delete/chi-tiet-san-pham-tiep-nhan-delete-dialog.component';
 import { ChiTietSanPhamTiepNhanRoutingModule } from './route/chi-tiet-san-pham-tiep-nhan-routing.module';
+import { AngularSlickgridModule, ContainerService } from 'angular-slickgrid';
+import { RowDetailViewComponent } from '../don-bao-hanh/list/rowdetail-view.component';
 
 @NgModule({
   imports: [SharedModule, ChiTietSanPhamTiepNhanRoutingModule, AngularSlickgridModule],
@@ -16,6 +18,5 @@ import { ChiTietSanPhamTiepNhanRoutingModule } from './route/chi-tiet-san-pham-t
   ],
   entryComponents: [ChiTietSanPhamTiepNhanDeleteDialogComponent],
   providers: [ContainerService, RowDetailViewComponent],
-
 })
 export class ChiTietSanPhamTiepNhanModule {}

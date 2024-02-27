@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IChiTietSanPhamTiepNhan } from '../chi-tiet-san-pham-tiep-nhan.model';
 import { ChiTietSanPhamTiepNhanService } from '../service/chi-tiet-san-pham-tiep-nhan.service';
 import { ChiTietSanPhamTiepNhanDeleteDialogComponent } from '../delete/chi-tiet-san-pham-tiep-nhan-delete-dialog.component';
+import { Column, GridOption } from 'angular-slickgrid';
 
 @Component({
   selector: 'jhi-chi-tiet-san-pham-tiep-nhan',
@@ -145,7 +146,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromHeaderMenu: true,
         maxWidth: 60,
         minWidth: 60,
-      }, {
+      },
+      {
         id: 'nganh',
         field: 'nganh',
         name: 'Ngành',
@@ -599,7 +601,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       enableCellNavigation: true,
       gridHeight: 620,
       gridWidth: 1750,
-    }
+    };
   }
 
   trackId(_index: number, item: IChiTietSanPhamTiepNhan): number {

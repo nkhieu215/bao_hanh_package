@@ -115,8 +115,6 @@ export class PhanTichSanPhamComponent implements OnInit {
   groupOptionsTN = false;
   groupOptionsKN = false;
   groupOptionsTL = false;
-  
-  checkedAll = false;
 
   popupInBBKN = false;
   popupInBBTL = false;
@@ -137,6 +135,10 @@ export class PhanTichSanPhamComponent implements OnInit {
   //Biến lưu key tìm kiếm
   @Input() tinhTrang = '';
   @Input() tenSanPham = '';
+  //Biến lưu thông tin 1 phần tử của phân loại chi tiết sản phẩm
+  itemOfPhanLoaiChiTietSanPham: any;
+  // biến dùng để check all
+  checkedAll = false;
   constructor(
     protected phanTichSanPhamService: PhanTichSanPhamService,
     protected donBaoHanhService: DonBaoHanhService,
@@ -151,17 +153,17 @@ export class PhanTichSanPhamComponent implements OnInit {
   buttonIn: Formatter<any> = (_row, _cell, value) =>
     value
       ? `<button class="btn btn-primary fa fa-print" style="height: 28px; line-height: 14px"></button>`
-      : { text: '<i class="fa fa-print" aria-hidden="true" title="In biên bản"></i>' };
+      : { text: '<i class="fa fa-print" aria-hidden="true"></i>' };
 
   buttonPT: Formatter<any> = (_row, _cell, value) =>
     value
       ? `<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px; width: 15px"></button>`
-      : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px" title="Phân tích"></button>' };
+      : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px"></button>' };
 
   buttonCTL: Formatter<any> = (_row, _cell, value) =>
     value
       ? `<button class="btn btn-success fa fa-exclamation-triangle" style="height: 28px; line-height: 14px; "></button>`
-      : { text: '<button class="btn btn-success fa fa-exclamation-triangle" style="height: 28px; line-height: 14px" title="Chi tiết lỗi của sản phẩm"></button>' };
+      : { text: '<button class="btn btn-success fa fa-exclamation-triangle" style="height: 28px; line-height: 14px; "></button>' };
 
   loadAll(): void {
     this.isLoading = true;
@@ -601,8 +603,6 @@ export class PhanTichSanPhamComponent implements OnInit {
 
   // mở popup biên bản tiếp nhận
   openPopupBBTN(): void {
-    this.maBienBan = '';
-
     this.popupInBBTN = true;
     const result = sessionStorage.getItem(`TiepNhan ${this.idBBTN.toString()}`);
     // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
@@ -999,6 +999,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   // }
   //==================================================== Popup chi tiết phân tích sản phẩm và khai báo lỗi ====================================================
   openPopupChiTietLoi(id: number, index: number): void {
+    this.itemOfPhanLoaiChiTietSanPham = this.listOfChiTietSanPhamPhanTich[index].phanLoaiChiTietTiepNhan;
     this.indexOfChiTietPhanTichSanPham = 0;
     this.popupChiTietLoi = true;
     this.listOfPhanTichSanPhamByPLCTTN = [];
@@ -1006,38 +1007,18 @@ export class PhanTichSanPhamComponent implements OnInit {
     // lấy danh sách chi tiết sản phẩm phân tích
     this.getPhanTichSanPhamByPLCTTN(id);
     setTimeout(() => {
-      this.indexOfChiTietPhanTichSanPham = 0;
       if (this.listOfPhanTichSanPhamByPLCTTN.length === 0) {
-        for (let i = 0; i < this.listOfChiTietSanPhamPhanTich[index].slTiepNhan; i++) {
-          const item = {
-            tenSanPham: '',
-            tenNhanVienPhanTich: `${this.account?.firstName as string} ${this.account?.lastName as string}`,
-            theLoaiPhanTich: '',
-            lotNumber: '',
-            detail: '',
-            soLuong: 0,
-            ngayKiemTra: null,
-            username: this.account?.login,
-            namSanXuat: '',
-            trangThai: false,
-            loiKyThuat: 0,
-            loiLinhDong: 0,
-            phanLoaiChiTietTiepNhan: this.listOfChiTietSanPhamPhanTich[index].phanLoaiChiTietTiepNhan,
-          };
-          this.listOfPhanTichSanPhamByPLCTTN.push(item);
-        }
-        // them moi danh sach khai bao loi theo san pham
+        this.addItemForChiTietPhanTichSanPham();
+        // them moi phan tu dau tien
         console.log('them moi danh sach khai bao loi theo san pham:', this.listOfPhanTichSanPhamByPLCTTN);
       } else {
         //cập nhật tổng lỗi kĩ thuật và lỗi linh động
         for (let i = 0; i < this.listOfPhanTichSanPhamByPLCTTN.length; i++) {
-          if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'false') {
-            this.listOfPhanTichSanPhamByPLCTTN[i].trangThai = false;
-          }
           if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'true') {
             this.listOfPhanTichSanPhamByPLCTTN[i].trangThai = true;
+            this.listOfPhanTichSanPhamByPLCTTN[i].tenSanPham = this.listOfChiTietSanPhamPhanTich[index].tenSanPham;
             //tiến đến sp tiếp theo
-            this.indexOfChiTietPhanTichSanPham++;
+            this.indexOfChiTietPhanTichSanPham = i;
             // cập nhật tiến độ của phân tích sản phẩm
             this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich += 1;
             this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slConLai =
@@ -1050,11 +1031,13 @@ export class PhanTichSanPhamComponent implements OnInit {
             // cập nhật tiến độ chung của đơn bảo hành
             this.donBaoHanh.slDaPhanTich! += 1;
             this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
-            console.log('Cập nhật tiến độ khi khai báo lỗi', this.donBaoHanh);
+            console.log('Cập nhật tiến độ khi khai báo lỗi', this.indexOfChiTietPhanTichSanPham);
           }
           this.listOfPhanTichSanPhamByPLCTTN[i].loiKyThuat = 0;
           this.listOfPhanTichSanPhamByPLCTTN[i].loiLinhDong = 0;
         }
+        this.addItemForChiTietPhanTichSanPham();
+        this.indexOfChiTietPhanTichSanPham++;
         // cập nhật số lượng sản phẩm đã phân tích, số lượng còn lại, tiến độ phân tích(chưa làm)
       }
     }, 500);
@@ -1079,6 +1062,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
   // Bắt sự kiện scan LOT
   scanLotEvent(): void {
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Lot';
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
@@ -1087,6 +1071,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
   //Bắt sự kiện scan serial
   scanSerialEvent(): void {
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Serial';
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber =
       this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(13);
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
@@ -1109,6 +1094,8 @@ export class PhanTichSanPhamComponent implements OnInit {
     if (this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '') {
       alert('Vui lòng cập nhật mã LOT');
     } else {
+      //thêm 1 phần tử mới
+      this.addItemForChiTietPhanTichSanPham();
       //cập nhật trạng thái sản phẩm khai báo lỗi
       this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].trangThai = true;
       //chuyển đến phân tích sản phẩm tiếp theo
@@ -1139,6 +1126,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
   //Lưu thông tin chi tiết phân tích sản phẩm và khai báo lỗi
   postChiTietPhanTichSanPham(): void {
+    this.listOfPhanTichSanPhamByPLCTTN = this.listOfPhanTichSanPhamByPLCTTN.filter(item => item.tenSanPham !== '');
+    console.log(this.listOfPhanTichSanPhamByPLCTTN);
     if (this.donBaoHanh.tienDo > 0) {
       console.log('Đang phân tích');
       this.donBaoHanh.trangThai = 'Đang phân tích';
@@ -1162,20 +1151,40 @@ export class PhanTichSanPhamComponent implements OnInit {
     );
     console.log({ result: this.listOfChiTietSanPhamPhanTich, SP: this.tenSanPham, tt: this.tinhTrang });
   }
+  addItemForChiTietPhanTichSanPham(): void {
+    const item = {
+      tenSanPham: '',
+      tenNhanVienPhanTich: `${this.account?.firstName as string} ${this.account?.lastName as string}`,
+      theLoaiPhanTich: '',
+      lotNumber: '',
+      detail: '',
+      soLuong: 0,
+      ngayKiemTra: null,
+      username: this.account?.login,
+      namSanXuat: '',
+      trangThai: false,
+      loiKyThuat: 0,
+      loiLinhDong: 0,
+      phanLoaiChiTietTiepNhan: this.itemOfPhanLoaiChiTietSanPham,
+    };
+    this.listOfPhanTichSanPhamByPLCTTN.push(item);
+  }
 
+  // hàm xử lý check all
   checkAll(): void {
     this.checkedAll = !this.checkedAll;
     // this.itemCheckedState = this.itemCheckedState.map(() => this.checkedAll)
     this.listOfChiTietSanPhamPhanTich.forEach(item => {
-      item.check = this.checkedAll
-    })
-    console.log("checked all", this.checkedAll)
+      item.check = this.checkedAll;
+    });
+    console.log('checked all', this.checkedAll);
   }
 
+  // hàm xử lý check từng thông tin sản phẩm
   checkItem(index: number): void {
     this.listOfChiTietSanPhamPhanTich[index].check = !this.listOfChiTietSanPhamPhanTich[index].check;
     // this.checkedAll = this.itemCheckedState.every(state => state)
-    console.log("check item", this.listOfChiTietSanPhamPhanTich[index])
-    this.checkedAll = this.listOfChiTietSanPhamPhanTich.every(item => item.check)
+    console.log('check item', this.listOfChiTietSanPhamPhanTich[index]);
+    this.checkedAll = this.listOfChiTietSanPhamPhanTich.every(item => item.check);
   }
 }
