@@ -47,6 +47,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   chiTietSanPhamTiepNhanUrl = this.applicationConfigService.getEndpointFor('api/chi-tiet-don-bao-hanhs');
   danhSachTinhTrangUrl = this.applicationConfigService.getEndpointFor('api/danh-sach-tinh-trangs');
   loiUrl = this.applicationConfigService.getEndpointFor('api/lois');
+  updateTrangThaiDonBaoHanhUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanhs/update-trang-thai');
   // biến chứa danh sách cần dùng
   donBaoHanhs: any[] = [];
   isLoading = false;
@@ -177,6 +178,9 @@ export class PhanTichSanPhamComponent implements OnInit {
     // });
     this.http.get<any>('api/phan-tich-san-pham').subscribe(res => {
       this.donBaoHanhs = res;
+      for (let i = 0; i < this.donBaoHanhs.length; i++) {
+        this.donBaoHanhs[i].tienDo = 0;
+      }
     });
   }
 
@@ -998,6 +1002,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     // lấy danh sách chi tiết sản phẩm phân tích
     this.getPhanTichSanPhamByPLCTTN(id);
     setTimeout(() => {
+      this.indexOfChiTietPhanTichSanPham = 0;
       if (this.listOfPhanTichSanPhamByPLCTTN.length === 0) {
         for (let i = 0; i < this.listOfChiTietSanPhamPhanTich[index].slTiepNhan; i++) {
           const item = {
@@ -1027,6 +1032,21 @@ export class PhanTichSanPhamComponent implements OnInit {
           }
           if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'true') {
             this.listOfPhanTichSanPhamByPLCTTN[i].trangThai = true;
+            //tiến đến sp tiếp theo
+            this.indexOfChiTietPhanTichSanPham++;
+            // cập nhật tiến độ của phân tích sản phẩm
+            this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich += 1;
+            this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slConLai =
+              this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan -
+              this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich;
+            this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo =
+              (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich /
+                this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan) *
+              100;
+            // cập nhật tiến độ chung của đơn bảo hành
+            this.donBaoHanh.slDaPhanTich! += 1;
+            this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+            console.log('Cập nhật tiến độ khi khai báo lỗi', this.donBaoHanh);
           }
           this.listOfPhanTichSanPhamByPLCTTN[i].loiKyThuat = 0;
           this.listOfPhanTichSanPhamByPLCTTN[i].loiLinhDong = 0;
@@ -1115,6 +1135,16 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
   //Lưu thông tin chi tiết phân tích sản phẩm và khai báo lỗi
   postChiTietPhanTichSanPham(): void {
+    if (this.donBaoHanh.tienDo > 0) {
+      console.log('Đang phân tích');
+      this.donBaoHanh.trangThai = 'Đang phân tích';
+      this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
+    }
+    if (this.donBaoHanh.tienDo === 100) {
+      console.log('Hoàn thành phân tích');
+      this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
+      this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
+    }
     this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
       alert('Cập nhật thành công');
       console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', res);

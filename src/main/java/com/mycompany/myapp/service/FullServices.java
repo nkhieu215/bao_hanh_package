@@ -126,9 +126,7 @@ public class FullServices {
 
     //☺ Cập nhật trạng thái đơn bảo hành
     public void updateTrangThaiDonBaoHanh(DonBaoHanh request) {
-        DonBaoHanh donBaoHanh = this.donBaoHanhRepository.findById(request.getId()).orElse(null);
-        donBaoHanh.setTrangThai(request.getTrangThai());
-        this.donBaoHanhRepository.save(donBaoHanh);
+        this.donBaoHanhRepository.save(request);
     }
 
     //☺ cập nhật đơn bảo hành

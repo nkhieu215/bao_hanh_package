@@ -140,7 +140,7 @@ public class Controller {
 
     //☺ cập nhật thông tin phân tích sản phẩm
     @PostMapping("phan-tich-san-pham")
-    public List<PhanTichSanPham> updatePhanTichSanPham(List<PhanTichSanPham> phanTichSanPhamList) {
+    public List<PhanTichSanPham> updatePhanTichSanPham(@RequestBody List<PhanTichSanPham> phanTichSanPhamList) {
         List<PhanTichSanPham> phanTichSanPhamList1 = this.fullServices.updatePhanTichSanPham(phanTichSanPhamList);
         return phanTichSanPhamList1;
     }
