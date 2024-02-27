@@ -91,9 +91,8 @@ public class Controller {
 
     //☺ update chi tiết sản phẩm tiếp nhận
     @PutMapping("don-bao-hanh/phan-loai/update-chi-tiet-san-pham-tiep-nhan")
-    public List<ChiTietSanPhamTiepNhan> updateChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> requestList) {
-        List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList = this.fullServices.updateChiTietSanPhamTiepNhan(requestList);
-        return chiTietSanPhamTiepNhanList;
+    public void updateChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> requestList) {
+        this.fullServices.updateChiTietSanPhamTiepNhan(requestList);
     }
 
     //☺ hoàn thành phân loại
@@ -123,20 +122,27 @@ public class Controller {
         return chiTietSanPhamTiepNhan;
     }
 
-    //☺ xóa 1 dòng trong chi tiết popup phân loại
-    @DeleteMapping("phan-loai/delete/{id}")
-    public void deleteDetailRowById(@PathVariable Long id) {
-        this.fullServices.deleteDetailDonBaoHanh(id);
+    // * ============================ Template Phân tích =================================
+    // * Trang chủ
+    //☺ lấy danh sách tất cả các đơn bảo hành ở trạng thái chờ phân tích , đang phân tích
+    @GetMapping("phan-tich-san-pham")
+    public List<DonBaoHanh> getDonBaoHanhByTrangThai() {
+        List<DonBaoHanh> donBaoHanhList = this.fullServices.getDonBaoHanhByTrangThai();
+        return donBaoHanhList;
     }
 
-    // * ============================ Template Tiếp nhận =================================
-    // * Trang chủ
-    // * Popup khai báo lỗi
-    //☺ lấy thông tin sản phẩm phân tích theo id phân loại chi tiết tiếp nhận đơn hàng
+    //☺ Lấy thông tin phân tích sản phẩm theo id PLCTTN
     @GetMapping("phan-tich-san-pham/{id}")
-    public List<PhanTichSanPham> getDanhSachByPhanLoaiChiTietTiepNhanId(@PathVariable Long id) {
-        List<PhanTichSanPham> phanTichSanPhamList = this.fullServices.getDanhSachByPhanLoaiChiTietTiepNhanId(id);
+    public List<PhanTichSanPham> getByPhanLoaiChiTietTiepNhan(@PathVariable Long id) {
+        List<PhanTichSanPham> phanTichSanPhamList = this.fullServices.getByPhanLoaiChiTietTiepNhan(id);
         return phanTichSanPhamList;
+    }
+
+    //☺ cập nhật thông tin phân tích sản phẩm
+    @PostMapping("phan-tich-san-pham")
+    public List<PhanTichSanPham> updatePhanTichSanPham(List<PhanTichSanPham> phanTichSanPhamList) {
+        List<PhanTichSanPham> phanTichSanPhamList1 = this.fullServices.updatePhanTichSanPham(phanTichSanPhamList);
+        return phanTichSanPhamList1;
     }
 
     // * ============================== quản lý sản phẩm ===========================

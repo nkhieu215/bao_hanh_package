@@ -112,10 +112,14 @@
                       type="text"
                       placeholder="Tìm kiếm"
                       class="form-control"
-                      list="ten_san_pham"
-                      [(ngModel)]="searchKey"
+                      list="PTSP_ten_san_pham"
+                      [(ngModel)]="tenSanPham"
                       [ngModelOptions]="{ standalone: true }"
+                      (change)="timKiemPhanTichSanPham()"
                     />
+                    <datalist id="PTSP_ten_san_pham">
+                      <option *ngFor="let item of danhSachSanPhams">{{ item.name }}</option>
+                    </datalist>
                   </th>
                   <th scope="col" jhiSortBy="id">
                     <span class="span-table-phantich">Tình trạng</span>
@@ -123,10 +127,14 @@
                       type="text"
                       placeholder="Tìm kiếm"
                       class="form-control"
-                      list="ten_san_pham"
-                      [(ngModel)]="searchKey"
+                      list="tinh_trang"
+                      [(ngModel)]="tinhTrang"
                       [ngModelOptions]="{ standalone: true }"
+                      (change)="timKiemPhanTichSanPham()"
                     />
+                    <datalist id="tinh_trang">
+                      <option *ngFor="let item of trangThais">{{ item.key }}</option>
+                    </datalist>
                   </th>
                   <th scope="col" jhiSortBy="id">
                     <span class="span-table-phantich">Số lượng nhận</span>
@@ -581,7 +589,7 @@
     </div>
   </div>
 </div>
-
+<!-- ------------------------------------------------------ popup chi tiết lỗi của tất cả sản phẩm theo đơn bảo hành ----------------------->
 <div class="table-responsive popup-background" role="dialog" *ngIf="popupShowChiTietLoi === true">
   <div class="popup-container" style="min-width: 96vw">
     <div class="popup-header">
@@ -815,7 +823,12 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
+                <img
+                  src="../../../../content/images/logoRD.png"
+                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150"
+                  style="margin-top: -30px; margin-left: 30px"
+                />
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
@@ -824,9 +837,7 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 1: Lưu tổ phục vụ đổi sản phẩm</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">
-            Số: {{ maBienBan }}
-          </div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
@@ -902,7 +913,12 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
+                <img
+                  src="../../../../content/images/logoRD.png"
+                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150"
+                  style="margin-top: -30px; margin-left: 30px"
+                />
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
@@ -911,7 +927,7 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 2: Khách hàng</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
@@ -987,7 +1003,12 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
+                <img
+                  src="../../../../content/images/logoRD.png"
+                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150"
+                  style="margin-top: -30px; margin-left: 30px"
+                />
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
@@ -996,7 +1017,7 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 3: P. KHTT</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
@@ -1072,7 +1093,12 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
+                <img
+                  src="../../../../content/images/logoRD.png"
+                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150"
+                  style="margin-top: -30px; margin-left: 30px"
+                />
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
@@ -1081,7 +1107,7 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 4: Phòng BH1</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
@@ -1157,24 +1183,28 @@
         <header>
           <div class="row">
             <div class="col-6" align="left" style="height: 0px">
-              <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
+              <img
+                src="../../../../content/images/logoRD.png"
+                alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                width="150"
+                style="margin-top: -30px; margin-left: 30px"
+              />
             </div>
             <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM02 Ban hành lần 1</div>
           </div>
         </header>
         <div align="center">
-          <h3 style="margin-top: -20px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH </h3>
+          <h3 style="margin-top: -20px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH</h3>
           <p>Kho 1</p>
         </div>
 
-        <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
-        <br>
+        <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
+        <br />
         <div align="right" style="margin-right: 62px">
           Kho: <input type="text" id="khoA" size="10" style="color: black" value="1" disabled />
         </div>
-        <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) nhóm khách hàng </p>
-        <p class="description">Căn cứ biên bản giao nhận sản phẩm số {{ maBienBan }} ngày {{date}} tháng {{month}} năm {{year}}
-        </p>
+        <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) nhóm khách hàng</p>
+        <p class="description">Căn cứ biên bản giao nhận sản phẩm số {{ maBienBan }} ngày {{ date }} tháng {{ month }} năm {{ year }}</p>
         <table id="tableA">
           <thead>
             <tr>
@@ -1241,7 +1271,12 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" style="margin-top: -30px; margin-left: 30px"/>
+                <img
+                  src="../../../../content/images/logoRD.png"
+                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150"
+                  style="margin-top: -30px; margin-left: 30px"
+                />
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM02 Ban hành lần 1</div>
             </div>
@@ -1250,13 +1285,13 @@
             <strong style="margin-top: -20px">BIÊN BẢN THANH LÝ SẢN PHẨM MẤT PHẨM CHẤT </strong>
             <p>Kho 1</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
 
           <div align="right" style="margin-right: 62px">
             Kho: <input type="text" id="khoA" size="10" style="color: black" value="1" disabled />
           </div>
           <div style="padding-left: 2rem">
-            <p class="ngayTN">Ngày {{date}} tháng {{month}} năm {{year}} tại Công ty cổ phần Bóng đèn Phích nước Rạng Đông</p>
+            <p class="ngayTN">Ngày {{ date }} tháng {{ month }} năm {{ year }} tại Công ty cổ phần Bóng đèn Phích nước Rạng Đông</p>
             Thành phần:
           </div>
 
@@ -1267,9 +1302,8 @@
           </div>
           <div style="text-indent: 2rem">
             <p class="description">
-              Căn cứ Biên bản kiểm nghiệm sản phẩm kém chất lượng số {{maBienBan}} đối với lô hàng đổi của khách hàng tại Biên bản
-              giao nhận sản phẩm
-              đổi số {{maBienBan}} ngày {{date}} tháng {{month}} năm {{year}}
+              Căn cứ Biên bản kiểm nghiệm sản phẩm kém chất lượng số {{ maBienBan }} đối với lô hàng đổi của khách hàng tại Biên bản giao
+              nhận sản phẩm đổi số {{ maBienBan }} ngày {{ date }} tháng {{ month }} năm {{ year }}
             </p>
             <p>Chúng tôi thống nhất thanh lý số sản phẩm mất phẩm chất như sau :</p>
           </div>

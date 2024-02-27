@@ -90,11 +90,25 @@ public class FullServices {
     }
 
     //☺ xóa chi tiết đơn bảo hành
-    public void deleteDetailDonBaoHanh(Long id) {
+    public void deleteDetailDonBaoHanh(ChiTietSanPhamTiepNhan request) {
         //☺ B1: xóa thông tin trạng thái của từng sản phẩm trong chi tiết đơn bảo hành
-        this.phanLoaiChiTietTiepNhanRepository.deleteByChiTietSanPhamTiepNhanId(id);
+        this.phanLoaiChiTietTiepNhanRepository.deleteByChiTietSanPhamTiepNhanId(request.getId());
         //☺ B2: xóa thông tin chi tiết đơn bảo hành
-        this.chiTietSanPhamTiepNhanRepository.deleteById(id);
+        this.chiTietSanPhamTiepNhanRepository.deleteById(request.getId());
+    }
+
+    //☺ Xóa đơn bảo hành
+    public void deleteDonBaoHanh(DonBaoHanh request) {
+        List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList =
+            this.chiTietSanPhamTiepNhanRepository.findAllByDonBaoHanhId(request.getId());
+        //☺ B1: xóa hết thông tin trạng thái của từng SP trong chi tiết đơn bảo hành
+        for (ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan : chiTietSanPhamTiepNhanList) {
+            this.phanLoaiChiTietTiepNhanRepository.deleteByChiTietSanPhamTiepNhanId(chiTietSanPhamTiepNhan.getId());
+        }
+        //☺ B2: Xóa hết thông tin chi tiết đơn bảo hành
+        this.chiTietSanPhamTiepNhanRepository.deleteByDonBaoHanhId(request.getId());
+        //☺ B3: Xóa thông tin đơn bảo hành
+        this.donBaoHanhRepository.deleteById(request.getId());
     }
 
     // ☺ Chuyển đổi trạng thái đơn bảo hành
@@ -174,24 +188,18 @@ public class FullServices {
     }
 
     //☺ update chi tiết sản phẩm tiếp nhận
-    public List<ChiTietSanPhamTiepNhan> updateChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList) {
-        List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList = new ArrayList<>();
+    public void updateChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList) {
         for (ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan : requestList) {
             ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan1 =
                 this.chiTietSanPhamTiepNhanRepository.findById(chiTietSanPhamTiepNhan.getId()).orElse(null);
             if (chiTietSanPhamTiepNhan1 == null) {
                 this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan);
-                chiTietSanPhamTiepNhanList.add(chiTietSanPhamTiepNhan);
             } else {
                 chiTietSanPhamTiepNhan1.setSanPham(chiTietSanPhamTiepNhan.getSanPham());
                 chiTietSanPhamTiepNhan1.setNgayPhanLoai(chiTietSanPhamTiepNhan.getNgayPhanLoai());
-                chiTietSanPhamTiepNhan1.setTinhTrangBaoHanh(chiTietSanPhamTiepNhan.getTinhTrangBaoHanh());
-                chiTietSanPhamTiepNhan1.setSoLuongKhachHang(chiTietSanPhamTiepNhan.getSoLuongKhachHang());
                 this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan1);
-                chiTietSanPhamTiepNhanList.add(chiTietSanPhamTiepNhan1);
             }
         }
-        return chiTietSanPhamTiepNhanList;
     }
 
     //☺ hoàn thành phân loại
@@ -213,22 +221,29 @@ public class FullServices {
         return chiTietSanPhamTiepNhan;
     }
 
-    //☺ button hoàn thành
     public void hoanThanhPhanLoai(DonBaoHanh request) {
         this.donBaoHanhRepository.save(request);
     }
 
-    //☺ xóa 1 dòng trong chi tiết popup phân loại
-    public void deleteDetailRowById(Long id) {
-        this.phanLoaiChiTietTiepNhanRepository.deleteById(id);
-    }
-
     // * ============================ Template Phân tích =================================
     // * Trang chủ
-    // * Popup khai báo lỗi
-    //☺ lấy thông tin sản phẩm phân tích theo id phân loại chi tiết tiếp nhận đơn hàng
-    public List<PhanTichSanPham> getDanhSachByPhanLoaiChiTietTiepNhanId(Long id) {
+    //☺ lấy danh sách tất cả các đơn bảo hành ở trạng thái chờ phân tích , đang phân tích
+    public List<DonBaoHanh> getDonBaoHanhByTrangThai() {
+        List<DonBaoHanh> donBaoHanhList = this.donBaoHanhRepository.getDonBaoHanhByTrangThais();
+        return donBaoHanhList;
+    }
+
+    //☺ Lấy thông tin phân tích sản phẩm theo id PLCTTN
+    public List<PhanTichSanPham> getByPhanLoaiChiTietTiepNhan(Long id) {
         List<PhanTichSanPham> phanTichSanPhamList = this.phanTichSanPhamRepository.findAllByPhanLoaiChiTietTiepNhanId(id);
+        return phanTichSanPhamList;
+    }
+
+    //☺ cập nhật thông tin phân tích sản phẩm
+    public List<PhanTichSanPham> updatePhanTichSanPham(List<PhanTichSanPham> phanTichSanPhamList) {
+        for (PhanTichSanPham phanTichSanPham : phanTichSanPhamList) {
+            this.phanTichSanPhamRepository.save(phanTichSanPham);
+        }
         return phanTichSanPhamList;
     }
 
