@@ -48,6 +48,10 @@ Generic styles
   border: none;
   height: 90vh;
   width: auto;
+  position: relative;
+    overflow: hidden;
+    overflow-x: auto;
+    width: 100%;
 }
 
 .error {

@@ -1,6 +1,6 @@
-<div id="demo-container" class="container-fluid">
+<div id="demo-container">
   <h2>{{ title }}</h2>
-  <angular-slickgrid gridId="grid1" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="donBaoHanhs">
+  <angular-slickgrid class="container-slickgrid" gridId="grid1" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="donBaoHanhs">
   </angular-slickgrid>
 </div>
 <!---------------------------------------------------------- popup chi tiết sản phẩm phân tích --------------------------------------------------->
@@ -182,7 +182,7 @@
                   </th>
                   <th scope="col" jhiSortBy="id">
                     <span class="span-table-phantich">Checked</span>
-                    <input type="checkbox" class="ui-checkbox" />
+                    <input type="checkbox" class="ui-checkbox" [checked] ="checkedAll" (change)="checkAll()"/>
                   </th>
                 </tr>
               </thead>
@@ -201,7 +201,8 @@
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slConLai }}" disabled /></td>
                   <td><input type="range" value="{{ data.tienDo }}" disabled />{{ data.tienDo.toFixed(2) }}%</td>
                   <td>
-                    <input type="checkbox" class="ui-checkbox" [(ngModel)]="data.check" [ngModelOptions]="{ standalone: true }" disabled />
+                    <input type="checkbox" class="ui-checkbox" [(ngModel)]="data.check" (click)="checkItem(i)"
+                      [ngModelOptions]="{ standalone: true }" [disabled]="data.check" />
                   </td>
                 </tr>
               </tbody>

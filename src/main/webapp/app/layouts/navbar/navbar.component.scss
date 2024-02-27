@@ -6,44 +6,211 @@
 Navbar
 ========================================================================== */
 
-.navbar-version {
-  font-size: 0.65em;
-  color: $navbar-dark-color;
-}
+// .navbar-version {
+//   font-size: 0.65em;
+//   color: $navbar-dark-color;
+// }
 
-.profile-image {
-  height: 1.75em;
-  width: 1.75em;
-}
+$sidebar-background-color: #333;
+$sidebar-text-color: #fff;
+$sidebar-width: 250px;
 
-.navbar {
-  height: 50px;
-  padding: 0.2rem 1rem;
-  .dropdown-item.active,
-  .dropdown-item.active:focus,
-  .dropdown-item.active:hover {
-    background-color: $dark;
+// .navbar {
+//   width: $sidebar-width;
+//   background-color: $sidebar-background-color;
+//   color: $sidebar-text-color;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   overflow-y: auto;
+//   transition: width 0.3s;
+// }
+
+.sidebar {
+  width: 50px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #333;
+  padding-top: 20px;
+  color: #fff;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: width 0.5s;
+  z-index: 10;
+
+  .sidebar-brand {
+    display: block;
+    // padding:20px;
+    // text-align: center;
+    // padding: 10px 0;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
   }
 
-  a.nav-link {
-    font-weight: 400;
-  }
+  .navbar-nav {
+    margin-top: 20px;
 
-  .navbar-toggler {
-    &:hover {
-      color: $navbar-dark-hover-color;
+    a {
+      display: block;
+      padding: 10px 20px;
+      color: #fff;
+      text-decoration: none;
+      transition: background-color 0.3s;
+
+      &:hover {
+        color: #333;
+        background-color: #e9ecef;
+      }
+
+      &:active {
+        background-color: #007bff;
+        color: #fff;
+      }
     }
   }
 }
 
+.sidebar-collapse-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 4px;
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+
+
+  &:hover {
+    background-color: #555;
+  }
+
+  &:before {
+    font-weight: 900;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.sidebar-collapsed {
+  width: 250px;
+  background-image: '../../../content/images/logo-rang-dong.webp';
+
+  .sidebar-brand {
+    display: none;
+  }
+
+  .navbar-nav {
+    .nav-item {
+      a {
+        .dropdown-item {
+          span {
+            display: none;
+
+            .dropdown-item-span {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 10px;
+}
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar-toggle {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.sidebar-content {
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+.sidebar-open .sidebar-content {
+  padding-left: $sidebar-width;
+}
+
+.sidebar-open .sidebar-toggle {
+  display: block;
+}
+
+.sidebar-img {
+  max-width: 30px;
+  padding-top: 20px;
+  margin-left: 10px;
+  height: auto;
+}
+
+
+// .profile-image {
+//   height: 1.75em;
+//   width: 1.75em;
+// }
+
+// .navbar {
+//   height: 100%;
+//   width: 250px;
+//   position: fixed;
+//   /* Cố định navbar ở vị trí cố định */
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   width: 250px;
+//   /* Điều chỉnh độ rộng của sidebar */
+//   z-index: 1000;
+//   /* Đảm bảo sidebar hiển thị trên tất cả các phần tử khác */
+//   background-color: #333;
+
+//   a.nav-link {
+//     font-weight: 400;
+//   }
+
+//   .navbar-toggler {
+//     &:hover {
+//       color: $navbar-dark-hover-color;
+//     }
+//   }
+// }
+
 /* ==========================================================================
 Logo styles
 ========================================================================== */
-.logo-img {
-  height: 45px;
-  width: 45px;
-  display: inline-block;
-  vertical-align: middle;
-  background: url('../../../content/images/logo-jhipster.png') no-repeat center center;
-  background-size: contain;
-}
+// .logo-img {
+//   height: 45px;
+//   width: 45px;
+//   display: inline-block;
+//   vertical-align: middle;
+//   background: url('../../../content/images/logo-jhipster.png') no-repeat center center;
+//   background-size: contain;
+// }

@@ -1,33 +1,115 @@
-<nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-primary">
-  <div class="container-fluid">
-    <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
-      <span class="logo-img"></span>
-      <span class="navbar-title">DOI_TRA_NEW</span>
-      <span class="navbar-version">{{ version }}</span>
-    </a>
-    <a
-      class="navbar-toggler d-lg-none"
-      href="javascript:void(0);"
-      data-toggle="collapse"
-      data-target="#navbarResponsive"
-      aria-controls="navbarResponsive"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-      (click)="toggleNavbar()"
-    >
+<!-- <div class="wrapper">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h3>Rang dong</h3>
+    </div>
+    <ul>
+      <li>
+        <a routerLink="/" class="dropdown-item" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="home"></fa-icon>
+            <span class="dropdown-item-span">Trang chủ</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" routerLink="don-bao-hanh" (click)="collapseNavbar()">
+          <fa-icon icon="pencil" [fixedWidth]="true"></fa-icon>
+          <span class="dropdown-item-span">Tiếp nhận</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" routerLink="phan-tich-san-pham" (click)="collapseNavbar()">
+          <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
+          <span class="dropdown-item-span">Phân tích</span>
+        </a>
+      </li>
+      <li></li>
+      <li></li>
+    </ul>
+  </nav>
+</div> -->
+
+<div class="sidebar col-md-3" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+  <a class="sidebar-brand logo" routerLink="/" (click)="collapseNavbar()">
+    <img src="../../../content/images/logo-rang-dong-icon.webp" alt="Logo-RangDong" class="sidebar-img">
+  </a>
+
+  <div>
+    <ul class="navbar-nav">
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a routerLink="/" class="dropdown-item" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="home"></fa-icon>
+            <span class="dropdown-item-span">Trang chủ</span>
+          </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="dropdown-item" routerLink="don-bao-hanh" (click)="collapseNavbar()">
+          <fa-icon icon="pencil" [fixedWidth]="true"></fa-icon>
+          <span class="dropdown-item-span">Tiếp nhận</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="dropdown-item" routerLink="phan-tich-san-pham" (click)="collapseNavbar()">
+          <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
+          <span class="dropdown-item-span">Phân tích</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="dropdown-item" routerLink="chi-tiet-san-pham-tiep-nhan" routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+          <fa-icon icon="add" [fixedWidth]="true"></fa-icon>
+          <span class="dropdown-item-span">Tổng hợp</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="dropdown-toggle">
+          <span>
+            <fa-icon icon="user"></fa-icon>
+            <span class="dropdown-item-span">Tài khoản</span>
+          </span>
+          <!-- <span *ngIf="account?.imageUrl">
+              <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
+            </span> -->
+        </a>
+        <ul>
+          <li>
+            <a class="dropdown-item">
+              <fa-icon icon="sign-out-alt"></fa-icon>
+              <span>Đăng xuất</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item">
+              <fa-icon icon="sign-in-alt"></fa-icon>
+              <span>Đăng nhập</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <button class="sidebar-collapse-btn" (click)="toggleSidebar()">
       <fa-icon icon="bars"></fa-icon>
-    </a>
+    </button>
+  </div>
+
+
+  <!--
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+          <a  routerLink="/" (click)="collapseNavbar()">
             <span>
               <fa-icon icon="home"></fa-icon>
               <span>Home</span>
             </span>
           </a>
         </li>
-        <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngSwitchCase="true"
           ngbDropdown
@@ -235,7 +317,6 @@
                 <span>Nganh</span>
               </a>
             </li>
-            <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
           </ul>
         </li>
         <li
@@ -283,7 +364,6 @@
                 <span>API</span>
               </a>
             </li>
-            <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
           </ul>
         </li>
         <li
@@ -319,5 +399,4 @@
         </li>
       </ul>
     </div>
-  </div>
-</nav>
+  </div> -->

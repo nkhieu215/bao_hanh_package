@@ -7,7 +7,7 @@ import { ChiTietSanPhamTiepNhanDeleteDialogComponent } from './delete/chi-tiet-s
 import { ChiTietSanPhamTiepNhanRoutingModule } from './route/chi-tiet-san-pham-tiep-nhan-routing.module';
 
 @NgModule({
-  imports: [SharedModule, ChiTietSanPhamTiepNhanRoutingModule],
+  imports: [SharedModule, ChiTietSanPhamTiepNhanRoutingModule, AngularSlickgridModule],
   declarations: [
     ChiTietSanPhamTiepNhanComponent,
     ChiTietSanPhamTiepNhanDetailComponent,
@@ -15,5 +15,7 @@ import { ChiTietSanPhamTiepNhanRoutingModule } from './route/chi-tiet-san-pham-t
     ChiTietSanPhamTiepNhanDeleteDialogComponent,
   ],
   entryComponents: [ChiTietSanPhamTiepNhanDeleteDialogComponent],
+  providers: [ContainerService, RowDetailViewComponent],
+
 })
 export class ChiTietSanPhamTiepNhanModule {}

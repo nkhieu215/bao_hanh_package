@@ -182,18 +182,18 @@ export class DonBaoHanhComponent implements OnInit {
 
   buttonBBTN: Formatter<any> = (_row, _cell, value) =>
     value
-      ? `<button class="btn btn-primary fa fa-print" style="height: 28px; line-height: 14px"></button>`
+      ? `<button class="btn btn-primary fa fa-print" style="height: 28px; line-height: 14px" title="In biên bản tiếp nhận"></button>`
       : { text: '<i class="fa fa-print" aria-hidden="true"></i>' };
 
   buttonPL: Formatter<any> = (_row, _cell, value) =>
     value
       ? `<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px; width: 15px">PL</button>`
-      : { text: '<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px"></button>' };
+      : { text: '<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px" title="Phân loại"></button>' };
 
   buttonEdit: Formatter<any> = (_row, _cell, value) =>
     value
       ? `<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px; width: 15px"></button>`
-      : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px"></button>' };
+      : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px" title="Chỉnh sửa"></button>' };
 
   buttonDelete: Formatter<any> = (_row, _cell, value) =>
     value
@@ -322,6 +322,8 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'maTiepNhan',
         sortable: true,
         filterable: true,
+        minWidth: 200,
+        maxWidth: 200,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -336,6 +338,8 @@ export class DonBaoHanhComponent implements OnInit {
         formatter: Formatters.complexObject,
         sortable: true,
         filterable: true,
+        minWidth: 400,
+        maxWidth: 400,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -351,6 +355,8 @@ export class DonBaoHanhComponent implements OnInit {
         sortable: true,
         defaultSortAsc: false,
         filterable: true,
+        minWidth: 160,
+        maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -417,6 +423,8 @@ export class DonBaoHanhComponent implements OnInit {
         dataKey: 'ngaykhkb',
         sortable: true,
         filterable: true,
+        minWidth: 160,
+        maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -440,6 +448,8 @@ export class DonBaoHanhComponent implements OnInit {
         dataKey: 'ngayTraBienBan',
         sortable: true,
         filterable: true,
+        minWidth: 160,
+        maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -562,7 +572,8 @@ export class DonBaoHanhComponent implements OnInit {
       // },
       pagination: {
         pageSizes: [30, 50, 100],
-        pageSize: 30,
+        pageSize: this.donBaoHanhs.length,
+
       },
       // columnPicker: {
       //   hideForceFitButton: true,
@@ -573,8 +584,8 @@ export class DonBaoHanhComponent implements OnInit {
       // },
       editable: true,
       enableCellNavigation: true,
-      gridHeight: 600,
-      gridWidth: 1800,
+      gridHeight: 620,
+      gridWidth: 1750,
     };
     this.loadAll();
     this.getKhachHangs();

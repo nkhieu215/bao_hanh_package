@@ -115,6 +115,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   groupOptionsTN = false;
   groupOptionsKN = false;
   groupOptionsTL = false;
+  
+  checkedAll = false;
 
   popupInBBKN = false;
   popupInBBTL = false;
@@ -149,17 +151,17 @@ export class PhanTichSanPhamComponent implements OnInit {
   buttonIn: Formatter<any> = (_row, _cell, value) =>
     value
       ? `<button class="btn btn-primary fa fa-print" style="height: 28px; line-height: 14px"></button>`
-      : { text: '<i class="fa fa-print" aria-hidden="true"></i>' };
+      : { text: '<i class="fa fa-print" aria-hidden="true" title="In biên bản"></i>' };
 
   buttonPT: Formatter<any> = (_row, _cell, value) =>
     value
       ? `<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px; width: 15px"></button>`
-      : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px"></button>' };
+      : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px" title="Phân tích"></button>' };
 
   buttonCTL: Formatter<any> = (_row, _cell, value) =>
     value
       ? `<button class="btn btn-success fa fa-exclamation-triangle" style="height: 28px; line-height: 14px; "></button>`
-      : { text: '<button class="btn btn-success fa fa-exclamation-triangle" style="height: 28px; line-height: 14px; "></button>' };
+      : { text: '<button class="btn btn-success fa fa-exclamation-triangle" style="height: 28px; line-height: 14px" title="Chi tiết lỗi của sản phẩm"></button>' };
 
   loadAll(): void {
     this.isLoading = true;
@@ -599,6 +601,8 @@ export class PhanTichSanPhamComponent implements OnInit {
 
   // mở popup biên bản tiếp nhận
   openPopupBBTN(): void {
+    this.maBienBan = '';
+
     this.popupInBBTN = true;
     const result = sessionStorage.getItem(`TiepNhan ${this.idBBTN.toString()}`);
     // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
@@ -1157,5 +1161,21 @@ export class PhanTichSanPhamComponent implements OnInit {
       item => item.tenSanPham.includes(this.tenSanPham) && item.tinhTrang.includes(this.tinhTrang)
     );
     console.log({ result: this.listOfChiTietSanPhamPhanTich, SP: this.tenSanPham, tt: this.tinhTrang });
+  }
+
+  checkAll(): void {
+    this.checkedAll = !this.checkedAll;
+    // this.itemCheckedState = this.itemCheckedState.map(() => this.checkedAll)
+    this.listOfChiTietSanPhamPhanTich.forEach(item => {
+      item.check = this.checkedAll
+    })
+    console.log("checked all", this.checkedAll)
+  }
+
+  checkItem(index: number): void {
+    this.listOfChiTietSanPhamPhanTich[index].check = !this.listOfChiTietSanPhamPhanTich[index].check;
+    // this.checkedAll = this.itemCheckedState.every(state => state)
+    console.log("check item", this.listOfChiTietSanPhamPhanTich[index])
+    this.checkedAll = this.listOfChiTietSanPhamPhanTich.every(item => item.check)
   }
 }
