@@ -126,6 +126,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   lotNumber = '';
   //Biến chứa thể loại scan
   scanType = '';
+  // Biến lưu kết quả tách sản phẩm theo kho
+  resultOfSanPhamTheoKho: { key: string; value: any[] }[] = [];
   constructor(
     protected phanTichSanPhamService: PhanTichSanPhamService,
     protected donBaoHanhService: DonBaoHanhService,
@@ -468,9 +470,39 @@ export class PhanTichSanPhamComponent implements OnInit {
       // dữ liệu lưu trong sessison(dạng string) -> chuyển về dạng JSON (giống arr,obj)
       this.listOfChiTietSanPhamPhanTich = JSON.parse(result as string);
       //cập nhật số lượng sản phẩm cần phân tích
-      for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
-        this.donBaoHanh.slCanPhanTich = Number(this.donBaoHanh.slCanPhanTich) + Number(this.listOfChiTietSanPhamPhanTich[i].slTiepNhan);
-      }
+      setTimeout(() => {
+        this.resultOfSanPhamTheoKho = [{ key: '', value: [] }];
+        let check = false;
+        for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
+          this.donBaoHanh.slCanPhanTich = Number(this.donBaoHanh.slCanPhanTich) + Number(this.listOfChiTietSanPhamPhanTich[i].slTiepNhan);
+          for (let j = 0; j < this.danhSachSanPhams!.length; j++) {
+            //check sản phẩm trong DB xem có chưa
+            if (this.listOfChiTietSanPhamPhanTich[i].sanPham.id === this.danhSachSanPhams![j].id) {
+              console.log({ index: i, tenSP: this.listOfChiTietSanPhamPhanTich[i].tenSanPham });
+              //check danh sách kho khởi tạo
+              for (let k = 0; k < this.resultOfSanPhamTheoKho.length; k++) {
+                if (this.resultOfSanPhamTheoKho[k].key === this.danhSachSanPhams![j].kho!.tenKho) {
+                  this.resultOfSanPhamTheoKho[k].value.push(this.listOfChiTietSanPhamPhanTich[i]);
+                  check = true;
+                }
+              }
+              if (check === false) {
+                const item: { key: string; value: any[] } = {
+                  key: this.danhSachSanPhams![j].kho?.tenKho as string,
+                  value: [this.listOfChiTietSanPhamPhanTich[i]],
+                };
+                this.resultOfSanPhamTheoKho.push(item);
+              }
+              check = false;
+              break;
+            }
+          }
+        }
+        this.resultOfSanPhamTheoKho = this.resultOfSanPhamTheoKho.filter(item => item.key !== '');
+        console.log('Danh sách phân tách sản phẩm theo kho: ', this.resultOfSanPhamTheoKho);
+      }, 500);
+      //tách sản phẩm theo kho
+
       console.log('Danh sách chi tiết sản phẩm phân tích', this.listOfChiTietSanPhamPhanTich);
     }, 1000);
   }
@@ -881,11 +913,11 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
 
   openPopupInBBKN(): void {
-    this.popupInBBKN = true
+    this.popupInBBKN = true;
   }
 
   openPopupInBBTL(): void {
-    this.popupInBBTL = true
+    this.popupInBBTL = true;
   }
 
   //đóng popup biên bản tiếp nhận
