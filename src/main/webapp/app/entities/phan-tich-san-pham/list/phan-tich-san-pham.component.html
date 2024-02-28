@@ -1,6 +1,12 @@
 <div id="demo-container">
   <h2>{{ title }}</h2>
-  <angular-slickgrid class="container-slickgrid" gridId="grid1" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="donBaoHanhs">
+  <angular-slickgrid
+    class="container-slickgrid"
+    gridId="grid1"
+    [columnDefinitions]="columnDefinitions1"
+    [gridOptions]="gridOptions1"
+    [dataset]="donBaoHanhs"
+  >
   </angular-slickgrid>
 </div>
 <!---------------------------------------------------------- popup chi tiết sản phẩm phân tích --------------------------------------------------->
@@ -182,7 +188,7 @@
                   </th>
                   <th scope="col" jhiSortBy="id">
                     <span class="span-table-phantich">Checked</span>
-                    <input type="checkbox" class="ui-checkbox" [checked] ="checkedAll" (change)="checkAll()"/>
+                    <input type="checkbox" class="ui-checkbox" [checked]="checkedAll" (change)="checkAll()" />
                   </th>
                 </tr>
               </thead>
@@ -201,8 +207,14 @@
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slConLai }}" disabled /></td>
                   <td><input type="range" value="{{ data.tienDo }}" disabled />{{ data.tienDo.toFixed(2) }}%</td>
                   <td>
-                    <input type="checkbox" class="ui-checkbox" [(ngModel)]="data.check" (click)="checkItem(i)"
-                      [ngModelOptions]="{ standalone: true }" [disabled]="data.check" />
+                    <input
+                      type="checkbox"
+                      class="ui-checkbox"
+                      [(ngModel)]="data.check"
+                      (click)="checkItem(i)"
+                      [ngModelOptions]="{ standalone: true }"
+                      [disabled]="data.check"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -349,47 +361,71 @@
           <tbody>
             <!-- cột 1 -->
             <td>
-              <tr *ngFor="let data of lois; let i = index" style="border: none">
-                <td *ngIf="i < lois!.length / 3" style="display: flex; padding: 10px 10px">
+              <tr *ngFor="let data of catchChangeOfListKhaiBaoLoi; let i = index" style="border: none">
+                <td *ngIf="i < catchChangeOfListKhaiBaoLoi!.length / 3" style="display: flex; padding: 10px 10px">
                   <button
                     class="btn-name-error"
                     style="width: 180px; font-size: 16px; font-weight: 700; min-width: 180px; text-align: center"
+                    (click)="catchEventKhaiBaoLoi(i)"
                   >
-                    {{ data.tenLoi }}
+                    {{ data.loi.tenLoi }}
                   </button>
-                  <span style="padding: 0 5px; line-height: 35px">{{ data.nhomLoi?.tenNhomLoi }}</span>
-                  <input type="number" class="form-control inp-name-error" />
+                  <span style="padding: 0 5px; line-height: 35px">{{ data.tenNhomLoi }}</span>
+                  <input
+                    type="number"
+                    class="form-control inp-name-error"
+                    [(ngModel)]="data.soLuong"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="catchEventKhaiBaoLois(i)"
+                  />
                 </td>
               </tr>
             </td>
             <!-- cột 2 -->
             <td>
-              <tr *ngFor="let data of lois; let i = index" style="border: none">
-                <td *ngIf="lois!.length / 3 < i && i < (2 * lois!.length) / 3" style="display: flex; padding: 10px 10px">
+              <tr *ngFor="let data of catchChangeOfListKhaiBaoLoi; let i = index" style="border: none">
+                <td
+                  *ngIf="catchChangeOfListKhaiBaoLoi!.length / 3 < i && i < (2 * catchChangeOfListKhaiBaoLoi!.length) / 3"
+                  style="display: flex; padding: 10px 10px"
+                >
                   <button
                     class="btn-name-error"
                     style="width: 180px; font-size: 16px; font-weight: 700; min-width: 180px; text-align: center"
+                    (click)="catchEventKhaiBaoLoi(i)"
                   >
-                    {{ data.tenLoi }}
+                    {{ data.loi.tenLoi }}
                   </button>
-                  <span style="padding: 0 5px; line-height: 35px">{{ data.nhomLoi?.tenNhomLoi }}</span>
-                  <input type="number" class="form-control inp-name-error" />
+                  <span style="padding: 0 5px; line-height: 35px">{{ data.tenNhomLoi }}</span>
+                  <input
+                    type="number"
+                    class="form-control inp-name-error"
+                    [(ngModel)]="data.soLuong"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="catchEventKhaiBaoLois(i)"
+                  />
                 </td>
               </tr>
             </td>
 
             <!-- cột 3 -->
             <td>
-              <tr *ngFor="let data of lois; let i = index" style="border: none">
-                <td *ngIf="i > (2 * lois!.length) / 3" style="display: flex; padding: 10px 10px">
+              <tr *ngFor="let data of catchChangeOfListKhaiBaoLoi; let i = index" style="border: none">
+                <td *ngIf="i > (2 * catchChangeOfListKhaiBaoLoi!.length) / 3" style="display: flex; padding: 10px 10px">
                   <button
                     class="btn-name-error"
                     style="width: 180px; font-size: 16px; font-weight: 700; min-width: 180px; text-align: center"
+                    (click)="catchEventKhaiBaoLoi(i)"
                   >
-                    {{ data.tenLoi }}
+                    {{ data.loi.tenLoi }}
                   </button>
-                  <span style="padding: 0 5px; line-height: 35px">{{ data.nhomLoi?.tenNhomLoi }}</span>
-                  <input type="number" class="form-control inp-name-error" />
+                  <span style="padding: 0 5px; line-height: 35px">{{ data.tenNhomLoi }}</span>
+                  <input
+                    type="number"
+                    class="form-control inp-name-error"
+                    [(ngModel)]="data.soLuong"
+                    [ngModelOptions]="{ standalone: true }"
+                    (change)="catchEventKhaiBaoLois(i)"
+                  />
                 </td>
               </tr>
             </td>

@@ -53,6 +53,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   isLoading = false;
   listOfPhanTichSanPhamByPLCTTN: any[] = [];
   listOfKhaiBaoLoi: any[] = [];
+  catchChangeOfListKhaiBaoLoi: any[] = [];
   //---------------------------------------------------------------set up khung hien thi loi-----------------------------------------
   columnOne = 0;
   columnTwo = 0;
@@ -1152,6 +1153,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     console.log({ result: this.listOfChiTietSanPhamPhanTich, SP: this.tenSanPham, tt: this.tinhTrang });
   }
   addItemForChiTietPhanTichSanPham(): void {
+    this.catchChangeOfListKhaiBaoLoi = [];
     const count = this.indexOfChiTietPhanTichSanPham + 1;
     const item = {
       soThuTu: count,
@@ -1180,10 +1182,11 @@ export class PhanTichSanPhamComponent implements OnInit {
         ghiChu: '',
         loi: this.lois![i],
         phanTichSanPham: item,
+        tenNhomLoi: this.lois![i].nhomLoi!.tenNhomLoi,
       };
-      this.listOfKhaiBaoLoi.push(khaiBaoLoi);
+      this.catchChangeOfListKhaiBaoLoi.push(khaiBaoLoi);
     }
-    console.log('danh sách khai báo lỗi: ', this.listOfKhaiBaoLoi);
+    console.log('danh sách khai báo lỗi: ', this.catchChangeOfListKhaiBaoLoi);
   }
 
   // hàm xử lý check all
@@ -1202,5 +1205,45 @@ export class PhanTichSanPhamComponent implements OnInit {
     // this.checkedAll = this.itemCheckedState.every(state => state)
     console.log('check item', this.listOfChiTietSanPhamPhanTich[index]);
     this.checkedAll = this.listOfChiTietSanPhamPhanTich.every(item => item.check);
+  }
+  catchEventKhaiBaoLois(index: any): void {
+    //reset kết quả
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat = 0;
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong = 0;
+    //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
+    for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
+      if (this.catchChangeOfListKhaiBaoLoi[i].tenNhomLoi === 'Lỗi kĩ thuật') {
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
+      }
+      if (this.catchChangeOfListKhaiBaoLoi[i].tenNhomLoi === 'Lỗi linh động') {
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
+      }
+    }
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
+      Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
+      Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
+  }
+  // cập nhật số lượng lỗi trong button
+  catchEventKhaiBaoLoi(index: any): void {
+    this.catchChangeOfListKhaiBaoLoi[index].soLuong++;
+    console.log(index);
+    //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
+    if (this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi === 'Lỗi kĩ thuật') {
+      console.log({
+        tenLoi: this.catchChangeOfListKhaiBaoLoi[index].loi.tenLoi,
+        nLoi: this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi,
+        sl: this.catchChangeOfListKhaiBaoLoi[index].soLuong,
+      });
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat++;
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
+        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
+        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
+    }
+    if (this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi === 'Lỗi linh động') {
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong++;
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
+        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
+        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
+    }
   }
 }
