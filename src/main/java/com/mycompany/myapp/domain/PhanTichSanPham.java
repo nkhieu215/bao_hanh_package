@@ -49,8 +49,9 @@ public class PhanTichSanPham implements Serializable {
     @Column(name = "trang_thai")
     private String trangThai;
 
-    @Column(name = "trang_thai_in_phien_1")
-    private String phien1;
+    @Column(name = "so_thu_tu")
+    private Long soThuTu;
+
     @Column(name = "trang_thai_in_phien_2")
     private String phien2;
 
@@ -76,12 +77,12 @@ public class PhanTichSanPham implements Serializable {
         return this;
     }
 
-    public String getPhien1() {
-        return phien1;
+    public Long getSoThuTu() {
+        return soThuTu;
     }
 
-    public void setPhien1(String phien1) {
-        this.phien1 = phien1;
+    public void setSoThuTu(Long soThuTu) {
+        this.soThuTu = soThuTu;
     }
 
     public String getPhien2() {
@@ -286,22 +287,49 @@ public class PhanTichSanPham implements Serializable {
 
     @Override
     public String toString() {
-        return "PhanTichSanPham{" +
-            "id=" + id +
-            ", tenNhanVienPhanTich='" + tenNhanVienPhanTich + '\'' +
-            ", theLoaiPhanTich='" + theLoaiPhanTich + '\'' +
-            ", lotNumber='" + lotNumber + '\'' +
-            ", detail='" + detail + '\'' +
-            ", soLuong=" + soLuong +
-            ", ngayKiemTra=" + ngayKiemTra +
-            ", username='" + username + '\'' +
-            ", namSanXuat='" + namSanXuat + '\'' +
-            ", trangThai='" + trangThai + '\'' +
-            ", phien1='" + phien1 + '\'' +
-            ", phien2='" + phien2 + '\'' +
-            ", phien3='" + phien3 + '\'' +
-            ", phanTichLois=" + phanTichLois +
-            ", phanLoaiChiTietTiepNhan=" + phanLoaiChiTietTiepNhan +
-            '}';
+        return (
+            "PhanTichSanPham{" +
+            "id=" +
+            id +
+            ", tenNhanVienPhanTich='" +
+            tenNhanVienPhanTich +
+            '\'' +
+            ", theLoaiPhanTich='" +
+            theLoaiPhanTich +
+            '\'' +
+            ", lotNumber='" +
+            lotNumber +
+            '\'' +
+            ", detail='" +
+            detail +
+            '\'' +
+            ", soLuong=" +
+            soLuong +
+            ", ngayKiemTra=" +
+            ngayKiemTra +
+            ", username='" +
+            username +
+            '\'' +
+            ", namSanXuat='" +
+            namSanXuat +
+            '\'' +
+            ", trangThai='" +
+            trangThai +
+            '\'' +
+            ", soThuTu='" +
+            soThuTu +
+            '\'' +
+            ", phien2='" +
+            phien2 +
+            '\'' +
+            ", phien3='" +
+            phien3 +
+            '\'' +
+            ", phanTichLois=" +
+            phanTichLois +
+            ", phanLoaiChiTietTiepNhan=" +
+            phanLoaiChiTietTiepNhan +
+            '}'
+        );
     }
 }

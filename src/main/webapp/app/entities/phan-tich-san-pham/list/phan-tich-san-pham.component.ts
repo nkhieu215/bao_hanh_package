@@ -52,6 +52,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   donBaoHanhs: any[] = [];
   isLoading = false;
   listOfPhanTichSanPhamByPLCTTN: any[] = [];
+  listOfKhaiBaoLoi: any[] = [];
   //---------------------------------------------------------------set up khung hien thi loi-----------------------------------------
   columnOne = 0;
   columnTwo = 0;
@@ -969,7 +970,6 @@ export class PhanTichSanPhamComponent implements OnInit {
   getLois(): void {
     this.http.get<any>(this.loisUrl).subscribe(res => {
       this.lois = res;
-      sessionStorage.setItem('lois', JSON.stringify(res));
       console.log('loi', res);
     });
   }
@@ -1152,7 +1152,9 @@ export class PhanTichSanPhamComponent implements OnInit {
     console.log({ result: this.listOfChiTietSanPhamPhanTich, SP: this.tenSanPham, tt: this.tinhTrang });
   }
   addItemForChiTietPhanTichSanPham(): void {
+    const count = this.indexOfChiTietPhanTichSanPham + 1;
     const item = {
+      soThuTu: count,
       tenSanPham: '',
       tenNhanVienPhanTich: `${this.account?.firstName as string} ${this.account?.lastName as string}`,
       theLoaiPhanTich: '',
@@ -1168,6 +1170,20 @@ export class PhanTichSanPhamComponent implements OnInit {
       phanLoaiChiTietTiepNhan: this.itemOfPhanLoaiChiTietSanPham,
     };
     this.listOfPhanTichSanPhamByPLCTTN.push(item);
+    // thêm mới khai báo lỗi cho từng sản phẩm
+    for (let i = 0; i < this.lois!.length; i++) {
+      const today = dayjs().startOf('second');
+      const khaiBaoLoi = {
+        soLuong: 0,
+        ngayPhanTich: today,
+        username: this.account?.login,
+        ghiChu: '',
+        loi: this.lois![i],
+        phanTichSanPham: item,
+      };
+      this.listOfKhaiBaoLoi.push(khaiBaoLoi);
+    }
+    console.log('danh sách khai báo lỗi: ', this.listOfKhaiBaoLoi);
   }
 
   // hàm xử lý check all
