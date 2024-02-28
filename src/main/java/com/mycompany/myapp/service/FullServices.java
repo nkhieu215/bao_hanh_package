@@ -37,6 +37,9 @@ public class FullServices {
     @Autowired
     private final MaBienBanRepository maBienBanRepository;
 
+    @Autowired
+    private final PhanTichLoiRepository phanTichLoiRepository;
+
     public FullServices(
         DonBaoHanhRepository donBaoHanhRepository,
         PhanTichSanPhamRepository phanTichSanPhamRepository,
@@ -44,7 +47,8 @@ public class FullServices {
         ChiTietSanPhamTiepNhanRepository chiTietSanPhamTiepNhanRepository,
         PhanLoaiChiTietTiepNhanRepository phanLoaiChiTietTiepNhanRepository,
         SanPhamRepository sanPhamRepository,
-        MaBienBanRepository maBienBanRepository
+        MaBienBanRepository maBienBanRepository,
+        PhanTichLoiRepository phanTichLoiRepository
     ) {
         this.donBaoHanhRepository = donBaoHanhRepository;
         this.phanTichSanPhamRepository = phanTichSanPhamRepository;
@@ -53,6 +57,7 @@ public class FullServices {
         this.phanLoaiChiTietTiepNhanRepository = phanLoaiChiTietTiepNhanRepository;
         this.sanPhamRepository = sanPhamRepository;
         this.maBienBanRepository = maBienBanRepository;
+        this.phanTichLoiRepository = phanTichLoiRepository;
     }
 
     // * ============================ Template Tiếp nhận =================================
@@ -243,6 +248,13 @@ public class FullServices {
             this.phanTichSanPhamRepository.save(phanTichSanPham);
         }
         return phanTichSanPhamList;
+    }
+
+    //☺ cập nhật thông tin khai báo lỗi
+    public void updatePhanTichLoi(List<PhanTichLoi> phanTichLoiList) {
+        for (PhanTichLoi phanTichLoi : phanTichLoiList) {
+            this.phanTichLoiRepository.save(phanTichLoi);
+        }
     }
 
     // * Chi tiết đơn bảo hành

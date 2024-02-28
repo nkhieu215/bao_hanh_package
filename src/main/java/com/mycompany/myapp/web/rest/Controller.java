@@ -145,6 +145,12 @@ public class Controller {
         return phanTichSanPhamList1;
     }
 
+    //☺ cập nhật thông tin khai báo lỗi
+    @PostMapping("phan-tich-loi")
+    public void updatePhanTichLoi(@RequestBody List<PhanTichLoi> phanTichLoiList) {
+        this.fullServices.updatePhanTichLoi(phanTichLoiList);
+    }
+
     // * ============================== quản lý sản phẩm ===========================
     //☺ cập nhật thông tin 1 sản phẩm
     @PostMapping("san-phams/update/{id}")

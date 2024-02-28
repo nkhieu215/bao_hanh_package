@@ -1092,15 +1092,32 @@ export class PhanTichSanPhamComponent implements OnInit {
     if (input) {
       input.focus();
     }
-    if (this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '') {
-      alert('Vui lòng cập nhật mã LOT');
+    if (
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' ||
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0
+    ) {
+      let check = false;
+      if (
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0 &&
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber !== ''
+      ) {
+        alert('Vui lòng khai báo lỗi');
+        check = true;
+      }
+      if (check === false) {
+        alert('Vui lòng khai báo lỗi và cập nhật mã LOT');
+      }
     } else {
-      //thêm 1 phần tử mới
-      this.addItemForChiTietPhanTichSanPham();
+      //Gán vào danh sách update khai báo lỗi
+      for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
+        this.listOfKhaiBaoLoi.push(this.catchChangeOfListKhaiBaoLoi[i]);
+      }
       //cập nhật trạng thái sản phẩm khai báo lỗi
       this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].trangThai = true;
       //chuyển đến phân tích sản phẩm tiếp theo
       this.indexOfChiTietPhanTichSanPham++;
+      //thêm 1 phần tử mới
+      this.addItemForChiTietPhanTichSanPham();
       // cập nhật tiến độ của phân tích sản phẩm
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich += 1;
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slConLai =
@@ -1122,7 +1139,9 @@ export class PhanTichSanPhamComponent implements OnInit {
           break;
         }
       }
-      console.log('check thông tin trạng thái: ', this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham]);
+      console.log('check thông tin phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
+      console.log('Check thông tin danh sách update khai báo lỗi: ', this.listOfKhaiBaoLoi);
+      console.log('index after: ', this.indexOfChiTietPhanTichSanPham);
     }
   }
   //Lưu thông tin chi tiết phân tích sản phẩm và khai báo lỗi
@@ -1140,8 +1159,23 @@ export class PhanTichSanPhamComponent implements OnInit {
       this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
     }
     this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
-      alert('Cập nhật thành công');
-      console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', res);
+      this.listOfPhanTichSanPhamByPLCTTN = res;
+      console.log('Kết quả cập nhật chi tiết phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
+      setTimeout(() => {
+        //cập nhật danh sách phân tích lỗi
+        for (let i = 0; i < this.listOfKhaiBaoLoi.length; i++) {
+          for (let j = 0; j < this.listOfPhanTichSanPhamByPLCTTN.length; j++) {
+            if (this.listOfKhaiBaoLoi[i].phanTichSanPham.soThuTu === this.listOfPhanTichSanPhamByPLCTTN[j].soThuTu) {
+              this.listOfKhaiBaoLoi[i].phanTichSanPham.id = this.listOfPhanTichSanPhamByPLCTTN[j].id;
+            }
+          }
+        }
+        //cập nhật DB phân tích lỗi
+        this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
+          alert('Cập nhật thành công');
+        });
+        console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
+      }, 200);
     });
     // cập nhật phân tích lỗi
     // cập nhật số lượng đã phân tích ở đơn bảo hành
@@ -1154,9 +1188,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
   addItemForChiTietPhanTichSanPham(): void {
     this.catchChangeOfListKhaiBaoLoi = [];
-    const count = this.indexOfChiTietPhanTichSanPham + 1;
     const item = {
-      soThuTu: count,
+      soThuTu: this.indexOfChiTietPhanTichSanPham + 1,
       tenSanPham: '',
       tenNhanVienPhanTich: `${this.account?.firstName as string} ${this.account?.lastName as string}`,
       theLoaiPhanTich: '',
@@ -1187,6 +1220,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       this.catchChangeOfListKhaiBaoLoi.push(khaiBaoLoi);
     }
     console.log('danh sách khai báo lỗi: ', this.catchChangeOfListKhaiBaoLoi);
+    console.log('index before: ', this.indexOfChiTietPhanTichSanPham);
   }
 
   // hàm xử lý check all
@@ -1207,43 +1241,60 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.checkedAll = this.listOfChiTietSanPhamPhanTich.every(item => item.check);
   }
   catchEventKhaiBaoLois(index: any): void {
-    //reset kết quả
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat = 0;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong = 0;
-    //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
-    for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
-      if (this.catchChangeOfListKhaiBaoLoi[i].tenNhomLoi === 'Lỗi kĩ thuật') {
-        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
+    console.log('kiểm tra mã LOT', this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham]);
+    if (
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' &&
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === ''
+    ) {
+      alert('Chưa có thông tin LOT/SERIAL !!!');
+    } else {
+      //reset kết quả
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat = 0;
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong = 0;
+      //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
+      for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
+        if (this.catchChangeOfListKhaiBaoLoi[i].tenNhomLoi === 'Lỗi kĩ thuật') {
+          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
+        }
+        if (this.catchChangeOfListKhaiBaoLoi[i].tenNhomLoi === 'Lỗi linh động') {
+          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
+        }
       }
-      if (this.catchChangeOfListKhaiBaoLoi[i].tenNhomLoi === 'Lỗi linh động') {
-        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
-      }
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
+        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
+        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
     }
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
-      Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
-      Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
   }
   // cập nhật số lượng lỗi trong button
   catchEventKhaiBaoLoi(index: any): void {
-    this.catchChangeOfListKhaiBaoLoi[index].soLuong++;
-    console.log(index);
-    //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
-    if (this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi === 'Lỗi kĩ thuật') {
-      console.log({
-        tenLoi: this.catchChangeOfListKhaiBaoLoi[index].loi.tenLoi,
-        nLoi: this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi,
-        sl: this.catchChangeOfListKhaiBaoLoi[index].soLuong,
-      });
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat++;
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
-        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
-        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
-    }
-    if (this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi === 'Lỗi linh động') {
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong++;
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
-        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
-        Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
+    console.log('kiểm tra mã LOT', this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham]);
+
+    if (
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' &&
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === ''
+    ) {
+      alert('Chưa có thông tin LOT/SERIAL !!!');
+    } else {
+      this.catchChangeOfListKhaiBaoLoi[index].soLuong++;
+      console.log(index);
+      //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
+      if (this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi === 'Lỗi kĩ thuật') {
+        console.log({
+          tenLoi: this.catchChangeOfListKhaiBaoLoi[index].loi.tenLoi,
+          nLoi: this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi,
+          sl: this.catchChangeOfListKhaiBaoLoi[index].soLuong,
+        });
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat++;
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
+          Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
+          Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
+      }
+      if (this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi === 'Lỗi linh động') {
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong++;
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
+          Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
+          Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
+      }
     }
   }
 }
