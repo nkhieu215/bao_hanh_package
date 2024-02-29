@@ -13,6 +13,10 @@ import { LoiDeleteDialogComponent } from '../delete/loi-delete-dialog.component'
 export class LoiComponent implements OnInit {
   lois?: ILoi[];
   isLoading = false;
+  @Input() itemPerPage = 10;
+  itemsPerPage = ITEMS_PER_PAGE;
+  page?: number;
+  ngbPaginationPage = 1;
 
   constructor(protected loiService: LoiService, protected modalService: NgbModal) {}
 

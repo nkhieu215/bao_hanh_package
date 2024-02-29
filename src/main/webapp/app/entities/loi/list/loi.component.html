@@ -83,4 +83,15 @@
       </tbody>
     </table>
   </div>
+  <div *ngIf="lois && lois.length>0">
+    <div>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="all">All</option>
+      </select>
+      <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+    </div>
+  </div>
 </div>

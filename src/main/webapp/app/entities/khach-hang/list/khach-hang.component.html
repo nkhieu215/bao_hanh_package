@@ -1,178 +1,86 @@
-<div style="text-align: right" id="hiddenToolbar">
-  <button type="button" class="btn btn-primary" printTitle="MyTitle" printSectionId="BBkhoA" ngxPrint>In</button>
-  <button type="button" class="btn btn-success" id="themA">Thêm dòng</button>
-</div>
+<div>
+  <h2 id="page-heading" data-cy="KhachHangHeading">
+    <span>Khach Hangs</span>
 
-<div id="BBkhoA">
-  <header>
-    <div class="row">
-      <div class="col-6" align="left">
-        <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
-      </div>
-      <div class="col-6" align="right">RĐ.QID05.BM02 Ban hành lần 1</div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button id="jh-create-entity" data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-khach-hang" [routerLink]="['/khach-hang/new']">
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Khach Hang </span>
+      </button>
     </div>
-  </header>
-  <div align="center" style="margin-bottom: 1rem">
-    <strong style="font-size: 18px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH </strong>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="khachHangs?.length === 0">
+    <span>No khachHangs found</span>
   </div>
 
-  <div align="right" style="margin-right: 70px">Số: <input type="text" id="idDonA" size="10" style="color: black" disabled /></div>
-  <div align="right" style="margin-right: 62px">Kho: <input type="text" id="khoA" size="10" style="color: black" value="1" disabled /></div>
-  <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) ____ nhóm khách hàng ____</p>
-  <p class="description">Căn cứ biên bản giao nhận sản phẩm số ___ ngày __ tháng __ năm ____</p>
-  <table id="tableA" style="border-spacing: 0px">
-    <thead>
-      <tr style="border: 0.5px solid black">
-        <th rowspan="2" style="width: 1rem; border: 0.5px solid black">STT</th>
-        <th rowspan="2" style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
-        <th rowspan="2" style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
-        <th rowspan="2" style="width: 4rem; border: 0.5px solid black">SL SP được bảo hành</th>
-        <th colspan="2" style="border: 0.5px solid black">Mô tả lỗi</th>
-        <th colspan="2" style="border: 0.5px solid black">Kết luận, xử lý</th>
-      </tr>
-      <tr>
-        <th style="width: 5rem; border: 0.5px solid black">Lỗi linh động</th>
-        <th style="width: 5rem; border: 0.5px solid black">Lỗi kỹ thuật</th>
-        <th style="width: 7rem; border: 0.5px solid black">SL SP phải thanh lý(*)</th>
-        <th style="width: 7rem; border: 0.5px solid black">SL SP sửa chữa thay thế</th>
-      </tr>
-    </thead>
-    <tbody id="body-tableA"></tbody>
-  </table>
+  <div class="table-responsive" id="entities" *ngIf="khachHangs && khachHangs.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span>ID</span></th>
+          <th scope="col"><span>Ma Khach Hang</span></th>
+          <th scope="col"><span>Ten Khach Hang</span></th>
+          <th scope="col"><span>So Dien Thoai</span></th>
+          <th scope="col"><span>Dia Chi</span></th>
+          <th scope="col"><span>Nhom Khach Hang</span></th>
+          <th scope="col"><span>Tinh Thanh</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let khachHang of khachHangs; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/khach-hang', khachHang.id, 'view']">{{ khachHang.id }}</a>
+          </td>
+          <td>{{ khachHang.maKhachHang }}</td>
+          <td>{{ khachHang.tenKhachHang }}</td>
+          <td>{{ khachHang.soDienThoai }}</td>
+          <td>{{ khachHang.diaChi }}</td>
+          <td>
+            <div *ngIf="khachHang.nhomKhachHang">
+              <a [routerLink]="['/nhom-khach-hang', khachHang.nhomKhachHang?.id, 'view']">{{ khachHang.nhomKhachHang?.id
+                }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="khachHang.tinhThanh">
+              <a [routerLink]="['/tinh-thanh', khachHang.tinhThanh?.id, 'view']">{{ khachHang.tinhThanh?.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/khach-hang', khachHang.id, 'view']" class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
 
-  <div class="notes">
-    <p style="padding-left: 3rem"><i>(*) Số lượng thanh lý là căn cứ để đổi trả sản phẩm mới cho khách hàng</i></p>
-    <p style="padding-left: 3rem"><i>(**) Các vật tư, linh kiện đề nghị để sửa chữa, thay thế:</i></p>
-    <hr />
-    <hr />
+              <button type="submit" [routerLink]="['/khach-hang', khachHang.id, 'edit']" class="btn btn-primary btn-sm"
+                data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(khachHang)" class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <footer>
-    <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
-      <div class="col" style="text-align: center"><strong>TỔNG GIÁM ĐỐC/UQ</strong></div>
-      <div class="col" style="text-align: center; margin-right: -2rem"><strong>TRƯỞNG BỘ PHẬN</strong></div>
-      <div class="col" style="text-align: center">
-        <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
-        <select class="nhanvien" style="text-align: center; margin-top: 5rem"></select>
-      </div>
-    </div>
-  </footer>
-</div>
-<div class="jumbotron" style="background-color: gray; padding: 1rem"></div>
-<div id="BBkhoB">
-  <header>
-    <div class="row">
-      <div class="col-6" align="left">
-        <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
-      </div>
-      <div class="col-6" align="right">
-        <button type="button" class="btn btn-success" id="themB">Thêm dòng</button>
-        RĐ.QID05.BM02 Ban hành lần 1
-      </div>
-    </div>
-  </header>
-  <div align="center" style="margin-bottom: 1rem">
-    <strong style="font-size: 18px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH </strong>
-  </div>
-
-  <div align="right" style="margin-right: 70px">Số: <input type="text" id="idDonB" size="10" style="color: black" disabled /></div>
-  <div align="right" style="margin-right: 62px">Kho: <input type="text" id="khoB" size="10" style="color: black" value="2" disabled /></div>
-  <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) ____ nhóm khách hàng ____</p>
-  <p class="description">Căn cứ biên bản giao nhận sản phẩm số ___ ngày __ tháng __ năm ____</p>
-  <table id="tableB">
-    <thead>
-      <tr>
-        <th rowspan="2" style="width: 1rem">STT</th>
-        <th rowspan="2" style="width: 30rem">Tên sản phẩm</th>
-        <th rowspan="2" style="width: 3rem">Đ.vị tính</th>
-        <th rowspan="2" style="width: 4rem">SL SP được bảo hành</th>
-        <th colspan="2">Mô tả lỗi</th>
-        <th colspan="2">Kết luận, xử lý</th>
-      </tr>
-      <tr>
-        <th style="width: 5rem">Lỗi linh động</th>
-        <th style="width: 5rem">Lỗi kỹ thuật</th>
-        <th style="width: 7rem">SL SP phải thanh lý(*)</th>
-        <th style="width: 7rem">SL SP sửa chữa thay thế</th>
-      </tr>
-    </thead>
-    <tbody id="body-tableB"></tbody>
-  </table>
-
-  <div class="notes">
-    <p style="padding-left: 3rem"><i>(*) Số lượng thanh lý là căn cứ để đổi trả sản phẩm mới cho khách hàng</i></p>
-    <p style="padding-left: 3rem"><i>(**) Các vật tư, linh kiện đề nghị để sửa chữa, thay thế:</i></p>
-    <hr />
-    <hr />
-  </div>
-
-  <footer>
-    <div class="row" style="margin-left: -4rem">
-      <div class="col" style="text-align: center"><strong>TỔNG GIÁM ĐỐC/UQ</strong></div>
-      <div class="col" style="text-align: center; margin-right: -2rem"><strong>TRƯỞNG BỘ PHẬN</strong></div>
-      <div class="col" style="text-align: center">
-        <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
-        <select class="nhanvien" style="text-align: center; margin-top: 5rem"></select>
-      </div>
-    </div>
-  </footer>
-</div>
-<div class="jumbotron" style="background-color: gray; padding: 1rem"></div>
-<div id="BBkhoC">
-  <header>
-    <div class="row">
-      <div class="col-6" align="left">
-        <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG" width="150" />
-      </div>
-      <div class="col-6" align="right">
-        <button type="button" class="btn btn-success" id="themC">Thêm dòng</button>
-        RĐ.QID05.BM02 Ban hành lần 1
-      </div>
-    </div>
-  </header>
-  <div align="center" style="margin-bottom: 1rem">
-    <strong style="font-size: 18px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH </strong>
-  </div>
-
-  <div align="right" style="margin-right: 70px">Số: <input type="text" id="idDonC" size="10" style="color: black" disabled /></div>
-  <div align="right" style="margin-right: 62px">Kho: <input type="text" id="khoC" size="10" style="color: black" value="3" disabled /></div>
-  <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) ____ nhóm khách hàng ____</p>
-  <p class="description">Căn cứ biên bản giao nhận sản phẩm số ___ ngày __ tháng __ năm ____</p>
-  <table id="tableC">
-    <thead>
-      <tr>
-        <th rowspan="2" style="width: 1rem">STT</th>
-        <th rowspan="2" style="width: 30rem">Tên sản phẩm</th>
-        <th rowspan="2" style="width: 3rem">Đ.vị tính</th>
-        <th rowspan="2" style="width: 4rem">SL SP được bảo hành</th>
-        <th colspan="2">Mô tả lỗi</th>
-        <th colspan="2">Kết luận, xử lý</th>
-      </tr>
-      <tr>
-        <th style="width: 5rem">Lỗi linh động</th>
-        <th style="width: 5rem">Lỗi kỹ thuật</th>
-        <th style="width: 7rem">SL SP phải thanh lý(*)</th>
-        <th style="width: 7rem">SL SP sửa chữa thay thế</th>
-      </tr>
-    </thead>
-    <tbody id="body-tableC"></tbody>
-  </table>
-
-  <div class="notes">
-    <p style="padding-left: 3rem"><i>(*) Số lượng thanh lý là căn cứ để đổi trả sản phẩm mới cho khách hàng</i></p>
-    <p style="padding-left: 3rem"><i>(**) Các vật tư, linh kiện đề nghị để sửa chữa, thay thế:</i></p>
-    <hr />
-    <hr />
-  </div>
-
-  <footer>
-    <div class="row" style="margin-left: -4rem">
-      <div class="col" style="text-align: center"><strong>TỔNG GIÁM ĐỐC/UQ</strong></div>
-      <div class="col" style="text-align: center; margin-right: -2rem"><strong>TRƯỞNG BỘ PHẬN</strong></div>
-      <div class="col" style="text-align: center">
-        <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
-        <select class="nhanvien" style="text-align: center; margin-top: 5rem"></select>
-      </div>
-    </div>
-  </footer>
 </div>

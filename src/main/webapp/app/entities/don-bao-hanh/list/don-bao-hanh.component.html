@@ -94,16 +94,16 @@
               type="submit"
               id="save-entity"
               data-cy="entityCreateSaveButton"
-              class="btn btn-primary btn-option"
+              class="btn btn-success btn-option"
               style="margin: 15px"
               (click)="postDonBaoHanh()"
             >
-              <fa-icon icon="save"></fa-icon>&nbsp;<span>Lưu</span>
+              <fa-icon icon="check"></fa-icon>&nbsp;<span>Xác Nhận</span>
             </button>
 
-            <button class="btn btn-success btn-option" style="margin: 15px">
+            <!-- <button class="btn btn-success btn-option" style="margin: 15px">
               <fa-icon icon="check"></fa-icon>&nbsp;<span>Xác nhận</span>
-            </button>
+            </button> -->
           </div>
         </div>
         <div class="fixed-header-table">
@@ -111,7 +111,7 @@
             <thead style="background-color: #006699">
               <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
                 <th scope="col"><span class="span-table-phanloai">STT</span></th>
-                <th scope="col"><span class="span-table-phanloai">Tên sản phẩm</span></th>
+                <th scope="col" style="width: 24rem"><span class="span-table-phanloai">Tên sản phẩm</span></th>
                 <th scope="col"><span class="span-table-phanloai">Số lượng giao</span></th>
                 <th scope="col"><span class="span-table-phanloai">Đổi mới</span></th>
                 <th scope="col"><span class="span-table-phanloai">Sửa chữa</span></th>
@@ -438,7 +438,7 @@
 
                 <th scope="col">
                   <span class="span-table-phanloai" style="display: block">checkBox</span>
-                  <input type="checkbox" class="ui-checkbox" />
+                  <input type="checkbox" class="ui-checkbox" [checked]="checkedAll" (change)="checkAll()" />
                 </th>
 
                 <th scope="col">
@@ -448,7 +448,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let i = index; let data; of: resultChiTietSanPhamTiepNhans" class="editable-row">
+              <tr *ngFor="let i = index; let data of resultChiTietSanPhamTiepNhans" class="editable-row">
                 <td>{{ i + 1 }}</td>
                 <td>
                   <input

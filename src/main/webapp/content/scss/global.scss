@@ -54,6 +54,13 @@ Generic styles
   width: 100%;
 }
 
+.card {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: auto;
+}
+
 .error {
   color: white;
   background-color: red;
@@ -183,6 +190,7 @@ ui bootstrap tweaks
 }
 
 .dropdown-menu {
+  background-color: #333;
   padding-left: 0px;
 }
 

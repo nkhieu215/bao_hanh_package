@@ -7,7 +7,7 @@ import { LoiDeleteDialogComponent } from './delete/loi-delete-dialog.component';
 import { LoiRoutingModule } from './route/loi-routing.module';
 
 @NgModule({
-  imports: [SharedModule, LoiRoutingModule],
+  imports: [SharedModule, LoiRoutingModule, NgxPaginationModule],
   declarations: [LoiComponent, LoiDetailComponent, LoiUpdateComponent, LoiDeleteDialogComponent],
   entryComponents: [LoiDeleteDialogComponent],
 })

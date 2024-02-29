@@ -40,6 +40,7 @@ $sidebar-width: 250px;
   overflow-y: auto;
   transition: width 0.5s;
   z-index: 10;
+  scrollbar-width: thin;
 
   .sidebar-brand {
     display: block;
