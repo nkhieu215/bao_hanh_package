@@ -151,6 +151,13 @@ public class Controller {
         this.fullServices.updatePhanTichLoi(phanTichLoiList);
     }
 
+    //☺ Lấy danh sách phân tích lỗi theo phân tích sản phẩm id
+    @GetMapping("phan-tich-loi/{id}")
+    public List<PhanTichLoi> getByPhanTichSanPhamId(@PathVariable Long id) {
+        List<PhanTichLoi> phanTichLoiList = this.fullServices.getByPhanTichSanPhamId(id);
+        return phanTichLoiList;
+    }
+
     // * ============================== quản lý sản phẩm ===========================
     //☺ cập nhật thông tin 1 sản phẩm
     @PostMapping("san-phams/update/{id}")

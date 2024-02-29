@@ -184,8 +184,15 @@ export class PhanTichSanPhamComponent implements OnInit {
     // });
     this.http.get<any>('api/phan-tich-san-pham').subscribe(res => {
       this.donBaoHanhs = res;
+      const localTienDoDonBaoHanhs = JSON.parse(window.localStorage.getItem('DonBaoHanhs') as string);
       for (let i = 0; i < this.donBaoHanhs.length; i++) {
         this.donBaoHanhs[i].tienDo = 0;
+        //Cập nhật tiến độ
+        for (let j = 0; j < localTienDoDonBaoHanhs.length; j++) {
+          if (this.donBaoHanhs[i].id === localTienDoDonBaoHanhs[j].id) {
+            this.donBaoHanhs[i].tienDo = localTienDoDonBaoHanhs[j].tienDo;
+          }
+        }
       }
     });
   }
@@ -230,6 +237,11 @@ export class PhanTichSanPhamComponent implements OnInit {
           sessionStorage.setItem('DonBaoHanh', JSON.stringify(args.dataContext));
           console.log('don bao hanh: ', this.donBaoHanh);
           this.showData(args.dataContext.id);
+          setTimeout(() => {
+            for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
+              this.updateTienDoSanPhamPhanTich(this.listOfChiTietSanPhamPhanTich[i].id, i);
+            }
+          }, 2000);
         },
       },
 
@@ -520,7 +532,6 @@ export class PhanTichSanPhamComponent implements OnInit {
         this.resultOfSanPhamTheoKho = this.resultOfSanPhamTheoKho.filter(item => item.key !== '');
         console.log('Danh sách phân tách sản phẩm theo kho: ', this.resultOfSanPhamTheoKho);
       }, 500);
-      //tách sản phẩm theo kho
 
       console.log('Danh sách chi tiết sản phẩm phân tích', this.listOfChiTietSanPhamPhanTich);
     }, 1000);
@@ -982,27 +993,11 @@ export class PhanTichSanPhamComponent implements OnInit {
     });
   }
 
-  // viết hàm tăng 1 giá trị khi click vào btn cộng lỗi ()
-  addOne(count: number): void {
-    count++;
-  }
-
-  // openPopupChiTietLoi(idChiTiet: number, idDBH: number): void {
-  //   this.popupChiTietLoi = true;
-  //   console.log({ 1: idChiTiet, 2: idDBH });
-  //   const result: any[] = JSON.parse(sessionStorage.getItem(`PhanTich ${idDBH.toString()}`) as string);
-  //   for (let i = 0; i < result.length; i++) {
-  //     if (idChiTiet === result[i].id) {
-  //       this.phanTichChiTietSanPham = result[i];
-  //     }
-  //   }
-  //   console.log('khai bao loi', this.phanTichChiTietSanPham);
-  // }
   //==================================================== Popup chi tiết phân tích sản phẩm và khai báo lỗi ====================================================
   openPopupChiTietLoi(id: number, index: number): void {
+    this.popupChiTietLoi = true;
     this.itemOfPhanLoaiChiTietSanPham = this.listOfChiTietSanPhamPhanTich[index].phanLoaiChiTietTiepNhan;
     this.indexOfChiTietPhanTichSanPham = 0;
-    this.popupChiTietLoi = true;
     this.listOfPhanTichSanPhamByPLCTTN = [];
     this.indexOfPhanTichSanPham = index;
     // lấy danh sách chi tiết sản phẩm phân tích
@@ -1013,8 +1008,28 @@ export class PhanTichSanPhamComponent implements OnInit {
         // them moi phan tu dau tien
         console.log('them moi danh sach khai bao loi theo san pham:', this.listOfPhanTichSanPhamByPLCTTN);
       } else {
+        this.donBaoHanh.slDaPhanTich -= this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich;
+        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich = 0;
         //cập nhật tổng lỗi kĩ thuật và lỗi linh động
         for (let i = 0; i < this.listOfPhanTichSanPhamByPLCTTN.length; i++) {
+          this.http.get<any>(`api/phan-tich-loi/${this.listOfPhanTichSanPhamByPLCTTN[i].id as number}`).subscribe((res: any[]) => {
+            setTimeout(() => {
+              this.listOfPhanTichSanPhamByPLCTTN[i].loiKyThuat = 0;
+              this.listOfPhanTichSanPhamByPLCTTN[i].loiLinhDong = 0;
+              this.listOfPhanTichSanPhamByPLCTTN[i].soLuong = 0;
+              for (let j = 0; j < res.length; j++) {
+                if (res[j].loi.chiChu === 'Lỗi linh động') {
+                  this.listOfPhanTichSanPhamByPLCTTN[i].loiLinhDong += res[j].soLuong;
+                }
+                if (res[j].loi.chiChu === 'Lỗi kĩ thuật') {
+                  this.listOfPhanTichSanPhamByPLCTTN[i].loiKyThuat += res[j].soLuong;
+                }
+                this.listOfPhanTichSanPhamByPLCTTN[i].soLuong =
+                  Number(this.listOfPhanTichSanPhamByPLCTTN[i].loiKyThuat) + Number(this.listOfPhanTichSanPhamByPLCTTN[i].loiLinhDong);
+              }
+            }, 200);
+            console.log(res);
+          });
           if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'true') {
             this.listOfPhanTichSanPhamByPLCTTN[i].trangThai = true;
             this.listOfPhanTichSanPhamByPLCTTN[i].tenSanPham = this.listOfChiTietSanPhamPhanTich[index].tenSanPham;
@@ -1084,64 +1099,67 @@ export class PhanTichSanPhamComponent implements OnInit {
   //Cập nhật thông tin sau khi khai báo lỗi
   updatePhanTichSanPham(): void {
     if (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo === 100) {
-      alert('Hoàn thành phân tích');
+      alert('Đã hoàn thành phân tích');
       // cập nhật check sản phẩm phân tích
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].check = true;
-    }
-    const input = document.getElementById(this.scanType);
-    if (input) {
-      input.focus();
-    }
-    if (
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' ||
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0
+    } else if (
+      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo >= 0 &&
+      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo < 100
     ) {
-      let check = false;
+      const input = document.getElementById(this.scanType);
+      if (input) {
+        input.focus();
+      }
       if (
-        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0 &&
-        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber !== ''
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber === '' ||
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0
       ) {
-        alert('Vui lòng khai báo lỗi');
-        check = true;
-      }
-      if (check === false) {
-        alert('Vui lòng khai báo lỗi và cập nhật mã LOT');
-      }
-    } else {
-      //Gán vào danh sách update khai báo lỗi
-      for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
-        this.listOfKhaiBaoLoi.push(this.catchChangeOfListKhaiBaoLoi[i]);
-      }
-      //cập nhật trạng thái sản phẩm khai báo lỗi
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].trangThai = true;
-      //chuyển đến phân tích sản phẩm tiếp theo
-      this.indexOfChiTietPhanTichSanPham++;
-      //thêm 1 phần tử mới
-      this.addItemForChiTietPhanTichSanPham();
-      // cập nhật tiến độ của phân tích sản phẩm
-      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich += 1;
-      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slConLai =
-        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan -
-        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich;
-      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo =
-        (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich /
-          this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan) *
-        100;
-      // cập nhật tiến độ chung của đơn bảo hành
-      this.donBaoHanh.slDaPhanTich! += 1;
-      this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
-      //set value cùng 1 bộ nhớ
-      for (let i = 0; i < this.donBaoHanhs.length; i++) {
-        if (this.donBaoHanh.id === this.donBaoHanhs[i].id) {
-          this.donBaoHanhs[i].tienDo = this.donBaoHanh.tienDo;
-          this.donBaoHanhs[i].slDaPhanTich = this.donBaoHanh.slDaPhanTich;
-          console.log('thành công', this.donBaoHanhs);
-          break;
+        let check = false;
+        if (
+          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong === 0 &&
+          this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber !== ''
+        ) {
+          alert('Vui lòng khai báo lỗi');
+          check = true;
         }
+        if (check === false) {
+          alert('Vui lòng khai báo lỗi và cập nhật mã LOT');
+          if (input) {
+            input.focus();
+          }
+        }
+      } else {
+        //Gán vào danh sách update khai báo lỗi
+        for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
+          this.listOfKhaiBaoLoi.push(this.catchChangeOfListKhaiBaoLoi[i]);
+        }
+        //cập nhật trạng thái sản phẩm khai báo lỗi
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].trangThai = true;
+        //chuyển đến phân tích sản phẩm tiếp theo
+        this.indexOfChiTietPhanTichSanPham++;
+        //thêm 1 phần tử mới
+        this.addItemForChiTietPhanTichSanPham();
+        // cập nhật tiến độ của phân tích sản phẩm
+        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich += 1;
+        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slConLai =
+          this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan -
+          this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich;
+        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo =
+          (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich /
+            this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan) *
+          100;
+        // cập nhật tiến độ chung của đơn bảo hành
+        this.donBaoHanh.slDaPhanTich! += 1;
+        this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+        setTimeout(() => {
+          if (this.donBaoHanh.tienDo === 100) {
+            this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
+          }
+        }, 100);
+        console.log('check thông tin phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
+        console.log('Check thông tin danh sách update khai báo lỗi: ', this.listOfKhaiBaoLoi);
+        console.log('index after: ', this.indexOfChiTietPhanTichSanPham);
       }
-      console.log('check thông tin phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
-      console.log('Check thông tin danh sách update khai báo lỗi: ', this.listOfKhaiBaoLoi);
-      console.log('index after: ', this.indexOfChiTietPhanTichSanPham);
     }
   }
   //Lưu thông tin chi tiết phân tích sản phẩm và khai báo lỗi
@@ -1174,6 +1192,13 @@ export class PhanTichSanPhamComponent implements OnInit {
         this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
           alert('Cập nhật thành công');
         });
+        // lưu trong localStorage
+        for (let i = 0; i < this.donBaoHanhs.length; i++) {
+          if (this.donBaoHanh.id === this.donBaoHanhs[i].id) {
+            this.donBaoHanhs[i].tienDo = this.donBaoHanh.tienDo;
+          }
+        }
+        window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
         console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
       }, 200);
     });
@@ -1212,7 +1237,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         soLuong: 0,
         ngayPhanTich: today,
         username: this.account?.login,
-        ghiChu: '',
+        ghiChu: this.lois![i].nhomLoi!.tenNhomLoi,
         loi: this.lois![i],
         phanTichSanPham: item,
         tenNhomLoi: this.lois![i].nhomLoi!.tenNhomLoi,
@@ -1247,16 +1272,20 @@ export class PhanTichSanPhamComponent implements OnInit {
       this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === ''
     ) {
       alert('Chưa có thông tin LOT/SERIAL !!!');
+      const input = document.getElementById(this.scanType);
+      if (input) {
+        input.focus();
+      }
     } else {
       //reset kết quả
       this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat = 0;
       this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong = 0;
       //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
       for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
-        if (this.catchChangeOfListKhaiBaoLoi[i].tenNhomLoi === 'Lỗi kĩ thuật') {
+        if (this.catchChangeOfListKhaiBaoLoi[i].loi.chiChu === 'Lỗi kĩ thuật') {
           this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
         }
-        if (this.catchChangeOfListKhaiBaoLoi[i].tenNhomLoi === 'Lỗi linh động') {
+        if (this.catchChangeOfListKhaiBaoLoi[i].loi.chiChu === 'Lỗi linh động') {
           this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong += this.catchChangeOfListKhaiBaoLoi[i].soLuong;
         }
       }
@@ -1274,13 +1303,17 @@ export class PhanTichSanPhamComponent implements OnInit {
       this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail === ''
     ) {
       alert('Chưa có thông tin LOT/SERIAL !!!');
+      const input = document.getElementById(this.scanType);
+      if (input) {
+        input.focus();
+      }
     } else {
       this.catchChangeOfListKhaiBaoLoi[index].soLuong++;
       console.log(index);
       //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
-      if (this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi === 'Lỗi kĩ thuật') {
+      if (this.catchChangeOfListKhaiBaoLoi[index].loi.chiChu === 'Lỗi kĩ thuật') {
         console.log({
-          tenLoi: this.catchChangeOfListKhaiBaoLoi[index].loi.tenLoi,
+          tenLoi: this.indexOfChiTietPhanTichSanPham,
           nLoi: this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi,
           sl: this.catchChangeOfListKhaiBaoLoi[index].soLuong,
         });
@@ -1289,12 +1322,75 @@ export class PhanTichSanPhamComponent implements OnInit {
           Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
           Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
       }
-      if (this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi === 'Lỗi linh động') {
+      if (this.catchChangeOfListKhaiBaoLoi[index].loi.chiChu === 'Lỗi linh động') {
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong++;
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
           Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
           Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiLinhDong);
       }
     }
+  }
+  //Hàm cập nhật tiến độ sản phẩm phân tích
+  updateTienDoSanPhamPhanTich(id: number, index: number): void {
+    this.donBaoHanh.slDaPhanTich = 0;
+    this.indexOfChiTietPhanTichSanPham = 0;
+    this.listOfPhanTichSanPhamByPLCTTN = [];
+    this.indexOfPhanTichSanPham = index;
+    // lấy danh sách chi tiết sản phẩm phân tích
+    this.http.get<any>(`api/phan-tich-san-pham/${id}`).subscribe(res => {
+      this.listOfPhanTichSanPhamByPLCTTN = res;
+      console.log({ PLCTTNID: id, PLCTTNINDEX: index });
+      console.log('Độ dài danh sách: ', this.listOfPhanTichSanPhamByPLCTTN);
+      //cập nhật tổng lỗi kĩ thuật và lỗi linh động
+      for (let i = 0; i < this.listOfPhanTichSanPhamByPLCTTN.length; i++) {
+        console.log({ checkIndexOfSanPhamPhanTich: this.indexOfPhanTichSanPham, indexOfKhaiBaoLoi: i });
+        if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'true') {
+          // cập nhật tiến độ của phân tích sản phẩm
+          console.log('Cập nhật tiến độ khi khai báo lỗi', this.listOfChiTietSanPhamPhanTich[index]);
+          this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich += 1;
+          this.listOfChiTietSanPhamPhanTich[index].slConLai =
+            this.listOfChiTietSanPhamPhanTich[index].slTiepNhan - this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich;
+          this.listOfChiTietSanPhamPhanTich[index].tienDo =
+            (this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich / this.listOfChiTietSanPhamPhanTich[index].slTiepNhan) * 100;
+          if (this.listOfChiTietSanPhamPhanTich[index].tienDo === 100) {
+            // cập nhật check sản phẩm phân tích
+            this.listOfChiTietSanPhamPhanTich[index].check = true;
+          }
+          // cập nhật tiến độ chung của đơn bảo hành
+          this.donBaoHanh.slDaPhanTich!++;
+          this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+        }
+      }
+      // cập nhật số lượng sản phẩm đã phân tích, số lượng còn lại, tiến độ phân tích(chưa làm)
+    });
+  }
+  chinhSuaKhaiBaoLoi(index: any): void {
+    console.log(this.listOfPhanTichSanPhamByPLCTTN[index].id);
+    //cập nhật index
+    this.indexOfChiTietPhanTichSanPham = index;
+    //cập nhật phần tử hiển thị từ api
+    this.http.get<any>(`api/phan-tich-loi/${this.listOfPhanTichSanPhamByPLCTTN[index].id as number}`).subscribe(res => {
+      this.catchChangeOfListKhaiBaoLoi = res;
+    });
+  }
+  saveKhaiBaoLoi(): void {
+    //Gán vào danh sách update khai báo lỗi
+    for (let i = 0; i < this.catchChangeOfListKhaiBaoLoi.length; i++) {
+      this.listOfKhaiBaoLoi.push(this.catchChangeOfListKhaiBaoLoi[i]);
+    }
+    setTimeout(() => {
+      this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
+        alert('Cập nhật thành công');
+        //reset dữ liệu
+        this.listOfKhaiBaoLoi = [];
+      });
+      // lưu trong localStorage
+      for (let i = 0; i < this.donBaoHanhs.length; i++) {
+        if (this.donBaoHanh.id === this.donBaoHanhs[i].id) {
+          this.donBaoHanhs[i].tienDo = this.donBaoHanh.tienDo;
+        }
+      }
+      window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
+    }, 200);
   }
 }

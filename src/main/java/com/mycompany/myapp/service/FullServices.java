@@ -257,6 +257,12 @@ public class FullServices {
         }
     }
 
+    //☺ Lấy danh sách phân tích lỗi theo phân tích sản phẩm id
+    public List<PhanTichLoi> getByPhanTichSanPhamId(Long id) {
+        List<PhanTichLoi> phanTichLoiList = this.phanTichLoiRepository.findAllByPhanTichSanPhamId(id);
+        return phanTichLoiList;
+    }
+
     // * Chi tiết đơn bảo hành
     // * ============================ Template Tổng hợp =================================
     // * Trang chủ
