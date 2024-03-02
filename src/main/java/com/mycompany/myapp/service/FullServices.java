@@ -263,6 +263,24 @@ public class FullServices {
         return phanTichLoiList;
     }
 
+    //☺ lấy biên bản Tiếp nhận theo đơn bảo hành
+    public MaBienBan getBienBanTiepNhanByDonBaoHanhId(Long id) {
+        MaBienBan maBienBan = this.maBienBanRepository.getBienBanTiepNhanByDonBaoHanhId(id);
+        return maBienBan;
+    }
+
+    //☺ lấy biên bản kiểm nghiệm theo đơn bảo hành
+    public MaBienBan getBienBanKiemNghiemByDonBaoHanhId(Long id) {
+        MaBienBan maBienBan = this.maBienBanRepository.getBienBanKiemNghiemByDonBaoHanhId(id);
+        return maBienBan;
+    }
+
+    //☺ lấy biên bản thanh lý theo đơn bảo hành
+    public MaBienBan getBienBanThanhLyByDonBaoHanhId(Long id) {
+        MaBienBan maBienBan = this.maBienBanRepository.getBienBanThanhLyByDonBaoHanhId(id);
+        return maBienBan;
+    }
+
     // * Chi tiết đơn bảo hành
     // * ============================ Template Tổng hợp =================================
     // * Trang chủ

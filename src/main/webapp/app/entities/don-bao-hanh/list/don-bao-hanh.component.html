@@ -438,7 +438,8 @@
 
                 <th scope="col">
                   <span class="span-table-phanloai" style="display: block">checkBox</span>
-                  <input type="checkbox" class="ui-checkbox" [checked]="checkedAll" (change)="checkAll()" />
+                  <!-- <input type="checkbox" class="ui-checkbox" [checked]="checkedAll" (change)="checkAll()" /> -->
+                  <input type="checkbox" class="ui-checkbox" />
                 </th>
 
                 <th scope="col">
@@ -448,7 +449,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let i = index; let data of resultChiTietSanPhamTiepNhans" class="editable-row">
+              <tr *ngFor="let i = index; let data; of: resultChiTietSanPhamTiepNhans" class="editable-row">
                 <td>{{ i + 1 }}</td>
                 <td>
                   <input
@@ -590,7 +591,7 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 1: Lưu tổ phục vụ đổi sản phẩm</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
@@ -687,7 +688,7 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 2: Khách hàng</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
@@ -784,7 +785,7 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 3: P. KHTT</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
@@ -881,7 +882,7 @@
             <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
             <p style="text-align: center">Liên 4: Phòng BH1</p>
           </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px;">Số: {{ maBienBan }}</div>
+          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>

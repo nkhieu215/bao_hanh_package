@@ -200,7 +200,7 @@
                     </button>
                   </td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ i + 1 }}" disabled /></td>
-                  <td><input type="text" class="inp-ptich-sp" value="{{ data.tenSanPham }}" style="width: 24rem;" disabled /></td>
+                  <td><input type="text" class="inp-ptich-sp" value="{{ data.tenSanPham }}" style="width: 24rem" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.tinhTrang }}" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slTiepNhan }}" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slDaPhanTich }}" disabled /></td>
@@ -291,11 +291,11 @@
 
       <div class="group-btn-scan">
         <div class="popup-footer">
-          <button class="btn btn-danger btn-option" (click)="closePopup()><fa-icon icon="ban"></fa-icon>&nbsp;Huỷ</button>
-          <button class="btn btn-primary btn-option" (click)="saveKhaiBaoLoi()">
-            <fa-icon icon="save"></fa-icon>&nbsp;Lưu
+          <button class="btn btn-danger btn-option" (click)="closePopup()"><fa-icon icon="ban"></fa-icon>Huỷ</button>
+          <button class="btn btn-primary btn-option" (click)="saveKhaiBaoLoi()"><fa-icon icon="save"></fa-icon>&nbsp;Lưu</button>
+          <button class="btn btn-success btn-option" (click)="postChiTietPhanTichSanPham()">
+            <fa-icon icon="check"></fa-icon>&nbsp;Xác nhận
           </button>
-          <button class="btn btn-success btn-option"(click)="postChiTietPhanTichSanPham()"><fa-icon icon="check"></fa-icon>&nbsp;Xác nhận</button>
         </div>
 
         <div class="group-scan">
@@ -500,7 +500,6 @@
                   [ngModelOptions]="{ standalone: true }"
                 /> -->
                 <input class="inp-hidden" style="height: 35px; width: 3rem" disabled />
-
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Nhân viên phân tích</span>
@@ -546,7 +545,6 @@
                   [ngModelOptions]="{ standalone: true }"
                 /> -->
                 <input class="inp-hidden" style="height: 35px; width: 3rem" disabled />
-
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Lỗi kỹ thuật</span>
@@ -559,7 +557,6 @@
                   [ngModelOptions]="{ standalone: true }"
                 /> -->
                 <input class="inp-hidden" style="height: 35px; width: 3rem" disabled />
-
               </th>
               <th scope="col">
                 <span class="span-table-phantich">Lỗi linh động</span>
@@ -572,7 +569,18 @@
                   [ngModelOptions]="{ standalone: true }"
                 /> -->
                 <input class="inp-hidden" style="height: 35px; width: 3rem" disabled />
-
+              </th>
+              <th scope="col">
+                <span class="span-table-phantich">Option</span>
+                <!-- <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  class="form-control"
+                  list="ten_san_pham"
+                  [(ngModel)]="searchKey"
+                  [ngModelOptions]="{ standalone: true }"
+                /> -->
+                <input class="inp-hidden" style="height: 35px; width: 3rem" disabled />
               </th>
             </tr>
           </thead>
@@ -590,6 +598,9 @@
               <td class="body-column"><input type="checkbox" [(ngModel)]="data.trangThai" [ngModelOptions]="{ standalone: true }" /></td>
               <td class="body-column">{{ data.loiKyThuat }}</td>
               <td class="body-column">{{ data.loiLinhDong }}</td>
+              <button class="btn btn-success" (click)="chinhSuaKhaiBaoLoi(i)">
+                <fa-icon icon="pencil"></fa-icon>
+              </button>
             </tr>
           </tbody>
         </table>
@@ -607,6 +618,24 @@
     </div>
     <div id="hiddenToolbar" class="group-btn-inBBPT">
       <div>
+        <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="showGroupOptionsTN()">
+          Biên bản kiểm nghiệm
+        </button>
+        <div class="group-btn-options" *ngIf="groupOptionsTN === true">
+          <table class="table table-striped">
+            <tbody>
+              <td class="inventory-name">
+                <tr *ngFor="let data of danhSachLienBienBanTiepNhan; let i = index" style="border: none">
+                  <button class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupBBTN(i)">
+                    {{ data.name }} {{ data.value }}
+                  </button>
+                </tr>
+              </td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- <div>
         <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="showGroupOptionsTN()">Biên bản tiếp nhận</button>
         <div class="group-btn-options" *ngIf="groupOptionsTN === true">
           <button type="button" class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTN1()">Liên 1 (Tổ đổi)</button>
@@ -614,729 +643,381 @@
           <button type="button" class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTN3()">Liên 3 (P.KHTT)</button>
           <button type="button" class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTN4()">Liên 4 (P.BH 1)</button>
         </div>
-      </div>
+      </div> -->
       <div>
-        <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="showGroupOptionsKN()">Biên bản kiểm nghiệm</button>
+        <button type="button" class="btn btn-primary btn-options-in btn-popup-in" (click)="showGroupOptionsKN()">
+          Biên bản kiểm nghiệm
+        </button>
         <div class="group-btn-options" *ngIf="groupOptionsKN === true">
           <table class="table table-striped">
             <tbody>
               <td class="inventory-name">
-                <tr *ngFor="let data of resultOfSanPhamTheoKho" style="border: none">
-                  <button class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBKN()">
-                    {{data.key}}
+                <tr *ngFor="let data of resultOfSanPhamTheoKho; let i = index" style="border: none">
+                  <button class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBKN(i)">
+                    {{ data.key }} : {{ data.value.length }} SP
                   </button>
                 </tr>
               </td>
             </tbody>
           </table>
         </div>
-        <!-- <div class="group-btn-options" *ngIf="groupOptionsKN === true">
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBKN()">Kho 1</button>
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBKN()">Kho 2</button>
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBKN()">Kho 3</button>
-        </div> -->
       </div>
       <div>
-        <button type="button" class="btn btn-primary btn-options-in btn-popup-in-2" (click)="showGroupOptionsTL()">Biên bản thanh lý</button>
+        <button type="button" class="btn btn-primary btn-options-in btn-popup-in-2" (click)="showGroupOptionsTL()">
+          Biên bản thanh lý
+        </button>
         <div class="group-btn-options" *ngIf="groupOptionsTL === true">
           <table class="table table-striped">
             <tbody>
               <td class="inventory-name">
-                <tr *ngFor="let data of resultOfSanPhamTheoKho" style="border: none">
-                  <button class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTL()">
-                    {{data.key}}
+                <tr *ngFor="let data of resultOfSanPhamTheoKho; let i = index" style="border: none">
+                  <button class="btn btn-primary btn-options-in btn-options-in-pt" (click)="openPopupInBBTL(i)">
+                    {{ data.key }} : {{ data.value.length }} SP
                   </button>
                 </tr>
               </td>
             </tbody>
           </table>
-        <!-- <div class="group-btn-options" *ngIf="groupOptionsTL === true">
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTL()">Kho 1</button>
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTL()">Kho 2</button>
-          <button type="button" class="btn btn-primary btn-options-in-pt" (click)="openPopupInBBTL()">Kho 3</button>
-        </div> -->
-      </div>
-    </div>
-  </div>
-</div>
-<!-- ------------------------------------------------------ popup chi tiết lỗi của tất cả sản phẩm theo đơn bảo hành ----------------------->
-<div class="table-responsive popup-background" role="dialog" *ngIf="popupShowChiTietLoi === true">
-  <div class="popup-container" style="min-width: 94vw">
-    <div class="popup-header">
-      <h2>Thông tin chi tiết lỗi của sản phẩm</h2>
-      <hr />
-      <span class="close-btn" (click)="closePopupShowChiTietLoi()">&times;</span>
-    </div>
-    <div class="popup-content">
-      <form>
-        <table class="table table-striped" aria-describedby="page-heading">
-          <thead style="background-color: #006699">
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
-              <th scope="col" jhiSortBy="id">
-                <span class="span-table-phantich">Mã tiếp nhận</span>
-              </th>
-              <th scope="col" jhiSortBy="id">
-                <span class="span-table-phantich">Khách hàng</span>
-              </th>
-              <th scope="col" jhiSortBy="id">
-                <span class="span-table-phantich">Tổng tiếp nhận</span>
-              </th>
-              <th scope="col" jhiSortBy="id">
-                <span class="span-table-phantich">Đã xử lý</span>
-              </th>
-              <th scope="col" jhiSortBy="id">
-                <span class="span-table-phantich">Tiến độ</span>
-              </th>
-              <th scope="col" jhiSortBy="id">
-                <span class="span-table-phantich">Ngày tiếp nhận</span>
-              </th>
-              <th scope="col" jhiSortBy="id">
-                <span class="span-table-phantich">Trạng thái</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </form>
-      <br />
-      <br />
-      <h2>Chi tiết thông tin sản phẩm</h2>
-      <div>
-        <table class="table table-striped">
-          <thead style="background-color: #006699">
-            <tr>
-              <th scope="col">
-                <span class="span-table-phantich">STT</span>
-                <input class="inp-hidden" style="height: 35px" disabled />
-              </th>
-              <th scope="col" style="width: 40em">
-                <span class="span-table-phantich">Tên sản phẩm</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Mã sản phẩm</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Số lô</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">LOT Number</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Năm sản xuất</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Tổng lỗi</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Nhân viên phân tích</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Ngày kiểm tra</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Username</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Trạng thái</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Lỗi kỹ thuật</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-              <th scope="col">
-                <span class="span-table-phantich">Lỗi linh động</span>
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm"
-                  class="form-control"
-                  list="ten_san_pham"
-                  [(ngModel)]="searchKey"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-              <td class="body-column"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <form></form>
-    </div>
-  </div>
-</div>
-
-<!-- In biên bản tiếp nhận -->
-<!-- In liên 1 -->
-<div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN1 === true">
-  <div class="popup-container">
-    <div class="popup-header-in">
-      <span class="close-btn" style="float: right" (click)="closePopupBBTN1()">&times;</span>
-      <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI" printSectionId="BBTN1" ngxPrint>
-          In
-        </button>
-      </div>
-      <div id="BBTN1">
-        <div id="lien1">
-          <header>
-            <div class="row">
-              <div class="col-6" align="left" style="height: 0px">
-                <img
-                  src="../../../../content/images/logoRD.png"
-                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                  width="150"
-                  style="margin-top: -30px; margin-left: 30px"
-                />
-              </div>
-              <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
-            </div>
-          </header>
-          <div align="center">
-            <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
-            <p style="text-align: center">Liên 1: Lưu tổ phục vụ đổi sản phẩm</p>
-          </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
-          <br />
-
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): {{ donBaoHanh1.khachHang.tenKhachHang }}</p>
-          <p>Địa chỉ: {{ donBaoHanh1.khachHang.diaChi }}</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
-          <div>
-            <table id="table" class="table-TN" style="border-spacing: 0px">
-              <thead>
-                <tr>
-                  <th style="width: 1rem; border: 0.5px solid black">STT</th>
-                  <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
-                  <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
-                  <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
-                  <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do không bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do sửa chữa</th>
-                </tr>
-              </thead>
-              <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
-                <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                <td style="border: 0.5px solid black">{{ data.tenSanPham }}</td>
-                <td style="border: 0.5px solid black">{{ data.donVi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhachGiao }}</td>
-                <td style="border: 0.5px solid black">{{ data.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">{{ data.slDoiMoi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slSuaChua }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
-                <td style="border: 0.5px solid black"></td>
-                <td style="border: 0.5px solid black"></td>
-              </tbody>
-            </table>
-          </div>
-          <div class="notes">
-            <p>
-              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
-              giao khách hàng
-            </p>
-            <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
-          </div>
-          <footer>
-            <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
-              <div class="col" style="text-align: center"><strong>ĐẠI DIỆN KHÁCH HÀNG</strong></div>
-              <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
-              <div class="col" style="text-align: center">
-                <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                <p style="padding-top: 8em">Đỗ Văn Việt</p>
-              </div>
-            </div>
-          </footer>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<!-- In liên 2 -->
-<div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN2 === true">
-  <div class="popup-container">
-    <div class="popup-header-in">
-      <span class="close-btn" style="float: right" (click)="closePopupBBTN2()">&times;</span>
-      <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI" printSectionId="BBTN2" ngxPrint>
-          In
-        </button>
+  <!-- ------------------------------------------------------ popup chi tiết lỗi của tất cả sản phẩm theo đơn bảo hành ----------------------->
+  <div class="table-responsive popup-background" role="dialog" *ngIf="popupShowChiTietLoi === true">
+    <div class="popup-container" style="min-width: 94vw">
+      <div class="popup-header">
+        <h2>Thông tin chi tiết lỗi của sản phẩm</h2>
+        <hr />
+        <span class="close-btn" (click)="closePopupShowChiTietLoi()">&times;</span>
       </div>
-      <div id="BBTN2">
-        <div id="lien2">
-          <header>
-            <div class="row">
-              <div class="col-6" align="left" style="height: 0px">
-                <img
-                  src="../../../../content/images/logoRD.png"
-                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                  width="150"
-                  style="margin-top: -30px; margin-left: 30px"
-                />
-              </div>
-              <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
-            </div>
-          </header>
-          <div align="center">
-            <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
-            <p style="text-align: center">Liên 2: Khách hàng</p>
-          </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
-          <br />
-
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): {{ donBaoHanh1.khachHang.tenKhachHang }}</p>
-          <p>Địa chỉ: {{ donBaoHanh1.khachHang.diaChi }}</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
-          <div>
-            <table id="table" class="table-TN" style="border-spacing: 0px">
-              <thead>
-                <tr>
-                  <th style="width: 1rem; border: 0.5px solid black">STT</th>
-                  <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
-                  <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
-                  <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
-                  <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do không bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do sửa chữa</th>
-                </tr>
-              </thead>
-              <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
-                <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                <td style="border: 0.5px solid black">{{ data.tenSanPham }}</td>
-                <td style="border: 0.5px solid black">{{ data.donVi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhachGiao }}</td>
-                <td style="border: 0.5px solid black">{{ data.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">{{ data.slDoiMoi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slSuaChua }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
-                <td style="border: 0.5px solid black"></td>
-                <td style="border: 0.5px solid black"></td>
-              </tbody>
-            </table>
-          </div>
-          <div class="notes">
-            <p>
-              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
-              giao khách hàng
-            </p>
-            <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
-          </div>
-          <footer>
-            <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
-              <div class="col" style="text-align: center"><strong>ĐẠI DIỆN KHÁCH HÀNG</strong></div>
-              <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
-              <div class="col" style="text-align: center">
-                <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                <p style="padding-top: 8em">Đỗ Văn Việt</p>
-              </div>
-            </div>
-          </footer>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- In liên 3 -->
-<div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN3 === true">
-  <div class="popup-container">
-    <div class="popup-header-in">
-      <span class="close-btn" style="float: right" (click)="closePopupBBTN3()">&times;</span>
-      <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI" printSectionId="BBTN3" ngxPrint>
-          In
-        </button>
-      </div>
-      <div id="BBTN3">
-        <div id="lien3">
-          <header>
-            <div class="row">
-              <div class="col-6" align="left" style="height: 0px">
-                <img
-                  src="../../../../content/images/logoRD.png"
-                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                  width="150"
-                  style="margin-top: -30px; margin-left: 30px"
-                />
-              </div>
-              <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
-            </div>
-          </header>
-          <div align="center">
-            <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
-            <p style="text-align: center">Liên 3: P. KHTT</p>
-          </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
-          <br />
-
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): {{ donBaoHanh1.khachHang.tenKhachHang }}</p>
-          <p>Địa chỉ: {{ donBaoHanh1.khachHang.diaChi }}</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
-          <div>
-            <table id="table" class="table-TN" style="border-spacing: 0px">
-              <thead>
-                <tr>
-                  <th style="width: 1rem; border: 0.5px solid black">STT</th>
-                  <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
-                  <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
-                  <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
-                  <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do không bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do sửa chữa</th>
-                </tr>
-              </thead>
-              <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
-                <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                <td style="border: 0.5px solid black">{{ data.tenSanPham }}</td>
-                <td style="border: 0.5px solid black">{{ data.donVi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhachGiao }}</td>
-                <td style="border: 0.5px solid black">{{ data.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">{{ data.slDoiMoi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slSuaChua }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
-                <td style="border: 0.5px solid black"></td>
-                <td style="border: 0.5px solid black"></td>
-              </tbody>
-            </table>
-          </div>
-          <div class="notes">
-            <p>
-              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
-              giao khách hàng
-            </p>
-            <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
-          </div>
-          <footer>
-            <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
-              <div class="col" style="text-align: center"><strong>ĐẠI DIỆN KHÁCH HÀNG</strong></div>
-              <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
-              <div class="col" style="text-align: center">
-                <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                <p style="padding-top: 8em">Đỗ Văn Việt</p>
-              </div>
-            </div>
-          </footer>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- In liên 4 -->
-<div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN4 === true">
-  <div class="popup-container">
-    <div class="popup-header-in">
-      <span class="close-btn" style="float: right" (click)="closePopupBBTN4()">&times;</span>
-      <div id="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI" printSectionId="BBTN4" ngxPrint>
-          In
-        </button>
-      </div>
-      <div id="BBTN4">
-        <div id="lien4">
-          <header>
-            <div class="row">
-              <div class="col-6" align="left" style="height: 0px">
-                <img
-                  src="../../../../content/images/logoRD.png"
-                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                  width="150"
-                  style="margin-top: -30px; margin-left: 30px"
-                />
-              </div>
-              <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
-            </div>
-          </header>
-          <div align="center">
-            <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
-            <p style="text-align: center">Liên 4: Phòng BH1</p>
-          </div>
-          <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
-          <br />
-
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): {{ donBaoHanh1.khachHang.tenKhachHang }}</p>
-          <p>Địa chỉ: {{ donBaoHanh1.khachHang.diaChi }}</p>
-          <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
-          <div>
-            <table id="table" class="table-TN" style="border-spacing: 0px">
-              <thead>
-                <tr>
-                  <th style="width: 1rem; border: 0.5px solid black">STT</th>
-                  <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
-                  <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
-                  <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
-                  <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
-                  <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do không bảo hành</th>
-                  <th style="width: 10rem; border: 0.5px solid black">Lý do sửa chữa</th>
-                </tr>
-              </thead>
-              <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
-                <td style="border: 0.5px solid black">{{ i + 1 }}</td>
-                <td style="border: 0.5px solid black">{{ data.tenSanPham }}</td>
-                <td style="border: 0.5px solid black">{{ data.donVi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhachGiao }}</td>
-                <td style="border: 0.5px solid black">{{ data.slTiepNhan }}</td>
-                <td style="border: 0.5px solid black">{{ data.slDoiMoi }}</td>
-                <td style="border: 0.5px solid black">{{ data.slSuaChua }}</td>
-                <td style="border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
-                <td style="border: 0.5px solid black"></td>
-                <td style="border: 0.5px solid black"></td>
-              </tbody>
-            </table>
-          </div>
-          <div class="notes">
-            <p>
-              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
-              giao khách hàng
-            </p>
-            <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
-          </div>
-          <footer>
-            <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
-              <div class="col" style="text-align: center"><strong>ĐẠI DIỆN KHÁCH HÀNG</strong></div>
-              <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
-              <div class="col" style="text-align: center">
-                <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
-                <p style="padding-top: 8em">Đỗ Văn Việt</p>
-              </div>
-            </div>
-          </footer>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- In biên bản kiểm nghiệm -->
-<div class="table-responsive popup-background" role="dialog" *ngIf="popupInBBKN === true">
-  <div class="popup-container">
-    <div class="popup-header-in">
-      <span class="close-btn" style="float: right" (click)="closePopupBBKN()">&times;</span>
-      <div class="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH" printSectionId="BBkhoA" ngxPrint>
-          In
-        </button>
-      </div>
-
-      <div id="BBkhoA">
-        <header>
-          <div class="row">
-            <div class="col-6" align="left" style="height: 0px">
-              <img
-                src="../../../../content/images/logoRD.png"
-                alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                width="150"
-                style="margin-top: -30px; margin-left: 30px"
-              />
-            </div>
-            <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM02 Ban hành lần 1</div>
-          </div>
-        </header>
-        <div align="center">
-          <h5 style="margin-top: -20px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH</h5>
-          <p>Kho 1</p>
-        </div>
-
-        <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
+      <div class="popup-content">
+        <form>
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead style="background-color: #006699">
+              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+                <th scope="col" jhiSortBy="id">
+                  <span class="span-table-phantich">Mã tiếp nhận</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span class="span-table-phantich">Khách hàng</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span class="span-table-phantich">Tổng tiếp nhận</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span class="span-table-phantich">Đã xử lý</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span class="span-table-phantich">Tiến độ</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span class="span-table-phantich">Ngày tiếp nhận</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span class="span-table-phantich">Trạng thái</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
         <br />
-        <!-- <div align="right" style="margin-right: 62px">
-          Kho: <input type="text" id="khoA" size="10" style="color: black" value="1" disabled />
-        </div> -->
-        <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) nhóm khách hàng</p>
-        <p class="description">Căn cứ biên bản giao nhận sản phẩm số {{ maBienBan }} ngày {{ date }} tháng {{ month }} năm {{ year }}</p>
-        <table id="tableA" class="table-TN" style="border-spacing: 0px">
-          <thead>
-            <tr>
-              <th rowspan="2" style="width: 1rem; border: 0.5px solid black">STT</th>
-              <th rowspan="2" style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
-              <th rowspan="2" style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
-              <th rowspan="2" style="width: 4rem; border: 0.5px solid black">SL SP được bảo hành</th>
-              <th colspan="2" style="border: 0.5px solid black">Mô tả lỗi</th>
-              <th colspan="2" style="border: 0.5px solid black">Kết luận, xử lý</th>
-            </tr>
-            <tr>
-              <th style="width: 5rem; border: 0.5px solid black">Lỗi linh động</th>
-              <th style="width: 5rem; border: 0.5px solid black">Lỗi kỹ thuật</th>
-              <th style="width: 7rem; border: 0.5px solid black">SL SP phải thanh lý(*)</th>
-              <th style="width: 7rem; border: 0.5px solid black">SL SP sửa chữa thay thế</th>
-            </tr>
-          </thead>
-          <tbody id="body-tableA">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tbody>
-        </table>
-
-        <div class="notes">
-          <p style="padding-left: 3rem"><i>(*) Số lượng thanh lý là căn cứ để đổi trả sản phẩm mới cho khách hàng</i></p>
-          <p style="padding-left: 3rem"><i>(**) Các vật tư, linh kiện đề nghị để sửa chữa, thay thế:</i></p>
-          <hr />
-          <hr />
+        <br />
+        <h2>Chi tiết thông tin sản phẩm</h2>
+        <div>
+          <table class="table table-striped">
+            <thead style="background-color: #006699">
+              <tr>
+                <th scope="col">
+                  <span class="span-table-phantich">STT</span>
+                  <input class="inp-hidden" style="height: 35px" disabled />
+                </th>
+                <th scope="col" style="width: 40em">
+                  <span class="span-table-phantich">Tên sản phẩm</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Mã sản phẩm</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Số lô</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">LOT Number</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Năm sản xuất</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Tổng lỗi</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Nhân viên phân tích</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Ngày kiểm tra</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Username</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Trạng thái</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Lỗi kỹ thuật</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+                <th scope="col">
+                  <span class="span-table-phantich">Lỗi linh động</span>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    class="form-control"
+                    list="ten_san_pham"
+                    [(ngModel)]="searchKey"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+                <td class="body-column"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <form></form>
       </div>
-      <footer>
-        <div class="row" style="margin-left: -4rem">
-          <div class="col" style="text-align: center"><strong>TỔNG GIÁM ĐỐC/UQ</strong></div>
-          <div class="col" style="text-align: center; margin-right: -2rem"><strong>TRƯỞNG BỘ PHẬN</strong></div>
-          <div class="col" style="text-align: center">
-            <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
-            <!-- <select class="nhanvien" style="text-align:center; margin-top: 5rem;"></select> -->
-            <p style="padding-top: 8em">Đỗ Văn Việt</p>
-          </div>
-        </div>
-      </footer>
     </div>
   </div>
-</div>
 
-<!-- In biên bản thanh lý -->
-<div class="table-responsive popup-background" role="dialog" *ngIf="popupInBBTL === true">
-  <div class="popup-container">
-    <div class="popup-header-in">
-      <span class="close-btn" style="float: right" (click)="closePopupBBTL()">&times;</span>
-      <div class="hiddenToolbar">
-        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN THANH LÝ SẢN PHẨM MẤT PHẨM CHẤT" ngxPrint>In</button>
+  <!-- In biên bản tiếp nhận -->
+  <div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN === true">
+    <div class="popup-container">
+      <div class="popup-header-in">
+        <span class="close-btn" style="float: right" (click)="closePopupBBTN()">&times;</span>
+        <div id="hiddenToolbar">
+          <button
+            type="button"
+            class="btn btn-primary"
+            printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+            (click)="xacNhanInBienBan()"
+            printSectionId="BBTN"
+            ngxPrint
+          >
+            In
+          </button>
+        </div>
+        <div id="BBTN">
+          <div id="lien1">
+            <header>
+              <div class="row">
+                <div class="col-6" align="left" style="height: 0px">
+                  <img
+                    src="../../../../content/images/logoRD.png"
+                    alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                    width="150"
+                    style="margin-top: -30px; margin-left: 30px"
+                  />
+                </div>
+                <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
+              </div>
+            </header>
+            <div align="center">
+              <h3 style="margin-top: -20px">BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI</h3>
+              <p style="text-align: center">
+                {{ danhSachLienBienBanTiepNhan[indexOfdanhSachLienBienBanTiepNhan].name }}:
+                {{ danhSachLienBienBanTiepNhan[indexOfdanhSachLienBienBanTiepNhan].value }}
+              </p>
+            </div>
+            <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
+            <br />
+
+            <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
+            <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+            <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
+            <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày .... tháng .... năm 20..</div>
+            <div>
+              <table id="table" class="table-TN" style="border-spacing: 0px">
+                <thead>
+                  <tr>
+                    <th style="width: 1rem; border: 0.5px solid black">STT</th>
+                    <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
+                    <th style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
+                    <th style="width: 4rem; border: 0.5px solid black">SL khách giao</th>
+                    <th style="width: 4rem; border: 0.5px solid black">SL thực nhận</th>
+                    <th style="width: 3rem; border: 0.5px solid black">SL SP đổi mới</th>
+                    <th style="width: 3.5rem; border: 0.5px solid black">SL SP sửa chữa</th>
+                    <th style="width: 4rem; border: 0.5px solid black">SL SP không được bảo hành</th>
+                    <th style="width: 10rem; border: 0.5px solid black">Lý do không bảo hành</th>
+                    <th style="width: 10rem; border: 0.5px solid black">Lý do sửa chữa</th>
+                  </tr>
+                </thead>
+                <tbody class="body-table" *ngFor="let data of resultChiTietSanPhamTiepNhans; let i = index">
+                  <td style="border: 0.5px solid black">{{ i + 1 }}</td>
+                  <td style="border: 0.5px solid black">{{ data.tenSanPham }}</td>
+                  <td style="border: 0.5px solid black">{{ data.donVi }}</td>
+                  <td style="border: 0.5px solid black">{{ data.slKhachGiao }}</td>
+                  <td style="border: 0.5px solid black">{{ data.slTiepNhan }}</td>
+                  <td style="border: 0.5px solid black">{{ data.slDoiMoi }}</td>
+                  <td style="border: 0.5px solid black">{{ data.slSuaChua }}</td>
+                  <td style="border: 0.5px solid black">{{ data.slKhongBaoHanh }}</td>
+                  <td style="border: 0.5px solid black"></td>
+                  <td style="border: 0.5px solid black"></td>
+                </tbody>
+              </table>
+            </div>
+            <div class="notes">
+              <p>
+                Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
+                liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
+                giao khách hàng
+              </p>
+              <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
+            </div>
+            <footer>
+              <div class="row" style="margin-left: -4rem; display: flex; justify-content: space-around">
+                <div class="col" style="text-align: center"><strong>ĐẠI DIỆN KHÁCH HÀNG</strong></div>
+                <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
+                <div class="col" style="text-align: center">
+                  <strong>TỔ BẢO HÀNH SẢN PHẨM</strong><br />
+                  <p style="padding-top: 8em">Đỗ Văn Việt</p>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
       </div>
-      <div id="BBTL">
+    </div>
+  </div>
+
+  <!-- In biên bản kiểm nghiệm -->
+  <div class="table-responsive popup-background" role="dialog" *ngIf="popupInBBKN === true">
+    <div class="popup-container">
+      <div class="popup-header-in">
+        <span class="close-btn" style="float: right" (click)="closePopupBBKN()">&times;</span>
+        <div class="hiddenToolbar">
+          <button
+            type="button"
+            class="btn btn-primary"
+            printTitle="BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH"
+            (click)="xacNhanInBienBan()"
+            printSectionId="BBkhoA"
+            ngxPrint
+          >
+            In
+          </button>
+        </div>
+
         <div id="BBkhoA">
           <header>
             <div class="row">
@@ -1352,64 +1033,173 @@
             </div>
           </header>
           <div align="center">
-            <strong style="margin-top: -20px">BIÊN BẢN THANH LÝ SẢN PHẨM MẤT PHẨM CHẤT </strong>
-            <p>Kho 1</p>
+            <h5 style="margin-top: -20px">BIÊN BẢN KIỂM NGHIỆM SẢN PHẨM BẢO HÀNH</h5>
+            <p>{{ tenKho }}</p>
           </div>
+
           <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
-
-          <div align="right" style="margin-right: 62px">
-            Kho: <input type="text" id="khoA" size="10" style="color: black" value="1" disabled />
-          </div>
-          <div style="padding-left: 2rem">
-            <p class="ngayTN">Ngày {{ date }} tháng {{ month }} năm {{ year }} tại Công ty cổ phần Bóng đèn Phích nước Rạng Đông</p>
-            Thành phần:
-          </div>
-
-          <div style="padding-left: 4rem">
-            1/ Đại diện Tổ bảo hành sản phẩm <br />
-            2/ Đại diện phòng Bảo vệ <br />
-            3/ Đại diện phòng TKKTTC
-          </div>
-          <div style="text-indent: 2rem">
-            <p class="description">
-              Căn cứ Biên bản kiểm nghiệm sản phẩm kém chất lượng số {{ maBienBan }} đối với lô hàng đổi của khách hàng tại Biên bản giao
-              nhận sản phẩm đổi số {{ maBienBan }} ngày {{ date }} tháng {{ month }} năm {{ year }}
-            </p>
-            <p>Chúng tôi thống nhất thanh lý số sản phẩm mất phẩm chất như sau :</p>
-          </div>
-
+          <br />
+          <!-- <div align="right" style="margin-right: 62px">
+          Kho: <input type="text" id="khoA" size="10" style="color: black" value="1" disabled />
+        </div> -->
+          <p class="xuatxu">Xuất xứ: Lô hàng của ông (bà) {{ donBaoHanh.khachHang.tenKhachHang }}</p>
+          <p class="description">
+            Căn cứ biên bản giao nhận sản phẩm số {{ bienBanTiepNhan.maBienBan }} ngày {{ bienBanTiepNhan.maBienBan.substr(2, 2) }} tháng
+            {{ bienBanTiepNhan.maBienBan.substr(4, 2) }} năm 20{{ bienBanTiepNhan.maBienBan.substr(6, 2) }}
+          </p>
           <table id="tableA" class="table-TN" style="border-spacing: 0px">
             <thead>
               <tr>
-                <th style="width: 1rem; border: 0.5px solid black">STT</th>
-                <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
-                <th style="width: 1rem; border: 0.5px solid black">Đ.vị tính</th>
-                <th style="width: 5rem; border: 0.5px solid black">Số lượng SP thanh lý</th>
-                <th style="width: 15rem; border: 0.5px solid black">Hình thức thanh lý</th>
+                <th rowspan="2" style="width: 1rem; border: 0.5px solid black">STT</th>
+                <th rowspan="2" style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
+                <th rowspan="2" style="width: 3rem; border: 0.5px solid black">Đ.vị tính</th>
+                <th rowspan="2" style="width: 4rem; border: 0.5px solid black">SL SP được bảo hành</th>
+                <th colspan="2" style="border: 0.5px solid black">Mô tả lỗi</th>
+                <th colspan="2" style="border: 0.5px solid black">Kết luận, xử lý</th>
+              </tr>
+              <tr>
+                <th style="width: 5rem; border: 0.5px solid black">Lỗi linh động</th>
+                <th style="width: 5rem; border: 0.5px solid black">Lỗi kỹ thuật</th>
+                <th style="width: 7rem; border: 0.5px solid black">SL SP phải thanh lý(*)</th>
+                <th style="width: 7rem; border: 0.5px solid black">SL SP sửa chữa thay thế</th>
               </tr>
             </thead>
-            <tbody id="body-table">
-              <td style="border: 0.5px solid black"></td>
-              <td style="border: 0.5px solid black"></td>
-              <td style="border: 0.5px solid black"></td>
-              <td style="border: 0.5px solid black"></td>
-              <td style="border: 0.5px solid black"></td>
+            <tbody id="body-tableA">
+              <tr *ngFor="let item of danhSachBienBanSanPhamTheoKho; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.tenSanPham }}</td>
+                <td>{{ item.sanPham!.donVi }}</td>
+                <td>{{ item.slTiepNhan }}</td>
+                <td>{{ item.loiLinhDong }}</td>
+                <td>{{ item.loiKyThuat }}</td>
+                <td>{{ item.slTiepNhan }}</td>
+                <td>0</td>
+                <!-- <td>{{}}</td> -->
+                <!-- <td>{{}}</td> -->
+                <!-- <td>{{}}</td> -->
+              </tr>
             </tbody>
           </table>
 
-          <footer>
-            <div class="row body-table">
-              <div class="col" style="text-align: center"><strong>TỔNG GIÁM ĐỐC/UQ</strong></div>
-              <div class="col" style="text-align: center"><strong>PHÒNG TKKTTC</strong></div>
-              <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
-              <div class="col" style="text-align: center">
-                <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
-                <!-- <select class="nhanvien" style="text-align:center; margin-top: 5rem;"></select>
-                 -->
-                <p style="padding-top: 8em">Đỗ Văn Việt</p>
-              </div>
+          <div class="notes">
+            <p style="padding-left: 3rem"><i>(*) Số lượng thanh lý là căn cứ để đổi trả sản phẩm mới cho khách hàng</i></p>
+            <p style="padding-left: 3rem"><i>(**) Các vật tư, linh kiện đề nghị để sửa chữa, thay thế:</i></p>
+            <hr />
+            <hr />
+          </div>
+        </div>
+        <footer>
+          <div class="row" style="margin-left: -4rem">
+            <div class="col" style="text-align: center"><strong>TỔNG GIÁM ĐỐC/UQ</strong></div>
+            <div class="col" style="text-align: center; margin-right: -2rem"><strong>TRƯỞNG BỘ PHẬN</strong></div>
+            <div class="col" style="text-align: center">
+              <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
+              <!-- <select class="nhanvien" style="text-align:center; margin-top: 5rem;"></select> -->
+              <p style="padding-top: 8em">Đỗ Văn Việt</p>
             </div>
-          </footer>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- In biên bản thanh lý -->
+  <div class="table-responsive popup-background" role="dialog" *ngIf="popupInBBTL === true">
+    <div class="popup-container">
+      <div class="popup-header-in">
+        <span class="close-btn" style="float: right" (click)="closePopupBBTL()">&times;</span>
+        <div class="hiddenToolbar">
+          <button
+            type="button"
+            class="btn btn-primary"
+            printTitle="BIÊN BẢN THANH LÝ SẢN PHẨM MẤT PHẨM CHẤT"
+            (click)="xacNhanInBienBan()"
+            ngxPrint
+          >
+            In
+          </button>
+        </div>
+        <div id="BBTL">
+          <div id="BBkhoA">
+            <header>
+              <div class="row">
+                <div class="col-6" align="left" style="height: 0px">
+                  <img
+                    src="../../../../content/images/logoRD.png"
+                    alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                    width="150"
+                    style="margin-top: -30px; margin-left: 30px"
+                  />
+                </div>
+                <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM02 Ban hành lần 1</div>
+              </div>
+            </header>
+            <div align="center">
+              <strong style="margin-top: -20px">BIÊN BẢN THANH LÝ SẢN PHẨM MẤT PHẨM CHẤT </strong>
+              <p>{{ tenKho }}</p>
+            </div>
+            <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
+
+            <div align="right" style="margin-right: 62px">
+              Kho: <input type="text" id="khoA" size="10" style="color: black" value="1" disabled />
+            </div>
+            <div style="padding-left: 2rem">
+              <p class="ngayTN">Ngày {{ date }} tháng {{ month }} năm {{ year }} tại Công ty cổ phần Bóng đèn Phích nước Rạng Đông</p>
+              Thành phần:
+            </div>
+
+            <div style="padding-left: 4rem">
+              1/ Đại diện Tổ bảo hành sản phẩm <br />
+              2/ Đại diện phòng Bảo vệ <br />
+              3/ Đại diện phòng TKKTTC
+            </div>
+            <div style="text-indent: 2rem">
+              <p class="description">
+                Căn cứ Biên bản kiểm nghiệm sản phẩm kém chất lượng số {{ bienBanKiemNghiem.maBienBan }} đối với lô hàng đổi của khách hàng
+                tại Biên bản giao nhận sản phẩm đổi số {{ bienBanTiepNhan.maBienBan }} ngày
+                {{ bienBanTiepNhan.maBienBan.substr(2, 2) }} tháng {{ bienBanTiepNhan.maBienBan.substr(4, 2) }} năm 20{{
+                  bienBanTiepNhan.maBienBan.substr(6, 2)
+                }}
+              </p>
+
+              <p>Chúng tôi thống nhất thanh lý số sản phẩm mất phẩm chất như sau :</p>
+            </div>
+
+            <table id="tableA" class="table-TN" style="border-spacing: 0px">
+              <thead>
+                <tr>
+                  <th style="width: 1rem; border: 0.5px solid black">STT</th>
+                  <th style="width: 30rem; border: 0.5px solid black">Tên sản phẩm</th>
+                  <th style="width: 1rem; border: 0.5px solid black">Đ.vị tính</th>
+                  <th style="width: 5rem; border: 0.5px solid black">Số lượng SP thanh lý</th>
+                  <th style="width: 15rem; border: 0.5px solid black">Hình thức thanh lý</th>
+                </tr>
+              </thead>
+              <tbody id="body-table">
+                <tr *ngFor="let item of danhSachBienBanSanPhamTheoKho; let i = index">
+                  <td style="border: 0.5px solid black">{{ i + 1 }}</td>
+                  <td style="border: 0.5px solid black">{{ item.tenSanPham }}</td>
+                  <td style="border: 0.5px solid black">{{ item.sanPham!.donVi }}</td>
+                  <td style="border: 0.5px solid black">{{ item.slTiepNhan }}</td>
+                  <td style="border: 0.5px solid black">Sản phẩm tháo dỡ thanh lý giao cho công ty</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <footer>
+              <div class="row body-table">
+                <div class="col" style="text-align: center"><strong>TỔNG GIÁM ĐỐC/UQ</strong></div>
+                <div class="col" style="text-align: center"><strong>PHÒNG TKKTTC</strong></div>
+                <div class="col" style="text-align: center"><strong>BẢO VỆ</strong></div>
+                <div class="col" style="text-align: center">
+                  <strong>TỔ BẢO HÀNH SẢN PHẨM</strong> <br />
+                  <!-- <select class="nhanvien" style="text-align:center; margin-top: 5rem;"></select>
+                 -->
+                  <p style="padding-top: 8em">Đỗ Văn Việt</p>
+                </div>
+              </div>
+            </footer>
+          </div>
         </div>
       </div>
     </div>

@@ -7,9 +7,10 @@ import { AccountService } from 'app/core/auth/account.service';
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.component.html',
+  providers: [Document],
 })
 export class MainComponent implements OnInit {
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
+  constructor(private accountService: AccountService, private titleService: Title, private router: Router, protected document: Document) {}
 
   ngOnInit(): void {
     // try to log in automatically
@@ -21,7 +22,12 @@ export class MainComponent implements OnInit {
       }
     });
   }
-
+  openSideBar(): any {
+    document.getElementById('main')!.style.marginLeft = '250px';
+  }
+  closeSideBar(): any {
+    document.getElementById('main')!.style.marginLeft = '50px';
+  }
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
     const title: string = routeSnapshot.data['pageTitle'] ?? '';
     if (routeSnapshot.firstChild) {
@@ -29,7 +35,6 @@ export class MainComponent implements OnInit {
     }
     return title;
   }
-
   private updateTitle(): void {
     let pageTitle = this.getPageTitle(this.router.routerState.snapshot.root);
     if (!pageTitle) {

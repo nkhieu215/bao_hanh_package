@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ILoi } from '../loi.model';
 import { LoiService } from '../service/loi.service';
 import { LoiDeleteDialogComponent } from '../delete/loi-delete-dialog.component';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 
 @Component({
   selector: 'jhi-loi',

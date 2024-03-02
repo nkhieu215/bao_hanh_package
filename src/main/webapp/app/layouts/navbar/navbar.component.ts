@@ -7,6 +7,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
+import { MainComponent } from '../main/main.component';
 
 @Component({
   selector: 'jhi-navbar',
@@ -22,12 +23,12 @@ export class NavbarComponent implements OnInit {
   entitiesNavbarItems: any[] = [];
   isSidebarCollapsed = false;
 
-
   constructor(
     private loginService: LoginService,
     private accountService: AccountService,
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    protected main: MainComponent
   ) {
     if (VERSION) {
       this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
@@ -47,9 +48,13 @@ export class NavbarComponent implements OnInit {
   }
 
   collapseNavbar(): void {
-    this.isNavbarCollapsed = true;
+    this.main.openSideBar();
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
-
+  collapseNavbar1(): void {
+    this.main.closeSideBar();
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
   login(): void {
     this.loginService.login();
   }
@@ -66,5 +71,10 @@ export class NavbarComponent implements OnInit {
 
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    if (this.isSidebarCollapsed === false) {
+      this.main.closeSideBar();
+    } else {
+      this.main.openSideBar();
+    }
   }
 }

@@ -72,6 +72,7 @@ export class DonBaoHanhComponent implements OnInit {
   danhSachSanPham: ISanPham[] = [];
   danhSachGocPopupPhanLoai: any[] = [];
   danhSachBienBan: any[] = [];
+  phanLoaiChiTietTiepNhans: IPhanLoaiChiTietTiepNhan[] = [];
   // biến lưu key session
   keySession = '';
   // biến lưu thông tin thêm mới
@@ -90,7 +91,6 @@ export class DonBaoHanhComponent implements OnInit {
   angularGrid?: AngularGridInstance;
   detailViewRowCount = 9;
   compositeEditorInstance!: SlickCompositeEditor;
-  phanLoaiChiTietTiepNhans?: IPhanLoaiChiTietTiepNhan[];
   chiTietSanPhamTiepNhans: IChiTietSanPhamTiepNhan[] = [];
   resultChiTietSanPhamTiepNhans: any[] = [];
   title = 'Quản lý mã tiếp nhận';
@@ -188,7 +188,9 @@ export class DonBaoHanhComponent implements OnInit {
   buttonPL: Formatter<any> = (_row, _cell, value) =>
     value
       ? `<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px; width: 15px">PL</button>`
-      : { text: '<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px" title="Phân loại"></button>' };
+      : {
+          text: '<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px" title="Phân loại"></button>',
+        };
 
   buttonEdit: Formatter<any> = (_row, _cell, value) =>
     value
@@ -212,14 +214,14 @@ export class DonBaoHanhComponent implements OnInit {
           this.phanLoaiChiTietTiepNhans = res;
           for (let i = 0; i < this.donBaoHanhs.length; i++) {
             for (let k = 0; k < this.donBaoHanhs[i].chiTietSanPhamTiepNhans?.length; k++) {
-              for (let j = 0; j < this.phanLoaiChiTietTiepNhans!.length; j++) {
-                if (this.donBaoHanhs[i].chiTietSanPhamTiepNhans![k].id === this.phanLoaiChiTietTiepNhans![j].chiTietSanPhamTiepNhan?.id) {
+              for (let j = 0; j < this.phanLoaiChiTietTiepNhans.length; j++) {
+                if (this.donBaoHanhs[i].chiTietSanPhamTiepNhans![k].id === this.phanLoaiChiTietTiepNhans[j].chiTietSanPhamTiepNhan?.id) {
                   // console.log({
                   //   a: this.donBaoHanhs[i].chiTietSanPhamTiepNhans![k].id,
                   //   b: this.phanLoaiChiTietTiepNhans![j].chiTietSanPhamTiepNhan?.id,
                   // });
                   // console.log({ soLuong: this.donBaoHanhs[i].slTiepNhan, phanLoai: this.phanLoaiChiTietTiepNhans![j].soLuong });
-                  this.donBaoHanhs[i].slTiepNhan += this.phanLoaiChiTietTiepNhans![j].soLuong;
+                  this.donBaoHanhs[i].slTiepNhan += this.phanLoaiChiTietTiepNhans[j].soLuong;
                 }
               }
             }
@@ -573,7 +575,6 @@ export class DonBaoHanhComponent implements OnInit {
       pagination: {
         pageSizes: [30, 50, 100],
         pageSize: this.donBaoHanhs.length,
-
       },
       // columnPicker: {
       //   hideForceFitButton: true,
@@ -685,6 +686,85 @@ export class DonBaoHanhComponent implements OnInit {
         console.log('danh sach tinh trang:', this.danhSachTinhTrangs);
       },
     });
+  }
+  //get thông tin phân loại
+  getChiTietPhanLoais(id: number): void {
+    this.keySession = `TiepNhan ${id.toString()}`;
+    const result = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
+    // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
+    if (result === null) {
+      var list1: any[] = [];
+      // lấy danh sách chi tiết sản phẩm tiếp nhận lấy theo id
+      this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${id.toString()}`).subscribe(res => {
+        this.chiTietSanPhamTiepNhans = res;
+        console.log('b', res);
+        // lấy danh sách tình trạng
+        this.http.get<any>(this.danhSachTinhTrangUrl).subscribe(resTT => {
+          this.danhSachTinhTrangs = resTT;
+          // sessionStorage.setItem('danhSachTinhTrang', JSON.stringify(resTT));
+          // console.log('danh sách tình trạng', resTT);
+          // lấy danh sách phân loại chi tiết tiếp nhận
+          this.http.get<any>(this.phanLoaiChiTietTiepNhanUrl).subscribe(res1 => {
+            this.phanLoaiChiTietTiepNhans = res1;
+            //  console.log('phan loai chi tiet tiep nhan', res1);
+            // Khởi tạo danh sacsah result hiển thị trên giao diện
+            // => gán dataset = resutl
+            // khởi tạo danh sách rỗng
+            const list: any[] = [];
+            for (let i = 0; i < this.chiTietSanPhamTiepNhans.length; i++) {
+              const item = {
+                id: this.chiTietSanPhamTiepNhans[i].id,
+                tenSanPham: this.chiTietSanPhamTiepNhans[i].sanPham?.name,
+                donVi: this.chiTietSanPhamTiepNhans[i].sanPham?.donVi,
+                slKhachGiao: this.chiTietSanPhamTiepNhans[i].soLuongKhachHang,
+                slTiepNhanTong: 0,
+                slTiepNhan: 0,
+                slDoiMoi: 0,
+                slSuaChua: 0,
+                slKhongBaoHanh: 0,
+                chiTietSanPhamTiepNhan: this.chiTietSanPhamTiepNhans[i],
+                tinhTrangBaoHanh: false,
+              };
+              if (this.chiTietSanPhamTiepNhans[i].tinhTrangBaoHanh === 'true') {
+                item.tinhTrangBaoHanh = true;
+              }
+              for (let j = 0; j < this.phanLoaiChiTietTiepNhans.length; j++) {
+                if (item.id === this.phanLoaiChiTietTiepNhans[j].chiTietSanPhamTiepNhan?.id) {
+                  // gán số lượng vào biến slDoiMoi
+                  if (this.phanLoaiChiTietTiepNhans[j].danhSachTinhTrang?.id === 1) {
+                    item.slDoiMoi = this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+                    item.slTiepNhan += this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+                  }
+                  // gán số lượng vào biến slsuaChua
+                  if (this.phanLoaiChiTietTiepNhans[j].danhSachTinhTrang?.id === 2) {
+                    item.slSuaChua = this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+                    item.slTiepNhan += this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+                  }
+                  // gán số lượng vào biến slKhongBaoHanh
+                  if (this.phanLoaiChiTietTiepNhans[j].danhSachTinhTrang?.id === 3) {
+                    item.slKhongBaoHanh = this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+                    item.slTiepNhan += this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+                  }
+                }
+              }
+              list.push(item); // list đã có dữ liệu
+            }
+            sessionStorage.setItem(`TiepNhan ${id.toString()}`, JSON.stringify(list));
+          });
+        });
+      });
+      // lấy dữ liệu từ sessision
+      setTimeout(() => {
+        var resultBBTN = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
+        // dữ liệu lưu trong sessison(dạng string) -> chuyển về dạng JSON (giống arr,obj)
+        list1 = JSON.parse(resultBBTN as string);
+        console.log('hien trang', JSON.parse(resultBBTN as string));
+        this.resultChiTietSanPhamTiepNhans = JSON.parse(resultBBTN as string);
+      }, 1000);
+    } else {
+      this.resultChiTietSanPhamTiepNhans = JSON.parse(result);
+      console.log('trường hợp 2');
+    }
   }
   // ================================= popup chỉnh sửa thông tin ==================================
   openPopupEdit(id: number): void {
@@ -893,13 +973,83 @@ export class DonBaoHanhComponent implements OnInit {
   }
   openPopupPhanLoai(id: number): void {
     this.popupPhanLoai = true;
-    this.keySession = `TiepNhan ${id.toString()}`;
-    this.resultChiTietSanPhamTiepNhans = this.rowDetailViewComponent.showData(id);
-    setTimeout(() => {
-      const result = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
-      this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
-      this.danhSachGocPopupPhanLoai = JSON.parse(result as string);
-    }, 1000);
+    this.getChiTietPhanLoais(id);
+    // this.keySession = `TiepNhan ${id.toString()}`;
+    // const result = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
+    // // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
+    // if (result === null) {
+    //   var list1: any[] = [];
+    // // lấy danh sách chi tiết sản phẩm tiếp nhận lấy theo id
+    // this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${id.toString()}`).subscribe(res => {
+    //   this.chiTietSanPhamTiepNhans = res;
+    //   console.log('b', res);
+    //   // lấy danh sách tình trạng
+    //   this.http.get<any>(this.danhSachTinhTrangUrl).subscribe(resTT => {
+    //     this.danhSachTinhTrangs = resTT;
+    //     // sessionStorage.setItem('danhSachTinhTrang', JSON.stringify(resTT));
+    //     // console.log('danh sách tình trạng', resTT);
+    //     // lấy danh sách phân loại chi tiết tiếp nhận
+    //     this.http.get<any>(this.phanLoaiChiTietTiepNhanUrl).subscribe(res1 => {
+    //       this.phanLoaiChiTietTiepNhans = res1;
+    //       //  console.log('phan loai chi tiet tiep nhan', res1);
+    //       // Khởi tạo danh sacsah result hiển thị trên giao diện
+    //       // => gán dataset = resutl
+    //       // khởi tạo danh sách rỗng
+    //       const list: any[] = [];
+    //       for (let i = 0; i < this.chiTietSanPhamTiepNhans.length; i++) {
+    //         const item = {
+    //           id: this.chiTietSanPhamTiepNhans[i].id,
+    //           tenSanPham: this.chiTietSanPhamTiepNhans[i].sanPham?.name,
+    //           donVi: this.chiTietSanPhamTiepNhans[i].sanPham?.donVi,
+    //           slKhachGiao: this.chiTietSanPhamTiepNhans[i].soLuongKhachHang,
+    //           slTiepNhanTong: 0,
+    //           slTiepNhan: 0,
+    //           slDoiMoi: 0,
+    //           slSuaChua: 0,
+    //           slKhongBaoHanh: 0,
+    //           chiTietSanPhamTiepNhan: this.chiTietSanPhamTiepNhans[i],
+    //           tinhTrangBaoHanh: false,
+    //         };
+    //         if (this.chiTietSanPhamTiepNhans[i].tinhTrangBaoHanh === 'true') {
+    //           item.tinhTrangBaoHanh = true;
+    //         }
+    //         for (let j = 0; j < this.phanLoaiChiTietTiepNhans.length; j++) {
+    //           if (item.id === this.phanLoaiChiTietTiepNhans[j].chiTietSanPhamTiepNhan?.id) {
+    //             // gán số lượng vào biến slDoiMoi
+    //             if (this.phanLoaiChiTietTiepNhans[j].danhSachTinhTrang?.id === 1) {
+    //               item.slDoiMoi = this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+    //               item.slTiepNhan += this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+    //             }
+    //             // gán số lượng vào biến slsuaChua
+    //             if (this.phanLoaiChiTietTiepNhans[j].danhSachTinhTrang?.id === 2) {
+    //               item.slSuaChua = this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+    //               item.slTiepNhan += this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+    //             }
+    //             // gán số lượng vào biến slKhongBaoHanh
+    //             if (this.phanLoaiChiTietTiepNhans[j].danhSachTinhTrang?.id === 3) {
+    //               item.slKhongBaoHanh = this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+    //               item.slTiepNhan += this.phanLoaiChiTietTiepNhans[j].soLuong as number;
+    //             }
+    //           }
+    //         }
+    //         list.push(item); // list đã có dữ liệu
+    //       }
+    //       sessionStorage.setItem(`TiepNhan ${id.toString()}`, JSON.stringify(list));
+    //     });
+    //   });
+    // });
+    //   // lấy dữ liệu từ sessision
+    //   setTimeout(() => {
+    //     var resultBBTN = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
+    //     // dữ liệu lưu trong sessison(dạng string) -> chuyển về dạng JSON (giống arr,obj)
+    //     list1 = JSON.parse(resultBBTN as string);
+    //     console.log('hien trang', JSON.parse(resultBBTN as string));
+    //     this.resultChiTietSanPhamTiepNhans = JSON.parse(resultBBTN as string);
+    //   }, 1000);
+    // } else {
+    //   this.resultChiTietSanPhamTiepNhans = JSON.parse(result);
+    //   console.log('trường hợp 2');
+    // }
   }
   // cập nhật tên sản phẩm
   updateTenSanPham(tenSanPham: string, index: number): void {
@@ -1100,8 +1250,7 @@ export class DonBaoHanhComponent implements OnInit {
   openPopupBBTN(id: number): void {
     this.popupInBBTN = true;
     // lấy dữ liệu từ sessision
-    const result = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
-    this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
+    this.getChiTietPhanLoais(id);
   }
 
   openPopupInBBTN1(): void {

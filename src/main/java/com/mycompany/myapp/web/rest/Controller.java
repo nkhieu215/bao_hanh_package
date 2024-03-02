@@ -158,6 +158,20 @@ public class Controller {
         return phanTichLoiList;
     }
 
+    //☺ lấy biên bản Tiếp nhận theo đơn bảo hành
+    @GetMapping("danh-sach-bien-ban/tiep-nhan/{id}")
+    public MaBienBan getBienBanTiepNhanByDonBaoHanhId(@PathVariable Long id) {
+        MaBienBan maBienBan = this.fullServices.getBienBanTiepNhanByDonBaoHanhId(id);
+        return maBienBan;
+    }
+
+    //☺ lấy biên bản kiểm nghiệm theo đơn bảo hành
+    @GetMapping("danh-sach-bien-ban/kiem-nghiem/{id}")
+    public MaBienBan getBienBanKiemNghiemByDonBaoHanhId(@PathVariable Long id) {
+        MaBienBan maBienBan = this.fullServices.getBienBanKiemNghiemByDonBaoHanhId(id);
+        return maBienBan;
+    }
+
     // * ============================== quản lý sản phẩm ===========================
     //☺ cập nhật thông tin 1 sản phẩm
     @PostMapping("san-phams/update/{id}")
