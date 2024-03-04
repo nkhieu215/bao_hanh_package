@@ -369,7 +369,10 @@
           <div class="group-header-phanloai">
             <button class="btn-add btn-option" (click)="addRow()">Thêm mới</button>
             <p style="margin-top: 20px">Tổng số lượng sản phẩm: {{ resultChiTietSanPhamTiepNhans.length }}</p>
-            <p style="margin-top: 20px">Tiến độ: <input type="range" disabled /> 0%</p>
+            <p style="margin-top: 20px">
+              Tiến độ: {{ countItem }}/{{ resultChiTietSanPhamTiepNhans.length
+              }}<input type="range" disabled [(ngModel)]="tienDo" [ngModelOptions]="{ standalone: true }" /> {{ tienDo }}%
+            </p>
           </div>
           <div class="btn-header-phanloai">
             <button type="button" class="btn btn-danger btn-option" style="float: right; height: 35px">
@@ -438,8 +441,7 @@
 
                 <th scope="col">
                   <span class="span-table-phanloai" style="display: block">checkBox</span>
-                  <!-- <input type="checkbox" class="ui-checkbox" [checked]="checkedAll" (change)="checkAll()" /> -->
-                  <input type="checkbox" class="ui-checkbox" />
+                  <input type="checkbox" class="ui-checkbox" [checked]="checkAll" (change)="phanLoaiCheckAll()" />
                 </th>
 
                 <th scope="col">
@@ -515,7 +517,7 @@
                     class="ui-checkbox"
                     [(ngModel)]="data.tinhTrangBaoHanh"
                     [ngModelOptions]="{ standalone: true }"
-                    (change)="updatePopupPhanLoai(i)"
+                    (change)="updateSignalPhanLoai(i)"
                   />
                 </td>
                 <td>

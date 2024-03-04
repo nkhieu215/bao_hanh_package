@@ -127,6 +127,12 @@ export class DonBaoHanhComponent implements OnInit {
   idDonBaoHanh = '';
   //lưu thông tin import
   ExcelData: any;
+  //Lưu tiến độ phân loại
+  tienDo = 0;
+  countItem = 0;
+  //lưu thông tin check All
+  checkAll = false;
+  //--------------------------------------------------------------------------
   id?: number | null | undefined;
   idMaTiepNhan?: number | null | undefined;
   tenSanPham?: string | null | undefined;
@@ -689,6 +695,7 @@ export class DonBaoHanhComponent implements OnInit {
   }
   //get thông tin phân loại
   getChiTietPhanLoais(id: number): void {
+    this.countItem = 0;
     this.keySession = `TiepNhan ${id.toString()}`;
     const result = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
     // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
@@ -760,9 +767,27 @@ export class DonBaoHanhComponent implements OnInit {
         list1 = JSON.parse(resultBBTN as string);
         console.log('hien trang', JSON.parse(resultBBTN as string));
         this.resultChiTietSanPhamTiepNhans = JSON.parse(resultBBTN as string);
+        setTimeout(() => {
+          //Cập nhật tiến độ
+          for (let i = 0; i < this.resultChiTietSanPhamTiepNhans.length; i++) {
+            if (this.resultChiTietSanPhamTiepNhans[i].tinhTrangBaoHanh === true) {
+              this.countItem++;
+              this.tienDo = Number(((this.countItem / this.resultChiTietSanPhamTiepNhans.length) * 100).toFixed(2));
+            }
+          }
+        }, 100);
       }, 1000);
     } else {
       this.resultChiTietSanPhamTiepNhans = JSON.parse(result);
+      setTimeout(() => {
+        //Cập nhật tiến độ
+        for (let i = 0; i < this.resultChiTietSanPhamTiepNhans.length; i++) {
+          if (this.resultChiTietSanPhamTiepNhans[i].tinhTrangBaoHanh === true) {
+            this.countItem++;
+            this.tienDo = Number(((this.countItem / this.resultChiTietSanPhamTiepNhans.length) * 100).toFixed(2));
+          }
+        }
+      }, 100);
       console.log('trường hợp 2');
     }
   }
@@ -988,6 +1013,8 @@ export class DonBaoHanhComponent implements OnInit {
   }
   openPopupPhanLoai(id: number): void {
     this.popupPhanLoai = true;
+    //reset bien dem signal
+    this.countItem = 0;
     this.getChiTietPhanLoais(id);
   }
   // cập nhật tên sản phẩm
@@ -1074,13 +1101,13 @@ export class DonBaoHanhComponent implements OnInit {
         }
       }
     }
-    this.donBaoHanh.trangThai = 'Chờ phân tích';
     //cập nhật thông tin đơn bảo hành
     if (this.isChanged === true) {
       if (confirm('Xác nhận lưu sự thay đổi ?') === true) {
         this.http.put<any>(`${this.updateDonBaoHanhUrl}`, this.donBaoHanh).subscribe(() => {
           // cập nhật thông tin chi tiết sản phẩm tiếp nhận
           this.http.put<any>(this.putChiTietSanPhamTiepNhanUrl, this.chiTietDonBaoHanh).subscribe(res => {
+            console.log('check ket qua chi tiet phan loaij: ', res);
             // tạo danh sách phân loại sau khi cập nhật thông tin chi tiết sản phẩm tiếp nhận
             setTimeout(() => {
               for (let i = 0; i < res.length; i++) {
@@ -1142,6 +1169,7 @@ export class DonBaoHanhComponent implements OnInit {
   searchInPopupPhanLoai(): void {
     this.resultChiTietSanPhamTiepNhans = this.danhSachGocPopupPhanLoai.filter(a => a.tenSanPham.includes(this.searchKey));
   }
+  // cập nhật tiến độ phân loại
   deleteRowPopupPhanLoai(id: any): void {
     this.isChanged = true;
     if (confirm('Bạn chắc chắn muốn xóa thông số này?') === true) {
@@ -1184,6 +1212,46 @@ export class DonBaoHanhComponent implements OnInit {
     // this.resultChiTietSanPhamTiepNhans = [...this.resultChiTietSanPhamTiepNhans, newRow];
     // this.danhSachGocPopupPhanLoai = [...this.danhSachGocPopupPhanLoai, newRow];
     console.log('them dong', this.resultChiTietSanPhamTiepNhans);
+  }
+  //tích phân loại nhanh
+  phanLoaiCheckAll(): void {
+    this.isChanged = true;
+    this.checkAll = !this.checkAll;
+    for (let i = 0; i < this.resultChiTietSanPhamTiepNhans.length; i++) {
+      this.resultChiTietSanPhamTiepNhans[i].tinhTrangBaoHanh = this.checkAll;
+    }
+    if (this.checkAll === true) {
+      this.tienDo = 100;
+      this.countItem = this.resultChiTietSanPhamTiepNhans.length;
+      sessionStorage.setItem(`TiepNhan ${this.donBaoHanh.id as string}`, JSON.stringify(this.resultChiTietSanPhamTiepNhans));
+      this.donBaoHanh.trangThai = 'Chờ phân tích';
+    }
+    if (this.checkAll === false) {
+      this.tienDo = 0;
+      this.countItem = 0;
+      sessionStorage.setItem(`TiepNhan ${this.donBaoHanh.id as string}`, JSON.stringify(this.resultChiTietSanPhamTiepNhans));
+      this.donBaoHanh.trangThai = 'Chờ phân loại';
+    }
+  }
+  updateSignalPhanLoai(index: any): void {
+    this.isChanged = true;
+    this.donBaoHanh.trangThai = 'Đang phân loại';
+    if (this.resultChiTietSanPhamTiepNhans[index].tinhTrangBaoHanh === true) {
+      this.countItem++;
+      this.tienDo = Number(((this.countItem / this.resultChiTietSanPhamTiepNhans.length) * 100).toFixed(2));
+      sessionStorage.setItem(`TiepNhan ${this.donBaoHanh.id as string}`, JSON.stringify(this.resultChiTietSanPhamTiepNhans));
+    }
+    if (this.resultChiTietSanPhamTiepNhans[index].tinhTrangBaoHanh === false) {
+      this.countItem--;
+      this.tienDo = Number(((this.countItem / this.resultChiTietSanPhamTiepNhans.length) * 100).toFixed(2));
+      sessionStorage.setItem(`TiepNhan ${this.donBaoHanh.id as string}`, JSON.stringify(this.resultChiTietSanPhamTiepNhans));
+    }
+    if (this.tienDo === 100) {
+      this.donBaoHanh.trangThai = 'Chờ phân tích';
+    }
+    if (this.tienDo === 0) {
+      this.donBaoHanh.trangThai = 'Chờ phân loại';
+    }
   }
   //==================================================   Popup biên bản tiếp nhận =====================================================
   openPopupBBTN(id: number): void {
