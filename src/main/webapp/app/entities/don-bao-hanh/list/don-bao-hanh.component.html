@@ -3,9 +3,16 @@
   <div class="btn-header">
     <button class="btn btn-outline-primary btn-option btn-addTN" (click)="openPopupThemMoi()">Thêm mới</button>
   </div>
-  <angular-slickgrid gridId="don-bao-hanh" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="donBaoHanhs">
+  <angular-slickgrid gridId="don-bao-hanh" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1"
+    [dataset]="donBaoHanhs">
+    <div class="alert" id="no-result" *ngIf="donBaoHanhs?.length === 0">
+      <div class="loader">
+        <div class="justify-content-center jimu-primary-loading"></div>
+      </div>
+    </div>
   </angular-slickgrid>
 </div>
+
 
 <!------------------------------ Popup Thêm mới ------------------------------------->
 <div class="table-responsive popup-background" role="dialog" *ngIf="popupThemMoi === true">
@@ -24,50 +31,36 @@
           <thead style="background-color: #006699">
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
               <th scope="col">
-                <span class="span-table-phanloai">Khách hàng</span>
+                <span class="span-table-phanloai">Khách hàng <span style="color: red; font-size: 26px;">*</span> </span>
               </th>
               <th scope="col">
                 <span class="span-table-phanloai">Tổng tiếp nhận</span>
               </th>
               <th scope="col">
-                <span class="span-table-phanloai">Nhân viên giao vận</span>
+                <span class="span-table-phanloai">Nhân viên giao vận <span style="color: red; font-size: 26px;">*</span>
+                </span>
               </th>
             </tr>
           </thead>
           <tbody>
             <tr data-cy="entityTable">
               <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  list="ten_khach_Hang"
-                  [(ngModel)]="donBaoHanh.khachHang!.tenKhachHang"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)"
-                />
+                <input type="text" class="form-control" list="ten_khach_Hang"
+                  [(ngModel)]="donBaoHanh.khachHang!.tenKhachHang" [ngModelOptions]="{ standalone: true }"
+                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)" />
                 <datalist id="ten_khach_Hang">
                   <option *ngFor="let item of khachHangs" value="{{ item.tenKhachHang }}"></option>
                 </datalist>
               </td>
               <td>
-                <input
-                  #searchInput
-                  type="text"
-                  class="form-control"
-                  [(ngModel)]="donBaoHanh.slTiepNhan"
+                <input #searchInput type="text" class="form-control" [(ngModel)]="donBaoHanh.slTiepNhan"
                   [ngModelOptions]="{ standalone: true }"
-                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)"
-                />
+                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)" />
               </td>
               <td>
-                <input
-                  #searchInput
-                  type="text"
-                  class="form-control"
-                  [(ngModel)]="donBaoHanh.nhanVienGiaoHang"
+                <input #searchInput type="text" class="form-control" [(ngModel)]="donBaoHanh.nhanVienGiaoHang"
                   [ngModelOptions]="{ standalone: true }"
-                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)"
-                />
+                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)" />
               </td>
             </tr>
           </tbody>
@@ -79,25 +72,13 @@
             <p style="margin-top: 20px">Tổng số lượng sản phẩm: {{ ExcelData.length }}</p>
           </div>
           <div>
-            <button
-              type="button"
-              id="cancel-save"
-              data-cy="entityCreateCancelButton"
-              class="btn btn-danger btn-option"
-              style="margin: 15px"
-              (click)="closePopupThemMoi()"
-            >
+            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-danger btn-option"
+              style="margin: 15px" (click)="closePopupThemMoi()">
               <fa-icon icon="ban"></fa-icon>&nbsp;<span>Huỷ bỏ</span>
             </button>
 
-            <button
-              type="submit"
-              id="save-entity"
-              data-cy="entityCreateSaveButton"
-              class="btn btn-success btn-option"
-              style="margin: 15px"
-              (click)="postDonBaoHanh()"
-            >
+            <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-success btn-option"
+              style="margin: 15px" (click)="postDonBaoHanh()">
               <fa-icon icon="check"></fa-icon>&nbsp;<span>Xác Nhận</span>
             </button>
 
@@ -121,55 +102,36 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of ExcelData; let i = index">
+              <tr *ngFor="let data of themMoiDonBaoHanh; let i = index">
                 <td>
                   {{ i + 1 }}
                 </td>
                 <td>
-                  <input
-                    class="input-table form-control"
-                    type="text"
-                    [(ngModel)]="data.tenSanPham"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
+                  <input class="input-table form-control" type="text" [(ngModel)]="data.tenSanPham"
+                    [ngModelOptions]="{ standalone: true }" />
                 </td>
                 <td>
-                  <input
-                    class="input-table form-control"
-                    type="text"
-                    [(ngModel)]="data.slKhachGiao"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
+                  <input class="input-table form-control" type="text" [(ngModel)]="data.slKhachGiao"
+                    [ngModelOptions]="{ standalone: true }" />
                 </td>
                 <td>
-                  <input
-                    class="input-table form-control"
-                    type="text"
-                    [(ngModel)]="data.slDoiMoi"
+                  <input class="input-table form-control" type="text" [(ngModel)]="data.slDoiMoi"
                     [ngModelOptions]="{ standalone: true }"
-                    (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)"
-                  />
+                    (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)" />
                 </td>
                 <td>
-                  <input
-                    class="input-table form-control"
-                    type="text"
-                    [(ngModel)]="data.slSuaChua"
+                  <input class="input-table form-control" type="text" [(ngModel)]="data.slSuaChua"
                     [ngModelOptions]="{ standalone: true }"
-                    (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)"
-                  />
+                    (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)" />
                 </td>
                 <td>
-                  <input
-                    class="input-table form-control"
-                    type="text"
-                    [(ngModel)]="data.slKhongBaoHanh"
+                  <input class="input-table form-control" type="text" [(ngModel)]="data.slKhongBaoHanh"
                     [ngModelOptions]="{ standalone: true }"
-                    (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)"
-                  />
+                    (change)="updateChiTietDonBaoHanhInfo(data.slDoiMoi, data.slSuaChua, data.slKhongBaoHanh, data.slNhan, i)" />
                 </td>
                 <td>
-                  <input class="input-table form-control" type="text" [(ngModel)]="data.slNhan" [ngModelOptions]="{ standalone: true }" />
+                  <input class="input-table form-control" type="text" [(ngModel)]="data.slNhan"
+                    [ngModelOptions]="{ standalone: true }" />
                 </td>
                 <td>
                   <button class="btn btn-danger" (click)="deleteRow(data.tenSanPham)">Xoá</button>
@@ -194,62 +156,34 @@
       <form>
         <div class="row mb-3">
           <label for="field_khachHang" class="form-label">Khách hàng</label>
-          <input
-            type="text"
-            class="form-control"
-            list="field_khachHang"
-            data-cy="khachHang"
-            [(ngModel)]="thongTinDonBaoHanh.khachHang!.tenKhachHang"
-            [ngModelOptions]="{ standalone: true }"
-            (change)="capNhatThongTinKhachHang(thongTinDonBaoHanh.khachHang!.tenKhachHang)"
-          />
+          <input type="text" class="form-control" list="field_khachHang" data-cy="khachHang"
+            [(ngModel)]="thongTinDonBaoHanh.khachHang!.tenKhachHang" [ngModelOptions]="{ standalone: true }"
+            (change)="capNhatThongTinKhachHang(thongTinDonBaoHanh.khachHang!.tenKhachHang)" />
           <datalist id="field_khachHang">
             <option *ngFor="let item of khachHangs" value="{{ item.tenKhachHang }}"></option>
           </datalist>
         </div>
         <div class="row mb-3">
           <label for="field_tongTiepNhan" class="form-label">Tổng tiếp nhận</label>
-          <input
-            type="number"
-            class="form-control"
-            name="tongTiepNhan"
-            id="field_tongTiepNhan"
-            data-cy="tongTiepNhan"
-            [(ngModel)]="thongTinDonBaoHanh.slTiepNhan"
-            [ngModelOptions]="{ standalone: true }"
-            disabled
-          />
+          <input type="number" class="form-control" name="tongTiepNhan" id="field_tongTiepNhan" data-cy="tongTiepNhan"
+            [(ngModel)]="thongTinDonBaoHanh.slTiepNhan" [ngModelOptions]="{ standalone: true }" disabled />
         </div>
         <div class="row mb-3">
           <label for="field_daXuLy" class="form-label">Đã xử lý</label>
-          <input
-            type="number"
-            class="form-control"
-            name="daXuLy"
-            id="field_daXuLy"
-            data-cy="daXuLy"
-            [(ngModel)]="thongTinDonBaoHanh.slDaPhanTich"
-            [ngModelOptions]="{ standalone: true }"
-            disabled
-          />
+          <input type="number" class="form-control" name="daXuLy" id="field_daXuLy" data-cy="daXuLy"
+            [(ngModel)]="thongTinDonBaoHanh.slDaPhanTich" [ngModelOptions]="{ standalone: true }" disabled />
         </div>
         <div class="row mb-3">
           <label for="field_trangThai" class="form-label">Trạng thái</label>
-          <input
-            type="text"
-            class="form-control"
-            name="trangThai"
-            id="field_trangThai"
-            data-cy="trangThai"
-            [(ngModel)]="thongTinDonBaoHanh.trangThai"
-            [ngModelOptions]="{ standalone: true }"
-            (change)="capNhatThongTinKhachHang(thongTinDonBaoHanh.khachHang!.tenKhachHang)"
-          />
+          <input type="text" class="form-control" name="trangThai" id="field_trangThai" data-cy="trangThai"
+            [(ngModel)]="thongTinDonBaoHanh.trangThai" [ngModelOptions]="{ standalone: true }"
+            (change)="capNhatThongTinKhachHang(thongTinDonBaoHanh.khachHang!.tenKhachHang)" />
         </div>
       </form>
     </div>
     <div class="popup-footer">
-      <button class="btn btn-danger btn-option" (click)="closePopupEdit()"><fa-icon icon="ban"></fa-icon>&nbsp;Huỷ</button>
+      <button class="btn btn-danger btn-option" (click)="closePopupEdit()"><fa-icon
+          icon="ban"></fa-icon>&nbsp;Huỷ</button>
       <button class="btn btn-success btn-option" (click)="xacNhanCapNhatDonBaoHanh()">
         <fa-icon icon="check"></fa-icon>&nbsp;Xác nhận
       </button>
@@ -298,66 +232,37 @@
           <tbody>
             <tr data-cy="entityTable">
               <td>
-                <input
-                  type="text"
-                  class="input-table form-control"
-                  [(ngModel)]="donBaoHanh.maTiepNhan"
-                  [ngModelOptions]="{ standalone: true }"
-                  disabled
-                />
+                <input type="text" class="input-table form-control" [(ngModel)]="donBaoHanh.maTiepNhan"
+                  [ngModelOptions]="{ standalone: true }" disabled />
               </td>
               <td>
-                <input
-                  type="text"
-                  class="input-table form-control"
-                  [(ngModel)]="donBaoHanh.nhanVienGiaoHang"
+                <input type="text" class="input-table form-control" [(ngModel)]="donBaoHanh.nhanVienGiaoHang"
                   [ngModelOptions]="{ standalone: true }"
-                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)"
-                />
+                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)" />
               </td>
               <td>
-                <input
-                  type="text"
-                  class="input-table form-control"
-                  list="field_khachHang_phan_loai"
-                  [(ngModel)]="donBaoHanh.khachHang!.tenKhachHang"
-                  [ngModelOptions]="{ standalone: true }"
-                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)"
-                />
+                <input type="text" class="input-table form-control" list="field_khachHang_phan_loai"
+                  [(ngModel)]="donBaoHanh.khachHang!.tenKhachHang" [ngModelOptions]="{ standalone: true }"
+                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)" style="width:28vw" />
                 <datalist id="field_khachHang_phan_loai">
                   <option *ngFor="let item of khachHangs" value="{{ item.tenKhachHang }}"></option>
                 </datalist>
               </td>
               <td>
-                <input
-                  type="text"
-                  class="input-table form-control"
-                  [(ngModel)]="donBaoHanh.slTiepNhan"
-                  [ngModelOptions]="{ standalone: true }"
-                  disabled
-                />
+                <input type="text" class="input-table form-control" [(ngModel)]="donBaoHanh.slTiepNhan"
+                  [ngModelOptions]="{ standalone: true }" disabled />
               </td>
               <td>
-                <input
-                  type="text"
-                  class="input-table form-control"
-                  [(ngModel)]="donBaoHanh.slDaPhanTich"
-                  [ngModelOptions]="{ standalone: true }"
-                  disabled
-                />
+                <input type="text" class="input-table form-control" [(ngModel)]="donBaoHanh.slDaPhanTich"
+                  [ngModelOptions]="{ standalone: true }" disabled />
               </td>
               <td style="padding-top: 15px">
                 {{ donBaoHanh.ngayTiepNhan | date: 'YYYY-MM-dd hh:mm:ss ' }}
               </td>
               <td style="padding-top: 15px">{{ donBaoHanh.ngayTraBienBan | date: 'YYYY-MM-dd hh:mm:ss ' }}</td>
               <td>
-                <input
-                  type="text"
-                  class="input-table form-control"
-                  [(ngModel)]="donBaoHanh.trangThai"
-                  [ngModelOptions]="{ standalone: true }"
-                  disabled
-                />
+                <input type="text" class="input-table form-control" [(ngModel)]="donBaoHanh.trangThai"
+                  [ngModelOptions]="{ standalone: true }" disabled />
               </td>
             </tr>
           </tbody>
@@ -371,24 +276,21 @@
             <p style="margin-top: 20px">Tổng số lượng sản phẩm: {{ resultChiTietSanPhamTiepNhans.length }}</p>
             <p style="margin-top: 20px">
               Tiến độ: {{ countItem }}/{{ resultChiTietSanPhamTiepNhans.length
-              }}<input type="range" disabled [(ngModel)]="tienDo" [ngModelOptions]="{ standalone: true }" /> {{ tienDo }}%
+              }}<input type="range" disabled [(ngModel)]="tienDo" [ngModelOptions]="{ standalone: true }" /> {{ tienDo
+              }}%
             </p>
           </div>
           <div class="btn-header-phanloai">
             <button type="button" class="btn btn-danger btn-option" style="float: right; height: 35px">
               <fa-icon icon="ban"></fa-icon>&nbsp;<span>Huỷ</span>
             </button>
-            <!-- <button type="submit" id="save-entity" class="btn btn-primary">Lưu</button>
-                      <button type="submit" id="save-entity" class="btn btn-primary">Xác nhận</button> -->
-            <button
-              type="submit"
-              id="save-entity"
-              class="btn btn-primary btn-option"
-              style="float: right; height: 35px"
-              (click)="xacNhanPhanLoai()"
-            >
+            <!-- <button type="submit" id="save-entity" class="btn btn-primary">Xác nhận</button> -->
+            <button *ngIf="tienDo === 100" type="submit" id="save-entity" class="btn btn-primary btn-option"
+              style="float: right; height: 35px" (click)="xacNhanPhanLoai()">
               Hoàn thành
             </button>
+            <button *ngIf="isChanged===true" type="submit" id="save-entity" class="btn btn-primary"
+              (click)="xacNhanPhanLoai()">Lưu</button>
           </div>
         </div>
         <div class="fixed-header-table">
@@ -402,15 +304,9 @@
 
                 <th scope="col">
                   <span class="span-table-phanloai" style="display: block; width: 45em">Tên sản phẩm</span>
-                  <input
-                    type="text"
-                    placeholder="Tìm kiếm"
-                    class="form-control"
-                    list="ten_san_pham"
-                    [(ngModel)]="searchKey"
-                    [ngModelOptions]="{ standalone: true }"
-                    (change)="searchInPopupPhanLoai()"
-                  />
+                  <input type="text" placeholder="Tìm kiếm" class="form-control" list="ten_san_pham"
+                    [(ngModel)]="searchKey" [ngModelOptions]="{ standalone: true }"
+                    (change)="searchInPopupPhanLoai()" />
                   <datalist id="ten_san_pham">
                     <option *ngFor="let item of danhSachGocPopupPhanLoai" value="{{ item.tenSanPham }}"></option>
                   </datalist>
@@ -454,71 +350,36 @@
               <tr *ngFor="let i = index; let data; of: resultChiTietSanPhamTiepNhans" class="editable-row">
                 <td>{{ i + 1 }}</td>
                 <td>
-                  <input
-                    type="text"
-                    class="input-table form-control"
-                    [(ngModel)]="data.tenSanPham"
-                    [ngModelOptions]="{ standalone: true }"
-                    list="field_danh_sach_san_pham"
-                    (change)="updateTenSanPham(data.tenSanPham, i)"
-                  />
+                  <input type="text" class="input-table form-control" [(ngModel)]="data.tenSanPham"
+                    [ngModelOptions]="{ standalone: true }" list="field_danh_sach_san_pham"
+                    (change)="updateTenSanPham(data.tenSanPham, i)" />
                   <datalist id="field_danh_sach_san_pham">
                     <option *ngFor="let item of danhSachSanPham" value="{{ item.name }}"></option>
                   </datalist>
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    class="input-table form-control"
-                    [(ngModel)]="data.slKhachGiao"
-                    [ngModelOptions]="{ standalone: true }"
-                    (change)="updatePopupPhanLoai(i)"
-                  />
+                  <input type="number" class="input-table form-control" [(ngModel)]="data.slKhachGiao"
+                    [ngModelOptions]="{ standalone: true }" (change)="updatePopupPhanLoai(i)" />
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    class="input-table form-control"
-                    [(ngModel)]="data.slDoiMoi"
-                    [ngModelOptions]="{ standalone: true }"
-                    (change)="updatePopupPhanLoai(i)"
-                  />
+                  <input type="number" class="input-table form-control" [(ngModel)]="data.slDoiMoi"
+                    [ngModelOptions]="{ standalone: true }" (change)="updatePopupPhanLoai(i)" />
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    class="input-table form-control"
-                    [(ngModel)]="data.slSuaChua"
-                    [ngModelOptions]="{ standalone: true }"
-                    (change)="updatePopupPhanLoai(i)"
-                  />
+                  <input type="number" class="input-table form-control" [(ngModel)]="data.slSuaChua"
+                    [ngModelOptions]="{ standalone: true }" (change)="updatePopupPhanLoai(i)" />
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    class="input-table form-control"
-                    [(ngModel)]="data.slKhongBaoHanh"
-                    [ngModelOptions]="{ standalone: true }"
-                    (change)="updatePopupPhanLoai(i)"
-                  />
+                  <input type="number" class="input-table form-control" [(ngModel)]="data.slKhongBaoHanh"
+                    [ngModelOptions]="{ standalone: true }" (change)="updatePopupPhanLoai(i)" />
                 </td>
                 <td>
-                  <input
-                    type="number"
-                    class="input-table form-control"
-                    [(ngModel)]="data.slTiepNhan"
-                    [ngModelOptions]="{ standalone: true }"
-                    disabled
-                  />
+                  <input type="number" class="input-table form-control" [(ngModel)]="data.slTiepNhan"
+                    [ngModelOptions]="{ standalone: true }" disabled />
                 </td>
                 <td>
-                  <input
-                    type="checkbox"
-                    class="ui-checkbox"
-                    [(ngModel)]="data.tinhTrangBaoHanh"
-                    [ngModelOptions]="{ standalone: true }"
-                    (change)="updateSignalPhanLoai(i)"
-                  />
+                  <input type="checkbox" class="ui-checkbox" [(ngModel)]="data.tinhTrangBaoHanh"
+                    [ngModelOptions]="{ standalone: true }" (change)="updateSignalPhanLoai(i)" />
                 </td>
                 <td>
                   <button class="btn btn-danger" (click)="deleteRowPopupPhanLoai(data.id)">Xóa</button>
@@ -546,7 +407,8 @@
     <hr />
     <div id="hiddenToolbar" class="group-btn-inBB">
       <div class="btn-group">
-        <button type="button" class="btn-options-in" (click)="openPopupInBBTN1()">Liên 1: Lưu tổ phục vụ đổi sản phẩm</button>
+        <button type="button" class="btn-options-in" (click)="openPopupInBBTN1()">Liên 1: Lưu tổ phục vụ đổi sản
+          phẩm</button>
         <button type="button" class="btn-options-in" (click)="openPopupInBBTN2()">Liên 2: Khách hàng</button>
       </div>
       <div class="btn-group">
@@ -559,18 +421,12 @@
 
 <!-- -----------------------------------------------------------  In liên 1 -------------------------------------------------------------->
 <div class="table-responive popup-background" role="dialog" *ngIf="popupInBBTN1 === true">
-  <div class="popup-container">
+  <div class="popup-container" style="overflow: auto;">
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN1()">&times;</span>
       <div id="hiddenToolbar">
-        <button
-          type="button"
-          class="btn btn-primary"
-          printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
-          printSectionId="BBTN1"
-          ngxPrint
-          (click)="xacNhanInBienBan()"
-        >
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+          printSectionId="BBTN1" ngxPrint (click)="xacNhanInBienBan()">
           In
         </button>
       </div>
@@ -579,12 +435,8 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img
-                  src="../../../../content/images/logoRD.png"
-                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                  width="150"
-                  style="margin-top: -30px; margin-left: 30px"
-                />
+                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150" style="margin-top: -30px; margin-left: 30px" />
               </div>
               <div class="col-6" align="right" style="font-size: 12px">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
@@ -596,7 +448,8 @@
           <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
+          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm
+            đổi của</p>
           <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
           <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
           <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
@@ -632,8 +485,10 @@
           </div>
           <div class="notes">
             <p>
-              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
+              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng,
+              liên 3 giao P. Kh,
+              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu
+              chi nhánh, liên 2
               giao khách hàng
             </p>
             <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
@@ -660,14 +515,8 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN2()">&times;</span>
       <div id="hiddenToolbar">
-        <button
-          type="button"
-          class="btn btn-primary"
-          printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
-          printSectionId="BBTN2"
-          ngxPrint
-          (click)="xacNhanInBienBan()"
-        >
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+          printSectionId="BBTN2" ngxPrint (click)="xacNhanInBienBan()">
           In
         </button>
       </div>
@@ -676,12 +525,8 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img
-                  src="../../../../content/images/logoRD.png"
-                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                  width="150"
-                  style="margin-top: -30px; margin-left: 30px"
-                />
+                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150" style="margin-top: -30px; margin-left: 30px" />
               </div>
               <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
@@ -693,7 +538,8 @@
           <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
+          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm
+            đổi của</p>
           <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
           <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
           <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
@@ -729,8 +575,10 @@
           </div>
           <div class="notes">
             <p>
-              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
+              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng,
+              liên 3 giao P. Kh,
+              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu
+              chi nhánh, liên 2
               giao khách hàng
             </p>
             <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
@@ -757,14 +605,8 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN3()">&times;</span>
       <div id="hiddenToolbar">
-        <button
-          type="button"
-          class="btn btn-primary"
-          printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
-          printSectionId="BBTN3"
-          ngxPrint
-          (click)="xacNhanInBienBan()"
-        >
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+          printSectionId="BBTN3" ngxPrint (click)="xacNhanInBienBan()">
           In
         </button>
       </div>
@@ -773,12 +615,8 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img
-                  src="../../../../content/images/logoRD.png"
-                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                  width="150"
-                  style="margin-top: -30px; margin-left: 30px"
-                />
+                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150" style="margin-top: -30px; margin-left: 30px" />
               </div>
               <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
@@ -790,7 +628,8 @@
           <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
+          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm
+            đổi của</p>
           <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
           <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
           <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
@@ -826,8 +665,10 @@
           </div>
           <div class="notes">
             <p>
-              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
+              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng,
+              liên 3 giao P. Kh,
+              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu
+              chi nhánh, liên 2
               giao khách hàng
             </p>
             <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
@@ -854,14 +695,8 @@
     <div class="popup-header-in">
       <span class="close-btn" style="float: right" (click)="closePopupBBTN4()">&times;</span>
       <div id="hiddenToolbar">
-        <button
-          type="button"
-          class="btn btn-primary"
-          printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
-          printSectionId="BBTN4"
-          ngxPrint
-          (click)="xacNhanInBienBan()"
-        >
+        <button type="button" class="btn btn-primary" printTitle="BIÊN BẢN GIAO NHẬN SẢN PHẨM ĐỔI"
+          printSectionId="BBTN4" ngxPrint (click)="xacNhanInBienBan()">
           In
         </button>
       </div>
@@ -870,12 +705,8 @@
           <header>
             <div class="row">
               <div class="col-6" align="left" style="height: 0px">
-                <img
-                  src="../../../../content/images/logoRD.png"
-                  alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
-                  width="150"
-                  style="margin-top: -30px; margin-left: 30px"
-                />
+                <img src="../../../../content/images/logoRD.png" alt="CÔNG TY CP BÓNG ĐÈN PHÍCH NƯỚC RẠNG ĐÔNG"
+                  width="150" style="margin-top: -30px; margin-left: 30px" />
               </div>
               <div class="col-6" align="right">RĐ.QID05.BM01 Ban hành lần 1</div>
             </div>
@@ -887,7 +718,8 @@
           <div align="right" style="margin-right: 10px; font-size: 12px; margin-top: -30px">Số: {{ maBienBan }}</div>
           <br />
 
-          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
+          <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm
+            đổi của</p>
           <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
           <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
           <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
@@ -923,8 +755,10 @@
           </div>
           <div class="notes">
             <p>
-              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng, liên 3 giao P. Kh,
-              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu chi nhánh, liên 2
+              Biên bản được lập thành 03 liên (hoặc 4 liên): liên 1 lưu Tổ bảo hành sản phẩm, liên 2 giao khách hàng,
+              liên 3 giao P. Kh,
+              liên 4 giao P. BH1 (Với trường hợp khách hàng là C1, 2 Miền Bắc). Đối với chi nhánh (2 liên): liên 1 lưu
+              chi nhánh, liên 2
               giao khách hàng
             </p>
             <p><strong>Lưu ý: Khi khách hàng lấy sản phẩm đổi, phải giao liên 2 cho thủ kho công ty</strong></p>
@@ -942,5 +776,39 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="popupNoti">
+  <div class="popup">
+    <h3>{{ popupMessage }}</h3>
+    <button (click)="closePopupNoti()">Close</button>
+  </div>
+</div>
+
+<div class="modal-confirm" [ngClass]="{active: isModalOpenConfirm}">
+  <div class="modal-content-confirm">
+    <span class="close-modal-confirm" (click)="closeModalConfirm()">&times;</span>
+    <p>Bạn chắc chắn muốn xóa thông số này?</p>
+    <button class="btn btn-danger" (click)="confirmDelete()">Xóa</button>
+    <button class="btn btn-secondary" (click)="closeModalConfirm()">Hủy</button>
+  </div>
+</div>
+
+<div class="modal-confirm" id="modal-confirm-add" [ngClass]="{active: isModalOpenConfirmAdd}">
+  <div class="modal-content-confirm">
+    <span class="close-modal-confirm" (click)="closeModalConfirmAdd()">&times;</span>
+    <p>Bạn chắc chắn muốn xóa thông số này?</p>
+    <button class="btn btn-danger" (click)="confirmDeleteRowAdd()">Xóa</button>
+    <button class="btn btn-secondary" (click)="closeModalConfirmAdd()">Hủy</button>
+  </div>
+</div>
+
+<div class="modal-confirm" id="modal-confirm-save">
+  <div class="modal-content-confirm">
+    <span class="close-modal-confirm" (click)="closeModalConfirmSave()">&times;</span>
+    <p>Xác nhận lưu sự thay đổi</p>
+    <button class="btn btn-info" (click)="confirmSave()">OK</button>
+    <button class="btn btn-secondary" (click)="closeModalConfirmSave()">Hủy</button>
   </div>
 </div>
