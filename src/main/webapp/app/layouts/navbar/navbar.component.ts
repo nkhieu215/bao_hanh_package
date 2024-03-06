@@ -23,12 +23,13 @@ export class NavbarComponent implements OnInit {
   entitiesNavbarItems: any[] = [];
   isSidebarCollapsed = false;
 
+
   constructor(
     private loginService: LoginService,
     private accountService: AccountService,
     private profileService: ProfileService,
     private router: Router,
-    protected main: MainComponent
+    private mainComponent: MainComponent
   ) {
     if (VERSION) {
       this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
@@ -48,13 +49,9 @@ export class NavbarComponent implements OnInit {
   }
 
   collapseNavbar(): void {
-    this.main.openSideBar();
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    this.isNavbarCollapsed = true;
   }
-  collapseNavbar1(): void {
-    this.main.closeSideBar();
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
-  }
+
   login(): void {
     this.loginService.login();
   }
@@ -71,10 +68,10 @@ export class NavbarComponent implements OnInit {
 
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
-    if (this.isSidebarCollapsed === false) {
-      this.main.closeSideBar();
+    if (this.isSidebarCollapsed === true) {
+      this.mainComponent.closeNav();
     } else {
-      this.main.openSideBar();
+      this.mainComponent.openNav()
     }
   }
 }

@@ -1,253 +1,174 @@
 <div class="sidebar col-md-3" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
   <a class="sidebar-brand logo" routerLink="/" (click)="collapseNavbar()">
-    <img src="../../../content/images/logo-rang-dong-icon.webp" alt="Logo-RangDong" class="sidebar-img" />
+    <img src="../../../content/images/logo-rang-dong.webp" alt="Logo-RangDong" class="sidebar-img">
   </a>
-  <button (click)="collapseNavbar1()">Tắt side bar</button>
+
   <div [ngSwitch]="account !== null">
-    <ul class="navbar-nav">
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a routerLink="/" class="dropdown-item" (click)="collapseNavbar()" title="Trang chủ">
-          <span>
-            <fa-icon icon="home"></fa-icon>
-            <span class="dropdown-item-span">Trang chủ</span>
-          </span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="dropdown-item" routerLink="don-bao-hanh" (click)="collapseNavbar()" title="Tiếp nhận">
-          <fa-icon icon="pencil" [fixedWidth]="true"></fa-icon>
-          <span class="dropdown-item-span">Tiếp nhận</span>
-        </a>
-      </li>
+    <nav>
 
-      <li class="nav-item">
-        <a class="dropdown-item" routerLink="phan-tich-san-pham" (click)="collapseNavbar()" title="Phân tích">
-          <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
-          <span class="dropdown-item-span">Phân tích</span>
-        </a>
-      </li>
+      <ul class="navbar-nav">
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a routerLink="/" class="dropdown-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            (click)="collapseNavbar()" title="Trang chủ">
+            <span>
+              <fa-icon icon="home"></fa-icon>
+              <span class="dropdown-item-span">Trang chủ</span>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="don-bao-hanh" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()" title="Tiếp nhận">
+            <fa-icon icon="pencil" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Tiếp nhận</span>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="chi-tiet-san-pham-tiep-nhan"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-          title="Tổng hợp"
-        >
-          <fa-icon icon="add" [fixedWidth]="true"></fa-icon>
-          <span class="dropdown-item-span">Tổng hợp</span>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="phan-tich-san-pham" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()" title="Phân tích">
+            <fa-icon icon="search" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Phân tích</span>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="tinh-thanh"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Tinh Thanh</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="nhom-san-pham"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Nhom San Pham</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="san-pham"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Quản lý sản phẩm</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="khach-hang"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>In biên bản</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="nhom-khach-hang"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Nhom Khach Hang</span>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="chi-tiet-san-pham-tiep-nhan" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()" title="Tổng hợp">
+            <fa-icon icon="add" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Tổng hợp</span>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="chi-tiet-san-pham-tiep-nhan"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Chi Tiet San Pham Tiep Nhan</span>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="tinh-thanh" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Tinh Thanh</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="nhom-san-pham" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Nhom San Pham</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="san-pham" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Quản lý sản phẩm</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="khach-hang" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Khách hàng</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="nhom-khach-hang" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Nhom Khach Hang</span>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="danh-sach-tinh-trang"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Phân tích mã tiếp nhận</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="phan-tich-san-pham"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Phân tích</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="phan-tich-loi"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Phan Tich Loi</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="loi"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Loi</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="nhom-loi"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Nhom Loi</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="kho"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Kho</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="chung-loai"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Chung Loai</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="dropdown-item"
-          routerLink="nganh"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="collapseNavbar()"
-        >
-          <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-          <span>Nganh</span>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="chi-tiet-san-pham-tiep-nhan" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Chi Tiet San Pham Tiep Nhan</span>
+          </a>
+        </li>
 
-      <li
-        ngbDropdown
-        class="nav-item dropdown pointer"
-        display="dinamic"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0)" id="account-menu" data-cy="account-menu">
-          <span *ngIf="!account?.imageUrl">
-            <fa-icon icon="user"></fa-icon>
-            <span class="dropdown-item-span">Tài khoản</span>
-          </span>
-          <span *ngIf="account?.imageUrl">
-            <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
-          </span>
-        </a>
-        <ul class="nav-item" ngbDropdownMenu aria-label="account-menu" style="background-color: #333; border: none">
-          <li *ngSwitchCase="true">
-            <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
-              <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
-              <span>Đăng xuất</span>
-            </a>
-          </li>
-          <li *ngSwitchCase="false">
-            <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
-              <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
-              <span>Đăng nhập</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-    </ul>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="danh-sach-tinh-trang" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Phân tích mã tiếp nhận</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="phan-tich-loi" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Phan Tich Loi</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="loi" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Loi</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="nhom-loi" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Nhom Loi</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="kho" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Kho</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="chung-loai" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Chung Loai</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="dropdown-item" routerLink="nganh" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+            <span class="dropdown-item-span">Nganh</span>
+          </a>
+        </li>
+
+        <li ngbDropdown class="nav-item dropdown pointer" display="dinamic" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0)" id="account-menu"
+            data-cy="account-menu">
+            <span *ngIf="!account?.imageUrl">
+              <fa-icon icon="user"></fa-icon>
+              <span class="dropdown-item-span">Tài khoản</span>
+            </span>
+            <span *ngIf="account?.imageUrl">
+              <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
+            </span>
+          </a>
+          <ul class="nav-item" ngbDropdownMenu aria-label="account-menu" style="background-color: #333; border: none;">
+            <li *ngSwitchCase="true">
+              <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
+                <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
+                <span>Đăng xuất</span>
+              </a>
+            </li>
+            <li *ngSwitchCase="false">
+              <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
+                <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
+                <span>Đăng nhập</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
     <button class="sidebar-collapse-btn" (click)="toggleSidebar()">
       <fa-icon icon="bars"></fa-icon>
     </button>
   </div>
+
 
   <!--
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
@@ -550,4 +471,3 @@
       </ul>
     </div>
   </div> -->
-</div>
