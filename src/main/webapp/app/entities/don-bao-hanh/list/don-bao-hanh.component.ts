@@ -152,17 +152,17 @@ export class DonBaoHanhComponent implements OnInit {
     khongBaoHanh: number | null | undefined;
     soLuongDaNhan: number | null | undefined;
   }[] = [
-      {
-        id: this.idMaTiepNhan,
-        idMaTiepNhan: this.idMaTiepNhan,
-        tenSanPham: this.tenSanPham,
-        soLuong: this.soLuong,
-        doiMoi: this.doiMoi,
-        suaChua: this.suaChua,
-        khongBaoHanh: this.khongBaoHanh,
-        soLuongDaNhan: this.soLuongDaNhan,
-      },
-    ];
+    {
+      id: this.idMaTiepNhan,
+      idMaTiepNhan: this.idMaTiepNhan,
+      tenSanPham: this.tenSanPham,
+      soLuong: this.soLuong,
+      doiMoi: this.doiMoi,
+      suaChua: this.suaChua,
+      khongBaoHanh: this.khongBaoHanh,
+      soLuongDaNhan: this.soLuongDaNhan,
+    },
+  ];
 
   editForm = this.formBuilder.group({
     id: [],
@@ -197,9 +197,9 @@ export class DonBaoHanhComponent implements OnInit {
     protected http: HttpClient,
     protected accountService: AccountService,
     protected danhSachTinhTrangService: DanhSachTinhTrangService,
-    protected sanPhamService: SanPhamService,
-    // protected dialog: MatDialog,
-  ) { }
+    protected sanPhamService: SanPhamService
+  ) // protected dialog: MatDialog,
+  {}
 
   buttonBBTN: Formatter<any> = (_row, _cell, value) =>
     value
@@ -210,8 +210,8 @@ export class DonBaoHanhComponent implements OnInit {
     value
       ? `<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px; width: 15px">PL</button>`
       : {
-        text: '<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px" title="Phân loại"></button>',
-      };
+          text: '<button class="btn btn-success fa fa-check-square-o" style="height: 28px; line-height: 14px" title="Phân loại"></button>',
+        };
 
   buttonEdit: Formatter<any> = (_row, _cell, value) =>
     value
@@ -804,6 +804,7 @@ export class DonBaoHanhComponent implements OnInit {
             this.tienDo = Number(((this.countItem / this.resultChiTietSanPhamTiepNhans.length) * 100).toFixed(2));
           }
         }
+        this.getColor(this.tienDo, 'donBaoHanh');
       }, 100);
       // console.log('trường hợp 2');
     }
@@ -1244,6 +1245,7 @@ export class DonBaoHanhComponent implements OnInit {
     }
     if (this.checkAll === true) {
       this.tienDo = 100;
+      this.getColor(this.tienDo, 'donBaoHanh');
       this.countItem = this.resultChiTietSanPhamTiepNhans.length;
       sessionStorage.setItem(`TiepNhan ${this.donBaoHanh.id as string}`, JSON.stringify(this.resultChiTietSanPhamTiepNhans));
       this.donBaoHanh.trangThai = 'Chờ phân tích';
@@ -1251,6 +1253,7 @@ export class DonBaoHanhComponent implements OnInit {
     if (this.checkAll === false) {
       this.tienDo = 0;
       this.countItem = 0;
+      this.getColor(this.tienDo, 'donBaoHanh');
       sessionStorage.setItem(`TiepNhan ${this.donBaoHanh.id as string}`, JSON.stringify(this.resultChiTietSanPhamTiepNhans));
       this.donBaoHanh.trangThai = 'Chờ phân loại';
     }
@@ -1261,11 +1264,13 @@ export class DonBaoHanhComponent implements OnInit {
     if (this.resultChiTietSanPhamTiepNhans[index].tinhTrangBaoHanh === true) {
       this.countItem++;
       this.tienDo = Number(((this.countItem / this.resultChiTietSanPhamTiepNhans.length) * 100).toFixed(2));
+      this.getColor(this.tienDo, 'donBaoHanh');
       sessionStorage.setItem(`TiepNhan ${this.donBaoHanh.id as string}`, JSON.stringify(this.resultChiTietSanPhamTiepNhans));
     }
     if (this.resultChiTietSanPhamTiepNhans[index].tinhTrangBaoHanh === false) {
       this.countItem--;
       this.tienDo = Number(((this.countItem / this.resultChiTietSanPhamTiepNhans.length) * 100).toFixed(2));
+      this.getColor(this.tienDo, 'donBaoHanh');
       sessionStorage.setItem(`TiepNhan ${this.donBaoHanh.id as string}`, JSON.stringify(this.resultChiTietSanPhamTiepNhans));
     }
     if (this.tienDo === 100) {
@@ -1588,7 +1593,6 @@ export class DonBaoHanhComponent implements OnInit {
 
     this.isModalOpenConfirm = false;
     document.getElementById('modal-confirm')!.style.display = 'none';
-
   }
 
   closeModalConfirm(): void {
@@ -1600,7 +1604,7 @@ export class DonBaoHanhComponent implements OnInit {
     this.deleteTenSanPham = tenSanPham;
     this.isModalOpenConfirmAdd = true;
     document.getElementById('modal-confirm-add')!.style.display = 'block';
-    console.log('open modal confirm add', this.isModalOpenConfirmAdd)
+    console.log('open modal confirm add', this.isModalOpenConfirmAdd);
   }
 
   confirmDeleteRowAdd(): void {
@@ -1677,58 +1681,64 @@ export class DonBaoHanhComponent implements OnInit {
       this.http.put<any>(this.putChiTietSanPhamTiepNhanUrl, this.chiTietDonBaoHanh).subscribe(res => {
         // console.log('check ket qua chi tiet phan loaij: ', res);
         // tạo danh sách phân loại sau khi cập nhật thông tin chi tiết sản phẩm tiếp nhận
-        setTimeout(() => {
-          for (let i = 0; i < res.length; i++) {
-            for (let k = 0; k < this.danhSachTinhTrangs.length; k++) {
-              // trường hợp đổi mới
-              if (this.danhSachTinhTrangs[k].id === 1) {
-                const item1: IPhanLoaiChiTietTiepNhan = {
-                  id: 0,
-                  soLuong: this.resultChiTietSanPhamTiepNhans[i].slDoiMoi,
-                  chiTietSanPhamTiepNhan: res[i],
-                  danhSachTinhTrang: this.danhSachTinhTrangs[k],
-                };
-                this.themMoiPhanLoaiChiTietTiepNhan.push(item1);
-              }
-              // trường hợp sửa chữa
-              if (this.danhSachTinhTrangs[k].id === 2) {
-                const item1: IPhanLoaiChiTietTiepNhan = {
-                  id: 0,
-                  soLuong: this.resultChiTietSanPhamTiepNhans[i].slSuaChua,
-                  chiTietSanPhamTiepNhan: res[i],
-                  danhSachTinhTrang: this.danhSachTinhTrangs[k],
-                };
-                this.themMoiPhanLoaiChiTietTiepNhan.push(item1);
-              }
-              //trường hợp không bảo hành
-              if (this.danhSachTinhTrangs[k].id === 3) {
-                const item1: IPhanLoaiChiTietTiepNhan = {
-                  id: 0,
-                  soLuong: this.resultChiTietSanPhamTiepNhans[i].slKhongBaoHanh,
-                  chiTietSanPhamTiepNhan: res[i],
-                  danhSachTinhTrang: this.danhSachTinhTrangs[k],
-                };
-                this.themMoiPhanLoaiChiTietTiepNhan.push(item1);
-              }
+        for (let i = 0; i < res.length; i++) {
+          for (let k = 0; k < this.danhSachTinhTrangs.length; k++) {
+            // trường hợp đổi mới
+            if (this.danhSachTinhTrangs[k].id === 1) {
+              const item1: IPhanLoaiChiTietTiepNhan = {
+                id: 0,
+                soLuong: this.resultChiTietSanPhamTiepNhans[i].slDoiMoi,
+                chiTietSanPhamTiepNhan: res[i],
+                danhSachTinhTrang: this.danhSachTinhTrangs[k],
+              };
+              this.themMoiPhanLoaiChiTietTiepNhan.push(item1);
+            }
+            // trường hợp sửa chữa
+            if (this.danhSachTinhTrangs[k].id === 2) {
+              const item1: IPhanLoaiChiTietTiepNhan = {
+                id: 0,
+                soLuong: this.resultChiTietSanPhamTiepNhans[i].slSuaChua,
+                chiTietSanPhamTiepNhan: res[i],
+                danhSachTinhTrang: this.danhSachTinhTrangs[k],
+              };
+              this.themMoiPhanLoaiChiTietTiepNhan.push(item1);
+            }
+            //trường hợp không bảo hành
+            if (this.danhSachTinhTrangs[k].id === 3) {
+              const item1: IPhanLoaiChiTietTiepNhan = {
+                id: 0,
+                soLuong: this.resultChiTietSanPhamTiepNhans[i].slKhongBaoHanh,
+                chiTietSanPhamTiepNhan: res[i],
+                danhSachTinhTrang: this.danhSachTinhTrangs[k],
+              };
+              this.themMoiPhanLoaiChiTietTiepNhan.push(item1);
             }
           }
-          this.http.put<any>(this.putPhanLoaiChiTietTiepNhanUrl, this.themMoiPhanLoaiChiTietTiepNhan).subscribe(() => {
-            this.isChanged = false;
-            setTimeout(() => {
-              console.log('Chi tiet don bao hanh: ', this.chiTietDonBaoHanh);
-              console.log('Phan loai chi tiet don hang tiep nhan: ', this.themMoiPhanLoaiChiTietTiepNhan);
-              window.location.reload();
-            }, 500);
-          });
-          this.openPopupNoti('Hoàn thành phân loại');
-        }, 500);
+        }
+        this.http.put<any>(this.putPhanLoaiChiTietTiepNhanUrl, this.themMoiPhanLoaiChiTietTiepNhan).subscribe(() => {
+          this.isChanged = false;
+          setTimeout(() => {
+            console.log('Chi tiet don bao hanh: ', this.chiTietDonBaoHanh);
+            console.log('Phan loai chi tiet don hang tiep nhan: ', this.themMoiPhanLoaiChiTietTiepNhan);
+            window.location.reload();
+          }, 500);
+        });
+        this.openPopupNoti('Hoàn thành phân loại');
       });
     });
-
   }
 
   closeModalConfirmSave(): void {
-    document.getElementById('modal-confirm-save')!.style.display = 'none'
+    document.getElementById('modal-confirm-save')!.style.display = 'none';
   }
-
+  getColor(value: number, index: any): void {
+    console.log('value', value);
+    if (value >= 0 && value < 40) {
+      document.getElementById(index as string)!.style.accentColor = 'red';
+    } else if (value >= 40 && value < 70) {
+      document.getElementById(index as string)!.style.accentColor = 'yellow';
+    } else if (value > 70) {
+      document.getElementById(index as string)!.style.accentColor = 'green';
+    }
+  }
 }

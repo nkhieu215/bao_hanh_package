@@ -41,8 +41,6 @@ import { KhoService } from 'app/entities/kho/service/kho.service';
   templateUrl: './phan-tich-san-pham.component.html',
   styleUrls: ['../../../slickgrid-theme-booststrap.css'],
 })
-
-
 export class PhanTichSanPhamComponent implements OnInit {
   // danh sách url
   loisUrl = this.applicationConfigService.getEndpointFor('api/lois');
@@ -184,7 +182,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     protected http: HttpClient,
     protected accountService: AccountService,
     protected khoService: KhoService
-  ) { }
+  ) {}
 
   buttonIn: Formatter<any> = (_row, _cell, value) =>
     value
@@ -854,7 +852,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     });
     setTimeout(() => {
       if (this.bienBanTiepNhan === null) {
-        this.openPopupNoti("Vui lòng in biên bản tiếp nhận trước")
+        this.openPopupNoti('Vui lòng in biên bản tiếp nhận trước');
       } else {
         this.popupInBBKN = true;
         for (let i = 0; i < this.danhSachBienBan.length; i++) {
@@ -906,7 +904,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           // console.log('them moi bien ban kiểm nghiệm:', this.themMoiBienBan);
         }
       }
-    }, 100)
+    }, 100);
   }
 
   openPopupInBBTL(index: any): void {
@@ -933,15 +931,15 @@ export class PhanTichSanPhamComponent implements OnInit {
       if (this.bienBanKiemNghiem === null || this.bienBanTiepNhan === null) {
         let check = false;
         if (this.bienBanKiemNghiem !== null && this.bienBanTiepNhan === null) {
-          this.openPopupNoti("Vui lòng in biên bản tiếp nhận")
+          this.openPopupNoti('Vui lòng in biên bản tiếp nhận');
           check = true;
         }
         if (this.bienBanKiemNghiem === null && this.bienBanTiepNhan !== null) {
-          this.openPopupNoti("Vui lòng in biên bản kiểm nghiệm")
+          this.openPopupNoti('Vui lòng in biên bản kiểm nghiệm');
           check = true;
         }
         if (check === false) {
-          this.openPopupNoti("Vui lòng in biên bản tiếp nhận và kiểm nghiệm");
+          this.openPopupNoti('Vui lòng in biên bản tiếp nhận và kiểm nghiệm');
         }
       } else {
         this.popupInBBTL = true;
@@ -994,7 +992,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           // console.log('them moi bien ban thanh lý:', this.themMoiBienBan);
         }
       }
-    }, 100)
+    }, 100);
     this.danhSachBienBanSanPhamTheoKho = this.resultOfSanPhamTheoKho[index].value;
     // console.log('danh sách sản phẩm kho:', this.resultOfSanPhamTheoKho[index].value);
   }
@@ -1040,8 +1038,10 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.listOfPhanTichSanPhamByPLCTTN = [];
     this.indexOfPhanTichSanPham = index;
     // lấy danh sách chi tiết sản phẩm phân tích
+    console.log('chi tiet phan tich san pham', this.listOfChiTietSanPhamPhanTich);
     this.getPhanTichSanPhamByPLCTTN(id);
     setTimeout(() => {
+      this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo, 'chiTietDonBaoHanh');
       if (this.listOfPhanTichSanPhamByPLCTTN.length === 0) {
         this.addItemForChiTietPhanTichSanPham();
         // them moi phan tu dau tien
@@ -1083,9 +1083,13 @@ export class PhanTichSanPhamComponent implements OnInit {
               (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich /
                 this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan) *
               100;
+            this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo, this.indexOfPhanTichSanPham);
+
             // cập nhật tiến độ chung của đơn bảo hành
             this.donBaoHanh.slDaPhanTich! += 1;
             this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+            this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
+
             // console.log('Cập nhật tiến độ khi khai báo lỗi', this.indexOfChiTietPhanTichSanPham);
           }
           this.listOfPhanTichSanPhamByPLCTTN[i].loiKyThuat = 0;
@@ -1120,8 +1124,9 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Lot';
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string
-      }`;
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string
+    }`;
   }
   //Bắt sự kiện scan serial
   scanSerialEvent(): void {
@@ -1130,12 +1135,15 @@ export class PhanTichSanPhamComponent implements OnInit {
       this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(13);
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(0, 2) as string
-      }`;
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(0, 2) as string
+    }`;
   }
   //Cập nhật thông tin sau khi khai báo lỗi
   updatePhanTichSanPham(): void {
     if (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo === 100) {
+      this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo, 'chiTietDonBaoHanh');
+      this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo, this.indexOfPhanTichSanPham);
       this.openPopupNoti('Đã hoàn thành phân tích');
       // cập nhật check sản phẩm phân tích
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].check = true;
@@ -1187,12 +1195,16 @@ export class PhanTichSanPhamComponent implements OnInit {
           (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich /
             this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slTiepNhan) *
           100;
+        this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo, this.indexOfPhanTichSanPham);
+        this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo, 'chiTietDonBaoHanh');
         if (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo === 100) {
           this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].check = true;
+          // this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo,this.indexOfPhanTichSanPham);
         }
         // cập nhật tiến độ chung của đơn bảo hành
         this.donBaoHanh.slDaPhanTich! += 1;
         this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+        this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
         setTimeout(() => {
           if (this.donBaoHanh.tienDo === 100) {
             this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
@@ -1240,7 +1252,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         //cập nhật DB phân tích lỗi
         this.http.post<any>('api/phan-tich-loi', this.listOfKhaiBaoLoi).subscribe(() => {
           this.openPopupNoti('Cập nhật thành công');
-          this.closePopup()
+          this.closePopup();
         });
         // console.log('danh sach update khai bao loi: ', this.listOfKhaiBaoLoi);
       }, 200);
@@ -1387,9 +1399,11 @@ export class PhanTichSanPhamComponent implements OnInit {
       // điều chỉnh tiến độ lên 100%
       this.listOfChiTietSanPhamPhanTich[index].tienDo = 100;
       this.listOfChiTietSanPhamPhanTich[index].check = true;
+      this.getColor(this.listOfChiTietSanPhamPhanTich[index].tienDo, this.indexOfPhanTichSanPham);
       // cập nhật tiến độ chung của đơn bảo hành
       this.donBaoHanh.slDaPhanTich!++;
       this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+      this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
     } else {
       // lấy danh sách chi tiết sản phẩm phân tích
       this.http.get<any>(`api/phan-tich-san-pham/${id}`).subscribe(res => {
@@ -1408,12 +1422,15 @@ export class PhanTichSanPhamComponent implements OnInit {
             this.listOfChiTietSanPhamPhanTich[index].tienDo =
               (this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich / this.listOfChiTietSanPhamPhanTich[index].slTiepNhan) * 100;
             if (this.listOfChiTietSanPhamPhanTich[index].tienDo === 100) {
+              this.getColor(this.listOfChiTietSanPhamPhanTich[index].tienDo, index);
               // cập nhật check sản phẩm phân tích
               this.listOfChiTietSanPhamPhanTich[index].check = true;
             }
             // cập nhật tiến độ chung của đơn bảo hành
             this.donBaoHanh.slDaPhanTich!++;
             this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+            this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
+
             //cập nhật tổng lỗi linh động, lỗi kĩ thuật
             for (let j = 0; j < this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois.length; j++) {
               console.log({ checkIndex: this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois });
@@ -1479,17 +1496,16 @@ export class PhanTichSanPhamComponent implements OnInit {
     document.getElementById('popupNoti')!.style.display = 'none';
   }
 
-  getColor(value: number): string {
-    console.log('value', value)
-    if (value < 40) {
-      document.getElementById('valueColor')!.style.accentColor = 'blue'
-      return document.getElementById('valueColor')!.style.accentColor = 'blue'; // Change to blue for values less than 40
-    } else if (value < 70) {
-      document.getElementById('valueColor')!.style.accentColor = 'green'
-      return document.getElementById('valueColor')!.style.accentColor = 'green'; // Change to green for values between 40 and 70
-    } else {
-      document.getElementById('valueColor')!.style.accentColor = 'red'
-      return document.getElementById('valueColor')!.style.accentColor = 'red'; // Change to red for values greater than or equal to 70
+  getColor(value: number, index: any): void {
+    if (value >= 0 && value < 40) {
+      document.getElementById(index as string)!.style.accentColor = 'red';
+      console.log('red', value, index);
+    } else if (value >= 40 && value < 70) {
+      document.getElementById(index as string)!.style.accentColor = 'yellow';
+      console.log('yellow', value, index);
+    } else if (value > 70) {
+      document.getElementById(index as string)!.style.accentColor = 'green';
+      console.log('green', value, index);
     }
   }
 }
