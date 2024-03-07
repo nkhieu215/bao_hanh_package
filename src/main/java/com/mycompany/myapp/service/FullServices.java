@@ -191,18 +191,23 @@ public class FullServices {
     }
 
     //☺ update chi tiết sản phẩm tiếp nhận
-    public void updateChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList) {
+    public List<ChiTietSanPhamTiepNhan> updateChiTietSanPhamTiepNhan(List<ChiTietSanPhamTiepNhan> requestList) {
+        List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList = new ArrayList<>();
         for (ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan : requestList) {
             ChiTietSanPhamTiepNhan chiTietSanPhamTiepNhan1 =
                 this.chiTietSanPhamTiepNhanRepository.findById(chiTietSanPhamTiepNhan.getId()).orElse(null);
             if (chiTietSanPhamTiepNhan1 == null) {
                 this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan);
+                chiTietSanPhamTiepNhanList.add(chiTietSanPhamTiepNhan);
             } else {
+                chiTietSanPhamTiepNhan1.setTinhTrangBaoHanh(chiTietSanPhamTiepNhan.getTinhTrangBaoHanh());
                 chiTietSanPhamTiepNhan1.setSanPham(chiTietSanPhamTiepNhan.getSanPham());
                 chiTietSanPhamTiepNhan1.setNgayPhanLoai(chiTietSanPhamTiepNhan.getNgayPhanLoai());
                 this.chiTietSanPhamTiepNhanRepository.save(chiTietSanPhamTiepNhan1);
+                chiTietSanPhamTiepNhanList.add(chiTietSanPhamTiepNhan1);
             }
         }
+        return chiTietSanPhamTiepNhanList;
     }
 
     //☺ hoàn thành phân loại

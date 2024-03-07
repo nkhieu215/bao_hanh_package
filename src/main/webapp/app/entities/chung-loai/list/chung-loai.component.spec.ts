@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { ChungLoaiService } from '../service/chung-loai.service';
 
 import { ChungLoaiComponent } from './chung-loai.component';
+import { AngularSlickgridComponent, AngularSlickgridModule } from 'angular-slickgrid';
 
 describe('ChungLoai Management Component', () => {
   let comp: ChungLoaiComponent;

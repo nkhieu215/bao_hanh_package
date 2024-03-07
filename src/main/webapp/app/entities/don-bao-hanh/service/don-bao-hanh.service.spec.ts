@@ -12,7 +12,7 @@ describe('DonBaoHanh Service', () => {
   let httpMock: HttpTestingController;
   let elemDefault: IDonBaoHanh;
   let expectedResult: IDonBaoHanh | IDonBaoHanh[] | boolean | null;
-  let currentDate: dayjs.Dayjs;
+  let currentDate: Date;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,7 +21,7 @@ describe('DonBaoHanh Service', () => {
     expectedResult = null;
     service = TestBed.inject(DonBaoHanhService);
     httpMock = TestBed.inject(HttpTestingController);
-    currentDate = dayjs();
+    currentDate = new Date();
 
     elemDefault = {
       id: 0,
@@ -41,8 +41,8 @@ describe('DonBaoHanh Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          ngaykhkb: currentDate.format(DATE_TIME_FORMAT),
-          ngayTraBienBan: currentDate.format(DATE_TIME_FORMAT),
+          ngaykhkb: currentDate,
+          ngayTraBienBan: currentDate,
         },
         elemDefault
       );
@@ -58,8 +58,8 @@ describe('DonBaoHanh Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          ngaykhkb: currentDate.format(DATE_TIME_FORMAT),
-          ngayTraBienBan: currentDate.format(DATE_TIME_FORMAT),
+          ngaykhkb: currentDate,
+          ngayTraBienBan: currentDate,
         },
         elemDefault
       );
@@ -86,12 +86,12 @@ describe('DonBaoHanh Service', () => {
           ngayTiepNhan: 'BBBBBB',
           trangThai: 'BBBBBB',
           nhanVienGiaoHang: 'BBBBBB',
-          ngaykhkb: currentDate.format(DATE_TIME_FORMAT),
+          ngaykhkb: currentDate,
           nguoiTaoDon: 'BBBBBB',
           slTiepNhan: 1,
           slDaPhanTich: 1,
           ghiChu: 'BBBBBB',
-          ngayTraBienBan: currentDate.format(DATE_TIME_FORMAT),
+          ngayTraBienBan: currentDate,
         },
         elemDefault
       );
@@ -118,7 +118,7 @@ describe('DonBaoHanh Service', () => {
           nhanVienGiaoHang: 'BBBBBB',
           nguoiTaoDon: 'BBBBBB',
           ghiChu: 'BBBBBB',
-          ngayTraBienBan: currentDate.format(DATE_TIME_FORMAT),
+          ngayTraBienBan: currentDate,
         },
         new DonBaoHanh()
       );
@@ -147,12 +147,12 @@ describe('DonBaoHanh Service', () => {
           ngayTiepNhan: 'BBBBBB',
           trangThai: 'BBBBBB',
           nhanVienGiaoHang: 'BBBBBB',
-          ngaykhkb: currentDate.format(DATE_TIME_FORMAT),
+          ngaykhkb: currentDate,
           nguoiTaoDon: 'BBBBBB',
           slTiepNhan: 1,
           slDaPhanTich: 1,
           ghiChu: 'BBBBBB',
-          ngayTraBienBan: currentDate.format(DATE_TIME_FORMAT),
+          ngayTraBienBan: currentDate,
         },
         elemDefault
       );

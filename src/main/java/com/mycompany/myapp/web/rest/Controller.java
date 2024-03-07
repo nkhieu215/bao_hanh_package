@@ -42,6 +42,7 @@ public class Controller {
         this.fullServices.ChangeDonBaoHanhStatus(request);
     }
 
+    //☺ lấy chi tiết đơn bảo hành theo id
     @GetMapping("chi-tiet-don-bao-hanhs/{id}")
     public List<ChiTietSanPhamTiepNhan> getChiTietDonBaoHanh(@PathVariable Long id) {
         return this.fullServices.getChiTietDonBaoHanh(id);
@@ -91,8 +92,9 @@ public class Controller {
 
     //☺ update chi tiết sản phẩm tiếp nhận
     @PutMapping("don-bao-hanh/phan-loai/update-chi-tiet-san-pham-tiep-nhan")
-    public void updateChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> requestList) {
-        this.fullServices.updateChiTietSanPhamTiepNhan(requestList);
+    public List<ChiTietSanPhamTiepNhan> updateChiTietSanPhamTiepNhan(@RequestBody List<ChiTietSanPhamTiepNhan> requestList) {
+        List<ChiTietSanPhamTiepNhan> chiTietSanPhamTiepNhanList = this.fullServices.updateChiTietSanPhamTiepNhan(requestList);
+        return chiTietSanPhamTiepNhanList;
     }
 
     //☺ hoàn thành phân loại

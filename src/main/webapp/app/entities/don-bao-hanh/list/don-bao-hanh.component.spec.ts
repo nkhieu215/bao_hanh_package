@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { DonBaoHanhService } from '../service/don-bao-hanh.service';
 
 import { DonBaoHanhComponent } from './don-bao-hanh.component';
+import { AngularSlickgridModule } from 'angular-slickgrid';
 
 describe('DonBaoHanh Management Component', () => {
   let comp: DonBaoHanhComponent;
@@ -14,8 +15,9 @@ describe('DonBaoHanh Management Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, AngularSlickgridModule],
       declarations: [DonBaoHanhComponent],
+      providers: [],
     })
       .overrideTemplate(DonBaoHanhComponent, '')
       .compileComponents();

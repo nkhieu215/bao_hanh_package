@@ -52,10 +52,10 @@ describe('ChiTietSanPhamTiepNhan Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call SanPham query and add missing value', () => {
       const chiTietSanPhamTiepNhan: IChiTietSanPhamTiepNhan = { id: 456 };
-      const sanPham: ISanPham = { id: 41921 };
+      const sanPham: ISanPham = { id: 41921, name: '' };
       chiTietSanPhamTiepNhan.sanPham = sanPham;
 
-      const sanPhamCollection: ISanPham[] = [{ id: 82740 }];
+      const sanPhamCollection: ISanPham[] = [{ id: 82740, name: '' }];
       jest.spyOn(sanPhamService, 'query').mockReturnValue(of(new HttpResponse({ body: sanPhamCollection })));
       const additionalSanPhams = [sanPham];
       const expectedCollection: ISanPham[] = [...additionalSanPhams, ...sanPhamCollection];
@@ -90,7 +90,7 @@ describe('ChiTietSanPhamTiepNhan Management Update Component', () => {
 
     it('Should update editForm', () => {
       const chiTietSanPhamTiepNhan: IChiTietSanPhamTiepNhan = { id: 456 };
-      const sanPham: ISanPham = { id: 47860 };
+      const sanPham: ISanPham = { id: 47860, name: '' };
       chiTietSanPhamTiepNhan.sanPham = sanPham;
       const donBaoHanh: IDonBaoHanh = { id: 8889 };
       chiTietSanPhamTiepNhan.donBaoHanh = donBaoHanh;
@@ -171,7 +171,7 @@ describe('ChiTietSanPhamTiepNhan Management Update Component', () => {
   describe('Tracking relationships identifiers', () => {
     describe('trackSanPhamById', () => {
       it('Should return tracked SanPham primary key', () => {
-        const entity = { id: 123 };
+        const entity = { id: 123, name: '' };
         const trackResult = comp.trackSanPhamById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });

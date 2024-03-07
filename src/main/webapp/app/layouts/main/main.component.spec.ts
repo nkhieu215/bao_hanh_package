@@ -8,6 +8,7 @@ import { Subject, of } from 'rxjs';
 import { AccountService } from 'app/core/auth/account.service';
 
 import { MainComponent } from './main.component';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('MainComponent', () => {
   let comp: MainComponent;
@@ -25,6 +26,8 @@ describe('MainComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MainComponent],
       providers: [
+        HttpHandler,
+        HttpClient,
         Title,
         AccountService,
         {

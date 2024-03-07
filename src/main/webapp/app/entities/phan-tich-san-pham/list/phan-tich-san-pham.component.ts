@@ -27,14 +27,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IPhanTichSanPham } from '../phan-tich-san-pham.model';
 import { PhanTichSanPhamService } from '../service/phan-tich-san-pham.service';
-import { PhanTichSanPhamReLoadComponent } from './phan-tich-san-pham-reload.component';
-import { PhanTichMaTiepNhanComponent } from './phan-tich-ma-tiep-nhan.component';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 
 import dayjs from 'dayjs/esm';
 import { IKho } from 'app/entities/kho/kho.model';
 import { KhoService } from 'app/entities/kho/service/kho.service';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-phan-tich-san-pham',
@@ -114,7 +113,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   popupPTMTN = false;
   popupChiTietLoi = false;
   popupShowChiTietLoi = false;
-
+  fixKhaiBaoLoi = false;
   type = '';
   //biến đóng mở popup
   popupInBBTN = false;
@@ -172,6 +171,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   // ]
 
   indexOfdanhSachLienBienBanTiepNhan = 0;
+  phanTichSanPhams: any;
   constructor(
     protected phanTichSanPhamService: PhanTichSanPhamService,
     protected donBaoHanhService: DonBaoHanhService,
@@ -676,6 +676,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.popupChiTietLoi = false;
     this.scanLot = true;
     this.scanSerial = true;
+    this.fixKhaiBaoLoi = false;
   }
 
   closePopupPTMTN(): void {
@@ -1276,7 +1277,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       lotNumber: '',
       detail: '',
       soLuong: 0,
-      ngayKiemTra: null,
+      ngayKiemTra: new Date(),
       username: this.account?.login,
       namSanXuat: '',
       trangThai: false,
@@ -1455,12 +1456,18 @@ export class PhanTichSanPhamComponent implements OnInit {
 
   chinhSuaKhaiBaoLoi(index: any): void {
     console.log(this.listOfPhanTichSanPhamByPLCTTN[index].id);
-    //cập nhật index
-    this.indexOfChiTietPhanTichSanPham = index;
-    //cập nhật phần tử hiển thị từ api
-    this.http.get<any>(`api/phan-tich-loi/${this.listOfPhanTichSanPhamByPLCTTN[index].id as number}`).subscribe(res => {
-      this.catchChangeOfListKhaiBaoLoi = res;
-    });
+    if (this.listOfPhanTichSanPhamByPLCTTN[index].id === undefined) {
+      alert('Cần lưu thông tin khai báo trước khi chỉnh sửa');
+    } else {
+      this.fixKhaiBaoLoi = true;
+      this.indexOfChiTietPhanTichSanPham = index;
+      //cập nhật phần tử hiển thị từ api
+      this.http.get<any>(`api/phan-tich-loi/${this.listOfPhanTichSanPhamByPLCTTN[index].id as number}`).subscribe(res => {
+        // this.popupChiTietLoi = false;
+        this.catchChangeOfListKhaiBaoLoi = res;
+        //cập nhật index
+      });
+    }
   }
   saveKhaiBaoLoi(): void {
     //Gán vào danh sách update khai báo lỗi
@@ -1472,6 +1479,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         this.openPopupNoti('Cập nhật thành công');
         //reset dữ liệu
         this.listOfKhaiBaoLoi = [];
+        this.fixKhaiBaoLoi = false;
       });
       // lưu trong localStorage
       for (let i = 0; i < this.donBaoHanhs.length; i++) {
@@ -1480,6 +1488,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         }
       }
       window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
+      this.fixKhaiBaoLoi = false;
     }, 200);
   }
 
