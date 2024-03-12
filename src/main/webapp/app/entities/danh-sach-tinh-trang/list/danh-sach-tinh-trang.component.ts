@@ -42,7 +42,7 @@ export class DanhSachTinhTrangComponent implements OnInit {
       next: (res: HttpResponse<IDonBaoHanh[]>) => {
         this.isLoading = false;
         this.danhSachTinhTrangs = res.body ?? [];
-        console.log('a', this.donBaoHanhs);
+        // console.log('a', this.donBaoHanhs);
         this.donBaoHanhs = this.mockData(NB_ITEMS);
       },
       error: () => {

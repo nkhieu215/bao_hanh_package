@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class NganhResource {
 
-    private final Logger log = LoggerFactory.getLogger(NganhResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(NganhResource.class);
 
     private static final String ENTITY_NAME = "nganh";
 
@@ -47,7 +47,7 @@ public class NganhResource {
      */
     @PostMapping("/nganhs")
     public ResponseEntity<Nganh> createNganh(@RequestBody Nganh nganh) throws URISyntaxException {
-        log.debug("REST request to save Nganh : {}", nganh);
+        //        log.debug("REST request to save Nganh : {}", nganh);
         if (nganh.getId() != null) {
             throw new BadRequestAlertException("A new nganh cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +71,7 @@ public class NganhResource {
     @PutMapping("/nganhs/{id}")
     public ResponseEntity<Nganh> updateNganh(@PathVariable(value = "id", required = false) final Long id, @RequestBody Nganh nganh)
         throws URISyntaxException {
-        log.debug("REST request to update Nganh : {}, {}", id, nganh);
+        //        log.debug("REST request to update Nganh : {}, {}", id, nganh);
         if (nganh.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -104,7 +104,7 @@ public class NganhResource {
     @PatchMapping(value = "/nganhs/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Nganh> partialUpdateNganh(@PathVariable(value = "id", required = false) final Long id, @RequestBody Nganh nganh)
         throws URISyntaxException {
-        log.debug("REST request to partial update Nganh partially : {}, {}", id, nganh);
+        //        log.debug("REST request to partial update Nganh partially : {}, {}", id, nganh);
         if (nganh.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -149,7 +149,7 @@ public class NganhResource {
      */
     @GetMapping("/nganhs")
     public List<Nganh> getAllNganhs() {
-        log.debug("REST request to get all Nganhs");
+        //        log.debug("REST request to get all Nganhs");
         return nganhRepository.findAll();
     }
 
@@ -161,7 +161,7 @@ public class NganhResource {
      */
     @GetMapping("/nganhs/{id}")
     public ResponseEntity<Nganh> getNganh(@PathVariable Long id) {
-        log.debug("REST request to get Nganh : {}", id);
+        //        log.debug("REST request to get Nganh : {}", id);
         Optional<Nganh> nganh = nganhRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(nganh);
     }
@@ -174,7 +174,7 @@ public class NganhResource {
      */
     @DeleteMapping("/nganhs/{id}")
     public ResponseEntity<Void> deleteNganh(@PathVariable Long id) {
-        log.debug("REST request to delete Nganh : {}", id);
+        //        log.debug("REST request to delete Nganh : {}", id);
         nganhRepository.deleteById(id);
         return ResponseEntity
             .noContent()

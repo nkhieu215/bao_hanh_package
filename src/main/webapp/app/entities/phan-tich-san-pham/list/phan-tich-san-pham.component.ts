@@ -246,7 +246,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.openPopupBtn();
           this.donBaoHanh = args.dataContext;
-          console.log(args);
+          // console.log(args);
           this.idBBTN = args.dataContext.id;
           this.showData(args.dataContext.id);
           setTimeout(() => {
@@ -518,7 +518,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     // lấy danh sách chi tiết sản phẩm tiếp nhận lấy theo id
     this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${id as number}`).subscribe(res => {
       this.chiTietSanPhamTiepNhans = res;
-      console.log('b', res);
+      // console.log('b', res);
       // lấy danh sách tình trạng
       this.http.get<any>(this.danhSachTinhTrangUrl).subscribe(resTT => {
         this.danhSachTinhTrang = resTT;
@@ -618,7 +618,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     // console.log('Danh sách phân tách sản phẩm theo kho: ', this.resultOfSanPhamTheoKho);
   }
   testCheck(test: any): void {
-    console.log(test);
+    // console.log(test);
   }
   simulateServerAsyncCall(item: any): Promise<unknown> {
     // random set of names to use for more item detail
@@ -629,7 +629,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     return new Promise(resolve => {
       setTimeout(() => {
         const itemDetail = item;
-        console.log(item);
+        // console.log(item);
         // resolve the data after delay specified
         resolve(itemDetail);
       }, 1000);
@@ -701,7 +701,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   openPopupBBTN(index: any): void {
     this.popupInBBTN = true;
     this.indexOfdanhSachLienBienBanTiepNhan = index;
-    console.log('index', this.indexOfdanhSachLienBienBanTiepNhan);
+    // console.log('index', this.indexOfdanhSachLienBienBanTiepNhan);
     const result = sessionStorage.getItem(`TiepNhan ${this.idBBTN.toString()}`);
     // this.resultChiTietSanPhamTiepNhans = JSON.parse(result as string);
     if (result === null) {
@@ -709,7 +709,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       // lấy danh sách chi tiết sản phẩm tiếp nhận lấy theo id
       this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${this.idBBTN}`).subscribe(res => {
         this.chiTietSanPhamTiepNhans = res;
-        console.log('b', res);
+        // console.log('b', res);
         // lấy danh sách tình trạng
         this.http.get<any>(this.danhSachTinhTrangUrl).subscribe(resTT => {
           this.danhSachTinhTrang = resTT;
@@ -770,12 +770,12 @@ export class PhanTichSanPhamComponent implements OnInit {
         var resultBBTN = sessionStorage.getItem(`TiepNhan ${this.idBBTN}`);
         // dữ liệu lưu trong sessison(dạng string) -> chuyển về dạng JSON (giống arr,obj)
         list1 = JSON.parse(resultBBTN as string);
-        console.log('hien trang', JSON.parse(resultBBTN as string));
+        // console.log('hien trang', JSON.parse(resultBBTN as string));
         this.resultChiTietSanPhamTiepNhans = JSON.parse(resultBBTN as string);
       }, 1000);
     } else {
       this.resultChiTietSanPhamTiepNhans = JSON.parse(result);
-      console.log('trường hợp 2');
+      // console.log('trường hợp 2');
     }
     this.maBienBan = '';
     this.loaiBienBan = 'Tiếp nhận';
@@ -1039,14 +1039,14 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.listOfPhanTichSanPhamByPLCTTN = [];
     this.indexOfPhanTichSanPham = index;
     // lấy danh sách chi tiết sản phẩm phân tích
-    console.log('chi tiet phan tich san pham', this.listOfChiTietSanPhamPhanTich);
+    // console.log('chi tiet phan tich san pham', this.listOfChiTietSanPhamPhanTich);
     this.getPhanTichSanPhamByPLCTTN(id);
     setTimeout(() => {
       this.getColor(this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo, 'chiTietDonBaoHanh');
       if (this.listOfPhanTichSanPhamByPLCTTN.length === 0) {
         this.addItemForChiTietPhanTichSanPham();
         // them moi phan tu dau tien
-        // console.log('them moi danh sach khai bao loi theo san pham:', this.listOfPhanTichSanPhamByPLCTTN);
+        // console.log('them moi danh sach khai bao loi theo san pham');
       } else {
         this.donBaoHanh.slDaPhanTich -= this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich;
         this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].slDaPhanTich = 0;
@@ -1068,7 +1068,7 @@ export class PhanTichSanPhamComponent implements OnInit {
                   Number(this.listOfPhanTichSanPhamByPLCTTN[i].loiKyThuat) + Number(this.listOfPhanTichSanPhamByPLCTTN[i].loiLinhDong);
               }
             }, 200);
-            console.log(res);
+            // console.log(res);
           });
           if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'true') {
             this.listOfPhanTichSanPhamByPLCTTN[i].trangThai = true;
@@ -1227,14 +1227,14 @@ export class PhanTichSanPhamComponent implements OnInit {
     }
     window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
     this.listOfPhanTichSanPhamByPLCTTN = this.listOfPhanTichSanPhamByPLCTTN.filter(item => item.tenSanPham !== '');
-    console.log(this.listOfPhanTichSanPhamByPLCTTN);
+    // console.log(this.listOfPhanTichSanPhamByPLCTTN);
     if (this.donBaoHanh.tienDo > 0) {
       // console.log('Đang phân tích');
       this.donBaoHanh.trangThai = 'Đang phân tích';
       this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
     }
     if (this.donBaoHanh.tienDo === 100) {
-      console.log('Hoàn thành phân tích');
+      // console.log('Hoàn thành phân tích');
       this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
       this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
     }
@@ -1265,7 +1265,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTichGoc.filter(
       item => item.tenSanPham.includes(this.tenSanPham) && item.tinhTrang.includes(this.tinhTrang)
     );
-    console.log({ result: this.listOfChiTietSanPhamPhanTich, SP: this.tenSanPham, tt: this.tinhTrang });
+    // console.log({ result: this.listOfChiTietSanPhamPhanTich, SP: this.tenSanPham, tt: this.tinhTrang });
   }
   addItemForChiTietPhanTichSanPham(): void {
     this.catchChangeOfListKhaiBaoLoi = [];
@@ -1300,7 +1300,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       };
       this.catchChangeOfListKhaiBaoLoi.push(khaiBaoLoi);
     }
-    // console.log('danh sách khai báo lỗi: ', this.catchChangeOfListKhaiBaoLoi);
+    // console.log('danh sách khai báo lỗi: ', this.listOfPhanTichSanPhamByPLCTTN);
     // console.log('index before: ', this.indexOfChiTietPhanTichSanPham);
   }
 
@@ -1365,14 +1365,14 @@ export class PhanTichSanPhamComponent implements OnInit {
       }
     } else {
       this.catchChangeOfListKhaiBaoLoi[index].soLuong++;
-      console.log(index);
+      // console.log(index);
       //cập nhật số lượng lỗi linh động, lỗi kĩ thuật
       if (this.catchChangeOfListKhaiBaoLoi[index].loi.chiChu === 'Lỗi kỹ thuật') {
-        console.log({
-          tenLoi: this.indexOfChiTietPhanTichSanPham,
-          nLoi: this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi,
-          sl: this.catchChangeOfListKhaiBaoLoi[index].soLuong,
-        });
+        // console.log({
+        //   tenLoi: this.indexOfChiTietPhanTichSanPham,
+        //   nLoi: this.catchChangeOfListKhaiBaoLoi[index].tenNhomLoi,
+        //   sl: this.catchChangeOfListKhaiBaoLoi[index].soLuong,
+        // });
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat++;
         this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].soLuong =
           Number(this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].loiKyThuat) +
@@ -1414,7 +1414,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         //cập nhật tổng lỗi kĩ thuật và lỗi linh động
         for (let i = 0; i < this.listOfPhanTichSanPhamByPLCTTN.length; i++) {
           if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'true') {
-            console.log({ checkIndexOfSanPhamPhanTich: this.listOfPhanTichSanPhamByPLCTTN[i] });
+            // console.log({ checkIndexOfSanPhamPhanTich: this.listOfPhanTichSanPhamByPLCTTN[i] });
             // cập nhật tiến độ của phân tích sản phẩm
             // console.log("Cập nhật tiến độ khi khai báo lỗi", this.listOfChiTietSanPhamPhanTich[index]);
             this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich += 1;
@@ -1434,9 +1434,9 @@ export class PhanTichSanPhamComponent implements OnInit {
 
             //cập nhật tổng lỗi linh động, lỗi kĩ thuật
             for (let j = 0; j < this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois.length; j++) {
-              console.log({ checkIndex: this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois });
+              // console.log({ checkIndex: this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois });
               if (this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].ghiChu === 'Lỗi kỹ thuật') {
-                console.log('test');
+                // console.log('test');
                 this.listOfChiTietSanPhamPhanTich[index].loiKyThuat =
                   Number(this.listOfChiTietSanPhamPhanTich[index].loiKyThuat) +
                   Number(this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].soLuong);
@@ -1455,7 +1455,7 @@ export class PhanTichSanPhamComponent implements OnInit {
   }
 
   chinhSuaKhaiBaoLoi(index: any): void {
-    console.log(this.listOfPhanTichSanPhamByPLCTTN[index].id);
+    // console.log(this.listOfPhanTichSanPhamByPLCTTN[index].id);
     if (this.listOfPhanTichSanPhamByPLCTTN[index].id === undefined) {
       alert('Cần lưu thông tin khai báo trước khi chỉnh sửa');
     } else {
@@ -1508,13 +1508,13 @@ export class PhanTichSanPhamComponent implements OnInit {
   getColor(value: number, index: any): void {
     if (value >= 0 && value < 40) {
       document.getElementById(index as string)!.style.accentColor = 'red';
-      console.log('red', value, index);
+      // console.log('red', value, index);
     } else if (value >= 40 && value < 70) {
       document.getElementById(index as string)!.style.accentColor = 'yellow';
-      console.log('yellow', value, index);
+      // console.log('yellow', value, index);
     } else if (value > 70) {
       document.getElementById(index as string)!.style.accentColor = 'green';
-      console.log('green', value, index);
+      // console.log('green', value, index);
     }
   }
 }

@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class NhomKhachHangResource {
 
-    private final Logger log = LoggerFactory.getLogger(NhomKhachHangResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(NhomKhachHangResource.class);
 
     private static final String ENTITY_NAME = "nhomKhachHang";
 
@@ -47,7 +47,7 @@ public class NhomKhachHangResource {
      */
     @PostMapping("/nhom-khach-hangs")
     public ResponseEntity<NhomKhachHang> createNhomKhachHang(@RequestBody NhomKhachHang nhomKhachHang) throws URISyntaxException {
-        log.debug("REST request to save NhomKhachHang : {}", nhomKhachHang);
+        //        log.debug("REST request to save NhomKhachHang : {}", nhomKhachHang);
         if (nhomKhachHang.getId() != null) {
             throw new BadRequestAlertException("A new nhomKhachHang cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -73,7 +73,7 @@ public class NhomKhachHangResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody NhomKhachHang nhomKhachHang
     ) throws URISyntaxException {
-        log.debug("REST request to update NhomKhachHang : {}, {}", id, nhomKhachHang);
+        //        log.debug("REST request to update NhomKhachHang : {}, {}", id, nhomKhachHang);
         if (nhomKhachHang.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -108,7 +108,7 @@ public class NhomKhachHangResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody NhomKhachHang nhomKhachHang
     ) throws URISyntaxException {
-        log.debug("REST request to partial update NhomKhachHang partially : {}, {}", id, nhomKhachHang);
+        //        log.debug("REST request to partial update NhomKhachHang partially : {}, {}", id, nhomKhachHang);
         if (nhomKhachHang.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -156,7 +156,7 @@ public class NhomKhachHangResource {
      */
     @GetMapping("/nhom-khach-hangs")
     public List<NhomKhachHang> getAllNhomKhachHangs() {
-        log.debug("REST request to get all NhomKhachHangs");
+        //        log.debug("REST request to get all NhomKhachHangs");
         return nhomKhachHangRepository.findAll();
     }
 
@@ -168,7 +168,7 @@ public class NhomKhachHangResource {
      */
     @GetMapping("/nhom-khach-hangs/{id}")
     public ResponseEntity<NhomKhachHang> getNhomKhachHang(@PathVariable Long id) {
-        log.debug("REST request to get NhomKhachHang : {}", id);
+        //        log.debug("REST request to get NhomKhachHang : {}", id);
         Optional<NhomKhachHang> nhomKhachHang = nhomKhachHangRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(nhomKhachHang);
     }
@@ -181,7 +181,7 @@ public class NhomKhachHangResource {
      */
     @DeleteMapping("/nhom-khach-hangs/{id}")
     public ResponseEntity<Void> deleteNhomKhachHang(@PathVariable Long id) {
-        log.debug("REST request to delete NhomKhachHang : {}", id);
+        //        log.debug("REST request to delete NhomKhachHang : {}", id);
         nhomKhachHangRepository.deleteById(id);
         return ResponseEntity
             .noContent()

@@ -1002,7 +1002,7 @@
                                 <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                                 <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                                 <driver>org.mariadb.jdbc.Driver</driver>
-                                <url>jdbc:mariadb://localhost:3306/DOI_TRA_NEW</url>
+                                <url>jdbc:mariadb://localhost:3307/DOI_TRA_NEW</url>
                                 <defaultSchemaName></defaultSchemaName>
                                 <username></username>
                                 <password></password>

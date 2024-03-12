@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class KhoResource {
 
-    private final Logger log = LoggerFactory.getLogger(KhoResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(KhoResource.class);
 
     private static final String ENTITY_NAME = "kho";
 
@@ -47,7 +47,7 @@ public class KhoResource {
      */
     @PostMapping("/khos")
     public ResponseEntity<Kho> createKho(@RequestBody Kho kho) throws URISyntaxException {
-        log.debug("REST request to save Kho : {}", kho);
+        //        log.debug("REST request to save Kho : {}", kho);
         if (kho.getId() != null) {
             throw new BadRequestAlertException("A new kho cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +71,7 @@ public class KhoResource {
     @PutMapping("/khos/{id}")
     public ResponseEntity<Kho> updateKho(@PathVariable(value = "id", required = false) final Long id, @RequestBody Kho kho)
         throws URISyntaxException {
-        log.debug("REST request to update Kho : {}, {}", id, kho);
+        //        log.debug("REST request to update Kho : {}, {}", id, kho);
         if (kho.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -104,7 +104,7 @@ public class KhoResource {
     @PatchMapping(value = "/khos/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Kho> partialUpdateKho(@PathVariable(value = "id", required = false) final Long id, @RequestBody Kho kho)
         throws URISyntaxException {
-        log.debug("REST request to partial update Kho partially : {}, {}", id, kho);
+        //        log.debug("REST request to partial update Kho partially : {}, {}", id, kho);
         if (kho.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -149,7 +149,7 @@ public class KhoResource {
      */
     @GetMapping("/khos")
     public List<Kho> getAllKhos() {
-        log.debug("REST request to get all Khos");
+        //        log.debug("REST request to get all Khos");
         return khoRepository.findAll();
     }
 
@@ -161,7 +161,7 @@ public class KhoResource {
      */
     @GetMapping("/khos/{id}")
     public ResponseEntity<Kho> getKho(@PathVariable Long id) {
-        log.debug("REST request to get Kho : {}", id);
+        //        log.debug("REST request to get Kho : {}", id);
         Optional<Kho> kho = khoRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(kho);
     }
@@ -174,7 +174,7 @@ public class KhoResource {
      */
     @DeleteMapping("/khos/{id}")
     public ResponseEntity<Void> deleteKho(@PathVariable Long id) {
-        log.debug("REST request to delete Kho : {}", id);
+        //        log.debug("REST request to delete Kho : {}", id);
         khoRepository.deleteById(id);
         return ResponseEntity
             .noContent()

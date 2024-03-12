@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class DonBaoHanhResource {
 
-    private final Logger log = LoggerFactory.getLogger(DonBaoHanhResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(DonBaoHanhResource.class);
 
     private static final String ENTITY_NAME = "donBaoHanh";
 
@@ -47,7 +47,7 @@ public class DonBaoHanhResource {
      */
     @PostMapping("/don-bao-hanhs")
     public ResponseEntity<DonBaoHanh> createDonBaoHanh(@RequestBody DonBaoHanh donBaoHanh) throws URISyntaxException {
-        log.debug("REST request to save DonBaoHanh : {}", donBaoHanh);
+        //        log.debug("REST request to save DonBaoHanh : {}", donBaoHanh);
         if (donBaoHanh.getId() != null) {
             throw new BadRequestAlertException("A new donBaoHanh cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -73,7 +73,7 @@ public class DonBaoHanhResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody DonBaoHanh donBaoHanh
     ) throws URISyntaxException {
-        log.debug("REST request to update DonBaoHanh : {}, {}", id, donBaoHanh);
+        //        log.debug("REST request to update DonBaoHanh : {}, {}", id, donBaoHanh);
         if (donBaoHanh.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -108,7 +108,7 @@ public class DonBaoHanhResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody DonBaoHanh donBaoHanh
     ) throws URISyntaxException {
-        log.debug("REST request to partial update DonBaoHanh partially : {}, {}", id, donBaoHanh);
+        //        log.debug("REST request to partial update DonBaoHanh partially : {}, {}", id, donBaoHanh);
         if (donBaoHanh.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -168,7 +168,7 @@ public class DonBaoHanhResource {
      */
     @GetMapping("/don-bao-hanhs")
     public List<DonBaoHanh> getAllDonBaoHanhs() {
-        log.debug("REST request to get all DonBaoHanhs");
+        //        log.debug("REST request to get all DonBaoHanhs");
         return donBaoHanhRepository.findAll();
     }
 
@@ -180,7 +180,7 @@ public class DonBaoHanhResource {
      */
     @GetMapping("/don-bao-hanhs/{id}")
     public ResponseEntity<DonBaoHanh> getDonBaoHanh(@PathVariable Long id) {
-        log.debug("REST request to get DonBaoHanh : {}", id);
+        //        log.debug("REST request to get DonBaoHanh : {}", id);
         Optional<DonBaoHanh> donBaoHanh = donBaoHanhRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(donBaoHanh);
     }
@@ -193,7 +193,7 @@ public class DonBaoHanhResource {
      */
     @DeleteMapping("/don-bao-hanhs/{id}")
     public ResponseEntity<Void> deleteDonBaoHanh(@PathVariable Long id) {
-        log.debug("REST request to delete DonBaoHanh : {}", id);
+        //        log.debug("REST request to delete DonBaoHanh : {}", id);
         donBaoHanhRepository.deleteById(id);
         return ResponseEntity
             .noContent()

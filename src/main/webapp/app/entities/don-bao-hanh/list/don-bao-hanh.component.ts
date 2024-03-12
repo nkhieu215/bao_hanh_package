@@ -245,7 +245,7 @@ export class DonBaoHanhComponent implements OnInit {
         for (let i = 0; i < this.donBaoHanhs.length; i++) {
           this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${this.donBaoHanhs[i].id as number}`).subscribe(res2 => {
             let count1 = 0;
-            console.log(this.donBaoHanhs[i].id);
+            // console.log(this.donBaoHanhs[i].id);
             this.chiTietSanPhamTiepNhans = res2;
             for (let h = 0; h < this.chiTietSanPhamTiepNhans.length; h++) {
               this.donBaoHanhs[i].tienDo = 0;
@@ -255,14 +255,14 @@ export class DonBaoHanhComponent implements OnInit {
               ) {
                 count1++;
                 this.donBaoHanhs[i].tienDo = (count1 / this.chiTietSanPhamTiepNhans.length) * 100;
-                console.log(
-                  'don bao hanh',
-                  this.donBaoHanhs[i].tienDo,
-                  i,
-                  this.donBaoHanhs[i].id,
-                  this.chiTietSanPhamTiepNhans[h].donBaoHanh!.id,
-                  count1
-                );
+                // console.log(
+                //   'don bao hanh',
+                //   this.donBaoHanhs[i].tienDo,
+                //   i,
+                //   this.donBaoHanhs[i].id,
+                //   this.chiTietSanPhamTiepNhans[h].donBaoHanh!.id,
+                //   count1
+                // );
               }
             }
           });
@@ -294,7 +294,7 @@ export class DonBaoHanhComponent implements OnInit {
           this.idDonBaoHanh = args.dataContext.id;
           this.donBaoHanh = args.dataContext;
           this.openPopupBBTN(args.dataContext.id);
-          console.log('id? ', args.dataContext.id);
+          // console.log('id? ', args.dataContext.id);
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
         },
@@ -311,7 +311,7 @@ export class DonBaoHanhComponent implements OnInit {
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.openPopupPhanLoai(args.dataContext.id);
-          console.log('idPL? ', args.dataContext);
+          // console.log('idPL? ', args.dataContext);
           this.donBaoHanh = args.dataContext;
           this.donBaoHanh.nguoiTaoDon = this.account?.login;
           // this.dataPL = args.dataContext;
@@ -660,7 +660,7 @@ export class DonBaoHanhComponent implements OnInit {
     return new Promise(resolve => {
       setTimeout(() => {
         const itemDetail = item;
-        console.log(item);
+        // console.log(item);
 
         // resolve the data after delay specified
         resolve(itemDetail);
@@ -753,7 +753,7 @@ export class DonBaoHanhComponent implements OnInit {
       // lấy danh sách chi tiết sản phẩm tiếp nhận lấy theo id
       this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${id.toString()}`).subscribe(res => {
         this.chiTietSanPhamTiepNhans = res;
-        console.log('b', res);
+        // console.log('b', res);
         // lấy danh sách tình trạng
         this.http.get<any>(this.danhSachTinhTrangUrl).subscribe(resTT => {
           this.danhSachTinhTrangs = resTT;
@@ -861,7 +861,7 @@ export class DonBaoHanhComponent implements OnInit {
     this.popupChinhSuaThongTin = false;
   }
   capNhatThongTinKhachHang(tenKhachHang: string): void {
-    console.log(tenKhachHang);
+    // console.log(tenKhachHang);
     // cập nhật lại thông tin khách hàng
     for (let i = 0; i < this.khachHangs!.length; i++) {
       if (this.khachHangs![i].tenKhachHang === tenKhachHang) {
@@ -899,11 +899,11 @@ export class DonBaoHanhComponent implements OnInit {
     for (let i = 0; i < this.khachHangs!.length; i++) {
       if (this.khachHangs![i].tenKhachHang === tenKhachHang) {
         this.donBaoHanh.khachHang = this.khachHangs![i];
-        console.log({ goc: this.khachHangs![i], capNhat: this.donBaoHanh.khachHang });
+        // console.log({ goc: this.khachHangs![i], capNhat: this.donBaoHanh.khachHang });
         // console.log('cập nhật: ', this.donBaoHanh);
       }
     }
-    console.log('check dữ liệu thêm mới: ', this.donBaoHanh);
+    // console.log('check dữ liệu thêm mới: ', this.donBaoHanh);
   }
   // thêm mới đơn bảo hành và chi tiết
   postDonBaoHanh(): void {
@@ -944,7 +944,7 @@ export class DonBaoHanhComponent implements OnInit {
           };
           this.chiTietDonBaoHanh.push(item);
         }
-        console.log(this.chiTietDonBaoHanh);
+        // console.log(this.chiTietDonBaoHanh);
         this.http.post<any>(this.postChiTietDonBaoHanhUrl, this.chiTietDonBaoHanh).subscribe(res1 => {
           // console.log('chi tiet don bao hanh', res1);
           //Thêm mới phân loại chi tieets đơn hàng tiếp nhận theo từng trạng thái tách ra từ danh sách import
@@ -1005,7 +1005,7 @@ export class DonBaoHanhComponent implements OnInit {
         this.themMoiDonBaoHanh[i].slNhan = slTiepNhan;
       }
     }
-    console.log({ slTiepNhan1: slTiepNhan, danhsach: this.themMoiDonBaoHanh });
+    // console.log({ slTiepNhan1: slTiepNhan, danhsach: this.themMoiDonBaoHanh });
   }
 
   // deleteRow(tenSanPham: any): void {
@@ -1080,7 +1080,7 @@ export class DonBaoHanhComponent implements OnInit {
     // kiểm tra sự tồn tại của sản phẩm trong danh sách chi tiết
     for (let i = 0; i < this.listOfDetailPl.length; i++) {
       if (tenSanPham === this.listOfDetailPl[i].tenSanPham) {
-        console.log({ tenSP: tenSanPham, tenSPtrongDS: this.listOfDetailPl[i].tenSanPham, indexs: i });
+        // console.log({ tenSP: tenSanPham, tenSPtrongDS: this.listOfDetailPl[i].tenSanPham, indexs: i });
         this.openPopupNoti('Sản phẩm đã tồn tại');
         this.resultChiTietSanPhamTiepNhans[index].tenSanPham = '';
         resultCheck = true;
@@ -1115,7 +1115,7 @@ export class DonBaoHanhComponent implements OnInit {
       //Cập nhật thông tin số lượng tổng tiếp nhận
       this.donBaoHanh.slTiepNhan = Number(this.donBaoHanh.slTiepNhan) + Number(this.danhSachGocPopupPhanLoai[i].slTiepNhan);
     }
-    console.log('check: ', index, this.resultChiTietSanPhamTiepNhans[index]);
+    // console.log('check: ', index, this.resultChiTietSanPhamTiepNhans[index]);
   }
 
   // xacNhanPhanLoai(): void {
@@ -1266,7 +1266,7 @@ export class DonBaoHanhComponent implements OnInit {
     this.danhSachGocPopupPhanLoai.push(newRow);
     // this.resultChiTietSanPhamTiepNhans = [...this.resultChiTietSanPhamTiepNhans, newRow];
     // this.danhSachGocPopupPhanLoai = [...this.danhSachGocPopupPhanLoai, newRow];
-    console.log('them dong', this.resultChiTietSanPhamTiepNhans);
+    // console.log('them dong', this.resultChiTietSanPhamTiepNhans);
   }
   //tích phân loại nhanh
   phanLoaiCheckAll(): void {
@@ -1289,7 +1289,7 @@ export class DonBaoHanhComponent implements OnInit {
       sessionStorage.setItem(`TiepNhan ${this.donBaoHanh.id as string}`, JSON.stringify(this.resultChiTietSanPhamTiepNhans));
       this.donBaoHanh.trangThai = 'Chờ phân loại';
     }
-    console.log(this.resultChiTietSanPhamTiepNhans);
+    // console.log(this.resultChiTietSanPhamTiepNhans);
   }
   updateSignalPhanLoai(index: any): void {
     this.isChanged = true;
@@ -1308,11 +1308,11 @@ export class DonBaoHanhComponent implements OnInit {
     }
     if (this.tienDo === 100) {
       this.donBaoHanh.trangThai = 'Chờ phân tích';
-      console.log(this.resultChiTietSanPhamTiepNhans);
+      // console.log(this.resultChiTietSanPhamTiepNhans);
     }
     if (this.tienDo === 0) {
       this.donBaoHanh.trangThai = 'Chờ phân loại';
-      console.log(this.resultChiTietSanPhamTiepNhans);
+      // console.log(this.resultChiTietSanPhamTiepNhans);
     }
   }
   //==================================================   Popup biên bản tiếp nhận =====================================================
@@ -1558,7 +1558,7 @@ export class DonBaoHanhComponent implements OnInit {
       for (let i = 0; i < this.ExcelData.length; i++) {
         this.ExcelData[i].sanPham = null;
         for (let j = 0; j < this.danhSachSanPham.length; j++) {
-          console.log(j);
+          // console.log(j);
           if (this.ExcelData[i].tenSanPham === this.danhSachSanPham[j].name) {
             this.ExcelData[i].sanPham = this.danhSachSanPham[j];
             break;
@@ -1593,7 +1593,7 @@ export class DonBaoHanhComponent implements OnInit {
   openPopupNoti(message: string): void {
     this.popupMessage = message;
     this.isPopupVisible = true;
-    console.log('popup thong bao', this.popupMessage);
+    // console.log('popup thong bao', this.popupMessage);
     document.getElementById('popupNoti')!.style.display = 'block';
   }
 
@@ -1639,7 +1639,7 @@ export class DonBaoHanhComponent implements OnInit {
     this.deleteTenSanPham = tenSanPham;
     this.isModalOpenConfirmAdd = true;
     document.getElementById('modal-confirm-add')!.style.display = 'block';
-    console.log('open modal confirm add', this.isModalOpenConfirmAdd);
+    // console.log('open modal confirm add', this.isModalOpenConfirmAdd);
   }
 
   confirmDeleteRowAdd(): void {
@@ -1697,7 +1697,7 @@ export class DonBaoHanhComponent implements OnInit {
         }
       }
     }
-    console.log(this.chiTietDonBaoHanh);
+    // console.log(this.chiTietDonBaoHanh);
     if (this.isChanged === true) {
       document.getElementById('modal-confirm-save')!.style.display = 'block';
     } else {
@@ -1755,8 +1755,8 @@ export class DonBaoHanhComponent implements OnInit {
           this.http.put<any>(this.putPhanLoaiChiTietTiepNhanUrl, this.themMoiPhanLoaiChiTietTiepNhan).subscribe(() => {
             this.isChanged = false;
             setTimeout(() => {
-              console.log('Chi tiet don bao hanh: ', this.chiTietDonBaoHanh);
-              console.log('Phan loai chi tiet don hang tiep nhan: ', this.themMoiPhanLoaiChiTietTiepNhan);
+              // console.log('Chi tiet don bao hanh: ', this.chiTietDonBaoHanh);
+              // console.log('Phan loai chi tiet don hang tiep nhan: ', this.themMoiPhanLoaiChiTietTiepNhan);
               window.location.reload();
             }, 500);
           });
@@ -1770,7 +1770,7 @@ export class DonBaoHanhComponent implements OnInit {
     document.getElementById('modal-confirm-save')!.style.display = 'none';
   }
   getColor(value: number, index: any): void {
-    console.log('value', value);
+    // console.log('value', value);
     if (value >= 0 && value < 40) {
       document.getElementById(index as string)!.style.accentColor = 'red';
     } else if (value >= 40 && value < 70) {

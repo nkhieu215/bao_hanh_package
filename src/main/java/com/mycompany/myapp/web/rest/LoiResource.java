@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class LoiResource {
 
-    private final Logger log = LoggerFactory.getLogger(LoiResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(LoiResource.class);
 
     private static final String ENTITY_NAME = "loi";
 
@@ -47,7 +47,7 @@ public class LoiResource {
      */
     @PostMapping("/lois")
     public ResponseEntity<Loi> createLoi(@RequestBody Loi loi) throws URISyntaxException {
-        log.debug("REST request to save Loi : {}", loi);
+        //        log.debug("REST request to save Loi : {}", loi);
         if (loi.getId() != null) {
             throw new BadRequestAlertException("A new loi cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +71,7 @@ public class LoiResource {
     @PutMapping("/lois/{id}")
     public ResponseEntity<Loi> updateLoi(@PathVariable(value = "id", required = false) final Long id, @RequestBody Loi loi)
         throws URISyntaxException {
-        log.debug("REST request to update Loi : {}, {}", id, loi);
+        //        log.debug("REST request to update Loi : {}, {}", id, loi);
         if (loi.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -104,7 +104,7 @@ public class LoiResource {
     @PatchMapping(value = "/lois/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Loi> partialUpdateLoi(@PathVariable(value = "id", required = false) final Long id, @RequestBody Loi loi)
         throws URISyntaxException {
-        log.debug("REST request to partial update Loi partially : {}, {}", id, loi);
+        //        log.debug("REST request to partial update Loi partially : {}, {}", id, loi);
         if (loi.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -158,7 +158,7 @@ public class LoiResource {
      */
     @GetMapping("/lois")
     public List<Loi> getAllLois() {
-        log.debug("REST request to get all Lois");
+        //        log.debug("REST request to get all Lois");
         return loiRepository.findAll();
     }
 
@@ -170,7 +170,7 @@ public class LoiResource {
      */
     @GetMapping("/lois/{id}")
     public ResponseEntity<Loi> getLoi(@PathVariable Long id) {
-        log.debug("REST request to get Loi : {}", id);
+        //        log.debug("REST request to get Loi : {}", id);
         Optional<Loi> loi = loiRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(loi);
     }
@@ -183,7 +183,7 @@ public class LoiResource {
      */
     @DeleteMapping("/lois/{id}")
     public ResponseEntity<Void> deleteLoi(@PathVariable Long id) {
-        log.debug("REST request to delete Loi : {}", id);
+        //        log.debug("REST request to delete Loi : {}", id);
         loiRepository.deleteById(id);
         return ResponseEntity
             .noContent()

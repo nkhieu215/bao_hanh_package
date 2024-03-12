@@ -51,7 +51,7 @@ export class SanPhamUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ sanPham }) => {
       this.name = sanPham.nhomSanPham.name;
       this.updateForm(sanPham);
-      console.log(sanPham);
+      // console.log(sanPham);
       this.loadRelationshipsOptions();
     });
   }
@@ -61,7 +61,7 @@ export class SanPhamUpdateComponent implements OnInit {
   }
 
   updateTenChungLoai(): void {
-    console.log(this.name);
+    // console.log(this.name);
     for (let i = 0; i < this.nhomSanPhamsSharedCollection.length; i++) {
       if (this.name === this.nhomSanPhamsSharedCollection[i].name) {
         const result: INhomSanPham = this.nhomSanPhamsSharedCollection[i];

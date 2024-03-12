@@ -168,7 +168,7 @@ public class NhomSanPhamResource {
      */
     @GetMapping("/nhom-san-phams/{id}")
     public ResponseEntity<NhomSanPham> getNhomSanPham(@PathVariable Long id) {
-        log.debug("REST request to get NhomSanPham : {}", id);
+        //        log.debug("REST request to get NhomSanPham : {}", id);
         Optional<NhomSanPham> nhomSanPham = nhomSanPhamRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(nhomSanPham);
     }

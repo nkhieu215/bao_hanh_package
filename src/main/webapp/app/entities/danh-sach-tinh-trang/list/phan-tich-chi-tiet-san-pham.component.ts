@@ -43,7 +43,7 @@ export class PhanTichChiTietSanPhamComponent {
         maxWidth: 60,
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
+          // console.log(args);
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
         },

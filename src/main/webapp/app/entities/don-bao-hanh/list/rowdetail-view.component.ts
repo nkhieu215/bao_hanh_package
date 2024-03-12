@@ -85,7 +85,7 @@ export class RowDetailViewComponent {
       next: (res: HttpResponse<IChiTietSanPhamTiepNhan[]>) => {
         this.isLoading = false;
         this.chiTietSanPhamTiepNhans = res.body ?? [];
-        console.log('chi tiet san pham tiep nhan', this.chiTietSanPhamTiepNhans);
+        // console.log('chi tiet san pham tiep nhan', this.chiTietSanPhamTiepNhans);
       },
       error: () => {
         this.isLoading = false;
@@ -98,10 +98,10 @@ export class RowDetailViewComponent {
   ngOnInit(): void {
     //  this.loadAll();
     const result = sessionStorage.getItem('sessionStorage');
-    console.log('Test dữ liệu từ session', JSON.parse(result as string));
+    // console.log('Test dữ liệu từ session', JSON.parse(result as string));
     const item: any = JSON.parse(result as string);
     // this.getChiTietMaTiepNhan(item.id);
-    console.log(item.id);
+    // console.log(item.id);
     // this.getTenTinhTrangSanPham();
     // this.getDanhSachPhanLoaiChiTietTiepNhan();
     // this.showData(item.id);
@@ -121,7 +121,7 @@ export class RowDetailViewComponent {
         minWidth: 60,
         maxWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
+          // console.log(args);
           // this.alertWarning = `Editing: ${args.dataContext.title}`
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
@@ -187,7 +187,7 @@ export class RowDetailViewComponent {
           maxLength: 100,
           editorOptions: {
             onCellClick: (e: Event, args: OnEventArgs) => {
-              console.log(args);
+              // console.log(args);
               (args.dataContext.slTiepNhan =
                 Number(args.dataContext.slDoiMoi) + Number(args.dataContext.slSuaChua) + Number(args.dataContext.slKhongBaoHanh)),
                 // this.alertWarning = `Editing: ${args.dataContext.title}`
@@ -300,7 +300,7 @@ export class RowDetailViewComponent {
     this.sanPhamService.query().subscribe({
       next: (res: HttpResponse<ISanPham[]>) => {
         this.sanPhams = res.body ?? [];
-        console.log('sanPham:', this.sanPhams);
+        // console.log('sanPham:', this.sanPhams);
       },
     });
   }
@@ -320,7 +320,7 @@ export class RowDetailViewComponent {
     // lấy danh sách chi tiết sản phẩm tiếp nhận lấy theo id
     this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${id as number}`).subscribe(res => {
       this.chiTietSanPhamTiepNhans = res;
-      console.log('b', res);
+      // console.log('b', res);
       // lấy danh sách tình trạng
       this.http.get<any>(this.danhSachTinhTrangUrl).subscribe(resTT => {
         this.danhSachTinhTrang = resTT;
@@ -380,7 +380,7 @@ export class RowDetailViewComponent {
     var result = sessionStorage.getItem(`TiepNhan ${id as number}`);
     // dữ liệu lưu trong sessison(dạng string) -> chuyển về dạng JSON (giống arr,obj)
     list1 = JSON.parse(result as string);
-    console.log('hien trang', JSON.parse(result as string));
+    // console.log('hien trang', JSON.parse(result as string));
     return list1;
   }
 

@@ -65,7 +65,7 @@ export class ChungLoaiComponent implements OnInit {
         minWidth: 60,
         maxWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
+          // console.log(args);
           const items = args.dataContext;
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);

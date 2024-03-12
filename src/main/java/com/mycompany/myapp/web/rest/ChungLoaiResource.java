@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class ChungLoaiResource {
 
-    private final Logger log = LoggerFactory.getLogger(ChungLoaiResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(ChungLoaiResource.class);
 
     private static final String ENTITY_NAME = "chungLoai";
 
@@ -47,7 +47,7 @@ public class ChungLoaiResource {
      */
     @PostMapping("/chung-loais")
     public ResponseEntity<ChungLoai> createChungLoai(@RequestBody ChungLoai chungLoai) throws URISyntaxException {
-        log.debug("REST request to save ChungLoai : {}", chungLoai);
+        //        log.debug("REST request to save ChungLoai : {}", chungLoai);
         if (chungLoai.getId() != null) {
             throw new BadRequestAlertException("A new chungLoai cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -73,7 +73,7 @@ public class ChungLoaiResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody ChungLoai chungLoai
     ) throws URISyntaxException {
-        log.debug("REST request to update ChungLoai : {}, {}", id, chungLoai);
+        //        log.debug("REST request to update ChungLoai : {}, {}", id, chungLoai);
         if (chungLoai.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -108,7 +108,7 @@ public class ChungLoaiResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody ChungLoai chungLoai
     ) throws URISyntaxException {
-        log.debug("REST request to partial update ChungLoai partially : {}, {}", id, chungLoai);
+        //        log.debug("REST request to partial update ChungLoai partially : {}, {}", id, chungLoai);
         if (chungLoai.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -153,7 +153,7 @@ public class ChungLoaiResource {
      */
     @GetMapping("/chung-loais")
     public List<ChungLoai> getAllChungLoais() {
-        log.debug("REST request to get all ChungLoais");
+        //        log.debug("REST request to get all ChungLoais");
         return chungLoaiRepository.findAll();
     }
 
@@ -165,7 +165,7 @@ public class ChungLoaiResource {
      */
     @GetMapping("/chung-loais/{id}")
     public ResponseEntity<ChungLoai> getChungLoai(@PathVariable Long id) {
-        log.debug("REST request to get ChungLoai : {}", id);
+        //        log.debug("REST request to get ChungLoai : {}", id);
         Optional<ChungLoai> chungLoai = chungLoaiRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(chungLoai);
     }
@@ -178,7 +178,7 @@ public class ChungLoaiResource {
      */
     @DeleteMapping("/chung-loais/{id}")
     public ResponseEntity<Void> deleteChungLoai(@PathVariable Long id) {
-        log.debug("REST request to delete ChungLoai : {}", id);
+        //        log.debug("REST request to delete ChungLoai : {}", id);
         chungLoaiRepository.deleteById(id);
         return ResponseEntity
             .noContent()

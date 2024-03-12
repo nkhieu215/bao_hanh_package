@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class SanPhamResource {
 
-    private final Logger log = LoggerFactory.getLogger(SanPhamResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(SanPhamResource.class);
 
     private static final String ENTITY_NAME = "sanPham";
 
@@ -47,7 +47,7 @@ public class SanPhamResource {
      */
     @PostMapping("/san-phams")
     public ResponseEntity<SanPham> createSanPham(@RequestBody SanPham sanPham) throws URISyntaxException {
-        log.debug("REST request to save SanPham : {}", sanPham);
+        //        log.debug("REST request to save SanPham : {}", sanPham);
         if (sanPham.getId() != null) {
             throw new BadRequestAlertException("A new sanPham cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +71,7 @@ public class SanPhamResource {
     @PutMapping("/san-phams/{id}")
     public ResponseEntity<SanPham> updateSanPham(@PathVariable(value = "id", required = false) final Long id, @RequestBody SanPham sanPham)
         throws URISyntaxException {
-        log.debug("REST request to update SanPham : {}, {}", id, sanPham);
+        //        log.debug("REST request to update SanPham : {}, {}", id, sanPham);
         if (sanPham.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -106,7 +106,7 @@ public class SanPhamResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody SanPham sanPham
     ) throws URISyntaxException {
-        log.debug("REST request to partial update SanPham partially : {}, {}", id, sanPham);
+        //        log.debug("REST request to partial update SanPham partially : {}, {}", id, sanPham);
         if (sanPham.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -160,7 +160,7 @@ public class SanPhamResource {
      */
     @GetMapping("/san-phams")
     public List<SanPham> getAllSanPhams() {
-        log.debug("REST request to get all SanPhams");
+        //        log.debug("REST request to get all SanPhams");
         return sanPhamRepository.findAll();
     }
 
@@ -172,7 +172,7 @@ public class SanPhamResource {
      */
     @GetMapping("/san-phams/{id}")
     public ResponseEntity<SanPham> getSanPham(@PathVariable Long id) {
-        log.debug("REST request to get SanPham : {}", id);
+        //        log.debug("REST request to get SanPham : {}", id);
         Optional<SanPham> sanPham = sanPhamRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(sanPham);
     }
@@ -185,7 +185,7 @@ public class SanPhamResource {
      */
     @DeleteMapping("/san-phams/{id}")
     public ResponseEntity<Void> deleteSanPham(@PathVariable Long id) {
-        log.debug("REST request to delete SanPham : {}", id);
+        //        log.debug("REST request to delete SanPham : {}", id);
         sanPhamRepository.deleteById(id);
         return ResponseEntity
             .noContent()

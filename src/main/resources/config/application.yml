@@ -162,7 +162,7 @@ spring:
           oidc:
             client-id: doi_tra
             client-secret: doi_tra
-            scope: openid, profile, email, offline_access # last one for refresh tokens
+            scope: openid, profile, email, jhipster # last one for refresh tokens
 
 server:
   servlet:

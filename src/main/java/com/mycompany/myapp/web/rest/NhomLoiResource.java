@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class NhomLoiResource {
 
-    private final Logger log = LoggerFactory.getLogger(NhomLoiResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(NhomLoiResource.class);
 
     private static final String ENTITY_NAME = "nhomLoi";
 
@@ -47,7 +47,7 @@ public class NhomLoiResource {
      */
     @PostMapping("/nhom-lois")
     public ResponseEntity<NhomLoi> createNhomLoi(@RequestBody NhomLoi nhomLoi) throws URISyntaxException {
-        log.debug("REST request to save NhomLoi : {}", nhomLoi);
+        //        log.debug("REST request to save NhomLoi : {}", nhomLoi);
         if (nhomLoi.getId() != null) {
             throw new BadRequestAlertException("A new nhomLoi cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -71,7 +71,7 @@ public class NhomLoiResource {
     @PutMapping("/nhom-lois/{id}")
     public ResponseEntity<NhomLoi> updateNhomLoi(@PathVariable(value = "id", required = false) final Long id, @RequestBody NhomLoi nhomLoi)
         throws URISyntaxException {
-        log.debug("REST request to update NhomLoi : {}, {}", id, nhomLoi);
+        //        log.debug("REST request to update NhomLoi : {}, {}", id, nhomLoi);
         if (nhomLoi.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -106,7 +106,7 @@ public class NhomLoiResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody NhomLoi nhomLoi
     ) throws URISyntaxException {
-        log.debug("REST request to partial update NhomLoi partially : {}, {}", id, nhomLoi);
+        //        log.debug("REST request to partial update NhomLoi partially : {}, {}", id, nhomLoi);
         if (nhomLoi.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -160,7 +160,7 @@ public class NhomLoiResource {
      */
     @GetMapping("/nhom-lois")
     public List<NhomLoi> getAllNhomLois() {
-        log.debug("REST request to get all NhomLois");
+        //        log.debug("REST request to get all NhomLois");
         return nhomLoiRepository.findAll();
     }
 
@@ -172,7 +172,7 @@ public class NhomLoiResource {
      */
     @GetMapping("/nhom-lois/{id}")
     public ResponseEntity<NhomLoi> getNhomLoi(@PathVariable Long id) {
-        log.debug("REST request to get NhomLoi : {}", id);
+        //        log.debug("REST request to get NhomLoi : {}", id);
         Optional<NhomLoi> nhomLoi = nhomLoiRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(nhomLoi);
     }
@@ -185,7 +185,7 @@ public class NhomLoiResource {
      */
     @DeleteMapping("/nhom-lois/{id}")
     public ResponseEntity<Void> deleteNhomLoi(@PathVariable Long id) {
-        log.debug("REST request to delete NhomLoi : {}", id);
+        //        log.debug("REST request to delete NhomLoi : {}", id);
         nhomLoiRepository.deleteById(id);
         return ResponseEntity
             .noContent()

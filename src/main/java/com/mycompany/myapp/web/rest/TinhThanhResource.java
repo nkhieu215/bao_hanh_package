@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class TinhThanhResource {
 
-    private final Logger log = LoggerFactory.getLogger(TinhThanhResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(TinhThanhResource.class);
 
     private static final String ENTITY_NAME = "tinhThanh";
 
@@ -47,7 +47,7 @@ public class TinhThanhResource {
      */
     @PostMapping("/tinh-thanhs")
     public ResponseEntity<TinhThanh> createTinhThanh(@RequestBody TinhThanh tinhThanh) throws URISyntaxException {
-        log.debug("REST request to save TinhThanh : {}", tinhThanh);
+        //        log.debug("REST request to save TinhThanh : {}", tinhThanh);
         if (tinhThanh.getId() != null) {
             throw new BadRequestAlertException("A new tinhThanh cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -73,7 +73,7 @@ public class TinhThanhResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody TinhThanh tinhThanh
     ) throws URISyntaxException {
-        log.debug("REST request to update TinhThanh : {}, {}", id, tinhThanh);
+        //        log.debug("REST request to update TinhThanh : {}, {}", id, tinhThanh);
         if (tinhThanh.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -108,7 +108,7 @@ public class TinhThanhResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody TinhThanh tinhThanh
     ) throws URISyntaxException {
-        log.debug("REST request to partial update TinhThanh partially : {}, {}", id, tinhThanh);
+        //        log.debug("REST request to partial update TinhThanh partially : {}, {}", id, tinhThanh);
         if (tinhThanh.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -147,7 +147,7 @@ public class TinhThanhResource {
      */
     @GetMapping("/tinh-thanhs")
     public List<TinhThanh> getAllTinhThanhs() {
-        log.debug("REST request to get all TinhThanhs");
+        //        log.debug("REST request to get all TinhThanhs");
         return tinhThanhRepository.findAll();
     }
 
@@ -159,7 +159,7 @@ public class TinhThanhResource {
      */
     @GetMapping("/tinh-thanhs/{id}")
     public ResponseEntity<TinhThanh> getTinhThanh(@PathVariable Long id) {
-        log.debug("REST request to get TinhThanh : {}", id);
+        //        log.debug("REST request to get TinhThanh : {}", id);
         Optional<TinhThanh> tinhThanh = tinhThanhRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(tinhThanh);
     }
@@ -172,7 +172,7 @@ public class TinhThanhResource {
      */
     @DeleteMapping("/tinh-thanhs/{id}")
     public ResponseEntity<Void> deleteTinhThanh(@PathVariable Long id) {
-        log.debug("REST request to delete TinhThanh : {}", id);
+        //        log.debug("REST request to delete TinhThanh : {}", id);
         tinhThanhRepository.deleteById(id);
         return ResponseEntity
             .noContent()

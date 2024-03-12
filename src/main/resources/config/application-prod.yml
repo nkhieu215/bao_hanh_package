@@ -33,9 +33,9 @@ spring:
       enabled: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mariadb://localhost:3306/baohanh2?useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mariadb://localhost:3307/baohanh2?useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: binh143
+    password: Rangdong@123
     hikari:
       poolName: Hikari
       auto-commit: false

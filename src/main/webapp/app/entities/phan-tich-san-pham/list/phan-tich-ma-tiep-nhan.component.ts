@@ -86,7 +86,7 @@ export class PhanTichMaTiepNhanComponent {
       next: (res: HttpResponse<IPhanTichSanPham[]>) => {
         this.isLoading = false;
         this.phanTichMaTiepNhans = res.body ?? [];
-        console.log('b', this.phanTichMaTiepNhans);
+        // console.log('b', this.phanTichMaTiepNhans);
       },
       error: () => {
         this.isLoading = false;
@@ -98,7 +98,7 @@ export class PhanTichMaTiepNhanComponent {
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   ngOnInit(): void {
     const result = sessionStorage.getItem('sessionStorage');
-    console.log('Test dữ liệu từ session', JSON.parse(result as string));
+    // console.log('Test dữ liệu từ session', JSON.parse(result as string));
     const item: any = JSON.parse(result as string);
     this.idDBH = item.id;
     // this.http.get<any>(`${this.phan}`)
@@ -114,7 +114,7 @@ export class PhanTichMaTiepNhanComponent {
         maxWidth: 60,
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
+          // console.log(args);
           this.idBBTN = args.dataContext.id;
           // this.openPopupChiTietLoi();
           // this.resultPopup('lot');
@@ -167,7 +167,7 @@ export class PhanTichMaTiepNhanComponent {
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
           sessionStorage.setItem('sessionStorage', JSON.stringify(args));
-          console.log('agrs', args);
+          // console.log('agrs', args);
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
         },
@@ -288,7 +288,7 @@ export class PhanTichMaTiepNhanComponent {
     // lấy danh sách chi tiết sản phẩm tiếp nhận lấy theo id
     this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${id as number}`).subscribe(res => {
       this.chiTietSanPhamTiepNhans = res;
-      console.log('b', res);
+      // console.log('b', res);
       // lấy danh sách tình trạng
       this.http.get<any>(this.danhSachTinhTrangUrl).subscribe(resTT => {
         this.danhSachTinhTrang = resTT;
@@ -298,7 +298,7 @@ export class PhanTichMaTiepNhanComponent {
         this.http.get<any>(this.phanLoaiChiTietTiepNhanUrl).subscribe(res1 => {
           this.phanLoaiChiTietTiepNhans = res1;
           // sessionStorage.setItem('phan loai chi tiet tiep nhan', JSON.stringify(res1));
-          console.log('phan loai chi tiet tiep nhan', res1);
+          // console.log('phan loai chi tiet tiep nhan', res1);
           // Khởi tạo danh sacsah result hiển thị trên giao diện
           // => gán dataset = resutl
           // khởi tạo danh sách rỗng
@@ -330,7 +330,7 @@ export class PhanTichMaTiepNhanComponent {
     var result = sessionStorage.getItem(`PhanTich ${id as number}`);
     // dữ liệu lưu trong sessison(dạng string) -> chuyển về dạng JSON (giống arr,obj)
     list1 = JSON.parse(result as string);
-    console.log('hien trang', JSON.parse(result as string));
+    // console.log('hien trang', JSON.parse(result as string));
     return list1;
   }
 
@@ -343,7 +343,7 @@ export class PhanTichMaTiepNhanComponent {
     return new Promise(resolve => {
       setTimeout(() => {
         const itemDetail = item;
-        console.log(item);
+        // console.log(item);
 
         // resolve the data after delay specified
         resolve(itemDetail);
@@ -355,7 +355,7 @@ export class PhanTichMaTiepNhanComponent {
     this.http.get<any>(this.phanLoaiChiTietTiepNhanUrl).subscribe(res => {
       this.phanTichChiTietSanPham = res;
       sessionStorage.setItem('tinh trang bao hanh', JSON.stringify(res));
-      console.log('res', res);
+      // console.log('res', res);
     });
   }
 

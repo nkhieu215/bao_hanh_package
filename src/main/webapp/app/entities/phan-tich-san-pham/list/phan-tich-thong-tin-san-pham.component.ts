@@ -86,7 +86,7 @@ export class PhanTichThongTinSanPhamComponent {
       next: (res: HttpResponse<IPhanTichSanPham[]>) => {
         this.isLoading = false;
         this.phanTichThongTinSanPhams = res.body ?? [];
-        console.log('ccc', this.phanTichThongTinSanPhams);
+        // console.log('ccc', this.phanTichThongTinSanPhams);
       },
       error: () => {
         this.isLoading = false;
@@ -110,7 +110,7 @@ export class PhanTichThongTinSanPhamComponent {
         maxWidth: 90,
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
+          // console.log(args);
           this.resultPopup('lot');
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
@@ -127,7 +127,7 @@ export class PhanTichThongTinSanPhamComponent {
         maxWidth: 60,
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
+          // console.log(args);
           this.resultPopup('lot');
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
@@ -144,7 +144,7 @@ export class PhanTichThongTinSanPhamComponent {
         maxWidth: 60,
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
+          // console.log(args);
           this.resultPopup('lot');
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
@@ -162,7 +162,7 @@ export class PhanTichThongTinSanPhamComponent {
         maxWidth: 60,
         minWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          console.log(args);
+          // console.log(args);
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);
         },
@@ -311,13 +311,13 @@ export class PhanTichThongTinSanPhamComponent {
     this.http.get<any>(this.chiTietThongTinSanPhamUrl).subscribe(res => {
       this.phanTichChiTietSanPham1 = res;
       sessionStorage.setItem('phan tich chi tiet san pham', JSON.stringify(res));
-      console.log('res', res);
+      // console.log('res', res);
     });
 
     this.http.get<any>(this.chiTietThongTinSanPhamUrl2).subscribe(res2 => {
       this.phanTichChiTietSanPham2 = res2;
       sessionStorage.setItem('phan tich chi tiet san pham 2', JSON.stringify(res2));
-      console.log('res2', res2);
+      // console.log('res2', res2);
     });
   }
 

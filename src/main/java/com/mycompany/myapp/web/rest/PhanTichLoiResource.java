@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class PhanTichLoiResource {
 
-    private final Logger log = LoggerFactory.getLogger(PhanTichLoiResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(PhanTichLoiResource.class);
 
     private static final String ENTITY_NAME = "phanTichLoi";
 
@@ -47,7 +47,7 @@ public class PhanTichLoiResource {
      */
     @PostMapping("/phan-tich-lois")
     public ResponseEntity<PhanTichLoi> createPhanTichLoi(@RequestBody PhanTichLoi phanTichLoi) throws URISyntaxException {
-        log.debug("REST request to save PhanTichLoi : {}", phanTichLoi);
+        //        log.debug("REST request to save PhanTichLoi : {}", phanTichLoi);
         if (phanTichLoi.getId() != null) {
             throw new BadRequestAlertException("A new phanTichLoi cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -73,7 +73,7 @@ public class PhanTichLoiResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PhanTichLoi phanTichLoi
     ) throws URISyntaxException {
-        log.debug("REST request to update PhanTichLoi : {}, {}", id, phanTichLoi);
+        //        log.debug("REST request to update PhanTichLoi : {}, {}", id, phanTichLoi);
         if (phanTichLoi.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -108,7 +108,7 @@ public class PhanTichLoiResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PhanTichLoi phanTichLoi
     ) throws URISyntaxException {
-        log.debug("REST request to partial update PhanTichLoi partially : {}, {}", id, phanTichLoi);
+        //        log.debug("REST request to partial update PhanTichLoi partially : {}, {}", id, phanTichLoi);
         if (phanTichLoi.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -153,7 +153,7 @@ public class PhanTichLoiResource {
      */
     @GetMapping("/phan-tich-lois")
     public List<PhanTichLoi> getAllPhanTichLois() {
-        log.debug("REST request to get all PhanTichLois");
+        //        log.debug("REST request to get all PhanTichLois");
         return phanTichLoiRepository.findAll();
     }
 
@@ -165,7 +165,7 @@ public class PhanTichLoiResource {
      */
     @GetMapping("/phan-tich-lois/{id}")
     public ResponseEntity<PhanTichLoi> getPhanTichLoi(@PathVariable Long id) {
-        log.debug("REST request to get PhanTichLoi : {}", id);
+        //        log.debug("REST request to get PhanTichLoi : {}", id);
         Optional<PhanTichLoi> phanTichLoi = phanTichLoiRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(phanTichLoi);
     }
@@ -178,7 +178,7 @@ public class PhanTichLoiResource {
      */
     @DeleteMapping("/phan-tich-lois/{id}")
     public ResponseEntity<Void> deletePhanTichLoi(@PathVariable Long id) {
-        log.debug("REST request to delete PhanTichLoi : {}", id);
+        //        log.debug("REST request to delete PhanTichLoi : {}", id);
         phanTichLoiRepository.deleteById(id);
         return ResponseEntity
             .noContent()

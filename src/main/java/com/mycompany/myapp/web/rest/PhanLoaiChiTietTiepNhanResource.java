@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class PhanLoaiChiTietTiepNhanResource {
 
-    private final Logger log = LoggerFactory.getLogger(PhanLoaiChiTietTiepNhanResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(PhanLoaiChiTietTiepNhanResource.class);
 
     private static final String ENTITY_NAME = "phanLoaiChiTietTiepNhan";
 
@@ -49,7 +49,7 @@ public class PhanLoaiChiTietTiepNhanResource {
     public ResponseEntity<PhanLoaiChiTietTiepNhan> createPhanLoaiChiTietTiepNhan(
         @RequestBody PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan
     ) throws URISyntaxException {
-        log.debug("REST request to save PhanLoaiChiTietTiepNhan : {}", phanLoaiChiTietTiepNhan);
+        //        log.debug("REST request to save PhanLoaiChiTietTiepNhan : {}", phanLoaiChiTietTiepNhan);
         if (phanLoaiChiTietTiepNhan.getId() != null) {
             throw new BadRequestAlertException("A new phanLoaiChiTietTiepNhan cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -75,7 +75,7 @@ public class PhanLoaiChiTietTiepNhanResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan
     ) throws URISyntaxException {
-        log.debug("REST request to update PhanLoaiChiTietTiepNhan : {}, {}", id, phanLoaiChiTietTiepNhan);
+        //        log.debug("REST request to update PhanLoaiChiTietTiepNhan : {}, {}", id, phanLoaiChiTietTiepNhan);
         if (phanLoaiChiTietTiepNhan.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -110,7 +110,7 @@ public class PhanLoaiChiTietTiepNhanResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PhanLoaiChiTietTiepNhan phanLoaiChiTietTiepNhan
     ) throws URISyntaxException {
-        log.debug("REST request to partial update PhanLoaiChiTietTiepNhan partially : {}, {}", id, phanLoaiChiTietTiepNhan);
+        //        log.debug("REST request to partial update PhanLoaiChiTietTiepNhan partially : {}, {}", id, phanLoaiChiTietTiepNhan);
         if (phanLoaiChiTietTiepNhan.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -146,7 +146,7 @@ public class PhanLoaiChiTietTiepNhanResource {
      */
     @GetMapping("/phan-loai-chi-tiet-tiep-nhans")
     public List<PhanLoaiChiTietTiepNhan> getAllPhanLoaiChiTietTiepNhans() {
-        log.debug("REST request to get all PhanLoaiChiTietTiepNhans");
+        //        log.debug("REST request to get all PhanLoaiChiTietTiepNhans");
         return phanLoaiChiTietTiepNhanRepository.findAll();
     }
 
@@ -158,7 +158,7 @@ public class PhanLoaiChiTietTiepNhanResource {
      */
     @GetMapping("/phan-loai-chi-tiet-tiep-nhans/{id}")
     public ResponseEntity<PhanLoaiChiTietTiepNhan> getPhanLoaiChiTietTiepNhan(@PathVariable Long id) {
-        log.debug("REST request to get PhanLoaiChiTietTiepNhan : {}", id);
+        //        log.debug("REST request to get PhanLoaiChiTietTiepNhan : {}", id);
         Optional<PhanLoaiChiTietTiepNhan> phanLoaiChiTietTiepNhan = phanLoaiChiTietTiepNhanRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(phanLoaiChiTietTiepNhan);
     }
@@ -171,7 +171,7 @@ public class PhanLoaiChiTietTiepNhanResource {
      */
     @DeleteMapping("/phan-loai-chi-tiet-tiep-nhans/{id}")
     public ResponseEntity<Void> deletePhanLoaiChiTietTiepNhan(@PathVariable Long id) {
-        log.debug("REST request to delete PhanLoaiChiTietTiepNhan : {}", id);
+        //        log.debug("REST request to delete PhanLoaiChiTietTiepNhan : {}", id);
         phanLoaiChiTietTiepNhanRepository.deleteById(id);
         return ResponseEntity
             .noContent()

@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @Transactional
 public class PhanTichSanPhamResource {
 
-    private final Logger log = LoggerFactory.getLogger(PhanTichSanPhamResource.class);
+    //    private final Logger log = LoggerFactory.getLogger(PhanTichSanPhamResource.class);
 
     private static final String ENTITY_NAME = "phanTichSanPham";
 
@@ -47,7 +47,7 @@ public class PhanTichSanPhamResource {
      */
     @PostMapping("/phan-tich-san-phams")
     public ResponseEntity<PhanTichSanPham> createPhanTichSanPham(@RequestBody PhanTichSanPham phanTichSanPham) throws URISyntaxException {
-        log.debug("REST request to save PhanTichSanPham : {}", phanTichSanPham);
+        //        log.debug("REST request to save PhanTichSanPham : {}", phanTichSanPham);
         if (phanTichSanPham.getId() != null) {
             throw new BadRequestAlertException("A new phanTichSanPham cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -73,7 +73,7 @@ public class PhanTichSanPhamResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PhanTichSanPham phanTichSanPham
     ) throws URISyntaxException {
-        log.debug("REST request to update PhanTichSanPham : {}, {}", id, phanTichSanPham);
+        //        log.debug("REST request to update PhanTichSanPham : {}, {}", id, phanTichSanPham);
         if (phanTichSanPham.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -108,7 +108,7 @@ public class PhanTichSanPhamResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PhanTichSanPham phanTichSanPham
     ) throws URISyntaxException {
-        log.debug("REST request to partial update PhanTichSanPham partially : {}, {}", id, phanTichSanPham);
+        //        log.debug("REST request to partial update PhanTichSanPham partially : {}, {}", id, phanTichSanPham);
         if (phanTichSanPham.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -168,7 +168,7 @@ public class PhanTichSanPhamResource {
      */
     @GetMapping("/phan-tich-san-phams")
     public List<PhanTichSanPham> getAllPhanTichSanPhams() {
-        log.debug("REST request to get all PhanTichSanPhams");
+        //        log.debug("REST request to get all PhanTichSanPhams");
         return phanTichSanPhamRepository.findAll();
     }
 
@@ -180,7 +180,7 @@ public class PhanTichSanPhamResource {
      */
     @GetMapping("/phan-tich-san-phams/{id}")
     public ResponseEntity<PhanTichSanPham> getPhanTichSanPham(@PathVariable Long id) {
-        log.debug("REST request to get PhanTichSanPham : {}", id);
+        //        log.debug("REST request to get PhanTichSanPham : {}", id);
         Optional<PhanTichSanPham> phanTichSanPham = phanTichSanPhamRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(phanTichSanPham);
     }
@@ -193,7 +193,7 @@ public class PhanTichSanPhamResource {
      */
     @DeleteMapping("/phan-tich-san-phams/{id}")
     public ResponseEntity<Void> deletePhanTichSanPham(@PathVariable Long id) {
-        log.debug("REST request to delete PhanTichSanPham : {}", id);
+        //        log.debug("REST request to delete PhanTichSanPham : {}", id);
         phanTichSanPhamRepository.deleteById(id);
         return ResponseEntity
             .noContent()
