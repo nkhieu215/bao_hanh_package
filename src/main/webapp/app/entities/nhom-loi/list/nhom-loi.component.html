@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="NhomLoiHeading">
-    <span>Nhom Lois</span>
+    <span>Nhóm lỗi</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
@@ -33,13 +33,13 @@
       <thead>
         <tr>
           <th scope="col"><span>ID</span></th>
-          <th scope="col"><span>Ma Nhom Loi</span></th>
-          <th scope="col"><span>Ten Nhom Loi</span></th>
-          <th scope="col"><span>Ngay Tao</span></th>
-          <th scope="col"><span>Ngay Cap Nhat</span></th>
+          <th scope="col"><span>Mã nhóm lỗi</span></th>
+          <th scope="col"><span>Tên nhóm lỗi</span></th>
+          <th scope="col"><span>Ngày tạo</span></th>
+          <th scope="col"><span>Ngày cập nhật</span></th>
           <th scope="col"><span>Username</span></th>
-          <th scope="col"><span>Ghi Chu</span></th>
-          <th scope="col"><span>Trang Thai</span></th>
+          <th scope="col"><span>Ghi chú</span></th>
+          <th scope="col"><span>Trạng thái</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -86,5 +86,16 @@
         </tr>
       </tbody>
     </table>
+  </div>
+  <div *ngIf="nhomLois && nhomLois.length > 0">
+    <div>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="all">All</option>
+      </select>
+      <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+    </div>
   </div>
 </div>

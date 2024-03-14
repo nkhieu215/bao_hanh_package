@@ -140,46 +140,42 @@ describe('SanPham Service', () => {
 
     describe('addSanPhamToCollectionIfMissing', () => {
       it('should add a SanPham to an empty array', () => {
-        const sanPham: ISanPham = { id: 123, name: '' };
+        const sanPham: ISanPham = { id: 123 };
         expectedResult = service.addSanPhamToCollectionIfMissing([], sanPham);
         expect(expectedResult).toHaveLength(1);
         expect(expectedResult).toContain(sanPham);
       });
 
       it('should not add a SanPham to an array that contains it', () => {
-        const sanPham: ISanPham = { id: 123, name: '' };
+        const sanPham: ISanPham = { id: 123 };
         const sanPhamCollection: ISanPham[] = [
           {
             ...sanPham,
           },
-          { id: 456, name: '' },
+          { id: 456 },
         ];
         expectedResult = service.addSanPhamToCollectionIfMissing(sanPhamCollection, sanPham);
         expect(expectedResult).toHaveLength(2);
       });
 
       it("should add a SanPham to an array that doesn't contain it", () => {
-        const sanPham: ISanPham = { id: 123, name: '' };
-        const sanPhamCollection: ISanPham[] = [{ id: 456, name: '' }];
+        const sanPham: ISanPham = { id: 123 };
+        const sanPhamCollection: ISanPham[] = [{ id: 456 }];
         expectedResult = service.addSanPhamToCollectionIfMissing(sanPhamCollection, sanPham);
         expect(expectedResult).toHaveLength(2);
         expect(expectedResult).toContain(sanPham);
       });
 
       it('should add only unique SanPham to an array', () => {
-        const sanPhamArray: ISanPham[] = [
-          { id: 123, name: '' },
-          { id: 456, name: '' },
-          { id: 54043, name: '' },
-        ];
-        const sanPhamCollection: ISanPham[] = [{ id: 123, name: '' }];
+        const sanPhamArray: ISanPham[] = [{ id: 123 }, { id: 456 }, { id: 54043 }];
+        const sanPhamCollection: ISanPham[] = [{ id: 123 }];
         expectedResult = service.addSanPhamToCollectionIfMissing(sanPhamCollection, ...sanPhamArray);
         expect(expectedResult).toHaveLength(3);
       });
 
       it('should accept varargs', () => {
-        const sanPham: ISanPham = { id: 123, name: '' };
-        const sanPham2: ISanPham = { id: 456, name: '' };
+        const sanPham: ISanPham = { id: 123 };
+        const sanPham2: ISanPham = { id: 456 };
         expectedResult = service.addSanPhamToCollectionIfMissing([], sanPham, sanPham2);
         expect(expectedResult).toHaveLength(2);
         expect(expectedResult).toContain(sanPham);
@@ -187,14 +183,14 @@ describe('SanPham Service', () => {
       });
 
       it('should accept null and undefined values', () => {
-        const sanPham: ISanPham = { id: 123, name: '' };
+        const sanPham: ISanPham = { id: 123 };
         expectedResult = service.addSanPhamToCollectionIfMissing([], null, sanPham, undefined);
         expect(expectedResult).toHaveLength(1);
         expect(expectedResult).toContain(sanPham);
       });
 
       it('should return initial array if no SanPham is added', () => {
-        const sanPhamCollection: ISanPham[] = [{ id: 123, name: '' }];
+        const sanPhamCollection: ISanPham[] = [{ id: 123 }];
         expectedResult = service.addSanPhamToCollectionIfMissing(sanPhamCollection, undefined, null);
         expect(expectedResult).toEqual(sanPhamCollection);
       });

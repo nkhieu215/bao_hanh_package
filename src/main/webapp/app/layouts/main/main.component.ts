@@ -11,7 +11,6 @@ import { LoginService } from 'app/login/login.service';
   templateUrl: './main.component.html',
 })
 export class MainComponent implements OnInit {
-
   inProduction?: boolean;
   isNavbarCollapsed = true;
   openAPIEnabled?: boolean;
@@ -24,8 +23,8 @@ export class MainComponent implements OnInit {
     private accountService: AccountService,
     private titleService: Title,
     private router: Router,
-    private loginService: LoginService,
-  ) { }
+    private loginService: LoginService
+  ) {}
 
   ngOnInit(): void {
     // try to log in automatically
@@ -56,12 +55,16 @@ export class MainComponent implements OnInit {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
-  closeNav(): any {
-    document.getElementById('main')!.style.marginLeft = "50px";
+  closeNav(): void {
+    document.getElementById('main')!.style.marginLeft = '50px';
   }
 
-  openNav(): any {
-    document.getElementById('main')!.style.marginLeft = "250px";
+  closeNav2(): void {
+    document.getElementById('main')!.style.marginLeft = '50px';
+  }
+
+  openNav(): void {
+    document.getElementById('main')!.style.marginLeft = '250px';
   }
 
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {

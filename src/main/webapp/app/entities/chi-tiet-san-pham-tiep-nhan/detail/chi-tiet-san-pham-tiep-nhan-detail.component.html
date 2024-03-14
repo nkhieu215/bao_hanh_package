@@ -22,35 +22,35 @@
         <dd>
           <span>{{ chiTietSanPhamTiepNhan.idKho }}</span>
         </dd>
-        <dt><span>Id Bien Ban</span></dt>
+        <dt><span>Id biên bản</span></dt>
         <dd>
           <span>{{ chiTietSanPhamTiepNhan.idBienBan }}</span>
         </dd>
-        <dt><span>Tong Loi Ki Thuat</span></dt>
+        <dt><span>Tổng lỗi kỹ thuật</span></dt>
         <dd>
           <span>{{ chiTietSanPhamTiepNhan.tongLoiKiThuat }}</span>
         </dd>
-        <dt><span>Tong Loi Linh Dong</span></dt>
+        <dt><span>Tổng lỗi linh động</span></dt>
         <dd>
           <span>{{ chiTietSanPhamTiepNhan.tongLoiLinhDong }}</span>
         </dd>
-        <dt><span>Ngay Phan Loai</span></dt>
+        <dt><span>Ngày phân loại</span></dt>
         <dd>
           <span>{{ chiTietSanPhamTiepNhan.ngayPhanLoai | formatMediumDatetime }}</span>
         </dd>
-        <dt><span>Sl Tiep Nhan</span></dt>
+        <dt><span>Số lượng tiếp nhận</span></dt>
         <dd>
           <span>{{ chiTietSanPhamTiepNhan.slTiepNhan }}</span>
         </dd>
-        <dt><span>Sl Ton</span></dt>
+        <dt><span>Số lượng tồn</span></dt>
         <dd>
           <span>{{ chiTietSanPhamTiepNhan.slTon }}</span>
         </dd>
-        <dt><span>Tinh Trang Bao Hanh</span></dt>
+        <dt><span>Tình trạng bảo hành</span></dt>
         <dd>
           <span>{{ chiTietSanPhamTiepNhan.tinhTrangBaoHanh }}</span>
         </dd>
-        <dt><span>San Pham</span></dt>
+        <dt><span>Sản phẩm</span></dt>
         <dd>
           <div *ngIf="chiTietSanPhamTiepNhan.sanPham">
             <a [routerLink]="['/san-pham', chiTietSanPhamTiepNhan.sanPham?.id, 'view']">{{ chiTietSanPhamTiepNhan.sanPham?.id }}</a>

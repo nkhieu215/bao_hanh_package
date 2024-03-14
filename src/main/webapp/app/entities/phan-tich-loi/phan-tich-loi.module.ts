@@ -5,9 +5,10 @@ import { PhanTichLoiDetailComponent } from './detail/phan-tich-loi-detail.compon
 import { PhanTichLoiUpdateComponent } from './update/phan-tich-loi-update.component';
 import { PhanTichLoiDeleteDialogComponent } from './delete/phan-tich-loi-delete-dialog.component';
 import { PhanTichLoiRoutingModule } from './route/phan-tich-loi-routing.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
-  imports: [SharedModule, PhanTichLoiRoutingModule],
+  imports: [SharedModule, PhanTichLoiRoutingModule, NgxPaginationModule],
   declarations: [PhanTichLoiComponent, PhanTichLoiDetailComponent, PhanTichLoiUpdateComponent, PhanTichLoiDeleteDialogComponent],
   entryComponents: [PhanTichLoiDeleteDialogComponent],
 })

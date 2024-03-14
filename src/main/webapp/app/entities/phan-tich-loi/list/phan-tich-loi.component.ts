@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IPhanTichLoi } from '../phan-tich-loi.model';
 import { PhanTichLoiService } from '../service/phan-tich-loi.service';
 import { PhanTichLoiDeleteDialogComponent } from '../delete/phan-tich-loi-delete-dialog.component';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 
 @Component({
   selector: 'jhi-phan-tich-loi',
@@ -13,6 +14,10 @@ import { PhanTichLoiDeleteDialogComponent } from '../delete/phan-tich-loi-delete
 export class PhanTichLoiComponent implements OnInit {
   phanTichLois?: IPhanTichLoi[];
   isLoading = false;
+  @Input() itemPerPage = 10;
+  itemsPerPage = ITEMS_PER_PAGE;
+  page?: number;
+  ngbPaginationPage = 1;
 
   constructor(protected phanTichLoiService: PhanTichLoiService, protected modalService: NgbModal) {}
 

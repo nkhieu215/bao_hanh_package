@@ -5,10 +5,13 @@ import { KhoDetailComponent } from './detail/kho-detail.component';
 import { KhoUpdateComponent } from './update/kho-update.component';
 import { KhoDeleteDialogComponent } from './delete/kho-delete-dialog.component';
 import { KhoRoutingModule } from './route/kho-routing.module';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @NgModule({
-  imports: [SharedModule, KhoRoutingModule],
+  imports: [SharedModule, KhoRoutingModule, NgxPaginationModule],
   declarations: [KhoComponent, KhoDetailComponent, KhoUpdateComponent, KhoDeleteDialogComponent],
-  entryComponents: [KhoDeleteDialogComponent],
+  entryComponents: [KhoDeleteDialogComponent, NavbarComponent],
+  providers: [NavbarComponent],
 })
 export class KhoModule {}

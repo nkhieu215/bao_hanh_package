@@ -6,6 +6,7 @@ import { ILoi } from '../loi.model';
 import { LoiService } from '../service/loi.service';
 import { LoiDeleteDialogComponent } from '../delete/loi-delete-dialog.component';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @Component({
   selector: 'jhi-loi',
@@ -19,9 +20,10 @@ export class LoiComponent implements OnInit {
   page?: number;
   ngbPaginationPage = 1;
 
-  constructor(protected loiService: LoiService, protected modalService: NgbModal) {}
+  constructor(protected loiService: LoiService, protected modalService: NgbModal, protected navBarComponent: NavbarComponent) {}
 
   loadAll(): void {
+    this.navBarComponent.toggleSidebar2();
     this.isLoading = true;
 
     this.loiService.query().subscribe({

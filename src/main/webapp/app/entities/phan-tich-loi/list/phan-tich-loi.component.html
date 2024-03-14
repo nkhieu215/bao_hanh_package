@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="PhanTichLoiHeading">
-    <span>Phan Tich Lois</span>
+    <span>Phân tích lỗi</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
@@ -33,12 +33,12 @@
       <thead>
         <tr>
           <th scope="col"><span>ID</span></th>
-          <th scope="col"><span>So Luong</span></th>
-          <th scope="col"><span>Ngay Phan Tich</span></th>
+          <th scope="col"><span>Số lượng</span></th>
+          <th scope="col"><span>Ngày phân tích</span></th>
           <th scope="col"><span>Username</span></th>
-          <th scope="col"><span>Ghi Chu</span></th>
-          <th scope="col"><span>Loi</span></th>
-          <th scope="col"><span>Phan Tich San Pham</span></th>
+          <th scope="col"><span>Ghi chú</span></th>
+          <th scope="col"><span>Lỗi</span></th>
+          <th scope="col"><span>Phân tích sản phẩm</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -92,5 +92,16 @@
         </tr>
       </tbody>
     </table>
+  </div>
+  <div *ngIf="phanTichLois && phanTichLois.length > 0">
+    <div>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="all">All</option>
+      </select>
+      <pagination-controls (pageChange)="page = $event" style="float: right"></pagination-controls>
+    </div>
   </div>
 </div>

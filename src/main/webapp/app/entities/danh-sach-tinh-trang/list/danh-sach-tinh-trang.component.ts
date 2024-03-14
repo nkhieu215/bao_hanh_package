@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IDanhSachTinhTrang } from '../danh-sach-tinh-trang.model';
 import { DanhSachTinhTrangService } from '../service/danh-sach-tinh-trang.service';
 import { DanhSachTinhTrangDeleteDialogComponent } from '../delete/danh-sach-tinh-trang-delete-dialog.component';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 const NB_ITEMS = 995;
 @Component({
   selector: 'jhi-danh-sach-tinh-trang',
@@ -33,16 +34,18 @@ export class DanhSachTinhTrangComponent implements OnInit {
     protected danhSachTinhTrangService: DanhSachTinhTrangService,
     protected donBaoHanhService: DonBaoHanhService,
     protected modalService: NgbModal,
-    protected containerService: ContainerService
+    protected containerService: ContainerService,
+    protected navBarComponent: NavbarComponent
   ) {}
 
   loadAll(): void {
+    this.navBarComponent.toggleSidebar2();
     this.isLoading = true;
     this.donBaoHanhService.query().subscribe({
       next: (res: HttpResponse<IDonBaoHanh[]>) => {
         this.isLoading = false;
         this.danhSachTinhTrangs = res.body ?? [];
-        // console.log('a', this.donBaoHanhs);
+        console.log('a', this.donBaoHanhs);
         this.donBaoHanhs = this.mockData(NB_ITEMS);
       },
       error: () => {

@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col-md-3">
     <span class="hipster img-fluid rounded"></span>
   </div>
@@ -45,5 +45,27 @@
       <span>If you like JHipster, don't forget to give us a star on</span>
       <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">GitHub</a>!
     </p>
+  </div>
+</div> -->
+
+<div class="row">
+  <!-- <div class="col-md-3">
+    <span class="hipster">
+    </span>
+  </div> -->
+
+  <!-- <div class="col-md-9" style="height: 100vh;"> -->
+  <!-- <h1 class="display-4"><span>Đổi trả</span></h1> -->
+
+  <!-- <p class="lead">This is your homepage</p> -->
+
+  <div [ngSwitch]="account !== null">
+    <!-- <div class="alert alert-success" *ngSwitchCase="true">
+        <span id="home-logged-message" *ngIf="account">Bạn đã đăng nhập với tài khoản là "{{ account.login }}".</span>
+      </div> -->
+
+    <div class="alert alert-warning" *ngSwitchCase="false">
+      <a class="alert-link" (click)="login()">Đăng nhập </a><span>để bắt đầu sử dụng hệ thống</span>
+    </div>
   </div>
 </div>

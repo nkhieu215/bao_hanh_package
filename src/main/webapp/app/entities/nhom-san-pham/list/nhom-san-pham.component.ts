@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { INhomSanPham } from '../nhom-san-pham.model';
 import { NhomSanPhamService } from '../service/nhom-san-pham.service';
 import { NhomSanPhamDeleteDialogComponent } from '../delete/nhom-san-pham-delete-dialog.component';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @Component({
   selector: 'jhi-nhom-san-pham',
@@ -13,10 +15,20 @@ import { NhomSanPhamDeleteDialogComponent } from '../delete/nhom-san-pham-delete
 export class NhomSanPhamComponent implements OnInit {
   nhomSanPhams?: INhomSanPham[];
   isLoading = false;
+  @Input() itemPerPage = 10;
+  itemsPerPage = ITEMS_PER_PAGE;
+  page?: number;
+  ngbPaginationPage = 1;
 
-  constructor(protected nhomSanPhamService: NhomSanPhamService, protected modalService: NgbModal) {}
+  constructor(
+    protected nhomSanPhamService: NhomSanPhamService,
+    protected modalService: NgbModal,
+    protected navBarComponent: NavbarComponent
+  ) {}
 
   loadAll(): void {
+    this.navBarComponent.toggleSidebar2();
+
     this.isLoading = true;
 
     this.nhomSanPhamService.query().subscribe({

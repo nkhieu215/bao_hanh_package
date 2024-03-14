@@ -10,6 +10,7 @@ import { PhanTichSanPhamDetailComponent } from './detail/phan-tich-san-pham-deta
 import { PhanTichSanPhamUpdateComponent } from './update/phan-tich-san-pham-update.component';
 import { PhanTichSanPhamDeleteDialogComponent } from './delete/phan-tich-san-pham-delete-dialog.component';
 import { PhanTichSanPhamRoutingModule } from './route/phan-tich-san-pham-routing.module';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @NgModule({
   imports: [SharedModule, PhanTichSanPhamRoutingModule, AngularSlickgridModule, NgxPrintModule],
@@ -22,6 +23,6 @@ import { PhanTichSanPhamRoutingModule } from './route/phan-tich-san-pham-routing
     PhanTichThongTinSanPhamComponent,
   ],
   entryComponents: [PhanTichSanPhamDeleteDialogComponent],
-  providers: [ContainerService],
+  providers: [ContainerService, NavbarComponent],
 })
 export class PhanTichSanPhamModule {}

@@ -1,7 +1,7 @@
 <div id="demo-container" class="container-slickgrid col-md-12 content">
-  <h2>{{ title }}</h2>
-  <div class="btn-header">
-    <button class="btn btn-outline-primary btn-option btn-addTN" (click)="openPopupThemMoi()">Thêm mới</button>
+  <h2 id="page-heading">{{ title }}</h2>
+  <div class="btn-header d-flex justify-content-end">
+    <button class="btn btn-outline-primary btn-option btn-addTN me-2" (click)="openPopupThemMoi()">Thêm mới</button>
   </div>
   <angular-slickgrid gridId="don-bao-hanh" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="donBaoHanhs">
     <div class="alert" id="no-result" *ngIf="donBaoHanhs?.length === 0">

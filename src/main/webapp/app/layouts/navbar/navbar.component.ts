@@ -21,8 +21,7 @@ export class NavbarComponent implements OnInit {
   version = '';
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
-  isSidebarCollapsed = false;
-
+  showLogo = 'false';
 
   constructor(
     private loginService: LoginService,
@@ -37,6 +36,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.toggleSidebar2();
     this.entitiesNavbarItems = EntityNavbarItems;
     this.profileService.getProfileInfo().subscribe(profileInfo => {
       this.inProduction = profileInfo.inProduction;
@@ -67,11 +67,27 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleSidebar(): void {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
-    if (this.isSidebarCollapsed === true) {
+    const isSidebarCollapsed = sessionStorage.getItem('toggleSidebar');
+    this.showLogo = sessionStorage.getItem('showLogo')!;
+    if (isSidebarCollapsed === 'open') {
       this.mainComponent.closeNav();
-    } else {
-      this.mainComponent.openNav()
+      document.getElementById('sidebar-id')!.style.width = '50px';
+      sessionStorage.setItem('showLogo', 'hide');
+      sessionStorage.setItem('toggleSidebar', 'close');
     }
+    if (isSidebarCollapsed === 'close') {
+      this.mainComponent.openNav();
+      document.getElementById('sidebar-id')!.style.width = '250px';
+      sessionStorage.setItem('showLogo', 'show');
+      sessionStorage.setItem('toggleSidebar', 'open');
+    }
+  }
+
+  toggleSidebar2(): void {
+    this.showLogo = 'hide';
+    document.getElementById('sidebar-id')!.style.width = '50px';
+    this.mainComponent.closeNav2();
+    sessionStorage.setItem('toggleSidebar', 'close');
+    sessionStorage.setItem('showLogo', 'show');
   }
 }

@@ -42,7 +42,7 @@ describe('SanPham routing resolve service', () => {
   describe('resolve', () => {
     it('should return ISanPham returned by find', () => {
       // GIVEN
-      // service.find = jest.fn(id => of(new HttpResponse({ body: { id } })));
+      service.find = jest.fn(id => of(new HttpResponse({ body: { id } })));
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
@@ -51,8 +51,8 @@ describe('SanPham routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find);
-      expect(resultSanPham);
+      expect(service.find).toBeCalledWith(123);
+      expect(resultSanPham).toEqual({ id: 123 });
     });
 
     it('should return new ISanPham if id is not provided', () => {

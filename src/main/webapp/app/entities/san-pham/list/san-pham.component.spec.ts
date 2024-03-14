@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 import { SanPhamService } from '../service/san-pham.service';
 
 import { SanPhamComponent } from './san-pham.component';
-import { ISanPham } from '../san-pham.model';
 
 describe('SanPham Management Component', () => {
   let comp: SanPhamComponent;
@@ -29,7 +28,7 @@ describe('SanPham Management Component', () => {
     jest.spyOn(service, 'query').mockReturnValue(
       of(
         new HttpResponse({
-          body: [{ id: 123, name: '' }],
+          body: [{ id: 123 }],
           headers,
         })
       )

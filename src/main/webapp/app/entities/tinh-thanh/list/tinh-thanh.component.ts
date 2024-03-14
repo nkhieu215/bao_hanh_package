@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ITinhThanh } from '../tinh-thanh.model';
 import { TinhThanhService } from '../service/tinh-thanh.service';
 import { TinhThanhDeleteDialogComponent } from '../delete/tinh-thanh-delete-dialog.component';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @Component({
   selector: 'jhi-tinh-thanh',
@@ -13,10 +15,16 @@ import { TinhThanhDeleteDialogComponent } from '../delete/tinh-thanh-delete-dial
 export class TinhThanhComponent implements OnInit {
   tinhThanhs?: ITinhThanh[];
   isLoading = false;
+  @Input() itemPerPage = 10;
 
-  constructor(protected tinhThanhService: TinhThanhService, protected modalService: NgbModal) {}
+  itemsPerPage = ITEMS_PER_PAGE;
+  page?: number;
+  ngbPaginationPage = 1;
+
+  constructor(protected tinhThanhService: TinhThanhService, protected modalService: NgbModal, protected navBarComponent: NavbarComponent) {}
 
   loadAll(): void {
+    this.navBarComponent.toggleSidebar2();
     this.isLoading = true;
 
     this.tinhThanhService.query().subscribe({

@@ -6,6 +6,7 @@ import { DanhSachTinhTrangUpdateComponent } from './update/danh-sach-tinh-trang-
 import { DanhSachTinhTrangDeleteDialogComponent } from './delete/danh-sach-tinh-trang-delete-dialog.component';
 import { DanhSachTinhTrangRoutingModule } from './route/danh-sach-tinh-trang-routing.module';
 import { AngularSlickgridModule, ContainerService } from 'angular-slickgrid';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @NgModule({
   imports: [SharedModule, DanhSachTinhTrangRoutingModule, AngularSlickgridModule],
@@ -16,6 +17,6 @@ import { AngularSlickgridModule, ContainerService } from 'angular-slickgrid';
     DanhSachTinhTrangDeleteDialogComponent,
   ],
   entryComponents: [DanhSachTinhTrangDeleteDialogComponent],
-  providers: [ContainerService],
+  providers: [ContainerService, NavbarComponent],
 })
 export class DanhSachTinhTrangModule {}

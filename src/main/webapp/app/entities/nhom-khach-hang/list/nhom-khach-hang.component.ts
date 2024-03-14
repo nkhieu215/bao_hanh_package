@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { INhomKhachHang } from '../nhom-khach-hang.model';
 import { NhomKhachHangService } from '../service/nhom-khach-hang.service';
 import { NhomKhachHangDeleteDialogComponent } from '../delete/nhom-khach-hang-delete-dialog.component';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @Component({
   selector: 'jhi-nhom-khach-hang',
@@ -26,7 +27,7 @@ export class NhomKhachHangComponent implements OnInit {
 
   isLoading = false;
 
-  title = 'Báo cáo tổng hợp';
+  // title = 'Báo cáo tổng hợp';
 
   columndefinitions1: Column[] = [];
   gridOptions1!: GridOption;
@@ -36,10 +37,12 @@ export class NhomKhachHangComponent implements OnInit {
     protected modalService: NgbModal,
     protected containerService: ContainerService,
     protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService
+    protected applicationConfigService: ApplicationConfigService,
+    protected navBarComponent: NavbarComponent
   ) {}
 
   loadAll(): void {
+    this.navBarComponent.toggleSidebar2();
     this.isLoading = true;
 
     this.nhomKhachHangService.query().subscribe({

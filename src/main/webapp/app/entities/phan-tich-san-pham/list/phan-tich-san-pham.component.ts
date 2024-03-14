@@ -34,6 +34,7 @@ import dayjs from 'dayjs/esm';
 import { IKho } from 'app/entities/kho/kho.model';
 import { KhoService } from 'app/entities/kho/service/kho.service';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @Component({
   selector: 'jhi-phan-tich-san-pham',
@@ -181,7 +182,8 @@ export class PhanTichSanPhamComponent implements OnInit {
     protected applicationConfigService: ApplicationConfigService,
     protected http: HttpClient,
     protected accountService: AccountService,
-    protected khoService: KhoService
+    protected khoService: KhoService,
+    protected navBarComponent: NavbarComponent
   ) {}
 
   buttonIn: Formatter<any> = (_row, _cell, value) =>
@@ -200,6 +202,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       : { text: '<button class="btn btn-success fa fa-exclamation-triangle" style="height: 28px; line-height: 14px; "></button>' };
 
   loadAll(): void {
+    this.navBarComponent.toggleSidebar2();
     this.isLoading = true;
     // this.donBaoHanhService.query().subscribe({
     //   next: (res: HttpResponse<IDonBaoHanh[]>) => {
@@ -308,6 +311,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         id: 'id',
         name: 'Mã tiếp nhận',
         field: 'maTiepNhan',
+        minWidth: 200,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -332,7 +336,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         sortable: true,
         filterable: true,
         minWidth: 400,
-        maxWidth: 400,
+        // maxWidth: 400,
         formatter: Formatters.complexObject,
         type: FieldType.string,
         filter: {
@@ -356,6 +360,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         field: 'slTiepNhan',
         sortable: true,
         filterable: true,
+        minWidth: 80,
         formatter: Formatters.complexObject,
         type: FieldType.string,
         filter: {
@@ -384,6 +389,8 @@ export class PhanTichSanPhamComponent implements OnInit {
         field: 'tienDo',
         sortable: true,
         filterable: true,
+        minWidth: 200,
+
         formatter: Formatters.progressBar,
         type: FieldType.number,
         filter: {
@@ -398,6 +405,8 @@ export class PhanTichSanPhamComponent implements OnInit {
         field: 'ngayTiepNhan',
         sortable: true,
         filterable: true,
+        minWidth: 200,
+
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -420,6 +429,8 @@ export class PhanTichSanPhamComponent implements OnInit {
         field: 'trangThai',
         sortable: true,
         filterable: true,
+        minWidth: 200,
+
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -441,6 +452,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       enableSorting: true,
       enableFiltering: true,
       enablePagination: true,
+      enableAutoSizeColumns: true,
       // enableColumnPicker: true,
       // enableRowDetailView: true,
       // rowDetailView: {
@@ -477,7 +489,11 @@ export class PhanTichSanPhamComponent implements OnInit {
       editable: true,
       enableCellNavigation: true,
       gridHeight: 620,
-      gridWidth: 1750,
+      gridWidth: '100%',
+      autoHeight: true,
+      autoFitColumnsOnFirstLoad: true,
+      asyncEditorLoading: true,
+      forceFitColumns: true,
     };
     this.loadAll();
     this.getLois();
@@ -685,10 +701,14 @@ export class PhanTichSanPhamComponent implements OnInit {
 
   // mở popup chọn loại biên bản
   openPopupBtn(): void {
+    this.navBarComponent.toggleSidebar2();
+
     this.popupSelectButton = true;
   }
 
   openPopupPTMTN(): void {
+    this.navBarComponent.toggleSidebar2();
+
     this.popupPTMTN = true;
   }
 

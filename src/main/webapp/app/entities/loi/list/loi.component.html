@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="LoiHeading">
-    <span>Lois</span>
+    <span>Lỗi</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
@@ -34,13 +34,13 @@
         <tr>
           <th scope="col"><span>ID</span></th>
           <th scope="col"><span>Err Code</span></th>
-          <th scope="col"><span>Ten Loi</span></th>
-          <th scope="col"><span>Ngay Tao</span></th>
-          <th scope="col"><span>Ngay Cap Nhat</span></th>
+          <th scope="col"><span>Tên lỗi</span></th>
+          <th scope="col"><span>Ngày tạo</span></th>
+          <th scope="col"><span>Ngày cập nhật</span></th>
           <th scope="col"><span>Username</span></th>
-          <th scope="col"><span>Chi Chu</span></th>
-          <th scope="col"><span>Trang Thai</span></th>
-          <th scope="col"><span>Nhom Loi</span></th>
+          <th scope="col"><span>Ghi chú</span></th>
+          <th scope="col"><span>Trạng thái</span></th>
+          <th scope="col"><span>Nhóm lỗi</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -83,7 +83,7 @@
       </tbody>
     </table>
   </div>
-  <div *ngIf="lois && lois.length>0">
+  <div *ngIf="lois && lois.length > 0">
     <div>
       <select class="form-select" aria-label="Default select example" [(ngModel)]="itemPerPage">
         <option value="10">10</option>

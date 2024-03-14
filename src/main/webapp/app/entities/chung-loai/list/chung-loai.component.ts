@@ -10,13 +10,15 @@ import {
   Editors,
   LongTextEditorOption,
 } from 'angular-slickgrid';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IChungLoai } from '../chung-loai.model';
 import { ChungLoaiService } from '../service/chung-loai.service';
 import { ChungLoaiDeleteDialogComponent } from '../delete/chung-loai-delete-dialog.component';
+import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @Component({
   selector: 'jhi-chung-loai',
@@ -30,13 +32,19 @@ export class ChungLoaiComponent implements OnInit {
   dataset: any[] = [];
   columdefinitions?: IChungLoai[];
   isLoading = false;
+  @Input() itemPerPage = 10;
+  itemsPerPage = ITEMS_PER_PAGE;
   columnDefinitions1: Column[] = [];
   gridOption1!: GridOption;
   title = 'Chủng loại';
 
-  constructor(protected chungLoaiService: ChungLoaiService, protected modalService: NgbModal) {}
+  page?: number;
+  ngbPaginationPage = 1;
+
+  constructor(protected chungLoaiService: ChungLoaiService, protected modalService: NgbModal, protected navBarComponent: NavbarComponent) {}
 
   loadAll(): void {
+    this.navBarComponent.toggleSidebar2();
     this.isLoading = true;
 
     this.chungLoaiService.query().subscribe({
@@ -65,7 +73,7 @@ export class ChungLoaiComponent implements OnInit {
         minWidth: 60,
         maxWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
-          // console.log(args);
+          console.log(args);
           const items = args.dataContext;
           this.angularGrid?.gridService.highlightRow(args.row, 1500);
           this.angularGrid?.gridService.setSelectedRow(args.row);

@@ -8,10 +8,11 @@ import { SanPhamDeleteDialogComponent } from './delete/san-pham-delete-dialog.co
 import { SanPhamRoutingModule } from './route/san-pham-routing.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 @NgModule({
   imports: [SharedModule, SanPhamRoutingModule, NgxPaginationModule, Ng2SearchPipeModule, AngularSlickgridModule],
   declarations: [SanPhamComponent, SanPhamDetailComponent, SanPhamUpdateComponent, SanPhamDeleteDialogComponent],
   entryComponents: [SanPhamDeleteDialogComponent],
-  providers: [ContainerService],
+  providers: [ContainerService, NavbarComponent],
 })
 export class SanPhamModule {}

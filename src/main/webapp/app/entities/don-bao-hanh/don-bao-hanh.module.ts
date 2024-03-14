@@ -10,6 +10,7 @@ import { DonBaoHanhDetailComponent } from './detail/don-bao-hanh-detail.componen
 import { DonBaoHanhUpdateComponent } from './update/don-bao-hanh-update.component';
 import { DonBaoHanhDeleteDialogComponent } from './delete/don-bao-hanh-delete-dialog.component';
 import { DonBaoHanhRoutingModule } from './route/don-bao-hanh-routing.module';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 
 @NgModule({
   imports: [SharedModule, DonBaoHanhRoutingModule, AngularSlickgridModule, NgxPaginationModule, NgxPrintModule],
@@ -22,6 +23,6 @@ import { DonBaoHanhRoutingModule } from './route/don-bao-hanh-routing.module';
     ButtonPrintComponent,
   ],
   entryComponents: [DonBaoHanhDeleteDialogComponent],
-  providers: [ContainerService, RowDetailViewComponent],
+  providers: [ContainerService, RowDetailViewComponent, NavbarComponent],
 })
 export class DonBaoHanhModule {}

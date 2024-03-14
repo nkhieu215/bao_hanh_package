@@ -40,6 +40,7 @@ import { DanhSachTinhTrangService } from 'app/entities/danh-sach-tinh-trang/serv
 import { SanPhamService } from 'app/entities/san-pham/service/san-pham.service';
 import { stringify } from 'querystring';
 import dayjs from 'dayjs/esm';
+import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 @Component({
   selector: 'jhi-don-bao-hanh',
   templateUrl: './don-bao-hanh.component.html',
@@ -196,7 +197,8 @@ export class DonBaoHanhComponent implements OnInit {
     protected http: HttpClient,
     protected accountService: AccountService,
     protected danhSachTinhTrangService: DanhSachTinhTrangService,
-    protected sanPhamService: SanPhamService // protected dialog: MatDialog,
+    protected sanPhamService: SanPhamService, // protected dialog: MatDialog,
+    protected navBarComponent: NavbarComponent
   ) {}
 
   buttonBBTN: Formatter<any> = (_row, _cell, value) =>
@@ -222,6 +224,7 @@ export class DonBaoHanhComponent implements OnInit {
       : { text: '<button class="btn btn-danger fa fa-trash" style="height: 28px; line-height: 14px"></button>' };
 
   loadAll(): void {
+    this.navBarComponent.toggleSidebar2();
     this.isLoading = true;
     this.donBaoHanhService.query().subscribe({
       next: (res1: HttpResponse<IDonBaoHanh[]>) => {
@@ -362,8 +365,8 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'maTiepNhan',
         sortable: true,
         filterable: true,
-        minWidth: 180,
-        maxWidth: 180,
+        minWidth: 200,
+        // maxWidth: 200,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -379,7 +382,7 @@ export class DonBaoHanhComponent implements OnInit {
         sortable: true,
         filterable: true,
         minWidth: 400,
-        maxWidth: 400,
+        // maxWidth: 400,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -396,7 +399,7 @@ export class DonBaoHanhComponent implements OnInit {
         defaultSortAsc: false,
         filterable: true,
         minWidth: 160,
-        maxWidth: 160,
+        // maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -419,6 +422,8 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'slTiepNhan',
         sortable: true,
         filterable: true,
+        minWidth: 120,
+        maxWidth: 120,
         type: FieldType.number,
         filter: {
           placeholder: 'Search...',
@@ -441,6 +446,8 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'slDaPhanTich',
         sortable: true,
         filterable: true,
+        minWidth: 120,
+        maxWidth: 120,
         type: FieldType.number,
         filter: {
           placeholder: 'Search...',
@@ -479,7 +486,7 @@ export class DonBaoHanhComponent implements OnInit {
         sortable: true,
         filterable: true,
         minWidth: 160,
-        maxWidth: 160,
+        // maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -504,7 +511,7 @@ export class DonBaoHanhComponent implements OnInit {
         sortable: true,
         filterable: true,
         minWidth: 160,
-        maxWidth: 160,
+        // maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -527,6 +534,8 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'nguoiTaoDon',
         sortable: true,
         filterable: true,
+        minWidth: 100,
+        maxWidth: 100,
         type: FieldType.string,
         filter: {
           placeholder: 'Search...',
@@ -548,6 +557,7 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'nhanVienGiaoHang',
         sortable: true,
         filterable: true,
+        minWidth: 200,
         type: FieldType.string,
         filter: {
           placeholder: 'Search',
@@ -613,6 +623,8 @@ export class DonBaoHanhComponent implements OnInit {
       enableSorting: true,
       enableFiltering: true,
       enablePagination: true,
+      enableAutoSizeColumns: true,
+
       // enableColumnPicker: true,
       // enableRowDetailView: true,
       // rowDetailView: {
@@ -641,7 +653,11 @@ export class DonBaoHanhComponent implements OnInit {
       editable: true,
       enableCellNavigation: true,
       gridHeight: 620,
-      gridWidth: 1750,
+      gridWidth: '100%',
+      autoHeight: true,
+      autoFitColumnsOnFirstLoad: true,
+      asyncEditorLoading: true,
+      forceFitColumns: true,
     };
     this.loadAll();
     this.getPhanLoaiChiTietTiepNhan();
@@ -844,6 +860,8 @@ export class DonBaoHanhComponent implements OnInit {
   // ================================= popup chỉnh sửa thông tin ==================================
   openPopupEdit(id: number): void {
     this.popupChinhSuaThongTin = true;
+    this.navBarComponent.toggleSidebar2();
+
     // lấy thông tin đơn bảo hành
     const result = sessionStorage.getItem(`TiepNhan ${id.toString()}`);
     // console.log('chinh sua don bao hanh: ', this.khachHangs);
@@ -881,6 +899,7 @@ export class DonBaoHanhComponent implements OnInit {
   // ========================================= popup thêm mới đơn bảo hành và chi tiết đơn bảo hành =======================================
   openPopupThemMoi(): void {
     this.popupThemMoi = true;
+    this.navBarComponent.toggleSidebar2();
     //reset dữ liệu
     this.themMoiDonBaoHanh = [];
     this.themMoiPhanLoaiChiTietTiepNhan = [];
@@ -1065,6 +1084,8 @@ export class DonBaoHanhComponent implements OnInit {
   }
   openPopupPhanLoai(id: number): void {
     this.popupPhanLoai = true;
+    this.navBarComponent.toggleSidebar2();
+
     //reset bien dem signal
     this.countItem = 0;
     this.getChiTietPhanLoais(id);
@@ -1318,6 +1339,8 @@ export class DonBaoHanhComponent implements OnInit {
   //==================================================   Popup biên bản tiếp nhận =====================================================
   openPopupBBTN(id: number): void {
     this.popupInBBTN = true;
+    this.navBarComponent.toggleSidebar2();
+
     // lấy dữ liệu từ sessision
     this.getChiTietPhanLoais(id);
   }
