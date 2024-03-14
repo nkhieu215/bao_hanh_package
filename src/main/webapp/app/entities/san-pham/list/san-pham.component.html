@@ -2,9 +2,9 @@
   <h2 id="page-heading">
     {{ title }}
   </h2>
-
-  <button class="btn btn-sm btn-outline-primary" (click)="addItem()">Thêm mới</button>
-
+  <div class="btn-header d-flex justify-content-end">
+    <button class="btn btn-sm btn-outline-primary btn-option btn-addTN me-2" (click)="addItem()">Thêm mới</button>
+  </div>
   <angular-slickgrid gridId="san-pham" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="sanPhams">
   </angular-slickgrid>
 </div>

@@ -20,74 +20,88 @@
     </div>
     <div class="popup-content">
       <form>
-        <table class="table table-striped" aria-describedby="page-heading">
-          <thead style="background-color: #006699">
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
-              <th scope="col" jhiSortBy="id" style="width: 3rem">
-                <span class="span-table-phantich">Mã tiếp nhận</span>
-              </th>
-              <th scope="col" jhiSortBy="id" style="">
-                <span class="span-table-phantich">Khách hàng</span>
-              </th>
-              <th scope="col" jhiSortBy="id" style="width: 5rem">
-                <span class="span-table-phantich">Số lượng phân tích</span>
-              </th>
-              <th scope="col" jhiSortBy="id" style="width: 5rem">
-                <span class="span-table-phantich">Đã phân tích</span>
-              </th>
-              <th scope="col" jhiSortBy="id" style="width: 5rem">
-                <span class="span-table-phantich">Tiến độ</span>
-              </th>
-              <th scope="col" jhiSortBy="id" style="width: 18rem">
-                <span class="span-table-phantich">Ngày tiếp nhận</span>
-              </th>
-              <th scope="col" jhiSortBy="id">
-                <span class="span-table-phantich">Trạng thái</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  class="inp-ptich-sp"
-                  style="background-color: #f2f2f2; width: 7rem"
-                  value="{{ donBaoHanh.maTiepNhan }}"
-                  disabled
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="inp-ptich-sp"
-                  style="background-color: #f2f2f2; width: 42rem"
-                  value="{{ donBaoHanh.khachHang?.tenKhachHang }}"
-                  disabled
-                />
-              </td>
-              <td>
-                <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.slCanPhanTich }}" disabled />
-              </td>
-              <td>
-                <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.slDaPhanTich }}" disabled />
-              </td>
-              <td>
-                <input
-                  type="range"
-                  class="inp-ptich-sp"
-                  style="background-color: #f2f2f2"
-                  value="{{ donBaoHanh.tienDo.toFixed(2) }}"
-                  id="donBaoHanh"
-                />{{ donBaoHanh.tienDo.toFixed(2) }}%
-              </td>
-              <td>{{ donBaoHanh.ngayTiepNhan | date: 'YYYY-MM-dd hh:mm:ss ' }}</td>
-              <td>
-                <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.trangThai }}" disabled />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="fixed-header-table">
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead style="background-color: #006699">
+              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+                <th scope="col" jhiSortBy="id" style="width: 3rem">
+                  <span class="span-table-phantich">Mã tiếp nhận</span>
+                </th>
+                <th scope="col" jhiSortBy="id" style="width: 5rem">
+                  <span class="span-table-phantich">Khách hàng</span>
+                </th>
+                <th scope="col" jhiSortBy="id" style="width: 5rem">
+                  <span class="span-table-phantich">Số lượng phân tích</span>
+                </th>
+                <th scope="col" jhiSortBy="id" style="width: 5rem">
+                  <span class="span-table-phantich">Đã phân tích</span>
+                </th>
+                <th scope="col" jhiSortBy="id" style="width: 5rem">
+                  <span class="span-table-phantich">Tiến độ</span>
+                </th>
+                <th scope="col" jhiSortBy="id" style="width: 18rem">
+                  <span class="span-table-phantich">Ngày tiếp nhận</span>
+                </th>
+                <th scope="col" jhiSortBy="id">
+                  <span class="span-table-phantich">Trạng thái</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    class="inp-ptich-sp"
+                    style="background-color: #f2f2f2; width: 7rem"
+                    value="{{ donBaoHanh.maTiepNhan }}"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="inp-ptich-sp"
+                    style="background-color: #f2f2f2; width: 30rem"
+                    value="{{ donBaoHanh.khachHang?.tenKhachHang }}"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="inp-ptich-sp"
+                    style="background-color: #f2f2f2"
+                    value="{{ donBaoHanh.slCanPhanTich }}"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="inp-ptich-sp"
+                    style="background-color: #f2f2f2"
+                    value="{{ donBaoHanh.slDaPhanTich }}"
+                    disabled
+                  />
+                </td>
+                <td>
+                  <input
+                    type="range"
+                    class="inp-ptich-sp"
+                    style="background-color: #f2f2f2"
+                    value="{{ donBaoHanh.tienDo.toFixed(2) }}"
+                    id="donBaoHanh"
+                  />{{ donBaoHanh.tienDo.toFixed(2) }}%
+                </td>
+                <td>{{ donBaoHanh.ngayTiepNhan | date: 'YYYY-MM-dd hh:mm:ss ' }}</td>
+                <td>
+                  <input type="text" class="inp-ptich-sp" style="background-color: #f2f2f2" value="{{ donBaoHanh.trangThai }}" disabled />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </form>
       <br />
       <br />

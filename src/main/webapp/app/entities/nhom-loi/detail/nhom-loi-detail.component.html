@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="nhomLoi">
-      <h2 data-cy="nhomLoiDetailsHeading"><span>Nhom Loi</span></h2>
+      <h2 data-cy="nhomLoiDetailsHeading"><span>Nhóm lỗi</span></h2>
 
       <hr />
 
@@ -14,19 +14,19 @@
         <dd>
           <span>{{ nhomLoi.id }}</span>
         </dd>
-        <dt><span>Ma Nhom Loi</span></dt>
+        <dt><span>Mã nhóm lỗi</span></dt>
         <dd>
           <span>{{ nhomLoi.maNhomLoi }}</span>
         </dd>
-        <dt><span>Ten Nhom Loi</span></dt>
+        <dt><span>Tên nhóm lỗi</span></dt>
         <dd>
           <span>{{ nhomLoi.tenNhomLoi }}</span>
         </dd>
-        <dt><span>Ngay Tao</span></dt>
+        <dt><span>Ngày tạo</span></dt>
         <dd>
           <span>{{ nhomLoi.ngayTao | formatMediumDatetime }}</span>
         </dd>
-        <dt><span>Ngay Cap Nhat</span></dt>
+        <dt><span>Ngày cập nhật</span></dt>
         <dd>
           <span>{{ nhomLoi.ngayCapNhat | formatMediumDatetime }}</span>
         </dd>
@@ -34,22 +34,22 @@
         <dd>
           <span>{{ nhomLoi.username }}</span>
         </dd>
-        <dt><span>Ghi Chu</span></dt>
+        <dt><span>Ghi chú</span></dt>
         <dd>
           <span>{{ nhomLoi.ghiChu }}</span>
         </dd>
-        <dt><span>Trang Thai</span></dt>
+        <dt><span>Trạng thái</span></dt>
         <dd>
           <span>{{ nhomLoi.trangThai }}</span>
         </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
       </button>
 
       <button type="button" [routerLink]="['/nhom-loi', nhomLoi.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Chỉnh sửa</span>
       </button>
     </div>
   </div>

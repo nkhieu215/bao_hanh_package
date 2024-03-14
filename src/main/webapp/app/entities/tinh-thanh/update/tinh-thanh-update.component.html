@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-tinh-thanh-heading" data-cy="TinhThanhCreateUpdateHeading">Create or edit a Tinh Thanh</h2>
+      <h2 id="jhi-tinh-thanh-heading" data-cy="TinhThanhCreateUpdateHeading">Tạo mới hoặc chỉnh sửa tỉnh thành</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -12,7 +12,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_idTinhThanh">Id Tinh Thanh</label>
+          <label class="form-label" for="field_idTinhThanh">Id Tỉnh thành</label>
           <input
             type="number"
             class="form-control"
@@ -24,14 +24,14 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_name">Name</label>
+          <label class="form-label" for="field_name">Tên</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
         </div>
       </div>
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Huỷ</span>
         </button>
 
         <button
@@ -41,7 +41,7 @@
           [disabled]="editForm.invalid || isSaving"
           class="btn btn-primary"
         >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Lưu</span>
         </button>
       </div>
     </form>

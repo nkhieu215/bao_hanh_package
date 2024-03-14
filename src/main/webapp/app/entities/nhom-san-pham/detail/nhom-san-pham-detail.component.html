@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="nhomSanPham">
-      <h2 data-cy="nhomSanPhamDetailsHeading"><span>Nhom San Pham</span></h2>
+      <h2 data-cy="nhomSanPhamDetailsHeading"><span>Nhóm sản phẩm</span></h2>
 
       <hr />
 
@@ -14,7 +14,7 @@
         <dd>
           <span>{{ nhomSanPham.id }}</span>
         </dd>
-        <dt><span>Name</span></dt>
+        <dt><span>Tên</span></dt>
         <dd>
           <span>{{ nhomSanPham.name }}</span>
         </dd>
@@ -30,11 +30,11 @@
         <dd>
           <span>{{ nhomSanPham.username }}</span>
         </dd>
-        <dt><span>Trang Thai</span></dt>
+        <dt><span>Trạng thái</span></dt>
         <dd>
           <span>{{ nhomSanPham.trangThai }}</span>
         </dd>
-        <dt><span>Chung Loai</span></dt>
+        <dt><span>Chủng loại</span></dt>
         <dd>
           <div *ngIf="nhomSanPham.chungLoai">
             <a [routerLink]="['/chung-loai', nhomSanPham.chungLoai?.id, 'view']">{{ nhomSanPham.chungLoai?.id }}</a>
@@ -43,11 +43,11 @@
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
       </button>
 
       <button type="button" [routerLink]="['/nhom-san-pham', nhomSanPham.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Chỉnh sửa</span>
       </button>
     </div>
   </div>

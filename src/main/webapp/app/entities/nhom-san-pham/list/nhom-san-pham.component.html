@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh List</span>
+        <span>Làm mới</span>
       </button>
 
       <button
@@ -15,7 +15,7 @@
         [routerLink]="['/nhom-san-pham/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Nhom San Pham </span>
+        <span> Tạo mới Nhóm sản phẩm </span>
       </button>
     </div>
   </h2>
@@ -58,7 +58,7 @@
             </div>
           </td>
           <td class="text-end">
-            <div class="btn-group">
+            <div class="">
               <button
                 type="submit"
                 [routerLink]="['/nhom-san-pham', nhomSanPham.id, 'view']"
@@ -66,7 +66,7 @@
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
+                <span class="d-none d-md-inline">Xem chi tiết</span>
               </button>
 
               <button
@@ -76,12 +76,12 @@
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
+                <span class="d-none d-md-inline">Chỉnh sửa</span>
               </button>
 
               <button type="submit" (click)="delete(nhomSanPham)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
+                <span class="d-none d-md-inline">Xoá</span>
               </button>
             </div>
           </td>

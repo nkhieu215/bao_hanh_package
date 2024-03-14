@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-kho-heading" data-cy="KhoCreateUpdateHeading">Create or edit a Kho</h2>
+      <h2 id="jhi-kho-heading" data-cy="KhoCreateUpdateHeading">Tạo mới hoặc chỉnh sửa Kho</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -12,17 +12,17 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_maKho">Ma Kho</label>
+          <label class="form-label" for="field_maKho">Mã kho</label>
           <input type="text" class="form-control" name="maKho" id="field_maKho" data-cy="maKho" formControlName="maKho" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_tenKho">Ten Kho</label>
+          <label class="form-label" for="field_tenKho">Tên kho</label>
           <input type="text" class="form-control" name="tenKho" id="field_tenKho" data-cy="tenKho" formControlName="tenKho" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_ngayTao">Ngay Tao</label>
+          <label class="form-label" for="field_ngayTao">Ngày tạo</label>
           <div class="d-flex">
             <input
               id="field_ngayTao"
@@ -44,7 +44,7 @@
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Huỷ</span>
         </button>
 
         <button
@@ -54,7 +54,7 @@
           [disabled]="editForm.invalid || isSaving"
           class="btn btn-primary"
         >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Lưu</span>
         </button>
       </div>
     </form>

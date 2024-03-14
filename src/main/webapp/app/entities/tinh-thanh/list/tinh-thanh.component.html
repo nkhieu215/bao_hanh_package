@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh List</span>
+        <span>Làm mới</span>
       </button>
 
       <button
@@ -15,7 +15,7 @@
         [routerLink]="['/tinh-thanh/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Tinh Thanh </span>
+        <span> Tạo mới tỉnh thành </span>
       </button>
     </div>
   </h2>
@@ -46,7 +46,7 @@
           <td>{{ tinhThanh.idTinhThanh }}</td>
           <td>{{ tinhThanh.name }}</td>
           <td class="text-end">
-            <div class="btn-group">
+            <div>
               <button
                 type="submit"
                 [routerLink]="['/tinh-thanh', tinhThanh.id, 'view']"
@@ -54,7 +54,7 @@
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
+                <span class="d-none d-md-inline">Xem chi tiết</span>
               </button>
 
               <button
@@ -64,12 +64,12 @@
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
+                <span class="d-none d-md-inline">Chỉnh sửa</span>
               </button>
 
               <button type="submit" (click)="delete(tinhThanh)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
+                <span class="d-none d-md-inline">Xoá</span>
               </button>
             </div>
           </td>

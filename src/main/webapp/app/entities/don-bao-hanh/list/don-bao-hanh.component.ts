@@ -277,6 +277,8 @@ export class DonBaoHanhComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.loadAll();
+
     const result = sessionStorage.getItem('sessionStorage');
     // console.log('Test dữ liệu từ session', JSON.parse(result as string));
     const item: any = JSON.parse(result as string);
@@ -291,8 +293,8 @@ export class DonBaoHanhComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         formatter: this.buttonBBTN,
-        maxWidth: 60,
-        minWidth: 60,
+        maxWidth: 55,
+        minWidth: 55,
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.idDonBaoHanh = args.dataContext.id;
           this.donBaoHanh = args.dataContext;
@@ -310,8 +312,8 @@ export class DonBaoHanhComponent implements OnInit {
         excludeFromHeaderMenu: true,
         formatter: this.buttonPL,
 
-        maxWidth: 60,
-        minWidth: 60,
+        maxWidth: 55,
+        minWidth: 55,
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.openPopupPhanLoai(args.dataContext.id);
           // console.log('idPL? ', args.dataContext);
@@ -329,8 +331,8 @@ export class DonBaoHanhComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         formatter: this.buttonEdit,
-        minWidth: 60,
-        maxWidth: 60,
+        minWidth: 55,
+        maxWidth: 55,
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.openPopupEdit(args.dataContext.id);
           // console.log('edit', args.dataContext.id);
@@ -365,7 +367,7 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'maTiepNhan',
         sortable: true,
         filterable: true,
-        minWidth: 200,
+        minWidth: 140,
         // maxWidth: 200,
         type: FieldType.string,
         filter: {
@@ -381,7 +383,7 @@ export class DonBaoHanhComponent implements OnInit {
         formatter: Formatters.complexObject,
         sortable: true,
         filterable: true,
-        minWidth: 400,
+        minWidth: 350,
         // maxWidth: 400,
         type: FieldType.string,
         filter: {
@@ -398,7 +400,7 @@ export class DonBaoHanhComponent implements OnInit {
         sortable: true,
         defaultSortAsc: false,
         filterable: true,
-        minWidth: 160,
+        minWidth: 140,
         // maxWidth: 160,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
@@ -422,8 +424,8 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'slTiepNhan',
         sortable: true,
         filterable: true,
-        minWidth: 120,
-        maxWidth: 120,
+        minWidth: 80,
+        maxWidth: 80,
         type: FieldType.number,
         filter: {
           placeholder: 'Search...',
@@ -446,8 +448,8 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'slDaPhanTich',
         sortable: true,
         filterable: true,
-        minWidth: 120,
-        maxWidth: 120,
+        minWidth: 70,
+        maxWidth: 70,
         type: FieldType.number,
         filter: {
           placeholder: 'Search...',
@@ -469,10 +471,10 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'tienDo',
         sortable: true,
         filterable: true,
-        minWidth: 160,
-        maxWidth: 160,
-        formatter: Formatters.progressBar,
-        type: FieldType.number,
+        minWidth: 150,
+        maxWidth: 150,
+        formatter: Formatters.percent,
+        type: FieldType.string,
         filter: {
           placeholder: 'search',
           model: Filters.compoundInputText,
@@ -485,8 +487,8 @@ export class DonBaoHanhComponent implements OnInit {
         dataKey: 'ngaykhkb',
         sortable: true,
         filterable: true,
-        minWidth: 160,
-        // maxWidth: 160,
+        minWidth: 140,
+        // maxWidth: 140,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -510,8 +512,8 @@ export class DonBaoHanhComponent implements OnInit {
         dataKey: 'ngayTraBienBan',
         sortable: true,
         filterable: true,
-        minWidth: 160,
-        // maxWidth: 160,
+        minWidth: 140,
+        // maxWidth: 140,
         type: FieldType.object,
         formatter: Formatters.dateTimeIso,
         filter: {
@@ -534,8 +536,8 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'nguoiTaoDon',
         sortable: true,
         filterable: true,
-        minWidth: 100,
-        maxWidth: 100,
+        minWidth: 80,
+        maxWidth: 80,
         type: FieldType.string,
         filter: {
           placeholder: 'Search...',
@@ -557,7 +559,7 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'nhanVienGiaoHang',
         sortable: true,
         filterable: true,
-        minWidth: 200,
+        minWidth: 120,
         type: FieldType.string,
         filter: {
           placeholder: 'Search',
@@ -579,8 +581,8 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'trangThai',
         sortable: true,
         filterable: true,
-        minWidth: 160,
-        maxWidth: 160,
+        minWidth: 120,
+        maxWidth: 120,
         type: FieldType.string,
         filter: {
           placeholder: 'Search...',
@@ -602,6 +604,7 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'trangThaiIn',
         sortable: true,
         filterable: true,
+        minWidth: 80,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -624,7 +627,7 @@ export class DonBaoHanhComponent implements OnInit {
       enableFiltering: true,
       enablePagination: true,
       enableAutoSizeColumns: true,
-
+      asyncEditorLoadDelay: 2000,
       // enableColumnPicker: true,
       // enableRowDetailView: true,
       // rowDetailView: {
@@ -659,7 +662,6 @@ export class DonBaoHanhComponent implements OnInit {
       asyncEditorLoading: true,
       forceFitColumns: true,
     };
-    this.loadAll();
     this.getPhanLoaiChiTietTiepNhan();
     this.getKhachHangs();
     this.getDanhSachTinhTrang();

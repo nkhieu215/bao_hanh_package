@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="chungLoai">
-      <h2 data-cy="chungLoaiDetailsHeading"><span>Chung Loai</span></h2>
+      <h2 data-cy="chungLoaiDetailsHeading"><span>Chủng loại</span></h2>
 
       <hr />
 
@@ -14,15 +14,15 @@
         <dd>
           <span>{{ chungLoai.id }}</span>
         </dd>
-        <dt><span>Ma Chung Loai</span></dt>
+        <dt><span>Mã chủng loại</span></dt>
         <dd>
           <span>{{ chungLoai.maChungLoai }}</span>
         </dd>
-        <dt><span>Ten Chung Loai</span></dt>
+        <dt><span>Tên chủng loại</span></dt>
         <dd>
           <span>{{ chungLoai.tenChungLoai }}</span>
         </dd>
-        <dt><span>Ngay Tao</span></dt>
+        <dt><span>Ngày tạo</span></dt>
         <dd>
           <span>{{ chungLoai.ngayTao | formatMediumDatetime }}</span>
         </dd>
@@ -33,11 +33,11 @@
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
       </button>
 
       <button type="button" [routerLink]="['/chung-loai', chungLoai.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Chỉnh sửa</span>
       </button>
     </div>
   </div>

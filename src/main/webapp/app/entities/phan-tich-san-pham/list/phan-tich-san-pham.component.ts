@@ -311,7 +311,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         id: 'id',
         name: 'Mã tiếp nhận',
         field: 'maTiepNhan',
-        minWidth: 200,
+        minWidth: 140,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -453,6 +453,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       enableFiltering: true,
       enablePagination: true,
       enableAutoSizeColumns: true,
+      asyncEditorLoadDelay: 1000,
       // enableColumnPicker: true,
       // enableRowDetailView: true,
       // rowDetailView: {

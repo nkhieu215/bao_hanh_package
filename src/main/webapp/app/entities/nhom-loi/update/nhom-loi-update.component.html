@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-nhom-loi-heading" data-cy="NhomLoiCreateUpdateHeading">Create or edit a Nhom Loi</h2>
+      <h2 id="jhi-nhom-loi-heading" data-cy="NhomLoiCreateUpdateHeading">Tạo mới hoặc chỉnh sửa Nhóm lỗi</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -12,12 +12,12 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_maNhomLoi">Ma Nhom Loi</label>
+          <label class="form-label" for="field_maNhomLoi">Mã nhóm lỗi</label>
           <input type="text" class="form-control" name="maNhomLoi" id="field_maNhomLoi" data-cy="maNhomLoi" formControlName="maNhomLoi" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_tenNhomLoi">Ten Nhom Loi</label>
+          <label class="form-label" for="field_tenNhomLoi">Tên nhóm lỗi</label>
           <input
             type="text"
             class="form-control"
@@ -29,7 +29,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_ngayTao">Ngay Tao</label>
+          <label class="form-label" for="field_ngayTao">Ngày tạo</label>
           <div class="d-flex">
             <input
               id="field_ngayTao"
@@ -44,7 +44,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_ngayCapNhat">Ngay Cap Nhat</label>
+          <label class="form-label" for="field_ngayCapNhat">Ngày cập nhật</label>
           <div class="d-flex">
             <input
               id="field_ngayCapNhat"
@@ -64,19 +64,19 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_ghiChu">Ghi Chu</label>
+          <label class="form-label" for="field_ghiChu">Ghi chú</label>
           <input type="text" class="form-control" name="ghiChu" id="field_ghiChu" data-cy="ghiChu" formControlName="ghiChu" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_trangThai">Trang Thai</label>
+          <label class="form-label" for="field_trangThai">Trạng thái</label>
           <input type="text" class="form-control" name="trangThai" id="field_trangThai" data-cy="trangThai" formControlName="trangThai" />
         </div>
       </div>
 
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Huỷ bỏ</span>
         </button>
 
         <button
@@ -86,7 +86,7 @@
           [disabled]="editForm.invalid || isSaving"
           class="btn btn-primary"
         >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Lưu</span>
         </button>
       </div>
     </form>

@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="khachHang">
-      <h2 data-cy="khachHangDetailsHeading"><span>Khach Hang</span></h2>
+      <h2 data-cy="khachHangDetailsHeading"><span>Khách hàng</span></h2>
 
       <hr />
 
@@ -14,29 +14,29 @@
         <dd>
           <span>{{ khachHang.id }}</span>
         </dd>
-        <dt><span>Ma Khach Hang</span></dt>
+        <dt><span>Mã khách hàng</span></dt>
         <dd>
           <span>{{ khachHang.maKhachHang }}</span>
         </dd>
-        <dt><span>Ten Khach Hang</span></dt>
+        <dt><span>Tên khách hàng</span></dt>
         <dd>
           <span>{{ khachHang.tenKhachHang }}</span>
         </dd>
-        <dt><span>So Dien Thoai</span></dt>
+        <dt><span>Số điện thoại</span></dt>
         <dd>
           <span>{{ khachHang.soDienThoai }}</span>
         </dd>
-        <dt><span>Dia Chi</span></dt>
+        <dt><span>Địa chỉ</span></dt>
         <dd>
           <span>{{ khachHang.diaChi }}</span>
         </dd>
-        <dt><span>Nhom Khach Hang</span></dt>
+        <dt><span>Nhóm khách hàng</span></dt>
         <dd>
           <div *ngIf="khachHang.nhomKhachHang">
             <a [routerLink]="['/nhom-khach-hang', khachHang.nhomKhachHang?.id, 'view']">{{ khachHang.nhomKhachHang?.id }}</a>
           </div>
         </dd>
-        <dt><span>Tinh Thanh</span></dt>
+        <dt><span>Tỉnh thành</span></dt>
         <dd>
           <div *ngIf="khachHang.tinhThanh">
             <a [routerLink]="['/tinh-thanh', khachHang.tinhThanh?.id, 'view']">{{ khachHang.tinhThanh?.id }}</a>
@@ -45,11 +45,11 @@
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
       </button>
 
       <button type="button" [routerLink]="['/khach-hang', khachHang.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Chỉnh sửa</span>
       </button>
     </div>
   </div>

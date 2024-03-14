@@ -1,9 +1,12 @@
 <div id="demo-container" class="container-slickgrid col-md-12 content">
   <h2>Tổng hợp</h2>
-  <angular-slickgrid gridId="tong-hop" [columnDefinitions]="columnDefinitions" [gridOptions]="gridOptions"
-    [dataset]="chiTietSanPhamTiepNhan"></angular-slickgrid>
+  <angular-slickgrid
+    gridId="tong-hop"
+    [columnDefinitions]="columnDefinitions"
+    [gridOptions]="gridOptions"
+    [dataset]="chiTietSanPhamTiepNhan"
+  ></angular-slickgrid>
 </div>
-
 
 <!-- <div>
   <h2 id="page-heading" data-cy="ChiTietSanPhamTiepNhanHeading">
@@ -12,7 +15,7 @@
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh List</span>
+        <span>Làm mới</span>
       </button>
 
       <button

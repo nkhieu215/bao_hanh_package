@@ -18,6 +18,7 @@ import {
   Editors,
   FieldType,
   Filters,
+  Formatter,
   Formatters,
   GridOption,
   LongTextEditorOption,
@@ -28,7 +29,7 @@ import { NavbarComponent } from 'app/layouts/navbar/navbar.component';
 @Component({
   selector: 'jhi-san-pham',
   templateUrl: './san-pham.component.html',
-  styleUrls: ['./san-pham.component.css'],
+  // styleUrls: ['./san-pham.component.css'],
 })
 export class SanPhamComponent implements OnInit {
   resourceUrl = this.applicationConfigService.getEndpointFor('api/san-pham/update');
@@ -47,6 +48,7 @@ export class SanPhamComponent implements OnInit {
   sanPhamEditor: ISanPham[] = [];
 
   isLoading = false;
+  popupChinhSuaThongTin = false;
 
   title = 'Danh sách sản phẩm';
 
@@ -63,6 +65,11 @@ export class SanPhamComponent implements OnInit {
     protected applicationConfigService: ApplicationConfigService,
     protected navBarComponent: NavbarComponent
   ) {}
+
+  buttonEdit: Formatter<any> = (_row, _cell, value) =>
+    value
+      ? `<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px; width: 15px"></button>`
+      : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px" title="Chỉnh sửa"></button>' };
 
   loadAll(): void {
     this.navBarComponent.toggleSidebar2();
@@ -112,8 +119,7 @@ export class SanPhamComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        formatter: Formatters.editIcon,
-        params: { iconCssClass: 'fa fa-pencil pointer' },
+        formatter: this.buttonEdit,
         minWidth: 60,
         maxWidth: 60,
         onCellClick: (e: Event, args: OnEventArgs) => {
@@ -131,6 +137,9 @@ export class SanPhamComponent implements OnInit {
         id: 'stt',
         name: 'STT',
         field: 'stt',
+        sortable: true,
+        filterable: true,
+        type: FieldType.string,
       },
       {
         id: 'tenSanPham',
@@ -188,12 +197,12 @@ export class SanPhamComponent implements OnInit {
         type: FieldType.string,
         filter: {
           placeholder: 'search',
-          collection: [
-            { value: '', label: '' },
-            { value: true, label: 'Thành phẩm' },
-            { value: false, label: 'Bán thành phẩm' },
-          ],
-          model: Filters.singleSelect,
+          // collection: [
+          //   { value: '', label: '' },
+          //   { value: true, label: 'Thành phẩm' },
+          //   { value: false, label: 'Bán thành phẩm' },
+          // ],
+          // model: Filters.singleSelect,
         },
         editor: {
           model: Editors.longText,
@@ -334,6 +343,7 @@ export class SanPhamComponent implements OnInit {
       enableFiltering: true,
       enablePagination: true,
       enableColumnPicker: true,
+      asyncEditorLoadDelay: 3000,
       pagination: {
         pageSizes: [5, 10, 20],
         pageSize: 10,
@@ -348,7 +358,7 @@ export class SanPhamComponent implements OnInit {
       editable: true,
       enableCellNavigation: true,
       gridHeight: 500,
-      gridWidth: 1800,
+      gridWidth: '100%',
     };
     this.loadAll();
   }
@@ -384,5 +394,13 @@ export class SanPhamComponent implements OnInit {
     }
 
     return mockDataset;
+  }
+
+  // popup edit
+  openPopupEditSP(id: number, items: any): void {
+    this.popupChinhSuaThongTin = true;
+    this.http.post<any>(`${this.resourceUrl}/${items.id as number}`, items).subscribe(() => {
+      console.log('aaaa', items);
+    });
   }
 }

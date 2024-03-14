@@ -6,12 +6,12 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: 'tinh-thanh',
-        data: { pageTitle: 'TinhThanhs' },
+        data: { pageTitle: 'Tỉnh thành' },
         loadChildren: () => import('./tinh-thanh/tinh-thanh.module').then(m => m.TinhThanhModule),
       },
       {
         path: 'nhom-san-pham',
-        data: { pageTitle: 'NhomSanPhams' },
+        data: { pageTitle: 'Nhóm sản phẩm' },
         loadChildren: () => import('./nhom-san-pham/nhom-san-pham.module').then(m => m.NhomSanPhamModule),
       },
       {
@@ -21,12 +21,12 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'khach-hang',
-        data: { pageTitle: 'KhachHangs' },
+        data: { pageTitle: 'Khách hàng' },
         loadChildren: () => import('./khach-hang/khach-hang.module').then(m => m.KhachHangModule),
       },
       {
         path: 'nhom-khach-hang',
-        data: { pageTitle: 'NhomKhachHangs' },
+        data: { pageTitle: 'Nhóm khách hàng' },
         loadChildren: () => import('./nhom-khach-hang/nhom-khach-hang.module').then(m => m.NhomKhachHangModule),
       },
       {
@@ -36,13 +36,13 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'chi-tiet-san-pham-tiep-nhan',
-        data: { pageTitle: 'ChiTietSanPhamTiepNhans' },
+        data: { pageTitle: 'Chi tiết sản phẩm tiếp nhận' },
         loadChildren: () =>
           import('./chi-tiet-san-pham-tiep-nhan/chi-tiet-san-pham-tiep-nhan.module').then(m => m.ChiTietSanPhamTiepNhanModule),
       },
       {
         path: 'phan-loai-chi-tiet-tiep-nhan',
-        data: { pageTitle: 'PhanLoaiChiTietTiepNhans' },
+        data: { pageTitle: 'Phân loại chi tiết tiếp nhận' },
         loadChildren: () =>
           import('./phan-loai-chi-tiet-tiep-nhan/phan-loai-chi-tiet-tiep-nhan.module').then(m => m.PhanLoaiChiTietTiepNhanModule),
       },
@@ -58,32 +58,32 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'phan-tich-loi',
-        data: { pageTitle: 'PhanTichLois' },
+        data: { pageTitle: 'Phân tích lỗi' },
         loadChildren: () => import('./phan-tich-loi/phan-tich-loi.module').then(m => m.PhanTichLoiModule),
       },
       {
         path: 'loi',
-        data: { pageTitle: 'Lois' },
+        data: { pageTitle: 'Lỗi' },
         loadChildren: () => import('./loi/loi.module').then(m => m.LoiModule),
       },
       {
         path: 'nhom-loi',
-        data: { pageTitle: 'NhomLois' },
+        data: { pageTitle: 'Nhóm lỗi' },
         loadChildren: () => import('./nhom-loi/nhom-loi.module').then(m => m.NhomLoiModule),
       },
       {
         path: 'kho',
-        data: { pageTitle: 'Khos' },
+        data: { pageTitle: 'Kho' },
         loadChildren: () => import('./kho/kho.module').then(m => m.KhoModule),
       },
       {
         path: 'chung-loai',
-        data: { pageTitle: 'ChungLoais' },
+        data: { pageTitle: 'Chủng loại' },
         loadChildren: () => import('./chung-loai/chung-loai.module').then(m => m.ChungLoaiModule),
       },
       {
         path: 'nganh',
-        data: { pageTitle: 'Nganhs' },
+        data: { pageTitle: 'Ngành' },
         loadChildren: () => import('./nganh/nganh.module').then(m => m.NganhModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */

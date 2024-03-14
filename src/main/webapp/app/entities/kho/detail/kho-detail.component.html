@@ -14,15 +14,15 @@
         <dd>
           <span>{{ kho.id }}</span>
         </dd>
-        <dt><span>Ma Kho</span></dt>
+        <dt><span>Mã kho</span></dt>
         <dd>
           <span>{{ kho.maKho }}</span>
         </dd>
-        <dt><span>Ten Kho</span></dt>
+        <dt><span>Tên kho</span></dt>
         <dd>
           <span>{{ kho.tenKho }}</span>
         </dd>
-        <dt><span>Ngay Tao</span></dt>
+        <dt><span>Ngày tạo</span></dt>
         <dd>
           <span>{{ kho.ngayTao | formatMediumDatetime }}</span>
         </dd>
@@ -33,11 +33,11 @@
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
       </button>
 
       <button type="button" [routerLink]="['/kho', kho.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Chỉnh sửa</span>
       </button>
     </div>
   </div>

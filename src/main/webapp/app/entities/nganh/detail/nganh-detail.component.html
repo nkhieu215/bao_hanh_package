@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="nganh">
-      <h2 data-cy="nganhDetailsHeading"><span>Nganh</span></h2>
+      <h2 data-cy="nganhDetailsHeading"><span>Ngành</span></h2>
 
       <hr />
 
@@ -14,15 +14,15 @@
         <dd>
           <span>{{ nganh.id }}</span>
         </dd>
-        <dt><span>Ma Nganh</span></dt>
+        <dt><span>Mã ngành</span></dt>
         <dd>
           <span>{{ nganh.maNganh }}</span>
         </dd>
-        <dt><span>Ten Nganh</span></dt>
+        <dt><span>Tên ngành</span></dt>
         <dd>
           <span>{{ nganh.tenNganh }}</span>
         </dd>
-        <dt><span>Ngay Tao</span></dt>
+        <dt><span>Ngày tạo</span></dt>
         <dd>
           <span>{{ nganh.ngayTao | formatMediumDatetime }}</span>
         </dd>
@@ -33,11 +33,11 @@
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
       </button>
 
       <button type="button" [routerLink]="['/nganh', nganh.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Chỉnh sửa</span>
       </button>
     </div>
   </div>

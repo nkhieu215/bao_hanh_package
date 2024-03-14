@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="tinhThanh">
-      <h2 data-cy="tinhThanhDetailsHeading"><span>Tinh Thanh</span></h2>
+      <h2 data-cy="tinhThanhDetailsHeading"><span>Tỉnh thành</span></h2>
 
       <hr />
 
@@ -14,22 +14,22 @@
         <dd>
           <span>{{ tinhThanh.id }}</span>
         </dd>
-        <dt><span>Id Tinh Thanh</span></dt>
+        <dt><span>Id Tỉnh thành</span></dt>
         <dd>
           <span>{{ tinhThanh.idTinhThanh }}</span>
         </dd>
-        <dt><span>Name</span></dt>
+        <dt><span>Tên</span></dt>
         <dd>
           <span>{{ tinhThanh.name }}</span>
         </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Trở lại</span>
       </button>
 
       <button type="button" [routerLink]="['/tinh-thanh', tinhThanh.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Chỉnh sửa</span>
       </button>
     </div>
   </div>
