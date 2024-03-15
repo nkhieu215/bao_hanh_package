@@ -23,6 +23,7 @@ import {
   AngularUtilService,
   SlickCompositeEditor,
   Formatter,
+  SlickEventData,
 } from './../../../../../../../node_modules/angular-slickgrid';
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { HttpResponse, HttpClient } from '@angular/common/http';
@@ -279,11 +280,6 @@ export class DonBaoHanhComponent implements OnInit {
   ngOnInit(): void {
     this.loadAll();
 
-    const result = sessionStorage.getItem('sessionStorage');
-    // console.log('Test dữ liệu từ session', JSON.parse(result as string));
-    const item: any = JSON.parse(result as string);
-    // console.log(item.id);
-
     this.columnDefinitions = [];
     this.columnDefinitions1 = [
       {
@@ -473,7 +469,8 @@ export class DonBaoHanhComponent implements OnInit {
         filterable: true,
         minWidth: 150,
         maxWidth: 150,
-        formatter: Formatters.percent,
+        alwaysRenderColumn: true,
+        onCellChange: (e: SlickEventData, args: OnEventArgs) => console.log('tesssst: ', args),
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -484,7 +481,6 @@ export class DonBaoHanhComponent implements OnInit {
         id: 'ngaykhkb',
         name: 'Ngày tiếp nhận',
         field: 'ngaykhkb',
-        dataKey: 'ngaykhkb',
         sortable: true,
         filterable: true,
         minWidth: 140,
@@ -598,28 +594,28 @@ export class DonBaoHanhComponent implements OnInit {
           } as LongTextEditorOption,
         },
       },
-      {
-        id: 'trangThaiIn',
-        name: 'Trạng thái in',
-        field: 'trangThaiIn',
-        sortable: true,
-        filterable: true,
-        minWidth: 80,
-        type: FieldType.string,
-        filter: {
-          placeholder: 'search',
-          model: Filters.compoundInputText,
-        },
-        editor: {
-          model: Editors.text,
-          required: true,
-          maxLength: 100,
-          editorOptions: {
-            col: 42,
-            rows: 5,
-          } as LongTextEditorOption,
-        },
-      },
+      // {
+      //   id: 'trangThaiIn',
+      //   name: 'Trạng thái in',
+      //   field: 'trangThaiIn',
+      //   sortable: true,
+      //   filterable: true,
+      //   minWidth: 80,
+      //   type: FieldType.string,
+      //   filter: {
+      //     placeholder: 'search',
+      //     model: Filters.compoundInputText,
+      //   },
+      //   editor: {
+      //     model: Editors.text,
+      //     required: true,
+      //     maxLength: 100,
+      //     editorOptions: {
+      //       col: 42,
+      //       rows: 5,
+      //     } as LongTextEditorOption,
+      //   },
+      // },
     ];
     this.gridOptions1 = {
       enableAutoResize: true,
@@ -660,7 +656,24 @@ export class DonBaoHanhComponent implements OnInit {
       autoHeight: true,
       autoFitColumnsOnFirstLoad: true,
       asyncEditorLoading: true,
-      forceFitColumns: true,
+      forceFitColumns: false,
+      presets: {
+        columns: [
+          { columnId: 'bbtn' },
+          { columnId: 'phanLoai' },
+          { columnId: 'edit' },
+          { columnId: 'id' },
+          { columnId: 'khachHang' },
+          { columnId: 'ngayTiepNhan' },
+          { columnId: 'slTiepNhan' },
+          { columnId: 'slDaPhanTich' },
+          { columnId: 'ngaykhkb' },
+          { columnId: 'ngayTraBienBan' },
+          { columnId: 'nguoiTaoDon' },
+          { columnId: 'nhanVienGiaoHang' },
+          { columnId: 'trangThai' },
+        ],
+      },
     };
     this.getPhanLoaiChiTietTiepNhan();
     this.getKhachHangs();
