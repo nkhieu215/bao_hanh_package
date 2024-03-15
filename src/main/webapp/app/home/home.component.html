@@ -64,8 +64,13 @@
         <span id="home-logged-message" *ngIf="account">Bạn đã đăng nhập với tài khoản là "{{ account.login }}".</span>
       </div> -->
 
-    <div class="alert alert-warning" *ngSwitchCase="false">
-      <a class="alert-link" (click)="login()">Đăng nhập </a><span>để bắt đầu sử dụng hệ thống</span>
+    <div *ngSwitchCase="false">
+      <img src="../../content/images/logo-rang-dong-icon.webp" alt="logo-RD" />
+      <h2>Công ty cổ phần bóng đèn và phích nước rạng đông</h2>
+      <p>Vui lòng thực hiện đăng nhập để sử dụng hệ thống!</p>
+      <button (click)="login()" data-cy="login" id="loginButton">Đăng nhập</button>
+
+      <!-- <a class="alert-link" (click)="login()">Đăng nhập </a><span>để bắt đầu sử dụng hệ thống</span> -->
     </div>
   </div>
 </div>

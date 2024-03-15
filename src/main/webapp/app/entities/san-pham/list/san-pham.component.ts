@@ -68,7 +68,7 @@ export class SanPhamComponent implements OnInit {
 
   buttonEdit: Formatter<any> = (_row, _cell, value) =>
     value
-      ? `<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px; width: 15px"></button>`
+      ? `<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px; width: 2.5rem"></button>`
       : { text: '<button class="btn btn-warning fa fa-pencil" style="height: 28px; line-height: 14px" title="Chỉnh sửa"></button>' };
 
   loadAll(): void {
@@ -79,6 +79,7 @@ export class SanPhamComponent implements OnInit {
         this.isLoading = false;
         this.sanPhams = res1.body ?? [];
         console.log(this.sanPhams);
+
         this.nhomSanPhamService.query().subscribe({
           next: (res: HttpResponse<INhomSanPham[]>) => {
             this.isLoading = false;
@@ -136,10 +137,12 @@ export class SanPhamComponent implements OnInit {
       {
         id: 'stt',
         name: 'STT',
-        field: 'stt',
+        field: 'id',
         sortable: true,
-        filterable: true,
-        type: FieldType.string,
+        // filterable: true,
+        minWidth: 60,
+        maxWidth: 60,
+        // type: FieldType.string,
       },
       {
         id: 'tenSanPham',
@@ -148,6 +151,8 @@ export class SanPhamComponent implements OnInit {
         sortable: true,
         filterable: true,
         type: FieldType.string,
+        minWidth: 300,
+        maxWidth: 350,
         filter: {
           placeholder: 'search',
           model: Filters.compoundInputText,
@@ -170,6 +175,8 @@ export class SanPhamComponent implements OnInit {
         formatter: Formatters.complexObject,
         sortable: true,
         filterable: true,
+        minWidth: 150,
+        maxWidth: 200,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -197,6 +204,8 @@ export class SanPhamComponent implements OnInit {
         type: FieldType.string,
         filter: {
           placeholder: 'search',
+          model: Filters.compoundInputText,
+
           // collection: [
           //   { value: '', label: '' },
           //   { value: true, label: 'Thành phẩm' },
@@ -219,10 +228,11 @@ export class SanPhamComponent implements OnInit {
         name: 'RD Code',
         field: 'rdCode',
         filterable: true,
-        formatter: Formatters.dateIso,
+        formatter: Formatters.complexObject,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
+          model: Filters.compoundInputText,
         },
         editor: {
           model: Editors.longText,
@@ -243,6 +253,7 @@ export class SanPhamComponent implements OnInit {
         type: FieldType.string,
         filter: {
           placeholder: 'search',
+          model: Filters.compoundInputText,
         },
         editor: {
           model: Editors.longText,
@@ -264,6 +275,7 @@ export class SanPhamComponent implements OnInit {
         type: FieldType.string,
         filter: {
           placeholder: 'search',
+          model: Filters.compoundInputText,
         },
         editor: {
           model: Editors.longText,
@@ -284,6 +296,7 @@ export class SanPhamComponent implements OnInit {
         type: FieldType.string,
         filter: {
           placeholder: 'search',
+          model: Filters.compoundInputText,
         },
         editor: {
           model: Editors.longText,
@@ -302,9 +315,12 @@ export class SanPhamComponent implements OnInit {
         formatter: Formatters.complexObject,
         sortable: true,
         filterable: true,
+        minWidth: 60,
+        maxWidth: 80,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
+          model: Filters.compoundInputText,
         },
         editor: {
           model: Editors.longText,
@@ -325,6 +341,7 @@ export class SanPhamComponent implements OnInit {
         type: FieldType.string,
         filter: {
           placeholder: 'search',
+          model: Filters.compoundInputText,
         },
         editor: {
           model: Editors.longText,
@@ -344,8 +361,11 @@ export class SanPhamComponent implements OnInit {
       enablePagination: true,
       enableColumnPicker: true,
       asyncEditorLoadDelay: 3000,
+      dataView: {
+        syncGridSelection: true,
+      },
       pagination: {
-        pageSizes: [5, 10, 20],
+        pageSizes: [20, 50, this.sanPhams.length],
         pageSize: 10,
       },
       columnPicker: {
