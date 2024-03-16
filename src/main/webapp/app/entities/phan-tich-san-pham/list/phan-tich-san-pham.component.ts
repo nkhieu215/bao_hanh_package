@@ -335,8 +335,8 @@ export class PhanTichSanPhamComponent implements OnInit {
         field: 'khachHang.tenKhachHang',
         sortable: true,
         filterable: true,
-        minWidth: 400,
-        // maxWidth: 400,
+        minWidth: 100,
+        maxWidth: 400,
         formatter: Formatters.complexObject,
         type: FieldType.string,
         filter: {
@@ -495,6 +495,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       autoFitColumnsOnFirstLoad: true,
       asyncEditorLoading: true,
       forceFitColumns: true,
+      frozenColumn: 3,
     };
     this.loadAll();
     this.getLois();
