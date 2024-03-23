@@ -339,4 +339,10 @@ public class FullServices {
         List<MaBienBan> maBienBanList = this.maBienBanRepository.findAll();
         return maBienBanList;
     }
+
+    // * tổng hợp
+    public List<TongHopResponse> tongHop() {
+        List<TongHopResponse> list = this.chiTietSanPhamTiepNhanRepository.tongHop();
+        return list;
+    }
 }

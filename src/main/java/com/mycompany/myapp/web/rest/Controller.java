@@ -192,4 +192,11 @@ public class Controller {
         List<MaBienBan> maBienBanList = this.fullServices.maBienBanList();
         return maBienBanList;
     }
+
+    // * Tổng hợp
+    @GetMapping("tong-hop-test")
+    public List<TongHopResponse> tongHop() {
+        List<TongHopResponse> list = this.fullServices.tongHop();
+        return list;
+    }
 }
