@@ -6,6 +6,8 @@ import javax.persistence.FieldResult;
 import javax.persistence.SqlResultSetMapping;
 
 public interface TongHopResponse {
+
+    Long getChiTietId();
     Long getSanPhamId();
     Long getDonBaoHanhId();
     String getTenSanPham();

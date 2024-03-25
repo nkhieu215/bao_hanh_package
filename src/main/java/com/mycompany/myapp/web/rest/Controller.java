@@ -194,7 +194,7 @@ public class Controller {
     }
 
     // * Tổng hợp
-    @GetMapping("tong-hop-test")
+    @GetMapping("tong-hop")
     public List<TongHopResponse> tongHop() {
         List<TongHopResponse> list = this.fullServices.tongHop();
         return list;

@@ -26,6 +26,8 @@ public interface ChiTietSanPhamTiepNhanRepository extends JpaRepository<ChiTietS
     @Query(
         value = "" +
         "SELECT " +
+
+        "a.id as chiTietId, " +
         "a.san_pham_id as sanPhamId," +
         "a.don_bao_hanh_id as donBaoHanhId,\n" +
         "b.name as tenSanPham, " +

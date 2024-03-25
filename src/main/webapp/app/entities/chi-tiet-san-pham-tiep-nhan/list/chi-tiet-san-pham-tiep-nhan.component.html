@@ -1,11 +1,37 @@
 <div id="demo-container" class="container-slickgrid col-md-12 content">
-  <h2>Tổng hợp</h2>
+  <h2 id="page-heading">Tổng hợp</h2>
+  <div class="btn-header d-flex justify-content-end">
+    <button class="btn btn-outline-primary btn-option btn-addTN me-2" (click)="openPopupViewCTL()">Xem chi tiết lỗi</button>
+  </div>
+  <div class="btn-header d-flex justify-content-end">
+    <button class="btn btn-outline-primary btn-option btn-addTN me-2" (click)="exportToExcel()">Export Excel</button>
+  </div>
   <angular-slickgrid
     gridId="tong-hop"
     [columnDefinitions]="columnDefinitions"
     [gridOptions]="gridOptions"
     [dataset]="chiTietSanPhamTiepNhan"
   ></angular-slickgrid>
+</div>
+
+<div class="table-responsive popup-background" role="dialog" *ngIf="popupViewCTL === true">
+  <div class="popup-container">
+    <div class="popup-header">
+      <h2>Chi tiết lỗi sản phẩm</h2>
+      <hr />
+      <span class="close-btn" (click)="closePopupViewCTL()">&times;</span>
+    </div>
+    <div class="popup-content">
+      <form>
+        <angular-slickgrid
+          gridId="chiTietLoi"
+          [columnDefinitions]="conlumDefinitionCTL"
+          [gridOptions]="gridOptions"
+          [dataset]="chiTietSanPhamTiepNhan"
+        ></angular-slickgrid>
+      </form>
+    </div>
+  </div>
 </div>
 
 <!-- <div>
