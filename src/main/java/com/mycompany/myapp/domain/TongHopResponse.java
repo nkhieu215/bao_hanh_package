@@ -6,7 +6,6 @@ import javax.persistence.FieldResult;
 import javax.persistence.SqlResultSetMapping;
 
 public interface TongHopResponse {
-
     Long getChiTietId();
     Long getSanPhamId();
     Long getDonBaoHanhId();
@@ -17,12 +16,20 @@ public interface TongHopResponse {
     String getMaTiepNhan();
     String getNgayTiepNhan();
     String getNhanVienGiaoHang();
-    String getSlTiepNhan();
+    Long getSlTiepNhan();
     String getTenKhachHang();
     String getNhomKhachHang();
     String getTinhThanh();
-    String getSoLuongTheoTinhTrang();
+    Long getSoLuongTheoTinhTrang();
     String getTenTinhTrangPhanLoai();
     String getTheLoaiPhanTich();
     String getNamSanXuat();
+    Long getSoLuongKhachGiao();
+    String getTenNhanVienPhanTich();
+    String getLotNumber();
+    String getSerial();
+    String getNgayPhanTich();
+    Long getSoLuongTheoTungLoi();
+    String getTenLoi();
+    String getTenNhomLoi();
 }

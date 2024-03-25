@@ -2,6 +2,8 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.*;
 import com.mycompany.myapp.service.FullServices;
+import com.mycompany.myapp.service.dto.DateTimeSearchDTO;
+import java.time.LocalDate;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 @Transactional
 public class Controller {
+
+    private static final String dateFormat = "yyyy-MM-dd";
 
     @Autowired
     private final FullServices fullServices;
@@ -193,10 +197,17 @@ public class Controller {
         return maBienBanList;
     }
 
-    // * Tổng hợp
+    // * ---------------------------------------------------Tổng hợp---------------------------------------
     @GetMapping("tong-hop")
     public List<TongHopResponse> tongHop() {
         List<TongHopResponse> list = this.fullServices.tongHop();
+        return list;
+    }
+
+    // * search by time
+    @PostMapping("tong-hop")
+    public List<TongHopResponse> searchTongHopByTime(@RequestBody DateTimeSearchDTO request) {
+        List<TongHopResponse> list = this.fullServices.searchTongHopByTime(request);
         return list;
     }
 }

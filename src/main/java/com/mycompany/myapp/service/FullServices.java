@@ -2,6 +2,8 @@ package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.domain.*;
 import com.mycompany.myapp.repository.*;
+import com.mycompany.myapp.service.dto.DateTimeSearchDTO;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -340,9 +342,25 @@ public class FullServices {
         return maBienBanList;
     }
 
-    // * tổng hợp
+    // * ---------------------------------------- Tổng hợp ----------------------------------
+    // * tổng hợp danh sách theo tháng hiện tại
     public List<TongHopResponse> tongHop() {
-        List<TongHopResponse> list = this.chiTietSanPhamTiepNhanRepository.tongHop();
+        LocalDate date = LocalDate.now();
+        LocalDate firstDay = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
+        //        LocalDate date = LocalDate.of(2024,02,23 );
+        //        LocalDate firstDay = LocalDate.of(2024,02,01 );
+        List<TongHopResponse> list =
+            this.chiTietSanPhamTiepNhanRepository.tongHop(firstDay.toString() + "T00:00:00", date.toString() + "T:23:59:59");
+        return list;
+    }
+
+    // * tìm kiếm theo khoảng thời gian
+    public List<TongHopResponse> searchTongHopByTime(DateTimeSearchDTO request) {
+        List<TongHopResponse> list =
+            this.chiTietSanPhamTiepNhanRepository.tongHop(
+                    request.getStartDate().toString() + "T00:00:00",
+                    request.getEndDate().toString() + "T23:59:59"
+                );
         return list;
     }
 }
