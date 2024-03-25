@@ -6,6 +6,11 @@
   <div class="btn-header d-flex justify-content-end">
     <button class="btn btn-outline-primary btn-option btn-addTN me-2" (click)="exportToExcel()">Export Excel</button>
   </div>
+  <form id="dateForm">
+    <input type="date" id="date1" (change)="changeDate()">
+    <input type="date" id="date2" (change)="changeDate()">
+    <input type="submit" (change)="changeDate()">
+  </form>
   <angular-slickgrid
     gridId="tong-hop"
     [columnDefinitions]="columnDefinitions"

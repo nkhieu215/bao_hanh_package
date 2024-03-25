@@ -1943,6 +1943,22 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     });
   }
 
+  changeDate(): void {
+    document.getElementById("dateForm")?.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const date1Inp = document.getElementById("date1") as HTMLInputElement;
+      const date2Inp = document.getElementById("date2") as HTMLInputElement;
+
+      const date1Value = date1Inp.value;
+      const date2Value = date2Inp.value;
+
+      console.log("Date 1:", date1Value);
+      console.log("Date 2:", date2Value);
+    })
+
+  }
+
   trackId(_index: number, item: IChiTietSanPhamTiepNhan): number {
     return item.id!;
   }
