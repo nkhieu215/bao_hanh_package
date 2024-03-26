@@ -103,6 +103,7 @@
     "guard-for-in": "error",
     "no-bitwise": "error",
     "no-caller": "error",
+    "no-unsafe-return": ["off"],
     "no-console": ["off"],
     "no-eval": "error",
     "no-labels": "error",

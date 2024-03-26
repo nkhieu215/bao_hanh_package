@@ -347,8 +347,8 @@ public class FullServices {
     public List<TongHopResponse> tongHop() {
         LocalDate date = LocalDate.now();
         LocalDate firstDay = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
-        //        LocalDate date = LocalDate.of(2024,02,23 );
-        //        LocalDate firstDay = LocalDate.of(2024,02,01 );
+        //                LocalDate date = LocalDate.of(2024,02,24 );
+        //                LocalDate firstDay = LocalDate.of(2024,02,01 );
         List<TongHopResponse> list =
             this.chiTietSanPhamTiepNhanRepository.tongHop(firstDay.toString() + "T00:00:00", date.toString() + "T:23:59:59");
         return list;

@@ -51,7 +51,8 @@ public interface ChiTietSanPhamTiepNhanRepository extends JpaRepository<ChiTietS
         "ptl.ngay_phan_tich as ngayPhanTich," +
         "ptl.so_luong as soLuongTheoTungLoi,\n" +
         "loi.ten_loi as tenLoi," +
-        "loi.chi_chu as tenNhomLoi " +
+        "loi.chi_chu as tenNhomLoi, " +
+        "ptsp.id as phanTichSanPhamId " +
         "FROM `chi_tiet_san_pham_tiep_nhan` as a inner join baohanh2.san_pham as b on a.san_pham_id = b.id\n" +
         "                                               inner join baohanh2.nhom_san_pham as c on b.nhom_san_pham_id = c.id \n" +
         "                                               inner join baohanh2.nganh as d on b.nganh_id = d.id\n" +

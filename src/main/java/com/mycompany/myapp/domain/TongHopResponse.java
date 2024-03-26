@@ -1,5 +1,6 @@
 package com.mycompany.myapp.domain;
 
+import java.util.Objects;
 import java.util.PrimitiveIterator;
 import javax.persistence.EntityResult;
 import javax.persistence.FieldResult;
@@ -32,4 +33,5 @@ public interface TongHopResponse {
     Long getSoLuongTheoTungLoi();
     String getTenLoi();
     String getTenNhomLoi();
+    Long getPhanTichSanPhamId();
 }

@@ -22,7 +22,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   columnDefinitions: Column[] = [];
   conlumDefinitionCTL: Column[] = [];
   gridOptions: GridOption = {};
-  chiTietSanPhamTiepNhan: any[] = [];
+  chiTietSanPhamTiepNhan: ITongHop[] = [];
   chiTietSanPhamTiepNhanExport: IChiTietSanPhamTiepNhan[] = [];
   excelExportService: ExcelExportService;
 
@@ -1290,28 +1290,26 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
           model: Filters.compoundInputText,
         },
       },
-      // {
-      //   id: 'soLuongDoiMoi',
-      //   field: 'soLuongDoiMoi',
-      //   name: 'Số lượng đổi mới',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   // maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'loiKT',
-      //   field: 'loiKT',
-      //   name: 'Lỗi kĩ thuật',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   // maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
+      {
+        id: 'tenNhomLoi',
+        field: 'tenNhomLoi',
+        name: 'Nhóm lỗi',
+        excludeFromColumnPicker: true,
+        excludeFromGridMenu: true,
+        excludeFromHeaderMenu: true,
+        // maxWidth: 60,
+        minWidth: 60,
+      },
+      {
+        id: 'soLuongTheoTungLoi',
+        field: 'soLuongTheoTungLoi',
+        name: 'Số lượng',
+        excludeFromColumnPicker: true,
+        excludeFromGridMenu: true,
+        excludeFromHeaderMenu: true,
+        //maxWidth: 60,
+        minWidth: 60,
+      },
       // {
       //   id: 'loiLinhDong',
       //   field: 'loiLinhDong',
@@ -1933,30 +1931,41 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   }
 
   getTongHopUrl(): void {
-    this.http.get<any>(this.tongHopUrl).subscribe(res => {
-      this.chiTietSanPhamTiepNhan = res;
-      for (let i = 0; i < this.chiTietSanPhamTiepNhan.length; ++i) {
-        this.chiTietSanPhamTiepNhan[i].index = i;
-      }
+    this.http.get<any>(this.tongHopUrl).subscribe((res: ITongHop[]) => {
       console.log('res', res);
+      const calculated = res.reduce((acc: ITongHop[], item: ITongHop) => {
+        const accItem = acc.find(
+          (ai: ITongHop) =>
+            ai.donbaoHanhId === item.donbaoHanhId &&
+            ai.chiTietId === item.chiTietId &&
+            ai.phanTichSanPhamId === item.phanTichSanPhamId &&
+            ai.tenNhomLoi === item.tenNhomLoi
+        );
+        if (accItem) {
+          accItem.soLuongTheoTungLoi += item.soLuongTheoTungLoi;
+        } else {
+          acc.push(item);
+        }
+
+        return acc;
+      }, []);
       this.data = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
     });
   }
 
   changeDate(): void {
-    document.getElementById("dateForm")?.addEventListener('submit', function (event) {
+    document.getElementById('dateForm')?.addEventListener('submit', function (event) {
       event.preventDefault();
 
-      const date1Inp = document.getElementById("date1") as HTMLInputElement;
-      const date2Inp = document.getElementById("date2") as HTMLInputElement;
+      const date1Inp = document.getElementById('date1') as HTMLInputElement;
+      const date2Inp = document.getElementById('date2') as HTMLInputElement;
 
       const date1Value = date1Inp.value;
       const date2Value = date2Inp.value;
 
-      console.log("Date 1:", date1Value);
-      console.log("Date 2:", date2Value);
-    })
-
+      console.log('Date 1:', date1Value);
+      console.log('Date 2:', date2Value);
+    });
   }
 
   trackId(_index: number, item: IChiTietSanPhamTiepNhan): number {
@@ -1991,4 +2000,33 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   closePopupViewCTL(): void {
     this.popupViewCTL = false;
   }
+}
+export interface ITongHop {
+  index: number;
+  chiTietId: number;
+  donbaoHanhId: number;
+  maTiepNhan: string;
+  namSanXuat: Date;
+  ngayTiepNhan: Date;
+  ngayPhanTich: Date;
+  nhanVienGiaoHang: string;
+  tenKhachHang: string;
+  nhomKhachHang: string;
+  tinhThanh: string;
+  tenSanPham: string;
+  tenNganh: string;
+  tenChungLoai: string;
+  tenNhomSanPham: string;
+  soLuongKhachGiao: number;
+  slTiepNhan: number;
+  soLuongDoiMoi: number;
+  loiKT: number;
+  loiLinhDong: number;
+  trangThai: string;
+  loiNumBer: string;
+  serial: string;
+  soLuongTheoTungLoi: number;
+  tenLoi: string;
+  tenNhomLoi: string;
+  phanTichSanPhamId: number;
 }
