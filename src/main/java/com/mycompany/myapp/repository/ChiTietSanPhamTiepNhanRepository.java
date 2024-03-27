@@ -50,7 +50,7 @@ public interface ChiTietSanPhamTiepNhanRepository extends JpaRepository<ChiTietS
         "ptsp.detail as serial,\n" +
         "ptl.ngay_phan_tich as ngayPhanTich," +
         "ptl.so_luong as soLuongTheoTungLoi,\n" +
-        "loi.ten_loi as tenLoi," +
+        "loi.ten_loi as tenLoi, loi.id as loiId, " +
         "loi.chi_chu as tenNhomLoi, " +
         "ptsp.id as phanTichSanPhamId " +
         "FROM `chi_tiet_san_pham_tiep_nhan` as a inner join baohanh2.san_pham as b on a.san_pham_id = b.id\n" +

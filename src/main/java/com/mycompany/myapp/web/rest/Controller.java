@@ -210,4 +210,18 @@ public class Controller {
         List<TongHopResponse> list = this.fullServices.searchTongHopByTime(request);
         return list;
     }
+
+    // * Tổng hợp tính toán
+    @GetMapping("tong-hop-caculate")
+    public List<TongHopResponse> tongHopCaculate() {
+        List<TongHopResponse> list = this.fullServices.tongHopCaculate();
+        return list;
+    }
+
+    // * search Tong hop caculate
+    @PostMapping("tong-hop-caculate")
+    public List<TongHopResponse> searchTongHopCaculate(@RequestBody DateTimeSearchDTO request) {
+        List<TongHopResponse> list = this.fullServices.searchTongHopCaculate(request);
+        return list;
+    }
 }

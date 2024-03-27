@@ -349,15 +349,33 @@ public class FullServices {
         LocalDate firstDay = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
         //                LocalDate date = LocalDate.of(2024,02,24 );
         //                LocalDate firstDay = LocalDate.of(2024,02,01 );
-        List<TongHopResponse> list =
-            this.chiTietSanPhamTiepNhanRepository.tongHop(firstDay.toString() + "T00:00:00", date.toString() + "T:23:59:59");
+        List<TongHopResponse> list = this.phanTichLoiRepository.tongHop(firstDay.toString() + "T00:00:00", date.toString() + "T:23:59:59");
         return list;
     }
 
     // * tìm kiếm theo khoảng thời gian
     public List<TongHopResponse> searchTongHopByTime(DateTimeSearchDTO request) {
         List<TongHopResponse> list =
-            this.chiTietSanPhamTiepNhanRepository.tongHop(
+            this.phanTichLoiRepository.tongHop(
+                    request.getStartDate().toString() + "T00:00:00",
+                    request.getEndDate().toString() + "T23:59:59"
+                );
+        return list;
+    }
+
+    // * Tổng hợp tính toán
+    public List<TongHopResponse> tongHopCaculate() {
+        LocalDate date = LocalDate.now();
+        LocalDate firstDay = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
+        List<TongHopResponse> list =
+            this.phanTichLoiRepository.tongHopCaculate(firstDay.toString() + "T00:00:00", date.toString() + "T:23:59:59");
+        return list;
+    }
+
+    // * search Tong hop caculate
+    public List<TongHopResponse> searchTongHopCaculate(DateTimeSearchDTO request) {
+        List<TongHopResponse> list =
+            this.phanTichLoiRepository.tongHopCaculate(
                     request.getStartDate().toString() + "T00:00:00",
                     request.getEndDate().toString() + "T23:59:59"
                 );
