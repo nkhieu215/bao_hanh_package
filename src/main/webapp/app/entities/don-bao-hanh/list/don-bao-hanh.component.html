@@ -964,26 +964,26 @@
 <div class="modal-confirm" [ngClass]="{ active: isModalOpenConfirm }">
   <div class="modal-content-confirm">
     <span class="close-modal-confirm" (click)="closeModalConfirm()">&times;</span>
-    <p>Bạn chắc chắn muốn xóa thông số này?</p>
+    <h3>Bạn chắc chắn muốn xóa thông số này?</h3>
     <button class="btn btn-danger" (click)="confirmDelete()">Xóa</button>
-    <button class="btn btn-secondary" (click)="closeModalConfirm()">Hủy</button>
+    <button class="btn btn-primary" (click)="closeModalConfirm()">Hủy</button>
   </div>
 </div>
 
 <div class="modal-confirm" id="modal-confirm-add" [ngClass]="{ active: isModalOpenConfirmAdd }">
   <div class="modal-content-confirm">
     <span class="close-modal-confirm" (click)="closeModalConfirmAdd()">&times;</span>
-    <p>Bạn chắc chắn muốn xóa thông số này?</p>
+    <h3>Bạn chắc chắn muốn xóa thông số này?</h3>
     <button class="btn btn-danger" (click)="confirmDeleteRowAdd()">Xóa</button>
-    <button class="btn btn-secondary" (click)="closeModalConfirmAdd()">Hủy</button>
+    <button class="btn btn-primary" (click)="closeModalConfirmAdd()">Hủy</button>
   </div>
 </div>
 
 <div class="modal-confirm" id="modal-confirm-save">
   <div class="modal-content-confirm">
     <span class="close-modal-confirm" (click)="closeModalConfirmSave()">&times;</span>
-    <p>Xác nhận lưu sự thay đổi</p>
+    <h3>Xác nhận lưu sự thay đổi</h3>
     <button class="btn btn-info" (click)="confirmSave()">OK</button>
-    <button class="btn btn-secondary" (click)="closeModalConfirmSave()">Hủy</button>
+    <button class="btn btn-primary" (click)="closeModalConfirmSave()">Hủy</button>
   </div>
 </div>

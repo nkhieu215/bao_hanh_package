@@ -16,205 +16,26 @@ import * as XLSX from 'xlsx';
 })
 export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   tongHopUrl = this.applicationConfigService.getEndpointFor('api/tong-hop');
+  searchDateUrl = this.applicationConfigService.getEndpointFor('api/search-date');
+  tongHopCaculateUrl = this.applicationConfigService.getEndpointFor('api/tong-hop-caculate')
   chiTietSanPhamTiepNhans?: IChiTietSanPhamTiepNhan[];
   popupViewCTL = false;
   isLoading = false;
   columnDefinitions: Column[] = [];
   conlumDefinitionCTL: Column[] = [];
   gridOptions: GridOption = {};
-  chiTietSanPhamTiepNhan: ITongHop[] = [];
+  gridOptionCTL: GridOption = {};
+
+  chiTietSanPhamTiepNhan: any[] = [];
+  chiTietSanPhamTiepNhanCTL: ITongHop[] = [];
+
   chiTietSanPhamTiepNhanExport: IChiTietSanPhamTiepNhan[] = [];
   excelExportService: ExcelExportService;
 
   fileName = 'bao-cao-doi-tra';
 
-  chiTietSanPhamTiepNhanVD: any[] = [
-    {
-      id: 1,
-      maTiepNhan: 'DBH23032024',
-      tenSanPham: 'Bóng LED Bulb TR70N1/12W E27 6500K (12-24VDC) SS',
-      maNam: '2024',
-      ngayTaoDon: '2023-12-14 14:27:55.000000',
-      ngayTiepNhan: '2023-12-14 14:27:55.000000',
-      ngayPhanTich: '2023-12-14 14:27:55.000000',
-      tenNhanVien: 'Dung',
-      tenKhachHang: 'Công ty Cổ phần Gia Lộc Phát',
-      nhomKhachHang: 'Operations',
-      tinhThanh: 'Hà Nội',
-      nganh: 'LR LED',
-      chungLoai: 'Wooden Borders',
-      nhomSanPham: 'Corners Future',
-      soLuongKhachGiao: 10,
-      soLuongThucNhan: 10,
-      soLuongDoiMoi: 5,
-      loiKyThuat: 3,
-      loiLinhDong: 5,
-      trangThai: 'Đã phân tích',
-      LOT: 15156469819,
-      serial: 485434384,
-      tenLoi: ['Cầu chì', 'Transistor', 'Lỗi nguồn', 'Nước vào', 'Điện áp cao', 'Cháy nổ nguồn', 'Om nhiệt'],
-      soLuongLoi: 8,
-    },
-    {
-      id: 2,
-      maTiepNhan: 'DBH22032024',
-      tenSanPham: 'Bóng LED Bulb trang trí A45W/1W (White)',
-      maNam: '2024',
-      ngayTaoDon: '2023-12-14 15:38:57.000000',
-      ngayTiepNhan: '2023-12-14 14:27:55.000000',
-      ngayPhanTich: '2023-12-14 14:27:55.000000',
-      tenNhanVien: 'Dung',
-      tenKhachHang: 'Công ty TNHH Bảo Giới',
-      nhomKhachHang: 'Operations',
-      tinhThanh: 'Hà Nội',
-      nganh: 'LR LED',
-      chungLoai: 'Wooden Borders',
-      nhomSanPham: 'Corners Future',
-      soLuongKhachGiao: 10,
-      soLuongThucNhan: 10,
-      soLuongDoiMoi: 5,
-      loiKyThuat: 3,
-      loiLinhDong: 5,
-      trangThai: 'Đã phân tích',
-      LOT: 15156469819,
-      serial: 485434384,
-      tenLoi: ['Cầu chì', 'Transistor', 'Lỗi nguồn', 'Nước vào', 'Điện áp cao', 'Cháy nổ nguồn', 'Om nhiệt'],
-      soLuongLoi: 8,
-    },
-    {
-      id: 3,
-      maTiepNhan: 'DBH23032024',
-      tenSanPham: 'Bóng LED Bulb trang trí A45B/1W (Blue)',
-      maNam: '2024',
-      ngayTaoDon: '2023-12-14 14:27:55.000000',
-      ngayTiepNhan: '2023-12-14 14:27:55.000000',
-      ngayPhanTich: '2023-12-14 14:27:55.000000',
-      tenNhanVien: 'Dung',
-      tenKhachHang: 'Trung tâm Điện máy Tuấn Thủy',
-      nhomKhachHang: 'Operations',
-      tinhThanh: 'Hà Nội',
-      nganh: 'LR LED',
-      chungLoai: 'Wooden Borders',
-      nhomSanPham: 'Corners Future',
-      soLuongKhachGiao: 10,
-      soLuongThucNhan: 10,
-      soLuongDoiMoi: 5,
-      loiKyThuat: 3,
-      loiLinhDong: 5,
-      trangThai: 'Đã phân tích',
-      LOT: 15156469819,
-      serial: 485434384,
-      tenLoi: ['Cầu chì', 'Transistor', 'Lỗi nguồn', 'Nước vào', 'Điện áp cao', 'Cháy nổ nguồn', 'Om nhiệt'],
-      soLuongLoi: 8,
-    },
-    {
-      id: 4,
-      maTiepNhan: 'DBH23032024',
-      tenSanPham: 'Bóng LED Bulb A55N4/3W E27 6500K',
-      maNam: '2024',
-      ngayTaoDon: '2023-12-14 15:38:57.000000',
-      ngayTiepNhan: '2023-12-14 15:38:57.000000',
-      ngayPhanTich: '2023-12-14 14:27:55.000000',
-      tenNhanVien: 'Dung',
-      tenKhachHang: 'Doanh nghiệp tư nhân Đức Thụy tỉnh Điện Biên',
-      nhomKhachHang: 'Operations',
-      tinhThanh: 'Hà Nội',
-      nganh: 'LR LED',
-      chungLoai: 'Wooden Borders',
-      nhomSanPham: 'Corners Future',
-      soLuongKhachGiao: 10,
-      soLuongThucNhan: 10,
-      soLuongDoiMoi: 5,
-      loiKyThuat: 3,
-      loiLinhDong: 5,
-      trangThai: 'Đã phân tích',
-      LOT: 15156469819,
-      serial: 485434384,
-      tenLoi: ['Cầu chì', 'Transistor', 'Lỗi nguồn', 'Nước vào', 'Điện áp cao', 'Cháy nổ nguồn', 'Om nhiệt'],
-      soLuongLoi: 8,
-    },
-    {
-      id: 5,
-      maTiepNhan: 'DBH23032024',
-      tenSanPham: 'Bóng LED Bulb A65N2/9W E27 6500K SS',
-      maNam: '2024',
-      ngayTaoDon: '2023-12-14 14:27:55.000000',
-      ngayTiepNhan: '2023-12-14 14:27:55.000000',
-      ngayPhanTich: '2023-12-14 14:27:55.000000',
-      tenNhanVien: 'Dung',
-      tenKhachHang: 'Công ty TNHH thương mại dịch vụ Lâm Hoa Điện Biên',
-      nhomKhachHang: 'Operations',
-      tinhThanh: 'Hà Nội',
-      nganh: 'LR LED',
-      chungLoai: 'Wooden Borders',
-      nhomSanPham: 'Corners Future',
-      soLuongKhachGiao: 10,
-      soLuongThucNhan: 10,
-      soLuongDoiMoi: 5,
-      loiKyThuat: 3,
-      loiLinhDong: 5,
-      trangThai: 'Đã phân tích',
-      LOT: 15156469819,
-      serial: 485434384,
-      tenLoi: ['Cầu chì', 'Transistor', 'Lỗi nguồn', 'Nước vào', 'Điện áp cao', 'Cháy nổ nguồn', 'Om nhiệt'],
-      soLuongLoi: 8,
-    },
-    {
-      id: 6,
-      maTiepNhan: 'DBH23032024',
-      tenSanPham: 'Bóng LED Bulb TR80N1/20W E27 6500K SS',
-      maNam: '2024',
-      ngayTaoDon: '2023-12-14 14:27:55.000000',
-      ngayTiepNhan: '2023-12-14 14:27:55.000000',
-      ngayPhanTich: '2023-12-14 14:27:55.000000',
-      tenNhanVien: 'Dung',
-      tenKhachHang: 'Trần Ánh Cương',
-      nhomKhachHang: 'Operations',
-      tinhThanh: 'Hà Nội',
-      nganh: 'LR LED',
-      chungLoai: 'Wooden Borders',
-      nhomSanPham: 'Corners Future',
-      soLuongKhachGiao: 10,
-      soLuongThucNhan: 10,
-      soLuongDoiMoi: 5,
-      loiKyThuat: 3,
-      loiLinhDong: 5,
-      trangThai: 'Đã phân tích',
-      LOT: 15156469819,
-      serial: 485434384,
-      tenLoi: ['Cầu chì', 'Transistor', 'Lỗi nguồn', 'Nước vào', 'Điện áp cao', 'Cháy nổ nguồn', 'Om nhiệt'],
-      soLuongLoi: 8,
-    },
-    {
-      id: 7,
-      maTiepNhan: 'DBH23032024',
-      tenSanPham: 'Bóng LED Bulb TR140N1/50W E27 6500K SS',
-      maNam: '2024',
-      ngayTaoDon: '2023-12-14 14:27:55.000000',
-      ngayTiepNhan: '2023-12-14 14:27:55.000000',
-      ngayPhanTich: '2023-12-14 14:27:55.000000',
-      tenNhanVien: 'Dung',
-      tenKhachHang: 'Công ty Cổ phần Gia Lộc Phát',
-      nhomKhachHang: 'Operations',
-      tinhThanh: 'Hà Nội',
-      nganh: 'LR LED',
-      chungLoai: 'Wooden Borders',
-      nhomSanPham: 'Corners Future',
-      soLuongKhachGiao: 10,
-      soLuongThucNhan: 10,
-      soLuongDoiMoi: 5,
-      loiKyThuat: 3,
-      loiLinhDong: 5,
-      trangThai: 'Đã phân tích',
-      LOT: 15156469819,
-      serial: 485434384,
-      tenLoi: ['Cầu chì', 'Transistor', 'Lỗi nguồn', 'Nước vào', 'Điện áp cao', 'Cháy nổ nguồn', 'Om nhiệt'],
-      soLuongLoi: 8,
-    },
-  ];
-
   data: {
-    donbaoHanhId?: number;
+    donBaoHanhId?: number;
     maTiepNhan?: string;
     namSanXuat?: Date;
     ngayTiepNhan?: Date;
@@ -229,11 +50,12 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     tenNhomSanPham?: string;
     soLuongKhachGiao?: number;
     slTiepNhan?: number;
-    soLuongDoiMoi?: number;
-    loiKT?: number;
-    loiLinhDong?: number;
+    tenNhomLoi?: string;
+    soLuongTheoTungLoi?: number;
     trangThai?: string;
   }[] = [];
+  dataCTL: ITongHop[] = [];
+
 
   constructor(
     protected chiTietSanPhamTiepNhanService: ChiTietSanPhamTiepNhanService,
@@ -261,758 +83,6 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   ngOnInit(): void {
     this.loadAll();
     this.dataShow();
-    // this.columnDefinitions = [
-    //   {
-    //     id: 'id',
-    //     field: 'id',
-    //     name: 'STT',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'maTiepNhan',
-    //     field: 'maTiepNhan',
-    //     name: 'Mã tiếp nhận',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'maNam',
-    //     field: 'maNam',
-    //     name: 'Mã năm',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'ngayTaoDon',
-    //     field: 'ngayTaoDon',
-    //     name: 'Ngày tạo đơn',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'ngayTiepNhan',
-    //     field: 'ngayTiepNhan',
-    //     name: 'Ngày tiếp nhận',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'ngayPhanTich',
-    //     field: 'ngayPhanTich',
-    //     name: 'Ngày phân tích',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'tenNhanVien',
-    //     field: 'tenNhanVien',
-    //     name: 'Tên nhân viên',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'tenKhachHang',
-    //     field: 'tenKhachHang',
-    //     name: 'Tên Khách hàng',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'nhomKhachHang',
-    //     field: 'nhomKhachHang',
-    //     name: 'Nhóm khách hàng',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'tinhThanh',
-    //     field: 'tinhThanh',
-    //     name: 'Tỉnh thành',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'tenSanPham',
-    //     field: 'tenSanPham',
-    //     name: 'Tên sản phẩm',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'nganh',
-    //     field: 'nganh',
-    //     name: 'Ngành',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'chungLoai',
-    //     field: 'chungLoai',
-    //     name: 'Chủng loại',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'nhomSanPham',
-    //     field: 'nhomSanPham',
-    //     name: 'Nhóm sản phẩm',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'soLuongKhachGiao',
-    //     field: 'soLuongKhachGiao',
-    //     name: 'Số lượng khách giao',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'soLuongThucNhan',
-    //     field: 'soLuongThucNhan',
-    //     name: 'Số lượng thực nhận',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'soLuongDoiMoi',
-    //     field: 'soLuongDoiMoi',
-    //     name: 'Số lượng đổi mới',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'loiKT',
-    //     field: 'loiKT',
-    //     name: 'Lỗi kĩ thuật',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'loiLinhDong',
-    //     field: 'loiLinhDong',
-    //     name: 'Lỗi linh động',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'trangThai',
-    //     field: 'trangThai',
-    //     name: 'Trạng thái',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //   }
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Cầu diode Silijino',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Tụ hoá L.H',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Tụ hoá Aishi',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Tụ film cctc',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Tụ film Hulysol',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Transistor',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Điện trở',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Chặn (Biến áp)',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Cuộn lọc',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Hỏng IC vcc',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Hỏng IC fes',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Lỗi nguồn',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Chập mạch',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Bong mạch',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Công tắc',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Long keo',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Đômino, rắc cắm',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Dây nối LED',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Mất lò xo, tai cài',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Dây DC',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Dây AC',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Bong, nứt mối hàn',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Pin, tiếp xúc lò xo',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Tiếp xúc cọc tiếp điện, đầu đèn',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Hỏng LED',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Nứt vỡ nhựa, cover',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Móp, nứt vỡ đui',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Gãy cổ + cơ khớp, tai cài',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Nước vào',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Điện áp cao',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Cháy nổ nguồn',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Cũ, ẩm mốc, ố rỉ',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Om nhiệt',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Vỡ ống, kính',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Lỗi khác',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    //   // {
-    //   //   id: 'lois',
-    //   //   field: 'lois',
-    //   //   name: 'Sáng bình thường',
-    //   //   excludeFromColumnPicker: true,
-    //   //   excludeFromGridMenu: true,
-    //   //   excludeFromHeaderMenu: true,
-    //   //   maxWidth: 60,
-    //   //   minWidth: 60,
-    //   // },
-    // ];
-
-    // this.conlumDefinitionCTL = [
-    //   {
-    //     id: 'maTiepNhan',
-    //     field: 'maTiepNhan',
-    //     name: 'Mã tiếp nhận',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'maNam',
-    //     field: 'maNam',
-    //     name: 'Mã năm',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'ngayTaoDon',
-    //     field: 'ngayTaoDon',
-    //     name: 'Ngày tạo đơn',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'ngayTiepNhan',
-    //     field: 'ngayTiepNhan',
-    //     name: 'Ngày tiếp nhận',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'tenNhanVien',
-    //     field: 'tenNhanVien',
-    //     name: 'Tên nhân viên',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'tenKhachHang',
-    //     field: 'tenKhachHang',
-    //     name: 'Tên Khách hàng',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'nhomKhachHang',
-    //     field: 'nhomKhachHang',
-    //     name: 'Nhóm khách hàng',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'tinhThanh',
-    //     field: 'tinhThanh',
-    //     name: 'Tỉnh thành',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'tenSanPham',
-    //     field: 'tenSanPham',
-    //     name: 'Tên sản phẩm',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'soLuongThucNhan',
-    //     field: 'soLuongThucNhan',
-    //     name: 'Số lượng thực nhận',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'nganh',
-    //     field: 'nganh',
-    //     name: 'Ngành',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'chungLoai',
-    //     field: 'chungLoai',
-    //     name: 'Chủng loại',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'nhomSanPham',
-    //     field: 'nhomSanPham',
-    //     name: 'Nhóm sản phẩm',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'LOT',
-    //     field: 'LOT',
-    //     name: 'LOT',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'serial',
-    //     field: 'serial',
-    //     name: 'Serial',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    //   {
-    //     id: 'tenLoi',
-    //     field: 'tenLoi',
-    //     name: 'Tên lỗi',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 200,
-    //   },
-    //   {
-    //     id: 'soLuongLoi',
-    //     field: 'soLuongLoi',
-    //     name: 'Số lượng lỗi',
-    //     excludeFromColumnPicker: true,
-    //     excludeFromGridMenu: true,
-    //     excludeFromHeaderMenu: true,
-    //     // maxWidth: 60,
-    //     minWidth: 60,
-    //   },
-    // ]
-    // this.gridOptions = {
-    //   enableAutoResize: true,
-    //   enableSorting: true,
-    //   enableFiltering: true,
-    //   enablePagination: true,
-    //   pagination: {
-    //     pageSizes: [30, 50, 100],
-    //     pageSize: this.chiTietSanPhamTiepNhan.length,
-    //   },
-    //   editable: true,
-    //   enableCellNavigation: true,
-    //   gridHeight: 620,
-    //   gridWidth: '100%',
-    //   enableExcelExport: true,
-    //   // enableExcelCopyBuffer: true,
-    //   excelExportOptions: {
-    //     sanitizeDataExport: true
-    //   },
-    //   // registerExternalResources: [this.excelExportService()],
-    // };
     this.getTongHopUrl();
   }
   // dataExport(list: IChiTietSanPhamTiepNhan[]):void {
@@ -1051,8 +121,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         sortable: true,
-        // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 40,
+        maxWidth: 50,
       },
       {
         id: 'maTiepNhan',
@@ -1062,7 +132,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 140,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1081,12 +151,12 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         // maxWidth: 60,
         minWidth: 60,
         sortable: true,
-        filterable: true,
+        // filterable: true,
         type: FieldType.string,
-        filter: {
-          placeholder: 'search',
-          model: Filters.compoundInputText,
-        },
+        // filter: {
+        //   placeholder: 'search',
+        //   model: Filters.compoundInputText,
+        // },
       },
       // {
       //   id: 'ngayTiepNhan',
@@ -1106,7 +176,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1115,17 +185,17 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
           model: Filters.compoundInputText,
         },
       },
-      // {
-      //   id: 'ngayPhanTich',
-      //   field: 'ngayPhanTich',
-      //   name: 'Ngày phân tích',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   // maxWidth: 60,
-      //   minWidth: 60,
+      {
+        id: 'ngayPhanTich',
+        field: 'ngayPhanTich',
+        name: 'Ngày phân tích',
+        excludeFromColumnPicker: true,
+        excludeFromGridMenu: true,
+        excludeFromHeaderMenu: true,
+        // maxWidth: 60,
+        minWidth: 100,
 
-      // },
+      },
       {
         id: 'nhanVienGiaoHang',
         field: 'nhanVienGiaoHang',
@@ -1134,7 +204,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 90,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1151,7 +221,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 300,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1168,7 +238,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 140,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1185,7 +255,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1202,7 +272,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 300,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1219,7 +289,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 120,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1236,7 +306,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1253,7 +323,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1262,17 +332,17 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
           model: Filters.compoundInputText,
         },
       },
-      // {
-      //   id: 'soLuongKhachGiao',
-      //   field: 'soLuongKhachGiao',
-      //   name: 'Số lượng khách giao',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   // maxWidth: 60,
-      //   minWidth: 60,
+      {
+        id: 'soLuongKhachGiao',
+        field: 'soLuongKhachGiao',
+        name: 'Số lượng khách giao',
+        excludeFromColumnPicker: true,
+        excludeFromGridMenu: true,
+        excludeFromHeaderMenu: true,
+        maxWidth: 100,
+        minWidth: 100,
 
-      // },
+      },
       {
         id: 'slTiepNhan',
         field: 'slTiepNhan',
@@ -1280,8 +350,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 60,
+        maxWidth: 100,
+        minWidth: 100,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -1301,26 +371,16 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         minWidth: 60,
       },
       {
-        id: 'soLuongTheoTungLoi',
-        field: 'soLuongTheoTungLoi',
-        name: 'Số lượng',
+        id: 'tongSoLuong',
+        field: 'tongSoLuong',
+        name: 'Tổng lỗi',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        //maxWidth: 60,
+        // maxWidth: 60,
         minWidth: 60,
-      },
-      // {
-      //   id: 'loiLinhDong',
-      //   field: 'loiLinhDong',
-      //   name: 'Lỗi linh động',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   // maxWidth: 60,
-      //   minWidth: 60,
 
-      // },
+      },
       {
         id: 'trangThai',
         field: 'trangThai',
@@ -1328,406 +388,23 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
+        minWidth: 180
       },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Cầu diode Silijino',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Tụ hoá L.H',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Tụ hoá Aishi',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Tụ film cctc',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Tụ film Hulysol',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Transistor',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Điện trở',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Chặn (Biến áp)',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Cuộn lọc',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Hỏng IC vcc',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Hỏng IC fes',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Lỗi nguồn',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Chập mạch',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Bong mạch',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Công tắc',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Long keo',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Đômino, rắc cắm',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Dây nối LED',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Mất lò xo, tai cài',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Dây DC',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Dây AC',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Bong, nứt mối hàn',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Pin, tiếp xúc lò xo',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Tiếp xúc cọc tiếp điện, đầu đèn',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Hỏng LED',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Nứt vỡ nhựa, cover',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Móp, nứt vỡ đui',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Gãy cổ + cơ khớp, tai cài',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Nước vào',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Điện áp cao',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Cháy nổ nguồn',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Cũ, ẩm mốc, ố rỉ',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Om nhiệt',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Vỡ ống, kính',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Lỗi khác',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
-      // {
-      //   id: 'lois',
-      //   field: 'lois',
-      //   name: 'Sáng bình thường',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   maxWidth: 60,
-      //   minWidth: 60,
-
-      // },
     ];
 
     this.conlumDefinitionCTL = [
+      {
+        id: 'donBaoHanhId',
+        field: 'index',
+        name: 'STT',
+        excludeFromColumnPicker: true,
+        excludeFromGridMenu: true,
+        excludeFromHeaderMenu: true,
+        sortable: true,
+        // maxWidth: 60,
+        minWidth: 40,
+        maxWidth: 50,
+      },
       {
         id: 'maTiepNhan',
         field: 'maTiepNhan',
@@ -1735,27 +412,17 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        minWidth: 60,
+        minWidth: 130,
       },
       {
-        id: 'maNam',
-        field: 'maNam',
+        id: 'namSanXuat',
+        field: 'namSanXuat',
         name: 'Mã năm',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 60,
-      },
-      {
-        id: 'ngayTaoDon',
-        field: 'ngayTaoDon',
-        name: 'Ngày tạo đơn',
-        excludeFromColumnPicker: true,
-        excludeFromGridMenu: true,
-        excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 30,
+        maxWidth: 60,
       },
       {
         id: 'ngayTiepNhan',
@@ -1765,11 +432,12 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 90,
+
       },
       {
-        id: 'tenNhanVien',
-        field: 'tenNhanVien',
+        id: 'nhanVienGiaoHang',
+        field: 'nhanVienGiaoHang',
         name: 'Tên nhân viên',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
@@ -1785,7 +453,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 300,
       },
       {
         id: 'nhomKhachHang',
@@ -1795,7 +463,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
       },
       {
         id: 'tinhThanh',
@@ -1805,7 +473,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
       },
       {
         id: 'tenSanPham',
@@ -1815,11 +483,11 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 300,
       },
       {
-        id: 'soLuongThucNhan',
-        field: 'soLuongThucNhan',
+        id: 'slTiepNhan',
+        field: 'slTiepNhan',
         name: 'Số lượng thực nhận',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
@@ -1828,44 +496,44 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         minWidth: 60,
       },
       {
-        id: 'nganh',
-        field: 'nganh',
+        id: 'tenNganh',
+        field: 'tenNganh',
         name: 'Ngành',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 120,
       },
       {
-        id: 'chungLoai',
-        field: 'chungLoai',
+        id: 'tenChungLoai',
+        field: 'tenChungLoai',
         name: 'Chủng loại',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
       },
       {
-        id: 'nhomSanPham',
-        field: 'nhomSanPham',
+        id: 'tenNhomSanPham',
+        field: 'tenNhomSanPham',
         name: 'Nhóm sản phẩm',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
       },
       {
-        id: 'LOT',
-        field: 'LOT',
+        id: 'lotNumber',
+        field: 'lotNumber',
         name: 'LOT',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 160,
       },
       {
         id: 'serial',
@@ -1875,7 +543,17 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 160,
+      },
+      {
+        id: 'tenNhomLoi',
+        field: 'tenNhomLoi',
+        name: 'Tên nhóm lỗi',
+        excludeFromColumnPicker: true,
+        excludeFromGridMenu: true,
+        excludeFromHeaderMenu: true,
+        // maxWidth: 60,
+        minWidth: 200,
       },
       {
         id: 'tenLoi',
@@ -1888,14 +566,14 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         minWidth: 200,
       },
       {
-        id: 'soLuongLoi',
-        field: 'soLuongLoi',
+        d: 'soLuongTheoTungLoi',
+        field: 'soLuongTheoTungLoi',
         name: 'Số lượng lỗi',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
       },
     ];
     this.gridOptions = {
@@ -1906,8 +584,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       enableAutoSizeColumns: true,
       asyncEditorLoadDelay: 1000,
       pagination: {
-        pageSizes: [5, 10, this.chiTietSanPhamTiepNhan.length],
-        pageSize: 10,
+        pageSizes: [20, 50, this.chiTietSanPhamTiepNhan.length],
+        pageSize: this.chiTietSanPhamTiepNhan.length,
       },
 
       editable: true,
@@ -1928,45 +606,89 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       registerExternalResources: [new ExcelExportService() as any],
       // registerExternalResources: [this.excelExportService],
     };
+
+    this.gridOptionCTL = {
+      enableAutoResize: true,
+      enableSorting: true,
+      enableFiltering: true,
+      enablePagination: true,
+      pagination: {
+        pageSizes: [20, 50, this.chiTietSanPhamTiepNhanCTL.length],
+        pageSize: this.chiTietSanPhamTiepNhanCTL.length,
+      },
+
+      editable: true,
+      enableCellNavigation: true,
+      gridHeight: 620,
+      gridWidth: '100%',
+      autoHeight: true,
+      // enableExcelExport: true,
+      // // enableExcelCopyBuffer: true,
+      // excelExportOptions: {
+      //   sanitizeDataExport: true,
+      //   filename: 'bao-cao-doi-tra',
+      //   sheetName: 'bao-cao-tong-hop',
+      // },
+      // registerExternalResources: [new ExcelExportService() as any],
+      // registerExternalResources: [this.excelExportService],
+    }
   }
 
   getTongHopUrl(): void {
     this.http.get<any>(this.tongHopUrl).subscribe((res: ITongHop[]) => {
       console.log('res', res);
-      const calculated = res.reduce((acc: ITongHop[], item: ITongHop) => {
-        const accItem = acc.find(
-          (ai: ITongHop) =>
-            ai.donbaoHanhId === item.donbaoHanhId &&
-            ai.chiTietId === item.chiTietId &&
-            ai.phanTichSanPhamId === item.phanTichSanPhamId &&
-            ai.tenNhomLoi === item.tenNhomLoi
-        );
-        if (accItem) {
-          accItem.soLuongTheoTungLoi += item.soLuongTheoTungLoi;
-        } else {
-          acc.push(item);
-        }
+      for (let i = 0; i < this.chiTietSanPhamTiepNhan.length; ++i) {
+        this.chiTietSanPhamTiepNhan[i].index = i;
+      }
+      this.chiTietSanPhamTiepNhan = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+      this.dataCTL = res
+      this.data = this.chiTietSanPhamTiepNhan.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+    })
 
-        return acc;
-      }, []);
-      this.data = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
-    });
+    this.http.get<any>(this.tongHopCaculateUrl).subscribe(resTongHop => {
+      this.chiTietSanPhamTiepNhan = resTongHop;
+      for (let i = 0; i < this.chiTietSanPhamTiepNhan.length; ++i) {
+        this.chiTietSanPhamTiepNhan[i].index = i;
+      }
+      this.chiTietSanPhamTiepNhan = resTongHop.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+
+      console.log('caculate', resTongHop)
+    })
   }
 
   changeDate(): void {
-    document.getElementById('dateForm')?.addEventListener('submit', function (event) {
+    let dateTimeSearchKey: { startDate: string, endDate: string } = { startDate: '', endDate: '' }
+    document.getElementById("dateForm")?.addEventListener('submit', function (event) {
       event.preventDefault();
 
-      const date1Inp = document.getElementById('date1') as HTMLInputElement;
-      const date2Inp = document.getElementById('date2') as HTMLInputElement;
+      const startDateInp = document.getElementById("startDate") as HTMLInputElement;
+      const endDateInp = document.getElementById("endDate") as HTMLInputElement;
 
-      const date1Value = date1Inp.value;
-      const date2Value = date2Inp.value;
+      const startDate = startDateInp.value;
+      const endDate = endDateInp.value;
+      dateTimeSearchKey = { startDate: startDateInp.value, endDate: endDateInp.value }
+    })
 
-      console.log('Date 1:', date1Value);
-      console.log('Date 2:', date2Value);
-    });
+    setTimeout(() => {
+      console.log("startDate:", dateTimeSearchKey)
+      this.http.post<any>(this.tongHopUrl, dateTimeSearchKey).subscribe(res => {
+        console.log("check ressult search:", res);
+
+        this.chiTietSanPhamTiepNhanCTL = res;
+      })
+      const keySession = `ThongTinChung ${dateTimeSearchKey.toString()}`
+
+      this.http.post<any>(this.tongHopCaculateUrl, dateTimeSearchKey).subscribe(resCaculate => {
+        console.log("check ressult search 2:", resCaculate);
+
+        console.log('ket qua tim kiem 2', resCaculate)
+        sessionStorage.setItem(`ThongTinChung ${dateTimeSearchKey.toString()}`, JSON.stringify(resCaculate))
+        this.chiTietSanPhamTiepNhan = resCaculate
+      })
+    }, 100)
+
   }
+
 
   trackId(_index: number, item: IChiTietSanPhamTiepNhan): number {
     return item.id!;
@@ -1984,17 +706,72 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   }
 
   exportToExcel(): void {
+    const sortedData = this.data.map((item) => ({
+      donBaoHanhId: item.donBaoHanhId,
+      maTiepNhan: item.maTiepNhan,
+      namSanXuat: item.namSanXuat,
+      ngayTiepNhan: item.ngayTiepNhan,
+      ngayPhanTich: item.ngayPhanTich,
+      nhanVienGiaoHang: item.nhanVienGiaoHang,
+      tenKhachHang: item.tenKhachHang,
+      nhomKhachHang: item.nhomKhachHang,
+      tinhThanh: item.tinhThanh,
+      tenSanPham: item.tenSanPham,
+      tenNganh: item.tenNganh,
+      tenChungLoai: item.tenChungLoai,
+      tenNhomSanPham: item.tenNhomSanPham,
+      soLuongKhachGiao: item.soLuongKhachGiao,
+      slTiepNhan: item.slTiepNhan,
+      tenNhomLoi: item.tenNhomLoi,
+      soLuongTheoTungLoi: item.soLuongTheoTungLoi,
+      trangThai: item.trangThai,
+    }))
+
+    const sortedDataCTL = this.dataCTL.map((itemCTL: ITongHop) => ({
+      donBaoHanhId: itemCTL.donBaoHanhId,
+      maTiepNhan: itemCTL.maTiepNhan,
+      namSanXuat: itemCTL.namSanXuat,
+      ngayTiepNhan: itemCTL.ngayTiepNhan,
+      ngayPhanTich: itemCTL.ngayPhanTich,
+      nhanVienGiaoHang: itemCTL.nhanVienGiaoHang,
+      tenKhachHang: itemCTL.tenKhachHang,
+      nhomKhachHang: itemCTL.nhomKhachHang,
+      tinhThanh: itemCTL.tinhThanh,
+      tenSanPham: itemCTL.tenSanPham,
+      tenNganh: itemCTL.tenNganh,
+      tenChungLoai: itemCTL.tenChungLoai,
+      tenNhomSanPham: itemCTL.tenNhomSanPham,
+      soLuongKhachGiao: itemCTL.soLuongKhachGiao,
+      slTiepNhan: itemCTL.slTiepNhan,
+      // tenTinhTrangPhanLoai: itemCTL.tenTinhTrangPhanLoai,
+      lotNumber: itemCTL.lotNumber,
+      serial: itemCTL.serial,
+      tenNhomLoi: itemCTL.tenNhomLoi,
+      tenLoi: itemCTL.tenLoi,
+      soLuongTheoTungLoi: itemCTL.soLuongTheoTungLoi,
+      trangThai: itemCTL.trangThai,
+    }))
+    console.log('dataCTL', this.dataCTL)
     // const data = document.getElementById("table-data");
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.data);
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(sortedData);
+    const wsCTL: XLSX.WorkSheet = XLSX.utils.json_to_sheet(sortedDataCTL);
     // create workbook
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'bao-cao-tong-hop');
-    XLSX.utils.book_append_sheet(wb, ws, 'bao-cao-chi-tiet');
+    XLSX.utils.book_append_sheet(wb, wsCTL, 'bao-cao-chi-tiet');
     XLSX.writeFile(wb, `${this.fileName}.xlsx`);
   }
 
   openPopupViewCTL(): void {
     this.popupViewCTL = true;
+    this.http.get<any>(this.tongHopUrl).subscribe(res => {
+      this.chiTietSanPhamTiepNhanCTL = res;
+      for (let i = 0; i < this.chiTietSanPhamTiepNhanCTL.length; ++i) {
+        this.chiTietSanPhamTiepNhanCTL[i].index = i;
+      }
+      this.getTongHopUrl()
+      //  if()
+    })
   }
 
   closePopupViewCTL(): void {
@@ -2004,7 +781,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
 export interface ITongHop {
   index: number;
   chiTietId: number;
-  donbaoHanhId: number;
+  donBaoHanhId: number;
   maTiepNhan: string;
   namSanXuat: Date;
   ngayTiepNhan: Date;
@@ -2023,10 +800,12 @@ export interface ITongHop {
   loiKT: number;
   loiLinhDong: number;
   trangThai: string;
-  loiNumBer: string;
+  lotNumber: string;
   serial: string;
   soLuongTheoTungLoi: number;
   tenLoi: string;
   tenNhomLoi: string;
   phanTichSanPhamId: number;
+  tenTinhTrangPhanLoai: string;
+
 }

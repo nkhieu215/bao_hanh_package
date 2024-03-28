@@ -15,9 +15,10 @@ public interface TongHopResponse {
     String getTenNhomSanPham(); // *1
     String getTenNganh(); // *1
     String getMaTiepNhan(); // *1
-    String getNgayTiepNhan();
-    String getNhanVienGiaoHang();
-    Long getSlTiepNhan();
+    String getNgayTiepNhan();// *1
+    String getNhanVienGiaoHang();// *1
+    String getNguoiTaoDon();
+    Long getSlTiepNhan();// *1
     String getTenKhachHang(); // *1
     String getNhomKhachHang(); // *1
     String getTinhThanh(); // *1
@@ -37,4 +38,5 @@ public interface TongHopResponse {
     Long getLoiId(); // * 1
     Long getTongSoLuong(); // *1
     Long getErrCode(); // *1
+    String getTrangThai();
 }

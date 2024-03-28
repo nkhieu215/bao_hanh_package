@@ -357,8 +357,8 @@ public class FullServices {
     public List<TongHopResponse> searchTongHopByTime(DateTimeSearchDTO request) {
         List<TongHopResponse> list =
             this.phanTichLoiRepository.tongHop(
-                    request.getStartDate().toString() + "T00:00:00",
-                    request.getEndDate().toString() + "T23:59:59"
+                    request.getStartDate() + "T00:00:00",
+                    request.getEndDate() + "T23:59:59"
                 );
         return list;
     }
@@ -376,8 +376,8 @@ public class FullServices {
     public List<TongHopResponse> searchTongHopCaculate(DateTimeSearchDTO request) {
         List<TongHopResponse> list =
             this.phanTichLoiRepository.tongHopCaculate(
-                    request.getStartDate().toString() + "T00:00:00",
-                    request.getEndDate().toString() + "T23:59:59"
+                    request.getStartDate() + "T00:00:00",
+                    request.getEndDate() + "T23:59:59"
                 );
         return list;
     }

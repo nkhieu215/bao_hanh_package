@@ -4339,3 +4339,9 @@ input[type="range"] {
   min-width: 6rem;
   max-width: 8rem;
 }
+
+.search-inp {
+  display: inline-block;
+  width: 20rem;
+  margin-bottom: 2rem;
+}

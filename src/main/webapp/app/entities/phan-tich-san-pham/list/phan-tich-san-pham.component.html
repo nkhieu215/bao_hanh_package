@@ -90,9 +90,9 @@
                     type="range"
                     class="inp-ptich-sp"
                     style="background-color: #f2f2f2"
-                    value="{{ donBaoHanh.tienDo.toFixed(2) }}"
+                    value="{{ donBaoHanh.tienDo }}"
                     id="donBaoHanh"
-                  />{{ donBaoHanh.tienDo.toFixed(2) }}%
+                  />{{ donBaoHanh.tienDo }}%
                 </td>
                 <td>{{ donBaoHanh.ngayTiepNhan | date: 'YYYY-MM-dd hh:mm:ss ' }}</td>
                 <td>
@@ -220,7 +220,7 @@
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slTiepNhan }}" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slDaPhanTich }}" disabled /></td>
                   <td><input type="text" class="inp-ptich-sp" value="{{ data.slConLai }}" disabled /></td>
-                  <td><input type="range" value="{{ data.tienDo }}" id="{{ i }}" />{{ data.tienDo.toFixed(2) }}%</td>
+                  <td><input type="range" value="{{ data.tienDo }}" id="{{ i }}" />{{ data.tienDo }}%</td>
                   <td>
                     <input
                       type="checkbox"
@@ -298,7 +298,7 @@
                   [(ngModel)]="listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].tienDo"
                   [ngModelOptions]="{ standalone: true }"
                   id="chiTietDonBaoHanh"
-                />{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].tienDo.toFixed(2) }}%
+                />{{ listOfChiTietSanPhamPhanTich[indexOfPhanTichSanPham].tienDo }}%
               </td>
             </tr>
           </tbody>
@@ -371,7 +371,7 @@
 
     <h2>Chi tiết lỗi</h2>
     <!-- <p>Sản phẩm đang được phân tích: {{ indexOfChiTietPhanTichSanPham + 1 }}</p> -->
-    <button class="btn btn-primary btn-option" (click)="updatePhanTichSanPham()"><fa-icon icon="save"></fa-icon>&nbsp;Chuyển tiếp</button>
+    <button class="btn btn-primary btn-option" (click)="updatePhanTichSanPham()"><fa-icon icon="save"></fa-icon>&nbsp;Lưu</button>
 
     <form class="form-loi">
       <div class="loi-ky-thuat">

@@ -1110,7 +1110,7 @@ export class PhanTichSanPhamComponent implements OnInit {
 
             // cập nhật tiến độ chung của đơn bảo hành
             this.donBaoHanh.slDaPhanTich! += 1;
-            this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+            this.donBaoHanh.tienDo = ((this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100).toFixed(2);
             this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
 
             // console.log('Cập nhật tiến độ khi khai báo lỗi', this.indexOfChiTietPhanTichSanPham);
@@ -1147,9 +1147,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Lot';
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string
-    }`;
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string}`;
   }
   //Bắt sự kiện scan serial
   scanSerialEvent(): void {
@@ -1226,7 +1224,7 @@ export class PhanTichSanPhamComponent implements OnInit {
         }
         // cập nhật tiến độ chung của đơn bảo hành
         this.donBaoHanh.slDaPhanTich! += 1;
-        this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+        this.donBaoHanh.tienDo = ((this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100).toFixed(2);
         this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
         setTimeout(() => {
           if (this.donBaoHanh.tienDo === 100) {
@@ -1425,7 +1423,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       this.getColor(this.listOfChiTietSanPhamPhanTich[index].tienDo, this.indexOfPhanTichSanPham);
       // cập nhật tiến độ chung của đơn bảo hành
       this.donBaoHanh.slDaPhanTich!++;
-      this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+      this.donBaoHanh.tienDo = ((this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100).toFixed(2);
       this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
     } else {
       // lấy danh sách chi tiết sản phẩm phân tích
@@ -1443,7 +1441,7 @@ export class PhanTichSanPhamComponent implements OnInit {
             this.listOfChiTietSanPhamPhanTich[index].slConLai =
               this.listOfChiTietSanPhamPhanTich[index].slTiepNhan - this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich;
             this.listOfChiTietSanPhamPhanTich[index].tienDo =
-              (this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich / this.listOfChiTietSanPhamPhanTich[index].slTiepNhan) * 100;
+              ((this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich / this.listOfChiTietSanPhamPhanTich[index].slTiepNhan) * 100).toFixed(2);
             if (this.listOfChiTietSanPhamPhanTich[index].tienDo === 100) {
               this.getColor(this.listOfChiTietSanPhamPhanTich[index].tienDo, index);
               // cập nhật check sản phẩm phân tích
@@ -1451,7 +1449,7 @@ export class PhanTichSanPhamComponent implements OnInit {
             }
             // cập nhật tiến độ chung của đơn bảo hành
             this.donBaoHanh.slDaPhanTich!++;
-            this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
+            this.donBaoHanh.tienDo = ((this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100).toFixed(2);
             this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
 
             //cập nhật tổng lỗi linh động, lỗi kĩ thuật
