@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IChiTietSanPhamTiepNhan } from '../chi-tiet-san-pham-tiep-nhan.model';
 import { ChiTietSanPhamTiepNhanService } from '../service/chi-tiet-san-pham-tiep-nhan.service';
 import { ChiTietSanPhamTiepNhanDeleteDialogComponent } from '../delete/chi-tiet-san-pham-tiep-nhan-delete-dialog.component';
-import { AngularGridInstance, Column, ExternalResource, FieldType, Filters, GridOption } from 'angular-slickgrid';
+import { AngularGridInstance, Column, ExternalResource, FieldType, Filters, Formatters, GridOption } from 'angular-slickgrid';
 import { ExcelExportService } from '@slickgrid-universal/excel-export';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import * as XLSX from 'xlsx';
@@ -14,12 +14,10 @@ import * as XLSX from 'xlsx';
   selector: 'jhi-chi-tiet-san-pham-tiep-nhan',
   templateUrl: './chi-tiet-san-pham-tiep-nhan.component.html',
 })
-
-
 export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   tongHopUrl = this.applicationConfigService.getEndpointFor('api/tong-hop');
   searchDateUrl = this.applicationConfigService.getEndpointFor('api/search-date');
-  tongHopCaculateUrl = this.applicationConfigService.getEndpointFor('api/tong-hop-caculate')
+  tongHopCaculateUrl = this.applicationConfigService.getEndpointFor('api/tong-hop-caculate');
   chiTietSanPhamTiepNhans?: IChiTietSanPhamTiepNhan[];
   popupViewCTL = false;
   isLoading = false;
@@ -28,16 +26,38 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   gridOptions: GridOption = {};
   gridOptionCTL: GridOption = {};
   angularGrid!: AngularGridInstance;
+  gridObj: any;
+  dataViewObj: any;
   chiTietSanPhamTiepNhan: any[] = [];
+  chiTietSanPhamTiepNhanGoc: any[] = [];
   chiTietSanPhamTiepNhanCTL: ITongHop[] = [];
+  chiTietSanPhamTiepNhanCTLGoc: ITongHop[] = [];
   chiTietSanPhamTiepNhanExport: IChiTietSanPhamTiepNhan[] = [];
   excelExportService: ExcelExportService;
 
   // startDate: Date
   fileName = 'bao-cao-doi-tra';
   dataSearch: {
-    tenKhachHang: string
-  } = { tenKhachHang: '' }
+    maTiepNhan: string;
+    nhanVienGiaoHang: string;
+    tenKhachHang: string;
+    nhomKhachHang: string;
+    tinhThanh: string;
+    tenSanPham: string;
+    tenNganh: string;
+    tenChungLoai: string;
+    tenNhomSanPham: string;
+  } = {
+    maTiepNhan: '',
+    nhanVienGiaoHang: '',
+    tenKhachHang: '',
+    nhomKhachHang: '',
+    tinhThanh: '',
+    tenSanPham: '',
+    tenNganh: '',
+    tenChungLoai: '',
+    tenNhomSanPham: '',
+  };
   data: {
     donBaoHanhId?: number;
     maTiepNhan?: string;
@@ -93,8 +113,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   dataShow(): void {
     this.columnDefinitions = [
       {
-        id: 'donBaoHanhId',
-        field: 'index',
+        id: 'id',
+        field: 'id',
         name: 'STT',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
@@ -110,8 +130,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 140,
+        maxWidth: 140,
+        minWidth: 50,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -121,31 +141,15 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         },
       },
       {
-        id: 'namSanXuat',
-        field: 'namSanXuat',
-        name: 'Năm',
-        excludeFromColumnPicker: true,
-        excludeFromGridMenu: true,
-        excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 60,
-        sortable: true,
-        // filterable: true,
-        type: FieldType.string,
-        // filter: {
-        //   placeholder: 'search',
-        //   model: Filters.compoundInputText,
-        // },
-      },
-      {
         id: 'ngayTiepNhan',
         field: 'ngayTiepNhan',
         name: 'Ngày tiếp nhận',
+        formatter: Formatters.dateTimeIso,
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 150,
+        minWidth: 50,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -158,22 +162,22 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         id: 'ngayPhanTich',
         field: 'ngayPhanTich',
         name: 'Ngày phân tích',
+        formatter: Formatters.dateTimeIso,
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
-
+        maxWidth: 150,
+        minWidth: 50,
       },
       {
         id: 'nhanVienGiaoHang',
         field: 'nhanVienGiaoHang',
-        name: 'Tên nhân viên',
+        name: 'Nhân viên giao hàng',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 90,
+        maxWidth: 150,
+        minWidth: 50,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -189,8 +193,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 300,
+        maxWidth: 360,
+        minWidth: 50,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -206,8 +210,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 140,
+        maxWidth: 360,
+        minWidth: 50,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -223,8 +227,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 100,
+        minWidth: 10,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -240,8 +244,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 300,
+        maxWidth: 360,
+        minWidth: 150,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -257,8 +261,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 120,
+        maxWidth: 100,
+        minWidth: 50,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -274,8 +278,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 200,
+        minWidth: 50,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -291,8 +295,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 200,
+        minWidth: 50,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -305,22 +309,23 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         id: 'soLuongKhachGiao',
         field: 'soLuongKhachGiao',
         name: 'Số lượng khách giao',
+        cssClass: 'column-item',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         maxWidth: 100,
-        minWidth: 100,
-
+        minWidth: 20,
       },
       {
         id: 'slTiepNhan',
         field: 'slTiepNhan',
         name: 'Số lượng thực nhận',
+        cssClass: 'column-item',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         maxWidth: 100,
-        minWidth: 100,
+        minWidth: 50,
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -336,19 +341,19 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 100,
+        minWidth: 50,
       },
       {
         id: 'tongSoLuong',
         field: 'tongSoLuong',
         name: 'Tổng lỗi',
+        cssClass: 'column-item',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 60,
-
+        maxWidth: 80,
+        minWidth: 50,
       },
       {
         id: 'trangThai',
@@ -357,14 +362,15 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        minWidth: 180
+        maxWidth: 100,
+        minWidth: 50,
       },
     ];
 
     this.conlumDefinitionCTL = [
       {
-        id: 'donBaoHanhId',
-        field: 'index',
+        id: 'id',
+        field: 'id',
         name: 'STT',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
@@ -381,7 +387,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        minWidth: 130,
+        maxWidth: 140,
+        minWidth: 50,
       },
       {
         id: 'namSanXuat',
@@ -397,21 +404,33 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         id: 'ngayTiepNhan',
         field: 'ngayTiepNhan',
         name: 'Ngày tiếp nhận',
+        formatter: Formatters.dateTimeIso,
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 90,
+        maxWidth: 150,
+        minWidth: 50,
+      },
+      {
+        id: 'ngayPhanTich',
+        field: 'ngayPhanTich',
+        name: 'Ngày phân tích',
+        formatter: Formatters.dateTimeIso,
+        excludeFromColumnPicker: true,
+        excludeFromGridMenu: true,
+        excludeFromHeaderMenu: true,
+        maxWidth: 150,
+        minWidth: 50,
       },
       {
         id: 'nhanVienGiaoHang',
         field: 'nhanVienGiaoHang',
-        name: 'Tên nhân viên',
+        name: 'Nhân viên giao hàng',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 60,
+        maxWidth: 150,
+        minWidth: 50,
       },
       {
         id: 'tenKhachHang',
@@ -420,8 +439,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 300,
+        maxWidth: 360,
+        minWidth: 50,
       },
       {
         id: 'nhomKhachHang',
@@ -430,8 +449,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 360,
+        minWidth: 50,
       },
       {
         id: 'tinhThanh',
@@ -440,8 +459,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 100,
+        minWidth: 10,
       },
       {
         id: 'tenSanPham',
@@ -450,18 +469,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 300,
-      },
-      {
-        id: 'slTiepNhan',
-        field: 'slTiepNhan',
-        name: 'Số lượng thực nhận',
-        excludeFromColumnPicker: true,
-        excludeFromGridMenu: true,
-        excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 60,
+        maxWidth: 360,
+        minWidth: 150,
       },
       {
         id: 'tenNganh',
@@ -470,8 +479,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 120,
+        maxWidth: 100,
+        minWidth: 50,
       },
       {
         id: 'tenChungLoai',
@@ -480,8 +489,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 200,
+        minWidth: 50,
       },
       {
         id: 'tenNhomSanPham',
@@ -490,8 +499,30 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 200,
+        minWidth: 50,
+      },
+      {
+        id: 'soLuongKhachGiao',
+        field: 'soLuongKhachGiao',
+        name: 'Số lượng khách giao',
+        cssClass: 'column-item',
+        excludeFromColumnPicker: true,
+        excludeFromGridMenu: true,
+        excludeFromHeaderMenu: true,
+        maxWidth: 100,
+        minWidth: 20,
+      },
+      {
+        id: 'slTiepNhan',
+        field: 'slTiepNhan',
+        name: 'Số lượng thực nhận',
+        cssClass: 'column-item',
+        excludeFromColumnPicker: true,
+        excludeFromGridMenu: true,
+        excludeFromHeaderMenu: true,
+        maxWidth: 100,
+        minWidth: 50,
       },
       {
         id: 'lotNumber',
@@ -500,8 +531,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 160,
+        maxWidth: 160,
+        minWidth: 60,
       },
       {
         id: 'serial',
@@ -510,8 +541,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 160,
+        maxWidth: 160,
+        minWidth: 50,
       },
       {
         id: 'tenNhomLoi',
@@ -520,8 +551,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
+        maxWidth: 100,
+        minWidth: 50,
       },
       {
         id: 'tenLoi',
@@ -530,25 +561,22 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
+        maxWidth: 360,
         minWidth: 200,
       },
       {
         id: 'soLuongTheoTungLoi',
         field: 'soLuongTheoTungLoi',
+        cssClass: 'column-item',
         name: 'Số lượng lỗi',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        // maxWidth: 60,
-        minWidth: 100,
-        // formatter: (row, cell, value, columnDef, dataContext) => {
-        //   dataContext.sumByDonBaoHanhId;
-        // }
+        maxWidth: 80,
+        minWidth: 10,
       },
-
     ];
-    console.log('header', this.conlumDefinitionCTL)
+    console.log('header', this.conlumDefinitionCTL);
     this.gridOptions = {
       enableAutoResize: true,
       enableSorting: true,
@@ -560,18 +588,27 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         pageSizes: [20, 50, this.chiTietSanPhamTiepNhan.length],
         pageSize: this.chiTietSanPhamTiepNhan.length,
       },
-      // enableRowDetailView:true,
-      // rowSelectionOptions: {
-      //   selectActiveRow:true,
-      // },
-
-      // rowDetailView: {
-      //   loadOnce:true,
-      //   useRowClick: true,
-
-      // },
-
-
+      presets: {
+        columns: [
+          { columnId: 'maTiepNhan' },
+          { columnId: 'namSanXuat' },
+          { columnId: 'ngayTiepNhan' },
+          { columnId: 'ngayPhanTich' },
+          { columnId: 'nhanVienGiaoHang' },
+          { columnId: 'tenKhachHang' },
+          { columnId: 'nhomKhachHang' },
+          { columnId: 'tinhThanh' },
+          { columnId: 'tenSanPham' },
+          { columnId: 'tenNganh' },
+          { columnId: 'tenChungLoai' },
+          { columnId: 'tenNhomSanPham' },
+          { columnId: 'soLuongKhachGiao' },
+          { columnId: 'slTiepNhan' },
+          { columnId: 'tenNhomLoi' },
+          { columnId: 'tongSoLuong' },
+          { columnId: 'trangThai' },
+        ],
+      },
       editable: true,
       enableCellNavigation: true,
       gridHeight: 620,
@@ -605,6 +642,29 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       gridHeight: 620,
       gridWidth: '100%',
       autoHeight: true,
+      presets: {
+        columns: [
+          { columnId: 'maTiepNhan' },
+          { columnId: 'namSanXuat' },
+          { columnId: 'ngayTiepNhan' },
+          { columnId: 'ngayPhanTich' },
+          { columnId: 'nhanVienGiaoHang' },
+          { columnId: 'tenKhachHang' },
+          { columnId: 'nhomKhachHang' },
+          { columnId: 'tinhThanh' },
+          { columnId: 'tenSanPham' },
+          { columnId: 'tenNganh' },
+          { columnId: 'tenChungLoai' },
+          { columnId: 'tenNhomSanPham' },
+          { columnId: 'soLuongKhachGiao' },
+          { columnId: 'slTiepNhan' },
+          { columnId: 'lotNumber' },
+          { columnId: 'serial' },
+          { columnId: 'tenNhomLoi' },
+          { columnId: 'tenLoi' },
+          { columnId: 'soLuongTheoTungLoi' },
+        ],
+      },
       // enableExcelExport: true,
       // // enableExcelCopyBuffer: true,
       // excelExportOptions: {
@@ -614,83 +674,28 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       // },
       // registerExternalResources: [new ExcelExportService() as any],
       // registerExternalResources: [this.excelExportService],
-    }
+    };
   }
 
   getTongHopUrl(): void {
     this.http.get<any>(this.tongHopUrl).subscribe(res => {
-      this.chiTietSanPhamTiepNhan = res;
-
-      // this.chiTietSanPhamTiepNhanCTL = res;
-      sessionStorage.setItem('session chiTietSanPhamTiepNhan', JSON.stringify(res));
-
-      for (let i = 0; i < this.chiTietSanPhamTiepNhan.length; ++i) {
-        this.chiTietSanPhamTiepNhan[i].index = i;
+      this.chiTietSanPhamTiepNhanCTLGoc = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+      for (let i = 0; i < this.chiTietSanPhamTiepNhanCTLGoc.length; ++i) {
+        this.chiTietSanPhamTiepNhanCTLGoc[i].id = i + 1;
       }
-      console.log('CTL', res)
-      // for (let i = 0; i < this.chiTietSanPhamTiepNhanCTL.length; ++i) {
-      //   this.chiTietSanPhamTiepNhanCTL[i].index = i;
-      // }
-      console.log('thong tin chung', res)
-      // const sumByDonBaoHanhId = res.reduce((count: ITongHop[], values: ITongHop) => {
-      //   const countValues = count.find((list: ITongHop) =>
-      //     list.donBaoHanhId === values.donBaoHanhId &&
-      //     list.chiTietId === values.chiTietId &&
-      //     list.phanTichSanPhamId === values.phanTichSanPhamId &&
-      //     list.tenNhomLoi === values.tenNhomLoi
-      //   );
-      //   if (countValues) {
-      //     countValues.soLuongTheoTungLoi += values.soLuongTheoTungLoi
-      //   } else {
-      //     count.push(values)
-      //   }
-      //   // console.log('count', count)
-      //   return count
-      // }, []
-      // );
-      // console.log('res', sumByDonBaoHanhId);
-
-      // this.chiTietSanPhamTiepNhan = sumByDonBaoHanhId;
-      this.handleOnHeaderMenuCommand(this.chiTietSanPhamTiepNhan)
-
-      this.chiTietSanPhamTiepNhan = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
-      this.dataCTL = res
-      this.data = this.chiTietSanPhamTiepNhan.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
-    })
-
-      this.http.get<any>(this.tongHopUrl).subscribe(res => {
-        this.chiTietSanPhamTiepNhanCTL = res;
-        for (let i = 0; i < this.chiTietSanPhamTiepNhanCTL.length; ++i) {
-          this.chiTietSanPhamTiepNhanCTL[i].index = i;
-        }
-      })
-
-
+      this.dataCTL = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+      this.chiTietSanPhamTiepNhanCTL = this.chiTietSanPhamTiepNhanCTLGoc;
+      console.log('tong Hop', res);
+    });
     this.http.get<any>(this.tongHopCaculateUrl).subscribe(resTongHop => {
-      this.chiTietSanPhamTiepNhan = resTongHop;
-      for (let i = 0; i < this.chiTietSanPhamTiepNhan.length; ++i) {
-        this.chiTietSanPhamTiepNhan[i].index = i;
+      this.chiTietSanPhamTiepNhanGoc = resTongHop.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+      for (let i = 0; i < this.chiTietSanPhamTiepNhanGoc.length; ++i) {
+        this.chiTietSanPhamTiepNhanGoc[i].id = i + 1;
       }
-      // const sumByDonBaoHanhId = resTongHop.reduce((count: ITongHop[], values: ITongHop) => {
-      //   const countValues = count.find((list: ITongHop) =>
-      //     list.donBaoHanhId === values.donBaoHanhId &&
-      //     list.chiTietId === values.chiTietId &&
-      //     list.phanTichSanPhamId === values.phanTichSanPhamId &&
-      //     list.tenNhomLoi === values.tenNhomLoi
-      //   );
-      //   if (countValues) {
-      //     countValues.soLuongTheoTungLoi += values.soLuongTheoTungLoi
-      //   } else {
-      //     count.push(values)
-      //   }
-      //   // console.log('count', count)
-      //   return count
-      // }, []
-      // );
-      this.chiTietSanPhamTiepNhan = resTongHop.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
-
-      console.log('caculate', resTongHop)
-    })
+      this.data = resTongHop.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+      this.chiTietSanPhamTiepNhan = this.chiTietSanPhamTiepNhanGoc;
+      console.log('caculate', resTongHop);
+    });
   }
 
   trackId(_index: number, item: IChiTietSanPhamTiepNhan): number {
@@ -709,68 +714,42 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   }
 
   changeDate(): void {
-    let dateTimeSearchKey: { startDate: string, endDate: string } = { startDate: '', endDate: '' }
-    document.getElementById("dateForm")?.addEventListener('submit', function (event) {
+    let dateTimeSearchKey: { startDate: string; endDate: string } = { startDate: '', endDate: '' };
+    document.getElementById('dateForm')?.addEventListener('submit', function (event) {
       event.preventDefault();
 
-      const startDateInp = document.getElementById("startDate") as HTMLInputElement;
-      const endDateInp = document.getElementById("endDate") as HTMLInputElement;
+      const startDateInp = document.getElementById('startDate') as HTMLInputElement;
+      const endDateInp = document.getElementById('endDate') as HTMLInputElement;
 
       const startDate = startDateInp.value;
       const endDate = endDateInp.value;
-      dateTimeSearchKey = { startDate: startDateInp.value, endDate: endDateInp.value }
-    })
+      dateTimeSearchKey = { startDate: startDateInp.value, endDate: endDateInp.value };
+    });
     setTimeout(() => {
-      console.log("startDate:", dateTimeSearchKey)
+      console.log('startDate:', dateTimeSearchKey);
       this.http.post<any>(this.tongHopUrl, dateTimeSearchKey).subscribe(res => {
-        console.log("check ressult search:", res);
-        // const sumByDonBaoHanhId = res.reduce((count: ITongHop[], values: ITongHop) => {
-        //   const countValues = count.find((list: ITongHop) =>
-        //     list.tenNhomLoi === values.tenNhomLoi
-        //   );
-        //   if (countValues) {
-        //     countValues.soLuongTheoTungLoi += values.soLuongTheoTungLoi
-        //   } else {
-        //     count.push(values)
-        //   }
-        //   // console.log('count', count)
-        //   return count
-        // }, []
-        // );
-        // console.log('res', sumByDonBaoHanhId);
-        // this.chiTietSanPhamTiepNhan = sumByDonBaoHanhId;
-        this.chiTietSanPhamTiepNhanCTL = res;
-      })
-      // const keySession = `ThongTinChung ${dateTimeSearchKey.toString()}`
+        console.log('check ressult search:', res);
+        this.chiTietSanPhamTiepNhanCTLGoc = res;
+        for (let i = 0; i < this.chiTietSanPhamTiepNhanCTLGoc.length; ++i) {
+          this.chiTietSanPhamTiepNhanCTLGoc[i].id = i + 1;
+        }
+        this.dataCTL = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+        this.chiTietSanPhamTiepNhanCTL = this.chiTietSanPhamTiepNhanCTLGoc;
+      });
 
       this.http.post<any>(this.tongHopCaculateUrl, dateTimeSearchKey).subscribe(resCaculate => {
-        console.log("check ressult search 2:", resCaculate);
-
-        // const sumByDonBaoHanhId = res.reduce((count: ITongHop[], values: ITongHop) => {
-        //   const countValues = count.find((list: ITongHop) =>
-        //     list.tenNhomLoi === values.tenNhomLoi
-        //   );
-        //   if (countValues) {
-        //     countValues.soLuongTheoTungLoi += values.soLuongTheoTungLoi
-        //   } else {
-        //     count.push(values)
-        //   }
-        //   // console.log('count', count)
-        //   return count
-        // }, []
-        // );
-        // console.log('res', sumByDonBaoHanhId);
-        // this.chiTietSanPhamTiepNhan = sumByDonBaoHanhId;
-        console.log('ket qua tim kiem 2', resCaculate)
-        sessionStorage.setItem(`ThongTinChung ${dateTimeSearchKey.toString()}`, JSON.stringify(resCaculate))
-        this.chiTietSanPhamTiepNhan = resCaculate
-      })
-    }, 100)
-
+        this.chiTietSanPhamTiepNhanGoc = resCaculate;
+        for (let i = 0; i < this.chiTietSanPhamTiepNhanGoc.length; ++i) {
+          this.chiTietSanPhamTiepNhanGoc[i].id = i + 1;
+        }
+        this.data = resCaculate.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+        this.chiTietSanPhamTiepNhan = this.chiTietSanPhamTiepNhanGoc;
+      });
+    }, 100);
   }
 
   exportToExcel(): void {
-    const sortedData = this.data.map((item) => ({
+    const sortedData = this.data.map(item => ({
       donBaoHanhId: item.donBaoHanhId,
       maTiepNhan: item.maTiepNhan,
       namSanXuat: item.namSanXuat,
@@ -789,7 +768,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       tenNhomLoi: item.tenNhomLoi,
       soLuongTheoTungLoi: item.soLuongTheoTungLoi,
       trangThai: item.trangThai,
-    }))
+    }));
 
     const sortedDataCTL = this.dataCTL.map((itemCTL: ITongHop) => ({
       donBaoHanhId: itemCTL.donBaoHanhId,
@@ -814,8 +793,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       tenLoi: itemCTL.tenLoi,
       soLuongTheoTungLoi: itemCTL.soLuongTheoTungLoi,
       trangThai: itemCTL.trangThai,
-    }))
-    console.log('dataCTL', this.dataCTL)
+    }));
+    console.log('dataCTL', this.dataCTL);
     // const data = document.getElementById("table-data");
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(sortedData);
     const wsCTL: XLSX.WorkSheet = XLSX.utils.json_to_sheet(sortedDataCTL);
@@ -827,35 +806,11 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   }
 
   openPopupViewCTL(): void {
-    this.popupViewCTL = true;
-    this.http.get<any>(this.tongHopUrl).subscribe(res => {
-      this.chiTietSanPhamTiepNhanCTL = res;
-      for (let i = 0; i < this.chiTietSanPhamTiepNhanCTL.length; ++i) {
-        this.chiTietSanPhamTiepNhanCTL[i].index = i;
-      }
-    })
-    // this.getTongHopUrl()
-    this.handleSearch();
-    // this.chiTietSanPhamTiepNhanCTL = this.dataCTL;
-    // this.gridOptionCTL = this.gridOptions;
-    // this.http.get<any>(this.tongHopUrl).subscribe((res: ITongHop[]) => {
-    //   this.chiTietSanPhamTiepNhanCTL = res;
-    // for (let i = 0; i < this.chiTietSanPhamTiepNhanCTL.length; ++i) {
-    //   this.chiTietSanPhamTiepNhanCTL[i].index = i;
-    // }
-
-    // this.chiTietSanPhamTiepNhan = sumByDonBaoHanhId;
-    // this.chiTietSanPhamTiepNhanCTL = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
-    // this.dataCTL = this.chiTietSanPhamTiepNhanCTL
-    // this.data = this.chiTietSanPhamTiepNhan.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
-    // console.log('chi tiet', this.chiTietSanPhamTiepNhanCTL)
-
-    //   console.log('Tong', sumByDonBaoHanhId)
-    //   console.log('res', res);
-    // console.log('updatedRes', updatedRes);
-
-    // this.dataCTL = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
-    // });
+    // this.handleSearchCTL();
+    setTimeout(() => {
+      this.popupViewCTL = true;
+    }, 100);
+    // this.chiTietSanPhamTiepNhanCTL = this.chiTietSanPhamTiepNhanCTLGoc;
   }
 
   closePopupViewCTL(): void {
@@ -865,25 +820,131 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   onFilterChange(event: Event): void {
     const filterText = (event.target as HTMLInputElement).value.trim().toLowerCase();
     if (this.angularGrid) {
-      this.angularGrid.filterService.updateFilters([{ columnId: 'donBaoHanhId', operator: 'Contains', searchTerms: [filterText] }])
+      this.angularGrid.filterService.updateFilters([{ columnId: 'donBaoHanhId', operator: 'Contains', searchTerms: [filterText] }]);
     }
   }
-
-  handleOnHeaderMenuCommand(e: any): void {
+  // Lấy thông tin từ khóa tìm kiếm tổng hợp
+  onSearchChange(e: any): void {
     // detail is the args data payload
     const args = e.detail;
-    this.dataSearch.tenKhachHang = args.searchTerms[0]
-    console.log('header menu command', args);
+    if (args.columnId === 'maTiepNhan') {
+      if (args.searchTerms === undefined) {
+        this.dataSearch.maTiepNhan = '';
+      } else {
+        this.dataSearch.maTiepNhan = args.searchTerms[0];
+      }
+    }
+    if (args.columnId === 'nhanVienGiaoHang') {
+      if (args.searchTerms === undefined) {
+        this.dataSearch.nhanVienGiaoHang = '';
+      } else {
+        this.dataSearch.nhanVienGiaoHang = args.searchTerms[0];
+      }
+    }
+    if (args.columnId === 'tenKhachHang') {
+      if (args.searchTerms === undefined) {
+        this.dataSearch.tenKhachHang = '';
+      } else {
+        this.dataSearch.tenKhachHang = args.searchTerms[0];
+      }
+    }
+    if (args.columnId === 'nhomKhachHang') {
+      if (args.searchTerms === undefined) {
+        this.dataSearch.nhomKhachHang = '';
+      } else {
+        this.dataSearch.nhomKhachHang = args.searchTerms[0];
+      }
+    }
+    if (args.columnId === 'tinhThanh') {
+      if (args.searchTerms === undefined) {
+        this.dataSearch.tinhThanh = '';
+      } else {
+        this.dataSearch.tinhThanh = args.searchTerms[0];
+      }
+    }
+    if (args.columnId === 'tenSanPham') {
+      if (args.searchTerms === undefined) {
+        this.dataSearch.tenSanPham = '';
+      } else {
+        this.dataSearch.tenSanPham = args.searchTerms[0];
+      }
+    }
+    if (args.columnId === 'tenNganh') {
+      if (args.searchTerms === undefined) {
+        this.dataSearch.tenNganh = '';
+      } else {
+        this.dataSearch.tenNganh = args.searchTerms[0];
+      }
+    }
+    if (args.columnId === 'tenChungLoai') {
+      if (args.searchTerms === undefined) {
+        this.dataSearch.tenChungLoai = '';
+      } else {
+        this.dataSearch.tenChungLoai = args.searchTerms[0];
+      }
+    }
+    if (args.columnId === 'tenNhomSanPham') {
+      if (args.searchTerms === undefined) {
+        this.dataSearch.tenNhomSanPham = '';
+      } else {
+        this.dataSearch.tenNhomSanPham = args.searchTerms[0];
+      }
+    }
+    this.handleSearchCTL();
+    console.log('header search body', this.dataSearch);
+    // this.handleSearchCTL();
   }
-  handleSearch(): void {
-    this.chiTietSanPhamTiepNhanCTL = this.chiTietSanPhamTiepNhanCTL.filter((item) =>
-      item.tenKhachHang.toLowerCase().includes(this.dataSearch.tenKhachHang));
-    console.log('result', this.chiTietSanPhamTiepNhanCTL)
+  //Filter trong danh sách chi tiết
+  handleSearchCTL(): void {
+    this.data = this.chiTietSanPhamTiepNhanGoc.filter(
+      item =>
+        item.maTiepNhan.toLowerCase().includes(this.dataSearch.maTiepNhan) &&
+        item.nhanVienGiaoHang.toLowerCase().includes(this.dataSearch.nhanVienGiaoHang) &&
+        item.tenKhachHang.toLowerCase().includes(this.dataSearch.tenKhachHang) &&
+        item.nhomKhachHang.toLowerCase().includes(this.dataSearch.nhomKhachHang) &&
+        item.tinhThanh.toLowerCase().includes(this.dataSearch.tinhThanh) &&
+        item.tenSanPham.toLowerCase().includes(this.dataSearch.tenSanPham) &&
+        item.tenNganh.toLowerCase().includes(this.dataSearch.tenNganh) &&
+        item.tenChungLoai.toLowerCase().includes(this.dataSearch.tenChungLoai) &&
+        item.tenNhomSanPham.toLowerCase().includes(this.dataSearch.tenNhomSanPham)
+    );
+    this.chiTietSanPhamTiepNhanCTL = this.chiTietSanPhamTiepNhanCTLGoc.filter(
+      item =>
+        item.maTiepNhan.toLowerCase().includes(this.dataSearch.maTiepNhan) &&
+        item.nhanVienGiaoHang.toLowerCase().includes(this.dataSearch.nhanVienGiaoHang) &&
+        item.tenKhachHang.toLowerCase().includes(this.dataSearch.tenKhachHang) &&
+        item.nhomKhachHang.toLowerCase().includes(this.dataSearch.nhomKhachHang) &&
+        item.tinhThanh.toLowerCase().includes(this.dataSearch.tinhThanh) &&
+        item.tenSanPham.toLowerCase().includes(this.dataSearch.tenSanPham) &&
+        item.tenNganh.toLowerCase().includes(this.dataSearch.tenNganh) &&
+        item.tenChungLoai.toLowerCase().includes(this.dataSearch.tenChungLoai) &&
+        item.tenNhomSanPham.toLowerCase().includes(this.dataSearch.tenNhomSanPham)
+    );
+    console.log('result', this.chiTietSanPhamTiepNhanCTL);
+    this.dataCTL = this.chiTietSanPhamTiepNhanCTLGoc.filter(
+      item =>
+        item.maTiepNhan.toLowerCase().includes(this.dataSearch.maTiepNhan) &&
+        item.nhanVienGiaoHang.toLowerCase().includes(this.dataSearch.nhanVienGiaoHang) &&
+        item.tenKhachHang.toLowerCase().includes(this.dataSearch.tenKhachHang) &&
+        item.nhomKhachHang.toLowerCase().includes(this.dataSearch.nhomKhachHang) &&
+        item.tinhThanh.toLowerCase().includes(this.dataSearch.tinhThanh) &&
+        item.tenSanPham.toLowerCase().includes(this.dataSearch.tenSanPham) &&
+        item.tenNganh.toLowerCase().includes(this.dataSearch.tenNganh) &&
+        item.tenChungLoai.toLowerCase().includes(this.dataSearch.tenChungLoai) &&
+        item.tenNhomSanPham.toLowerCase().includes(this.dataSearch.tenNhomSanPham)
+    );
+  }
+  angularGridReady(angularGrid: any): void {
+    this.angularGrid = angularGrid;
+
+    // the Angular Grid Instance exposes both Slick Grid & DataView objects
+    this.gridObj = angularGrid.slickGrid;
+    this.dataViewObj = angularGrid.dataView;
   }
 }
 
 export interface ITongHop {
-  index: number;
+  id: number;
   chiTietId: number;
   donBaoHanhId: number;
   maTiepNhan: string;
@@ -911,5 +972,4 @@ export interface ITongHop {
   tenNhomLoi: string;
   phanTichSanPhamId: number;
   tenTinhTrangPhanLoai: string;
-
 }

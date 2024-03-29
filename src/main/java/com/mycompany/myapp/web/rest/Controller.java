@@ -128,6 +128,13 @@ public class Controller {
         return chiTietSanPhamTiepNhan;
     }
 
+    //☺ Lấy thông tin đơn bảo hành
+    @GetMapping("tiep-nhan")
+    public List<DonBaoHanhResponse> tiepNhan() {
+        List<DonBaoHanhResponse> list = this.fullServices.tiepNhan();
+        return list;
+    }
+
     // * ============================ Template Phân tích =================================
     // * Trang chủ
     //☺ lấy danh sách tất cả các đơn bảo hành ở trạng thái chờ phân tích , đang phân tích
@@ -222,6 +229,13 @@ public class Controller {
     @PostMapping("tong-hop-caculate")
     public List<TongHopResponse> searchTongHopCaculate(@RequestBody DateTimeSearchDTO request) {
         List<TongHopResponse> list = this.fullServices.searchTongHopCaculate(request);
+        return list;
+    }
+
+    // * ---------------- san pham ---------------
+    @GetMapping("san-phams/list")
+    public List<SanPhamResponse> getListSanPham() {
+        List<SanPhamResponse> list = this.fullServices.getListSanPham();
         return list;
     }
 }

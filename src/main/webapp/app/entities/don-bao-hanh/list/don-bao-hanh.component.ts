@@ -90,6 +90,8 @@ export class DonBaoHanhComponent implements OnInit {
   columnDefinitions1: Column[] = [];
   gridOptions1: GridOption = {};
   angularGrid?: AngularGridInstance;
+  gridObj: any;
+  dataViewObj: any;
   detailViewRowCount = 9;
   compositeEditorInstance!: SlickCompositeEditor;
   chiTietSanPhamTiepNhans: IChiTietSanPhamTiepNhan[] = [];
@@ -231,42 +233,20 @@ export class DonBaoHanhComponent implements OnInit {
       next: (res1: HttpResponse<IDonBaoHanh[]>) => {
         this.isLoading = false;
         this.donBaoHanhs = res1.body!.sort((a, b) => b.id! - a.id!) ?? [];
-        // lấy danh sách phân loại
-        // this.http.get<any>(this.phanLoaiChiTietTiepNhanUrl).subscribe(res => {
-        //   this.phanLoaiChiTietTiepNhans = res;
-        // for (let i = 0; i < this.donBaoHanhs.length; i++) {
-        //   for (let k = 0; k < this.donBaoHanhs[i].chiTietSanPhamTiepNhans?.length; k++) {
-        //     for (let j = 0; j < this.phanLoaiChiTietTiepNhans.length; j++) {
-
-        //         if (this.donBaoHanhs[i].chiTietSanPhamTiepNhans![k].id === this.phanLoaiChiTietTiepNhans[j].chiTietSanPhamTiepNhan?.id) {
-        //             this.donBaoHanhs[i].slTiepNhan += this.phanLoaiChiTietTiepNhans[j].soLuong;
-        //           }
-        //     }
-        //   }
-        // }
-        // });
         //Cập nhật tiến độ phân loại
         for (let i = 0; i < this.donBaoHanhs.length; i++) {
+          this.donBaoHanhs[i].tienDo = 0;
           this.http.get<any>(`${this.chiTietSanPhamTiepNhanUrl}/${this.donBaoHanhs[i].id as number}`).subscribe(res2 => {
             let count1 = 0;
             // console.log(this.donBaoHanhs[i].id);
             this.chiTietSanPhamTiepNhans = res2;
             for (let h = 0; h < this.chiTietSanPhamTiepNhans.length; h++) {
-              this.donBaoHanhs[i].tienDo = 0;
               if (
                 this.chiTietSanPhamTiepNhans[h].tinhTrangBaoHanh === 'true' &&
                 this.chiTietSanPhamTiepNhans[h].donBaoHanh!.id === this.donBaoHanhs[i].id
               ) {
                 count1++;
                 this.donBaoHanhs[i].tienDo = (count1 / this.chiTietSanPhamTiepNhans.length) * 100;
-                // console.log(
-                //   'don bao hanh',
-                //   this.donBaoHanhs[i].tienDo,
-                //   i,
-                //   this.donBaoHanhs[i].id,
-                //   this.chiTietSanPhamTiepNhans[h].donBaoHanh!.id,
-                //   count1
-                // );
               }
             }
           });
@@ -278,8 +258,14 @@ export class DonBaoHanhComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.loadAll();
-
+    this.http.get<any[]>('api/tiep-nhan').subscribe((res: any[]) => {
+      this.donBaoHanhs = res.sort((a, b) => b.id! - a.id!);
+      console.log('tiep-nhan:', res);
+      for (let i = 0; i < this.donBaoHanhs.length; i++) {
+        this.donBaoHanhs[i].tienDo = Number(this.donBaoHanhs[i].slDaPhanLoai / this.donBaoHanhs[i].slSanPham) * 100;
+      }
+    });
+    // this.loadAll();
     this.columnDefinitions = [];
     this.columnDefinitions1 = [
       {
@@ -375,8 +361,8 @@ export class DonBaoHanhComponent implements OnInit {
       {
         id: 'khachHang',
         name: 'Khách hàng',
-        field: 'khachHang.tenKhachHang',
-        formatter: Formatters.complexObject,
+        field: 'tenKhachHang',
+
         sortable: true,
         filterable: true,
         minWidth: 350,
@@ -467,6 +453,7 @@ export class DonBaoHanhComponent implements OnInit {
         field: 'tienDo',
         sortable: true,
         filterable: true,
+        formatter: Formatters.progressBar,
         minWidth: 150,
         maxWidth: 150,
         alwaysRenderColumn: true,
@@ -667,6 +654,7 @@ export class DonBaoHanhComponent implements OnInit {
           { columnId: 'ngayTiepNhan' },
           { columnId: 'slTiepNhan' },
           { columnId: 'slDaPhanTich' },
+          { columnId: 'tienDo' },
           { columnId: 'ngaykhkb' },
           { columnId: 'ngayTraBienBan' },
           { columnId: 'nguoiTaoDon' },
@@ -1816,5 +1804,18 @@ export class DonBaoHanhComponent implements OnInit {
     } else if (value > 70) {
       document.getElementById(index as string)!.style.accentColor = 'green';
     }
+  }
+  angularGridReady(angularGrid: any): void {
+    this.angularGrid = angularGrid;
+    // the Angular Grid Instance exposes both Slick Grid & DataView objects
+    this.gridObj = angularGrid.slickGrid;
+    this.dataViewObj = angularGrid.dataView;
+    console.log('onGridMenuColumnsChanged11111', this.angularGrid);
+  }
+  onMenuShow(e: any): void {
+    console.log('onGridMenuColumnsChanged', e);
+  }
+  onColumnsChanged(e: any): void {
+    console.log('onGridMenuColumnsChanged', e);
   }
 }

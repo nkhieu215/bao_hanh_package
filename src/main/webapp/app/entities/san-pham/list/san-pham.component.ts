@@ -41,7 +41,7 @@ export class SanPhamComponent implements OnInit {
   angularGrid?: AngularGridInstance;
   exportBeforeSub?: Subscription;
   exportAfterSub?: Subscription;
-  dataviewObj: any;
+  dataViewObj: any;
   gridObj: any;
   dataset: any[] = [];
   columnDefinitions?: ISanPham[];
@@ -78,7 +78,7 @@ export class SanPhamComponent implements OnInit {
       next: (res1: HttpResponse<ISanPham[]>) => {
         this.isLoading = false;
         this.sanPhams = res1.body ?? [];
-        console.log(this.sanPhams);
+        // console.log(this.sanPhams);
 
         this.nhomSanPhamService.query().subscribe({
           next: (res: HttpResponse<INhomSanPham[]>) => {
@@ -147,7 +147,7 @@ export class SanPhamComponent implements OnInit {
       {
         id: 'tenSanPham',
         name: 'Tên sản phẩm',
-        field: 'name',
+        field: 'tenSanPham',
         sortable: true,
         filterable: true,
         type: FieldType.string,
@@ -172,7 +172,7 @@ export class SanPhamComponent implements OnInit {
       {
         id: 'nhomSanPham',
         name: 'Nhóm sản phẩm',
-        field: 'nhomSanPham.name',
+        field: 'tenNhomSanPham',
         formatter: Formatters.complexObject,
         sortable: true,
         filterable: true,
@@ -269,7 +269,7 @@ export class SanPhamComponent implements OnInit {
       {
         id: 'nganh',
         name: 'Ngành',
-        field: 'nganh.tenNganh',
+        field: 'tenNganh',
         formatter: Formatters.complexObject,
         sortable: true,
         filterable: true,
@@ -312,7 +312,7 @@ export class SanPhamComponent implements OnInit {
       {
         id: 'kho',
         name: 'Kho',
-        field: 'kho.tenKho',
+        field: 'tenKho',
         formatter: Formatters.complexObject,
         sortable: true,
         filterable: true,
@@ -361,7 +361,7 @@ export class SanPhamComponent implements OnInit {
       enableFiltering: true,
       enablePagination: true,
       enableColumnPicker: true,
-      asyncEditorLoadDelay: 3000,
+      // asyncEditorLoadDelay: 3000,
       dataView: {
         syncGridSelection: true,
       },
@@ -381,7 +381,9 @@ export class SanPhamComponent implements OnInit {
       gridHeight: 500,
       gridWidth: '100%',
     };
-    this.loadAll();
+    this.http.get<any[]>('api/san-phams/list').subscribe((res: any) => {
+      this.sanPhams = res;
+    });
   }
 
   addItem(): void {
@@ -403,20 +405,13 @@ export class SanPhamComponent implements OnInit {
     ];
     this.sanPhams.sort((a, b) => b.id - a.id);
   }
+  angularGridReady(angularGrid: any): void {
+    this.angularGrid = angularGrid;
 
-  //
-  mockData(count: number): any {
-    // mock a dataset
-    const mockDataset = [];
-    for (let i = 1; i < count; i++) {
-      mockDataset[i] = {
-        id: i,
-      };
-    }
-
-    return mockDataset;
+    // the Angular Grid Instance exposes both Slick Grid & DataView objects
+    this.gridObj = angularGrid.slickGrid;
+    this.dataViewObj = angularGrid.dataView;
   }
-
   // popup edit
   openPopupEditSP(id: number, items: any): void {
     this.popupChinhSuaThongTin = true;

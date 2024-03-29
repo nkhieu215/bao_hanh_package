@@ -68,6 +68,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   gridOptions1: GridOption = {};
   dataset1: any[] = [];
   angularGrid?: AngularGridInstance;
+  gridObj: any;
+  dataViewObj: any;
   lois?: ILoi[];
   danhSachSanPhams?: ISanPham[];
   resultChiTietSanPhamTiepNhans: any[] = [];
@@ -184,7 +186,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     protected accountService: AccountService,
     protected khoService: KhoService,
     protected navBarComponent: NavbarComponent
-  ) { }
+  ) {}
 
   buttonIn: Formatter<any> = (_row, _cell, value) =>
     value
@@ -204,30 +206,11 @@ export class PhanTichSanPhamComponent implements OnInit {
   loadAll(): void {
     this.navBarComponent.toggleSidebar2();
     this.isLoading = true;
-    // this.donBaoHanhService.query().subscribe({
-    //   next: (res: HttpResponse<IDonBaoHanh[]>) => {
-    //     this.isLoading = false;
-    //     this.donBaoHanhs = res.body ?? [];
-    //     for (let i = 0; i < this.donBaoHanhs.length; i++) {
-    //       this.donBaoHanhs[i].tienDo = 0;
-    //     }
-    //     console.log('bbbb', this.donBaoHanhs);
-    //   },
-    //   error: () => {
-    //     this.isLoading = false;
-    //   },
-    // });
     this.http.get<any>('api/phan-tich-san-pham').subscribe(res => {
       this.donBaoHanhs = res.sort((a: any, b: any) => b.id! - a.id!) ?? [];
       const localTienDoDonBaoHanhs = JSON.parse(window.localStorage.getItem('DonBaoHanhs') as string);
       for (let i = 0; i < this.donBaoHanhs.length; i++) {
-        this.donBaoHanhs[i].tienDo = 0;
-        //Cập nhật tiến độ
-        for (let j = 0; j < localTienDoDonBaoHanhs.length; j++) {
-          if (this.donBaoHanhs[i].id === localTienDoDonBaoHanhs[j].id) {
-            this.donBaoHanhs[i].tienDo = localTienDoDonBaoHanhs[j].tienDo;
-          }
-        }
+        this.donBaoHanhs[i].tienDo = (this.donBaoHanhs[i].slDaPhanTich / this.donBaoHanhs[i].slTiepNhan) * 100;
       }
       // console.log('bbbb', this.donBaoHanhs);
     });
@@ -1147,19 +1130,22 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Lot';
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string
-      }`;
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string
+    }`;
   }
   //Bắt sự kiện scan serial
-    scanSerialEvent(): void {
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Serial';
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber =
-        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(13);
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
-        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(0, 2) as string
-        }`;
-    }
+  scanSerialEvent(): void {
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Serial';
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber = this.listOfPhanTichSanPhamByPLCTTN[
+      this.indexOfChiTietPhanTichSanPham
+    ].detail.substr(0, 13);
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
+      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(0, 2) as string
+    }`;
+  }
   //Cập nhật thông tin sau khi khai báo lỗi
   updatePhanTichSanPham(): void {
     if (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo === 100) {
@@ -1227,8 +1213,9 @@ export class PhanTichSanPhamComponent implements OnInit {
         this.donBaoHanh.tienDo = ((this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100).toFixed(2);
         this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
         setTimeout(() => {
-          if (this.donBaoHanh.tienDo === 100) {
+          if (this.donBaoHanh.tienDo === '100.00') {
             this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
+            console.log('check tien do: ', this.donBaoHanh.tienDo, this.donBaoHanh.trangThai);
           }
         }, 100);
         // console.log('check thông tin phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
@@ -1247,15 +1234,13 @@ export class PhanTichSanPhamComponent implements OnInit {
     }
     window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
     this.listOfPhanTichSanPhamByPLCTTN = this.listOfPhanTichSanPhamByPLCTTN.filter(item => item.tenSanPham !== '');
-    // console.log(this.listOfPhanTichSanPhamByPLCTTN);
-    if (this.donBaoHanh.tienDo > 0) {
-      // console.log('Đang phân tích');
-      this.donBaoHanh.trangThai = 'Đang phân tích';
-      this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
-    }
-    if (this.donBaoHanh.tienDo === 100) {
-      // console.log('Hoàn thành phân tích');
+    if (this.donBaoHanh.tienDo === '100.00') {
+      console.log('Hoàn thành phân tích');
       this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
+      this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
+    } else if (this.donBaoHanh.tienDo > 0) {
+      console.log('Đang phân tích');
+      this.donBaoHanh.trangThai = 'Đang phân tích';
       this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
     }
     this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
@@ -1440,8 +1425,10 @@ export class PhanTichSanPhamComponent implements OnInit {
             this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich += 1;
             this.listOfChiTietSanPhamPhanTich[index].slConLai =
               this.listOfChiTietSanPhamPhanTich[index].slTiepNhan - this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich;
-            this.listOfChiTietSanPhamPhanTich[index].tienDo =
-              ((this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich / this.listOfChiTietSanPhamPhanTich[index].slTiepNhan) * 100).toFixed(2);
+            this.listOfChiTietSanPhamPhanTich[index].tienDo = (
+              (this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich / this.listOfChiTietSanPhamPhanTich[index].slTiepNhan) *
+              100
+            ).toFixed(2);
             if (this.listOfChiTietSanPhamPhanTich[index].tienDo === 100) {
               this.getColor(this.listOfChiTietSanPhamPhanTich[index].tienDo, index);
               // cập nhật check sản phẩm phân tích
@@ -1536,5 +1523,12 @@ export class PhanTichSanPhamComponent implements OnInit {
       document.getElementById(index as string)!.style.accentColor = 'green';
       // console.log('green', value, index);
     }
+  }
+  angularGridReady(angularGrid: any): void {
+    this.angularGrid = angularGrid;
+
+    // the Angular Grid Instance exposes both Slick Grid & DataView objects
+    this.gridObj = angularGrid.slickGrid;
+    this.dataViewObj = angularGrid.dataView;
   }
 }

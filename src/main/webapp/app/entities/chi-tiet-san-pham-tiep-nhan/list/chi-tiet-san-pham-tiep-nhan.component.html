@@ -1,25 +1,30 @@
 <div id="demo-container" class="container-slickgrid col-md-12 content">
   <h2 id="page-heading">Tổng hợp</h2>
   <div class="btn-header d-flex justify-content-end">
-    <button class="btn btn-outline-primary btn-option btn-addTN me-2" (click)="openPopupViewCTL()">Xem chi tiết
-      lỗi</button>
+    <button class="btn btn-outline-primary btn-option btn-addTN me-2" (click)="openPopupViewCTL()">Xem chi tiết lỗi</button>
   </div>
   <div class="btn-header d-flex justify-content-between">
     <form id="dateForm">
-      <div style="width: 20rem;" class="search-inp">
+      <div style="width: 20rem" class="search-inp">
         <label class="form-label">Ngày bắt đầu</label>
-        <input class="form-control" type="date" id="startDate" (change)="changeDate()" style="width:15rem">
+        <input class="form-control" type="date" id="startDate" (change)="changeDate()" style="width: 15rem" />
       </div>
-      <div style="width: 20rem;" class="search-inp">
+      <div style="width: 20rem" class="search-inp">
         <label class="form-label">Ngày kết thúc</label>
-        <input class="form-control" type="date" id="endDate" (change)="changeDate()" style="width:15rem">
+        <input class="form-control" type="date" id="endDate" (change)="changeDate()" style="width: 15rem" />
       </div>
-      <input type="submit" (click)="changeDate()">
+      <input type="submit" (click)="changeDate()" />
     </form>
-    <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem;" (click)="exportToExcel()">Export Excel</button>
+    <button class="btn btn-outline-primary btn-option btn-addTN me-2" style="height: 2.5rem" (click)="exportToExcel()">Export Excel</button>
   </div>
-  <angular-slickgrid gridId="tong-hop" [columnDefinitions]="columnDefinitions" [gridOptions]="gridOptions"
-    [dataset]="chiTietSanPhamTiepNhan" (onBeforeSearchChange)="handleOnHeaderMenuCommand($event)"></angular-slickgrid>
+  <angular-slickgrid
+    gridId="tong-hop"
+    [columnDefinitions]="columnDefinitions"
+    [gridOptions]="gridOptions"
+    [dataset]="chiTietSanPhamTiepNhan"
+    (onBeforeSearchChange)="onSearchChange($event)"
+    (onAngularGridCreated)="angularGridReady($event)"
+  ></angular-slickgrid>
 </div>
 
 <div class="table-responsive popup-background" role="dialog" *ngIf="popupViewCTL === true">
@@ -31,10 +36,13 @@
     </div>
     <div class="popup-content">
       <form>
-        <angular-slickgrid gridId="chiTietLoi" [columnDefinitions]="conlumDefinitionCTL" [gridOptions]="gridOptionCTL"
-          [dataset]="chiTietSanPhamTiepNhanCTL"></angular-slickgrid>
+        <angular-slickgrid
+          gridId="chiTietLoi"
+          [columnDefinitions]="conlumDefinitionCTL"
+          [gridOptions]="gridOptionCTL"
+          [dataset]="chiTietSanPhamTiepNhanCTL"
+        ></angular-slickgrid>
       </form>
     </div>
   </div>
 </div>
-

@@ -3,7 +3,14 @@
   <div class="btn-header d-flex justify-content-end">
     <button class="btn btn-outline-primary btn-option btn-addTN me-2" (click)="openPopupThemMoi()">Thêm mới</button>
   </div>
-  <angular-slickgrid gridId="don-bao-hanh" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="donBaoHanhs">
+  <angular-slickgrid
+    gridId="don-bao-hanh"
+    [columnDefinitions]="columnDefinitions1"
+    [gridOptions]="gridOptions1"
+    [dataset]="donBaoHanhs"
+    (onAngularGridCreated)="angularGridReady($event)"
+    (onGridMenuBeforeMenuShow)="onMenuShow($event)"
+  >
     <div class="alert" id="no-result" *ngIf="donBaoHanhs?.length === 0">
       <div class="loader">
         <div class="justify-content-center jimu-primary-loading"></div>

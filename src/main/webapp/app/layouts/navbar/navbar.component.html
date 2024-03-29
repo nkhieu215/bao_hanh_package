@@ -101,18 +101,18 @@
                 <span class="dropdown-item-span">Nhóm sản phẩm</span>
               </a>
             </li>
-            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-              <a
-                class="dropdown-item"
-                routerLink="san-pham"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span class="dropdown-item-span">Quản lý sản phẩm</span>
-              </a>
-            </li>
+            <!-- <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'"> -->
+            <a
+              class="dropdown-item"
+              routerLink="san-pham"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span class="dropdown-item-span">Quản lý sản phẩm</span>
+            </a>
+            <!-- </li> -->
             <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
               <a
                 class="dropdown-item"

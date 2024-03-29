@@ -53,7 +53,10 @@ Generic styles
   overflow-x: auto;
   width: 100%;
 }
-
+// Xét vị trí cho số lượng
+.column-item {
+  text-align: center;
+}
 .card {
   position: relative;
   width: 100%;

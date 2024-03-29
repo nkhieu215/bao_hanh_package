@@ -235,6 +235,12 @@ public class FullServices {
         this.donBaoHanhRepository.save(request);
     }
 
+    //☺ Lấy danh sách đơn bảo hành
+    public List<DonBaoHanhResponse> tiepNhan() {
+        List<DonBaoHanhResponse> list = this.donBaoHanhRepository.tiepNhan();
+        return list;
+    }
+
     // * ============================ Template Phân tích =================================
     // * Trang chủ
     //☺ lấy danh sách tất cả các đơn bảo hành ở trạng thái chờ phân tích , đang phân tích
@@ -356,10 +362,7 @@ public class FullServices {
     // * tìm kiếm theo khoảng thời gian
     public List<TongHopResponse> searchTongHopByTime(DateTimeSearchDTO request) {
         List<TongHopResponse> list =
-            this.phanTichLoiRepository.tongHop(
-                    request.getStartDate() + "T00:00:00",
-                    request.getEndDate() + "T23:59:59"
-                );
+            this.phanTichLoiRepository.tongHop(request.getStartDate() + "T00:00:00", request.getEndDate() + "T23:59:59");
         return list;
     }
 
@@ -375,10 +378,14 @@ public class FullServices {
     // * search Tong hop caculate
     public List<TongHopResponse> searchTongHopCaculate(DateTimeSearchDTO request) {
         List<TongHopResponse> list =
-            this.phanTichLoiRepository.tongHopCaculate(
-                    request.getStartDate() + "T00:00:00",
-                    request.getEndDate() + "T23:59:59"
-                );
+            this.phanTichLoiRepository.tongHopCaculate(request.getStartDate() + "T00:00:00", request.getEndDate() + "T23:59:59");
+        return list;
+    }
+
+    // * --------------------- San pham -----------------
+    //☺ lay danh sach san pham
+    public List<SanPhamResponse> getListSanPham() {
+        List<SanPhamResponse> list = this.sanPhamRepository.getListSanPham();
         return list;
     }
 }

@@ -1,6 +1,12 @@
 <div id="demo-container" class="container-slickgrid col-md-12 content">
   <h2 id="page-heading">{{ title }}</h2>
-  <angular-slickgrid gridId="grid1" [columnDefinitions]="columnDefinitions1" [gridOptions]="gridOptions1" [dataset]="donBaoHanhs">
+  <angular-slickgrid
+    gridId="grid1"
+    [columnDefinitions]="columnDefinitions1"
+    [gridOptions]="gridOptions1"
+    [dataset]="donBaoHanhs"
+    (onAngularGridCreated)="angularGridReady($event)"
+  >
   </angular-slickgrid>
 </div>
 
