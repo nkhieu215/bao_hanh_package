@@ -8,6 +8,7 @@ import { ChiTietSanPhamTiepNhanRoutingModule } from './route/chi-tiet-san-pham-t
 import { AngularSlickgridModule, ContainerService } from 'angular-slickgrid';
 import { RowDetailViewComponent } from '../don-bao-hanh/list/rowdetail-view.component';
 import Sortable from 'sortablejs';
+import { ChiTietBaoCaoTongHopComponent } from './list/chi-tiet-bao-cao-tong-hop.component';
 
 @NgModule({
   imports: [SharedModule, ChiTietSanPhamTiepNhanRoutingModule, AngularSlickgridModule],
@@ -16,8 +17,9 @@ import Sortable from 'sortablejs';
     ChiTietSanPhamTiepNhanDetailComponent,
     ChiTietSanPhamTiepNhanUpdateComponent,
     ChiTietSanPhamTiepNhanDeleteDialogComponent,
+    ChiTietBaoCaoTongHopComponent
   ],
   entryComponents: [ChiTietSanPhamTiepNhanDeleteDialogComponent],
-  providers: [ContainerService, RowDetailViewComponent],
+  providers: [ContainerService, RowDetailViewComponent, ChiTietBaoCaoTongHopComponent],
 })
 export class ChiTietSanPhamTiepNhanModule {}

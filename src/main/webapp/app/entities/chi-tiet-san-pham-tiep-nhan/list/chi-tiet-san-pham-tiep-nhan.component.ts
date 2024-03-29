@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IChiTietSanPhamTiepNhan } from '../chi-tiet-san-pham-tiep-nhan.model';
 import { ChiTietSanPhamTiepNhanService } from '../service/chi-tiet-san-pham-tiep-nhan.service';
 import { ChiTietSanPhamTiepNhanDeleteDialogComponent } from '../delete/chi-tiet-san-pham-tiep-nhan-delete-dialog.component';
-import { Column, ExternalResource, FieldType, Filters, GridOption } from 'angular-slickgrid';
+import { AngularGridInstance, Column, ExternalResource, FieldType, Filters, GridOption } from 'angular-slickgrid';
 import { ExcelExportService } from '@slickgrid-universal/excel-export';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import * as XLSX from 'xlsx';
@@ -14,6 +14,8 @@ import * as XLSX from 'xlsx';
   selector: 'jhi-chi-tiet-san-pham-tiep-nhan',
   templateUrl: './chi-tiet-san-pham-tiep-nhan.component.html',
 })
+
+
 export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   tongHopUrl = this.applicationConfigService.getEndpointFor('api/tong-hop');
   searchDateUrl = this.applicationConfigService.getEndpointFor('api/search-date');
@@ -25,15 +27,17 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   conlumDefinitionCTL: Column[] = [];
   gridOptions: GridOption = {};
   gridOptionCTL: GridOption = {};
-
+  angularGrid!: AngularGridInstance;
   chiTietSanPhamTiepNhan: any[] = [];
   chiTietSanPhamTiepNhanCTL: ITongHop[] = [];
-
   chiTietSanPhamTiepNhanExport: IChiTietSanPhamTiepNhan[] = [];
   excelExportService: ExcelExportService;
 
+  // startDate: Date
   fileName = 'bao-cao-doi-tra';
-
+  dataSearch: {
+    tenKhachHang: string
+  } = { tenKhachHang: '' }
   data: {
     donBaoHanhId?: number;
     maTiepNhan?: string;
@@ -54,8 +58,8 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     soLuongTheoTungLoi?: number;
     trangThai?: string;
   }[] = [];
-  dataCTL: ITongHop[] = [];
 
+  dataCTL: ITongHop[] = [];
 
   constructor(
     protected chiTietSanPhamTiepNhanService: ChiTietSanPhamTiepNhanService,
@@ -85,31 +89,6 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
     this.dataShow();
     this.getTongHopUrl();
   }
-  // dataExport(list: IChiTietSanPhamTiepNhan[]):void {
-
-  //     const data1: {
-  //       donbaoHanhId?: number,
-  //   maTiepNhan?: string,
-  //   namSanXuat?: Date,
-  //   ngayTiepNhan?: Date,
-  //   ngayPhanTich?: Date,
-  //   nhanVienGiaoHang?: string,
-  //   tenKhachHang?: string,
-  //   nhomKhachHang?: string,
-  //   tinhThanh?: string,
-  //   tenSanPham?: string,
-  //   tenNganh?: string,
-  //   tenChungLoai?: string,
-  //   tenNhomSanPham?: string,
-  //   soLuongKhachGiao?:number,
-  //   slTiepNhan?:number,
-  //   soLuongDoiMoi?: number,
-  //   loiKT?: number,
-  //   loiLinhDong?: number,
-  //   trangThai?: string
-  //     }=this.data ;
-
-  // }
 
   dataShow(): void {
     this.columnDefinitions = [
@@ -144,7 +123,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       {
         id: 'namSanXuat',
         field: 'namSanXuat',
-        name: 'Mã năm',
+        name: 'Năm',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
@@ -158,16 +137,6 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         //   model: Filters.compoundInputText,
         // },
       },
-      // {
-      //   id: 'ngayTiepNhan',
-      //   field: 'ngayTiepNhan',
-      //   name: 'Ngày tạo đơn',
-      //   excludeFromColumnPicker: true,
-      //   excludeFromGridMenu: true,
-      //   excludeFromHeaderMenu: true,
-      //   // maxWidth: 60,
-      //   minWidth: 60,
-      // },
       {
         id: 'ngayTiepNhan',
         field: 'ngayTiepNhan',
@@ -368,7 +337,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 60,
+        minWidth: 100,
       },
       {
         id: 'tongSoLuong',
@@ -417,11 +386,11 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       {
         id: 'namSanXuat',
         field: 'namSanXuat',
-        name: 'Mã năm',
+        name: 'Năm',
         excludeFromColumnPicker: true,
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
-        minWidth: 30,
+        minWidth: 60,
         maxWidth: 60,
       },
       {
@@ -433,7 +402,6 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
         minWidth: 90,
-
       },
       {
         id: 'nhanVienGiaoHang',
@@ -553,7 +521,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromGridMenu: true,
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
-        minWidth: 200,
+        minWidth: 100,
       },
       {
         id: 'tenLoi',
@@ -566,7 +534,7 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         minWidth: 200,
       },
       {
-        d: 'soLuongTheoTungLoi',
+        id: 'soLuongTheoTungLoi',
         field: 'soLuongTheoTungLoi',
         name: 'Số lượng lỗi',
         excludeFromColumnPicker: true,
@@ -574,8 +542,13 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         excludeFromHeaderMenu: true,
         // maxWidth: 60,
         minWidth: 100,
+        // formatter: (row, cell, value, columnDef, dataContext) => {
+        //   dataContext.sumByDonBaoHanhId;
+        // }
       },
+
     ];
+    console.log('header', this.conlumDefinitionCTL)
     this.gridOptions = {
       enableAutoResize: true,
       enableSorting: true,
@@ -587,12 +560,23 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         pageSizes: [20, 50, this.chiTietSanPhamTiepNhan.length],
         pageSize: this.chiTietSanPhamTiepNhan.length,
       },
+      // enableRowDetailView:true,
+      // rowSelectionOptions: {
+      //   selectActiveRow:true,
+      // },
+
+      // rowDetailView: {
+      //   loadOnce:true,
+      //   useRowClick: true,
+
+      // },
+
 
       editable: true,
       enableCellNavigation: true,
-      gridHeight: 610,
+      gridHeight: 620,
       gridWidth: '100%',
-      // autoHeight: true,
+      autoHeight: true,
       autoFitColumnsOnFirstLoad: true,
       asyncEditorLoading: true,
       forceFitColumns: true,
@@ -606,7 +590,6 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       registerExternalResources: [new ExcelExportService() as any],
       // registerExternalResources: [this.excelExportService],
     };
-
     this.gridOptionCTL = {
       enableAutoResize: true,
       enableSorting: true,
@@ -635,60 +618,80 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
   }
 
   getTongHopUrl(): void {
-    this.http.get<any>(this.tongHopUrl).subscribe((res: ITongHop[]) => {
-      console.log('res', res);
+    this.http.get<any>(this.tongHopUrl).subscribe(res => {
+      this.chiTietSanPhamTiepNhan = res;
+
+      // this.chiTietSanPhamTiepNhanCTL = res;
+      sessionStorage.setItem('session chiTietSanPhamTiepNhan', JSON.stringify(res));
+
       for (let i = 0; i < this.chiTietSanPhamTiepNhan.length; ++i) {
         this.chiTietSanPhamTiepNhan[i].index = i;
       }
+      console.log('CTL', res)
+      // for (let i = 0; i < this.chiTietSanPhamTiepNhanCTL.length; ++i) {
+      //   this.chiTietSanPhamTiepNhanCTL[i].index = i;
+      // }
+      console.log('thong tin chung', res)
+      // const sumByDonBaoHanhId = res.reduce((count: ITongHop[], values: ITongHop) => {
+      //   const countValues = count.find((list: ITongHop) =>
+      //     list.donBaoHanhId === values.donBaoHanhId &&
+      //     list.chiTietId === values.chiTietId &&
+      //     list.phanTichSanPhamId === values.phanTichSanPhamId &&
+      //     list.tenNhomLoi === values.tenNhomLoi
+      //   );
+      //   if (countValues) {
+      //     countValues.soLuongTheoTungLoi += values.soLuongTheoTungLoi
+      //   } else {
+      //     count.push(values)
+      //   }
+      //   // console.log('count', count)
+      //   return count
+      // }, []
+      // );
+      // console.log('res', sumByDonBaoHanhId);
+
+      // this.chiTietSanPhamTiepNhan = sumByDonBaoHanhId;
+      this.handleOnHeaderMenuCommand(this.chiTietSanPhamTiepNhan)
+
       this.chiTietSanPhamTiepNhan = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
       this.dataCTL = res
       this.data = this.chiTietSanPhamTiepNhan.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
     })
+
+      this.http.get<any>(this.tongHopUrl).subscribe(res => {
+        this.chiTietSanPhamTiepNhanCTL = res;
+        for (let i = 0; i < this.chiTietSanPhamTiepNhanCTL.length; ++i) {
+          this.chiTietSanPhamTiepNhanCTL[i].index = i;
+        }
+      })
+
 
     this.http.get<any>(this.tongHopCaculateUrl).subscribe(resTongHop => {
       this.chiTietSanPhamTiepNhan = resTongHop;
       for (let i = 0; i < this.chiTietSanPhamTiepNhan.length; ++i) {
         this.chiTietSanPhamTiepNhan[i].index = i;
       }
+      // const sumByDonBaoHanhId = resTongHop.reduce((count: ITongHop[], values: ITongHop) => {
+      //   const countValues = count.find((list: ITongHop) =>
+      //     list.donBaoHanhId === values.donBaoHanhId &&
+      //     list.chiTietId === values.chiTietId &&
+      //     list.phanTichSanPhamId === values.phanTichSanPhamId &&
+      //     list.tenNhomLoi === values.tenNhomLoi
+      //   );
+      //   if (countValues) {
+      //     countValues.soLuongTheoTungLoi += values.soLuongTheoTungLoi
+      //   } else {
+      //     count.push(values)
+      //   }
+      //   // console.log('count', count)
+      //   return count
+      // }, []
+      // );
       this.chiTietSanPhamTiepNhan = resTongHop.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
 
       console.log('caculate', resTongHop)
     })
   }
-
-  changeDate(): void {
-    let dateTimeSearchKey: { startDate: string, endDate: string } = { startDate: '', endDate: '' }
-    document.getElementById("dateForm")?.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      const startDateInp = document.getElementById("startDate") as HTMLInputElement;
-      const endDateInp = document.getElementById("endDate") as HTMLInputElement;
-
-      const startDate = startDateInp.value;
-      const endDate = endDateInp.value;
-      dateTimeSearchKey = { startDate: startDateInp.value, endDate: endDateInp.value }
-    })
-
-    setTimeout(() => {
-      console.log("startDate:", dateTimeSearchKey)
-      this.http.post<any>(this.tongHopUrl, dateTimeSearchKey).subscribe(res => {
-        console.log("check ressult search:", res);
-
-        this.chiTietSanPhamTiepNhanCTL = res;
-      })
-      const keySession = `ThongTinChung ${dateTimeSearchKey.toString()}`
-
-      this.http.post<any>(this.tongHopCaculateUrl, dateTimeSearchKey).subscribe(resCaculate => {
-        console.log("check ressult search 2:", resCaculate);
-
-        console.log('ket qua tim kiem 2', resCaculate)
-        sessionStorage.setItem(`ThongTinChung ${dateTimeSearchKey.toString()}`, JSON.stringify(resCaculate))
-        this.chiTietSanPhamTiepNhan = resCaculate
-      })
-    }, 100)
-
-  }
-
 
   trackId(_index: number, item: IChiTietSanPhamTiepNhan): number {
     return item.id!;
@@ -703,6 +706,67 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
         this.loadAll();
       }
     });
+  }
+
+  changeDate(): void {
+    let dateTimeSearchKey: { startDate: string, endDate: string } = { startDate: '', endDate: '' }
+    document.getElementById("dateForm")?.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const startDateInp = document.getElementById("startDate") as HTMLInputElement;
+      const endDateInp = document.getElementById("endDate") as HTMLInputElement;
+
+      const startDate = startDateInp.value;
+      const endDate = endDateInp.value;
+      dateTimeSearchKey = { startDate: startDateInp.value, endDate: endDateInp.value }
+    })
+    setTimeout(() => {
+      console.log("startDate:", dateTimeSearchKey)
+      this.http.post<any>(this.tongHopUrl, dateTimeSearchKey).subscribe(res => {
+        console.log("check ressult search:", res);
+        // const sumByDonBaoHanhId = res.reduce((count: ITongHop[], values: ITongHop) => {
+        //   const countValues = count.find((list: ITongHop) =>
+        //     list.tenNhomLoi === values.tenNhomLoi
+        //   );
+        //   if (countValues) {
+        //     countValues.soLuongTheoTungLoi += values.soLuongTheoTungLoi
+        //   } else {
+        //     count.push(values)
+        //   }
+        //   // console.log('count', count)
+        //   return count
+        // }, []
+        // );
+        // console.log('res', sumByDonBaoHanhId);
+        // this.chiTietSanPhamTiepNhan = sumByDonBaoHanhId;
+        this.chiTietSanPhamTiepNhanCTL = res;
+      })
+      // const keySession = `ThongTinChung ${dateTimeSearchKey.toString()}`
+
+      this.http.post<any>(this.tongHopCaculateUrl, dateTimeSearchKey).subscribe(resCaculate => {
+        console.log("check ressult search 2:", resCaculate);
+
+        // const sumByDonBaoHanhId = res.reduce((count: ITongHop[], values: ITongHop) => {
+        //   const countValues = count.find((list: ITongHop) =>
+        //     list.tenNhomLoi === values.tenNhomLoi
+        //   );
+        //   if (countValues) {
+        //     countValues.soLuongTheoTungLoi += values.soLuongTheoTungLoi
+        //   } else {
+        //     count.push(values)
+        //   }
+        //   // console.log('count', count)
+        //   return count
+        // }, []
+        // );
+        // console.log('res', sumByDonBaoHanhId);
+        // this.chiTietSanPhamTiepNhan = sumByDonBaoHanhId;
+        console.log('ket qua tim kiem 2', resCaculate)
+        sessionStorage.setItem(`ThongTinChung ${dateTimeSearchKey.toString()}`, JSON.stringify(resCaculate))
+        this.chiTietSanPhamTiepNhan = resCaculate
+      })
+    }, 100)
+
   }
 
   exportToExcel(): void {
@@ -769,15 +833,55 @@ export class ChiTietSanPhamTiepNhanComponent implements OnInit {
       for (let i = 0; i < this.chiTietSanPhamTiepNhanCTL.length; ++i) {
         this.chiTietSanPhamTiepNhanCTL[i].index = i;
       }
-      this.getTongHopUrl()
-      //  if()
     })
+    // this.getTongHopUrl()
+    this.handleSearch();
+    // this.chiTietSanPhamTiepNhanCTL = this.dataCTL;
+    // this.gridOptionCTL = this.gridOptions;
+    // this.http.get<any>(this.tongHopUrl).subscribe((res: ITongHop[]) => {
+    //   this.chiTietSanPhamTiepNhanCTL = res;
+    // for (let i = 0; i < this.chiTietSanPhamTiepNhanCTL.length; ++i) {
+    //   this.chiTietSanPhamTiepNhanCTL[i].index = i;
+    // }
+
+    // this.chiTietSanPhamTiepNhan = sumByDonBaoHanhId;
+    // this.chiTietSanPhamTiepNhanCTL = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+    // this.dataCTL = this.chiTietSanPhamTiepNhanCTL
+    // this.data = this.chiTietSanPhamTiepNhan.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+    // console.log('chi tiet', this.chiTietSanPhamTiepNhanCTL)
+
+    //   console.log('Tong', sumByDonBaoHanhId)
+    //   console.log('res', res);
+    // console.log('updatedRes', updatedRes);
+
+    // this.dataCTL = res.sort((a: any, b: any) => b.donBaoHanhId - a.donBaoHanhId);
+    // });
   }
 
   closePopupViewCTL(): void {
     this.popupViewCTL = false;
   }
+
+  onFilterChange(event: Event): void {
+    const filterText = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    if (this.angularGrid) {
+      this.angularGrid.filterService.updateFilters([{ columnId: 'donBaoHanhId', operator: 'Contains', searchTerms: [filterText] }])
+    }
+  }
+
+  handleOnHeaderMenuCommand(e: any): void {
+    // detail is the args data payload
+    const args = e.detail;
+    this.dataSearch.tenKhachHang = args.searchTerms[0]
+    console.log('header menu command', args);
+  }
+  handleSearch(): void {
+    this.chiTietSanPhamTiepNhanCTL = this.chiTietSanPhamTiepNhanCTL.filter((item) =>
+      item.tenKhachHang.toLowerCase().includes(this.dataSearch.tenKhachHang));
+    console.log('result', this.chiTietSanPhamTiepNhanCTL)
+  }
 }
+
 export interface ITongHop {
   index: number;
   chiTietId: number;
