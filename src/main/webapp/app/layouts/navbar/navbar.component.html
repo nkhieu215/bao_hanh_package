@@ -63,144 +63,160 @@
           </a>
         </li>
 
-        <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a
-            class="dropdown-item"
-            routerLink="tinh-thanh"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Tỉnh thành</span>
+        <li
+          ngbDropdown
+          class="nav-item dropdown pointer"
+          display="dinamic"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0)">
+            <span>
+              <fa-icon icon="gears"></fa-icon>
+              <span class="dropdown-item-span">Cài đặt</span>
+            </span>
           </a>
-        </li>
-        <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a
-            class="dropdown-item"
-            routerLink="nhom-san-pham"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Nhóm sản phẩm</span>
-          </a>
-        </li>
-        <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a
-            class="dropdown-item"
-            routerLink="san-pham"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Quản lý sản phẩm</span>
-          </a>
-        </li>
-        <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a
-            class="dropdown-item"
-            routerLink="khach-hang"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Khách hàng</span>
-          </a>
-        </li>
-        <!-- <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a class="dropdown-item" routerLink="nhom-khach-hang" routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Nhóm khách hàng</span>
-          </a>
-        </li> -->
+          <ul class="nav-item" ngbDropdownMenu style="background-color: #333; border: none">
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
+              <a
+                class="dropdown-item"
+                routerLink="tinh-thanh"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Tỉnh thành</span>
+              </a>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
+              <a
+                class="dropdown-item"
+                routerLink="nhom-san-pham"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Nhóm sản phẩm</span>
+              </a>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
+              <a
+                class="dropdown-item"
+                routerLink="san-pham"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Quản lý sản phẩm</span>
+              </a>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
+              <a
+                class="dropdown-item"
+                routerLink="khach-hang"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Khách hàng</span>
+              </a>
+            </li>
+            <!-- <li class="dropdown-item">
+              <a class="dropdown-item" routerLink="nhom-khach-hang" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Nhóm khách hàng</span>
+              </a>
+            </li> -->
 
-        <!-- <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a class="dropdown-item" routerLink="chi-tiet-san-pham-tiep-nhan" routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Chi tiết sản phẩm tiếp nhận</span>
-          </a>
-        </li> -->
+            <!-- <li class="dropdown-item">
+              <a class="dropdown-item" routerLink="chi-tiet-san-pham-tiep-nhan" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Chi tiết sản phẩm tiếp nhận</span>
+              </a>
+            </li> -->
 
-        <!-- <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a class="dropdown-item" routerLink="danh-sach-tinh-trang" routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Danh sách tình trạng</span>
-          </a>
-        </li> -->
+            <!-- <li class="dropdown-item">
+              <a class="dropdown-item" routerLink="danh-sach-tinh-trang" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Danh sách tình trạng</span>
+              </a>
+            </li> -->
 
-        <!-- <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a class="dropdown-item" routerLink="phan-tich-loi" routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Phân tích lỗi</span>
-          </a>
-        </li> -->
-        <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a
-            class="dropdown-item"
-            routerLink="loi"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Lỗi</span>
-          </a>
-        </li>
-        <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a
-            class="dropdown-item"
-            routerLink="nhom-loi"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Nhóm lỗi</span>
-          </a>
-        </li>
-        <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a
-            class="dropdown-item"
-            routerLink="kho"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Kho</span>
-          </a>
-        </li>
-        <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a
-            class="dropdown-item"
-            routerLink="chung-loai"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Chủng loại</span>
-          </a>
-        </li>
-        <li class="nav-item" *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
-          <a
-            class="dropdown-item"
-            routerLink="nganh"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="collapseNavbar()"
-          >
-            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-            <span class="dropdown-item-span">Ngành</span>
-          </a>
+            <!-- <li class="dropdown-item">
+              <a class="dropdown-item" routerLink="phan-tich-loi" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Phân tích lỗi</span>
+              </a>
+            </li> -->
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
+              <a
+                class="dropdown-item"
+                routerLink="loi"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Lỗi</span>
+              </a>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
+              <a
+                class="dropdown-item"
+                routerLink="nhom-loi"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Nhóm lỗi</span>
+              </a>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
+              <a
+                class="dropdown-item"
+                routerLink="kho"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Kho</span>
+              </a>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
+              <a
+                class="dropdown-item"
+                routerLink="chung-loai"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Chủng loại</span>
+              </a>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_DOITRA'">
+              <a
+                class="dropdown-item"
+                routerLink="nganh"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span class="dropdown-item-span">Ngành</span>
+              </a>
+            </li>
+          </ul>
         </li>
 
         <li
@@ -216,13 +232,17 @@
               <span class="dropdown-item-span">Tài khoản</span>
             </span>
             <span *ngIf="account?.imageUrl">
-              <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
+              <img [src]="account!.imageUrl" class="DOITRA-image rounded-circle" alt="Avatar" />
             </span>
           </a>
           <ul class="nav-item" ngbDropdownMenu aria-label="account-menu" style="background-color: #333; border: none">
             <li *ngSwitchCase="true">
-              <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
-                <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
+              <a href="" class="dropdown-item" style="margin-left: 1rem">
+                <fa-icon icon="user" style="padding-right: 1rem"></fa-icon>
+                {{ this.account?.login }}
+              </a>
+              <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout" style="margin-left: 1rem">
+                <fa-icon icon="sign-out-alt" [fixedWidth]="true" style="padding-right: 1rem"></fa-icon>
                 <span>Đăng xuất</span>
               </a>
             </li>
@@ -521,7 +541,7 @@
               <span>Account</span>
             </span>
             <span *ngIf="account?.imageUrl">
-              <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
+              <img [src]="account!.imageUrl" class="DOITRA-image rounded-circle" alt="Avatar" />
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">

@@ -28,6 +28,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 import { NgxPrintModule } from 'ngx-print';
+import Sortable from 'sortablejs';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { NgxPrintModule } from 'ngx-print';
     AngularSlickgridModule.forRoot(),
     NgxPrintModule,
     NgxPaginationModule,
+    // Sortable
   ],
   providers: [
     Title,

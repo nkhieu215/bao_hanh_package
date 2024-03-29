@@ -379,8 +379,8 @@ export class DonBaoHanhComponent implements OnInit {
         formatter: Formatters.complexObject,
         sortable: true,
         filterable: true,
-        minWidth: 200,
-        maxWidth: 400,
+        minWidth: 350,
+        // maxWidth: 400,
         type: FieldType.string,
         filter: {
           placeholder: 'search',
@@ -657,7 +657,6 @@ export class DonBaoHanhComponent implements OnInit {
       autoFitColumnsOnFirstLoad: true,
       asyncEditorLoading: true,
       forceFitColumns: false,
-      frozenColumn: 4,
       presets: {
         columns: [
           { columnId: 'bbtn' },

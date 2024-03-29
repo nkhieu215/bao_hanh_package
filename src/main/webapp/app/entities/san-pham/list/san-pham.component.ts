@@ -151,6 +151,7 @@ export class SanPhamComponent implements OnInit {
         sortable: true,
         filterable: true,
         type: FieldType.string,
+        formatter: Formatters.complexObject,
         minWidth: 300,
         maxWidth: 350,
         filter: {

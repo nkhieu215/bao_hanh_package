@@ -36,7 +36,7 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'chi-tiet-san-pham-tiep-nhan',
-        data: { pageTitle: 'Chi tiết sản phẩm tiếp nhận' },
+        data: { pageTitle: 'Tổng hợp' },
         loadChildren: () =>
           import('./chi-tiet-san-pham-tiep-nhan/chi-tiet-san-pham-tiep-nhan.module').then(m => m.ChiTietSanPhamTiepNhanModule),
       },

@@ -184,7 +184,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     protected accountService: AccountService,
     protected khoService: KhoService,
     protected navBarComponent: NavbarComponent
-  ) {}
+  ) { }
 
   buttonIn: Formatter<any> = (_row, _cell, value) =>
     value
@@ -335,8 +335,8 @@ export class PhanTichSanPhamComponent implements OnInit {
         field: 'khachHang.tenKhachHang',
         sortable: true,
         filterable: true,
-        minWidth: 100,
-        maxWidth: 400,
+        minWidth: 400,
+        // maxWidth: 400,
         formatter: Formatters.complexObject,
         type: FieldType.string,
         filter: {
@@ -495,7 +495,6 @@ export class PhanTichSanPhamComponent implements OnInit {
       autoFitColumnsOnFirstLoad: true,
       asyncEditorLoading: true,
       forceFitColumns: true,
-      frozenColumn: 3,
     };
     this.loadAll();
     this.getLois();
@@ -1059,6 +1058,7 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.itemOfPhanLoaiChiTietSanPham = this.listOfChiTietSanPhamPhanTich[index].phanLoaiChiTietTiepNhan;
     this.indexOfChiTietPhanTichSanPham = 0;
     this.listOfPhanTichSanPhamByPLCTTN = [];
+    this.listOfKhaiBaoLoi = [];
     this.indexOfPhanTichSanPham = index;
     // lấy danh sách chi tiết sản phẩm phân tích
     // console.log('chi tiet phan tich san pham', this.listOfChiTietSanPhamPhanTich);
@@ -1147,19 +1147,19 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Lot';
     this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
       this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string}`;
+    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber.substr(0, 2) as string
+      }`;
   }
   //Bắt sự kiện scan serial
-  scanSerialEvent(): void {
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Serial';
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber =
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(13);
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
-      this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
-    this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${
-      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(0, 2) as string
-    }`;
-  }
+    scanSerialEvent(): void {
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].theLoaiPhanTich = 'Serial';
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].lotNumber =
+        this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(13);
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].tenSanPham =
+        this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tenSanPham;
+      this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].namSanXuat = `20${this.listOfPhanTichSanPhamByPLCTTN[this.indexOfChiTietPhanTichSanPham].detail.substr(0, 2) as string
+        }`;
+    }
   //Cập nhật thông tin sau khi khai báo lỗi
   updatePhanTichSanPham(): void {
     if (this.listOfChiTietSanPhamPhanTich[this.indexOfPhanTichSanPham].tienDo === 100) {
