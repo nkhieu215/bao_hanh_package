@@ -16,4 +16,5 @@ public interface DonBaoHanhResponse {
     Integer getSlDaPhanLoai();
     Integer getSlSanPham();
     Integer getTienDo();
+    String getDiaChi();
 }

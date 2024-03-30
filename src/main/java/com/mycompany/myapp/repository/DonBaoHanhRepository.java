@@ -17,7 +17,7 @@ public interface DonBaoHanhRepository extends JpaRepository<DonBaoHanh, Long> {
         " trang_thai = N'Chờ phân tích' or trang_thai = N'Đang phân tích' or trang_thai = N'Hoàn thành phân tích'  ",
         nativeQuery = true
     )
-    public List<DonBaoHanh> getDonBaoHanhByTrangThais();
+    List<DonBaoHanh> getDonBaoHanhByTrangThais();
 
     @Query(
         value = "SELECT\n" +
@@ -32,7 +32,8 @@ public interface DonBaoHanhRepository extends JpaRepository<DonBaoHanh, Long> {
         " dbh.sl_da_phan_tich as slDaPhanTich,\n" +
         " dbh.ghi_chu as ghiChu,\n" +
         " dbh.ngay_tra_bien_ban as ngayTraBienBan,\n" +
-        " khachHang.ten_khach_hang as tenKhachHang,\n" +
+        " khachHang.ten_khach_hang as tenKhachHang," +
+        "khachHang.dia_chi as diaChi,\n" +
         "count(chiTiet.san_pham_id) as slSanPham,\n" +
         "\t(select count(chi_tiet_san_pham_tiep_nhan.tinh_trang_bao_hanh) \n" +
         "\t\tfrom baohanh2.chi_tiet_san_pham_tiep_nhan \n" +
@@ -44,5 +45,5 @@ public interface DonBaoHanhRepository extends JpaRepository<DonBaoHanh, Long> {
         "\tgroup by dbh.id;",
         nativeQuery = true
     )
-    public List<DonBaoHanhResponse> tiepNhan();
+    List<DonBaoHanhResponse> tiepNhan();
 }

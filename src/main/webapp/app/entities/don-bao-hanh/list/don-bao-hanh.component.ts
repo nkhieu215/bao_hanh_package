@@ -298,7 +298,7 @@ export class DonBaoHanhComponent implements OnInit {
         minWidth: 55,
         onCellClick: (e: Event, args: OnEventArgs) => {
           this.openPopupPhanLoai(args.dataContext.id);
-          // console.log('idPL? ', args.dataContext);
+          console.log('idPL? ', args.dataContext);
           this.donBaoHanh = args.dataContext;
           this.donBaoHanh.nguoiTaoDon = this.account?.login;
           // this.dataPL = args.dataContext;

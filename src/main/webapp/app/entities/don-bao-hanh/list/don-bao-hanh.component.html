@@ -324,7 +324,7 @@
                   class="input-table form-control"
                   [(ngModel)]="donBaoHanh.nhanVienGiaoHang"
                   [ngModelOptions]="{ standalone: true }"
-                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)"
+                  (change)="checkDuLieuThemMoi(donBaoHanh.tenKhachHang)"
                 />
               </td>
               <td>
@@ -332,9 +332,9 @@
                   type="text"
                   class="input-table form-control"
                   list="field_khachHang_phan_loai"
-                  [(ngModel)]="donBaoHanh.khachHang!.tenKhachHang"
+                  [(ngModel)]="donBaoHanh.tenKhachHang"
                   [ngModelOptions]="{ standalone: true }"
-                  (change)="checkDuLieuThemMoi(donBaoHanh.khachHang!.tenKhachHang)"
+                  (change)="checkDuLieuThemMoi(donBaoHanh.tenKhachHang)"
                   style="width: 28vw"
                 />
                 <datalist id="field_khachHang_phan_loai">
@@ -613,8 +613,8 @@
           <br />
 
           <p>Ngày {{ date }} tháng {{ month }} năm 20{{ year }} Công ty CP Bóng đèn Phích nước Rạng Đông nhận sản phẩm đổi của</p>
-          <p>Ông (Bà): {{ donBaoHanh.khachHang.tenKhachHang }}</p>
-          <p>Địa chỉ: {{ donBaoHanh.khachHang.diaChi }}</p>
+          <p>Ông (Bà): {{ donBaoHanh.tenKhachHang }}</p>
+          <p>Địa chỉ: {{ donBaoHanh.diaChi }}</p>
           <div>Kèm giấy đề nghị đổi sản phẩm (nếu có) ngày {{ date }} tháng {{ month }} năm 20{{ year }}</div>
           <div>
             <table id="table" class="table-TN" style="border-spacing: 0px">

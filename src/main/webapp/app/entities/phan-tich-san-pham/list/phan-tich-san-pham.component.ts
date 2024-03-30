@@ -68,8 +68,8 @@ export class PhanTichSanPhamComponent implements OnInit {
   gridOptions1: GridOption = {};
   dataset1: any[] = [];
   angularGrid?: AngularGridInstance;
-  gridObj: any;
   dataViewObj: any;
+  gridObj: any;
   lois?: ILoi[];
   danhSachSanPhams?: ISanPham[];
   resultChiTietSanPhamTiepNhans: any[] = [];
@@ -208,7 +208,6 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.isLoading = true;
     this.http.get<any>('api/phan-tich-san-pham').subscribe(res => {
       this.donBaoHanhs = res.sort((a: any, b: any) => b.id! - a.id!) ?? [];
-      const localTienDoDonBaoHanhs = JSON.parse(window.localStorage.getItem('DonBaoHanhs') as string);
       for (let i = 0; i < this.donBaoHanhs.length; i++) {
         this.donBaoHanhs[i].tienDo = (this.donBaoHanhs[i].slDaPhanTich / this.donBaoHanhs[i].slTiepNhan) * 100;
       }
@@ -318,8 +317,8 @@ export class PhanTichSanPhamComponent implements OnInit {
         field: 'khachHang.tenKhachHang',
         sortable: true,
         filterable: true,
-        minWidth: 400,
-        // maxWidth: 400,
+        minWidth: 100,
+        maxWidth: 400,
         formatter: Formatters.complexObject,
         type: FieldType.string,
         filter: {
@@ -478,6 +477,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       autoFitColumnsOnFirstLoad: true,
       asyncEditorLoading: true,
       forceFitColumns: true,
+      frozenColumn: 3,
     };
     this.loadAll();
     this.getLois();
@@ -1041,7 +1041,6 @@ export class PhanTichSanPhamComponent implements OnInit {
     this.itemOfPhanLoaiChiTietSanPham = this.listOfChiTietSanPhamPhanTich[index].phanLoaiChiTietTiepNhan;
     this.indexOfChiTietPhanTichSanPham = 0;
     this.listOfPhanTichSanPhamByPLCTTN = [];
-    this.listOfKhaiBaoLoi = [];
     this.indexOfPhanTichSanPham = index;
     // lấy danh sách chi tiết sản phẩm phân tích
     // console.log('chi tiet phan tich san pham', this.listOfChiTietSanPhamPhanTich);
@@ -1093,7 +1092,7 @@ export class PhanTichSanPhamComponent implements OnInit {
 
             // cập nhật tiến độ chung của đơn bảo hành
             this.donBaoHanh.slDaPhanTich! += 1;
-            this.donBaoHanh.tienDo = ((this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100).toFixed(2);
+            this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
             this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
 
             // console.log('Cập nhật tiến độ khi khai báo lỗi', this.indexOfChiTietPhanTichSanPham);
@@ -1210,12 +1209,11 @@ export class PhanTichSanPhamComponent implements OnInit {
         }
         // cập nhật tiến độ chung của đơn bảo hành
         this.donBaoHanh.slDaPhanTich! += 1;
-        this.donBaoHanh.tienDo = ((this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100).toFixed(2);
+        this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
         this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
         setTimeout(() => {
-          if (this.donBaoHanh.tienDo === '100.00') {
+          if (this.donBaoHanh.tienDo === 100) {
             this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
-            console.log('check tien do: ', this.donBaoHanh.tienDo, this.donBaoHanh.trangThai);
           }
         }, 100);
         // console.log('check thông tin phân tích sản phẩm: ', this.listOfPhanTichSanPhamByPLCTTN);
@@ -1232,15 +1230,17 @@ export class PhanTichSanPhamComponent implements OnInit {
         this.donBaoHanhs[i].tienDo = this.donBaoHanh.tienDo;
       }
     }
-    window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
+    // window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
     this.listOfPhanTichSanPhamByPLCTTN = this.listOfPhanTichSanPhamByPLCTTN.filter(item => item.tenSanPham !== '');
-    if (this.donBaoHanh.tienDo === '100.00') {
-      console.log('Hoàn thành phân tích');
-      this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
-      this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
-    } else if (this.donBaoHanh.tienDo > 0) {
-      console.log('Đang phân tích');
+    // console.log(this.listOfPhanTichSanPhamByPLCTTN);
+    if (this.donBaoHanh.tienDo > 0) {
+      // console.log('Đang phân tích');
       this.donBaoHanh.trangThai = 'Đang phân tích';
+      this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
+    }
+    if (this.donBaoHanh.tienDo === 100) {
+      // console.log('Hoàn thành phân tích');
+      this.donBaoHanh.trangThai = 'Hoàn thành phân tích';
       this.http.put<any>(this.updateTrangThaiDonBaoHanhUrl, this.donBaoHanh).subscribe();
     }
     this.http.post<any>('api/phan-tich-san-pham', this.listOfPhanTichSanPhamByPLCTTN).subscribe(res => {
@@ -1408,7 +1408,7 @@ export class PhanTichSanPhamComponent implements OnInit {
       this.getColor(this.listOfChiTietSanPhamPhanTich[index].tienDo, this.indexOfPhanTichSanPham);
       // cập nhật tiến độ chung của đơn bảo hành
       this.donBaoHanh.slDaPhanTich!++;
-      this.donBaoHanh.tienDo = ((this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100).toFixed(2);
+      this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
       this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
     } else {
       // lấy danh sách chi tiết sản phẩm phân tích
@@ -1425,10 +1425,8 @@ export class PhanTichSanPhamComponent implements OnInit {
             this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich += 1;
             this.listOfChiTietSanPhamPhanTich[index].slConLai =
               this.listOfChiTietSanPhamPhanTich[index].slTiepNhan - this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich;
-            this.listOfChiTietSanPhamPhanTich[index].tienDo = (
-              (this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich / this.listOfChiTietSanPhamPhanTich[index].slTiepNhan) *
-              100
-            ).toFixed(2);
+            this.listOfChiTietSanPhamPhanTich[index].tienDo =
+              (this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich / this.listOfChiTietSanPhamPhanTich[index].slTiepNhan) * 100;
             if (this.listOfChiTietSanPhamPhanTich[index].tienDo === 100) {
               this.getColor(this.listOfChiTietSanPhamPhanTich[index].tienDo, index);
               // cập nhật check sản phẩm phân tích
@@ -1436,7 +1434,7 @@ export class PhanTichSanPhamComponent implements OnInit {
             }
             // cập nhật tiến độ chung của đơn bảo hành
             this.donBaoHanh.slDaPhanTich!++;
-            this.donBaoHanh.tienDo = ((this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100).toFixed(2);
+            this.donBaoHanh.tienDo = (this.donBaoHanh.slDaPhanTich / this.donBaoHanh.slCanPhanTich) * 100;
             this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
 
             //cập nhật tổng lỗi linh động, lỗi kĩ thuật
@@ -1494,7 +1492,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           this.donBaoHanhs[i].tienDo = this.donBaoHanh.tienDo;
         }
       }
-      window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
+      // window.localStorage.setItem('DonBaoHanhs', JSON.stringify(this.donBaoHanhs));
       this.fixKhaiBaoLoi = false;
     }, 200);
   }
@@ -1511,7 +1509,13 @@ export class PhanTichSanPhamComponent implements OnInit {
     // console.log('dong popup', this.isPopupVisible)
     document.getElementById('popupNoti')!.style.display = 'none';
   }
-
+  angularGridReady(angularGrid: any): void {
+    this.angularGrid = angularGrid;
+    // the Angular Grid Instance exposes both Slick Grid & DataView objects
+    this.gridObj = angularGrid.slickGrid;
+    this.dataViewObj = angularGrid.dataView;
+    console.log('onGridMenuColumnsChanged11111', this.angularGrid);
+  }
   getColor(value: number, index: any): void {
     if (value >= 0 && value < 40) {
       document.getElementById(index as string)!.style.accentColor = 'red';
@@ -1523,12 +1527,5 @@ export class PhanTichSanPhamComponent implements OnInit {
       document.getElementById(index as string)!.style.accentColor = 'green';
       // console.log('green', value, index);
     }
-  }
-  angularGridReady(angularGrid: any): void {
-    this.angularGrid = angularGrid;
-
-    // the Angular Grid Instance exposes both Slick Grid & DataView objects
-    this.gridObj = angularGrid.slickGrid;
-    this.dataViewObj = angularGrid.dataView;
   }
 }
