@@ -111,6 +111,12 @@ export class SanPhamComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.http.get<any[]>('api/san-phams/list').subscribe((res: any) => {
+      setTimeout(() => {
+        this.sanPhams = res.sort((a: any, b: any) => a.id - b.id);
+      }, 1000);
+    });
+
     this.columnDefinitions = [];
     this.columnDefinitions1 = [
       {
@@ -381,9 +387,6 @@ export class SanPhamComponent implements OnInit {
       gridHeight: 500,
       gridWidth: '100%',
     };
-    this.http.get<any[]>('api/san-phams/list').subscribe((res: any) => {
-      this.sanPhams = res;
-    });
   }
 
   addItem(): void {

@@ -64,6 +64,12 @@ public class Controller {
         this.fullServices.updateDonBaoHanh(request);
     }
 
+    //☺ cập nhật đơn bảo hành
+    @PutMapping("/update-don-bao-hanh-phan-loai")
+    public void updateDonBaoHanhPhanLoai(@RequestBody DonBaoHanh request) {
+        this.fullServices.updateDonBaoHanhPhanLoai(request);
+    }
+
     //☺ thêm mới đơn bảo hành
     @PostMapping("don-bao-hanh/them-moi")
     public DonBaoHanh postDonBaoHanh(@RequestBody DonBaoHanh request) {

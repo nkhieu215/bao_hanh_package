@@ -9,7 +9,6 @@
     [gridOptions]="gridOptions1"
     [dataset]="donBaoHanhs"
     (onAngularGridCreated)="angularGridReady($event)"
-    (onGridMenuBeforeMenuShow)="onMenuShow($event)"
   >
     <div class="alert" id="no-result" *ngIf="donBaoHanhs?.length === 0">
       <div class="loader">
@@ -336,6 +335,7 @@
                   [ngModelOptions]="{ standalone: true }"
                   (change)="checkDuLieuThemMoi(donBaoHanh.tenKhachHang)"
                   style="width: 28vw"
+                  disabled
                 />
                 <datalist id="field_khachHang_phan_loai">
                   <option *ngFor="let item of khachHangs" value="{{ item.tenKhachHang }}"></option>

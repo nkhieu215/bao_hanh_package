@@ -147,6 +147,17 @@ public class FullServices {
         this.donBaoHanhRepository.save(donBaoHanh);
     }
 
+    //☺ cập nhật đơn bảo hành
+    public void updateDonBaoHanhPhanLoai(DonBaoHanh request) {
+        DonBaoHanh donBaoHanh = this.donBaoHanhRepository.findById(request.getId()).orElse(null);
+        //        donBaoHanh.setKhachHang(request.getKhachHang());
+        donBaoHanh.setSlTiepNhan(request.getSlTiepNhan());
+        donBaoHanh.setNhanVienGiaoHang(request.getNhanVienGiaoHang());
+        donBaoHanh.setTrangThai(request.getTrangThai());
+        donBaoHanh.setNguoiTaoDon(request.getNguoiTaoDon());
+        this.donBaoHanhRepository.save(donBaoHanh);
+    }
+
     //☺ thêm mới đơn bảo hành
     public DonBaoHanh postDonBaoHanh(DonBaoHanh request) {
         this.donBaoHanhRepository.save(request);
@@ -355,7 +366,7 @@ public class FullServices {
         LocalDate firstDay = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
         //                LocalDate date = LocalDate.of(2024,02,24 );
         //                LocalDate firstDay = LocalDate.of(2024,02,01 );
-        List<TongHopResponse> list = this.phanTichLoiRepository.tongHop(firstDay.toString() + "T00:00:00", date.toString() + "T:23:59:59");
+        List<TongHopResponse> list = this.phanTichLoiRepository.tongHop(firstDay.toString() + "T00:00:00", date.toString() + "T23:59:59");
         return list;
     }
 
@@ -371,7 +382,7 @@ public class FullServices {
         LocalDate date = LocalDate.now();
         LocalDate firstDay = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
         List<TongHopResponse> list =
-            this.phanTichLoiRepository.tongHopCaculate(firstDay.toString() + "T00:00:00", date.toString() + "T:23:59:59");
+            this.phanTichLoiRepository.tongHopCaculate(firstDay.toString() + "T00:00:00", date.toString() + "T23:59:59");
         return list;
     }
 

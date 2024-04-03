@@ -52,6 +52,7 @@ export class DonBaoHanhComponent implements OnInit {
   chiTietSanPhamTiepNhanUrl = this.applicationConfigService.getEndpointFor('api/chi-tiet-don-bao-hanhs');
   danhSachTinhTrangUrl = this.applicationConfigService.getEndpointFor('api/danh-sach-tinh-trangs');
   updateDonBaoHanhUrl = this.applicationConfigService.getEndpointFor('api/update-don-bao-hanh');
+  updateDonBaoHanhPhanLoaiUrl = this.applicationConfigService.getEndpointFor('api/update-don-bao-hanh-phan-loai');
   postDonBaoHanhUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanh/them-moi');
   postChiTietDonBaoHanhUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanh/them-moi-chi-tiet');
   postPhanLoaiChiTietTiepNhanUrl = this.applicationConfigService.getEndpointFor('api/don-bao-hanh/them-moi-phan-loai');
@@ -643,7 +644,6 @@ export class DonBaoHanhComponent implements OnInit {
       autoHeight: true,
       autoFitColumnsOnFirstLoad: true,
       asyncEditorLoading: true,
-      forceFitColumns: false,
       presets: {
         columns: [
           { columnId: 'bbtn' },
@@ -1727,7 +1727,7 @@ export class DonBaoHanhComponent implements OnInit {
     if (this.isChanged === true) {
       document.getElementById('modal-confirm-save')!.style.display = 'block';
     } else {
-      this.http.put<any>(`${this.updateDonBaoHanhUrl}`, this.donBaoHanh).subscribe(() => {
+      this.http.put<any>(`${this.updateDonBaoHanhPhanLoaiUrl}`, this.donBaoHanh).subscribe(() => {
         setTimeout(() => {
           this.openPopupNoti('Hoàn thành phân loại');
           window.location.reload();
@@ -1738,7 +1738,7 @@ export class DonBaoHanhComponent implements OnInit {
 
   confirmSave(): void {
     document.getElementById('modal-confirm-save')!.style.display = 'none';
-    this.http.put<any>(`${this.updateDonBaoHanhUrl}`, this.donBaoHanh).subscribe(() => {
+    this.http.put<any>(`${this.updateDonBaoHanhPhanLoaiUrl}`, this.donBaoHanh).subscribe(() => {
       // cập nhật thông tin chi tiết sản phẩm tiếp nhận
       this.http.put<any>(this.putChiTietSanPhamTiepNhanUrl, this.chiTietDonBaoHanh).subscribe(res => {
         // console.log('check ket qua chi tiet phan loaij: ', res);
