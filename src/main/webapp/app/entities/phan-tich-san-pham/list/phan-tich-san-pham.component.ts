@@ -267,6 +267,7 @@ export class PhanTichSanPhamComponent implements OnInit {
           // console.log('don bao hanh: ', this.donBaoHanh);
           this.showData(args.dataContext.id);
           setTimeout(() => {
+            console.log('chi tiet san pham phan tich: ', this.listOfChiTietSanPhamPhanTich);
             //Loại bỏ sản phẩm có số lượng tiếp nhận = 0
             this.listOfChiTietSanPhamPhanTich = this.listOfChiTietSanPhamPhanTich.filter(item => item.slTiepNhan !== 0);
             for (let i = 0; i < this.listOfChiTietSanPhamPhanTich.length; i++) {
@@ -1414,14 +1415,14 @@ export class PhanTichSanPhamComponent implements OnInit {
       // lấy danh sách chi tiết sản phẩm phân tích
       this.http.get<any>(`api/phan-tich-san-pham/${id}`).subscribe(res => {
         this.listOfPhanTichSanPhamByPLCTTN = res;
+        console.log('Độ dài danh sách: ', this.listOfPhanTichSanPhamByPLCTTN);
         // console.log({ PLCTTNID: id, PLCTTNINDEX: index });
-        // console.log("Độ dài danh sách: ", this.listOfPhanTichSanPhamByPLCTTN)
         //cập nhật tổng lỗi kĩ thuật và lỗi linh động
         for (let i = 0; i < this.listOfPhanTichSanPhamByPLCTTN.length; i++) {
+          console.log({ checkIndexOfSanPhamPhanTich: this.listOfPhanTichSanPhamByPLCTTN[i] });
           if (this.listOfPhanTichSanPhamByPLCTTN[i].trangThai === 'true') {
-            // console.log({ checkIndexOfSanPhamPhanTich: this.listOfPhanTichSanPhamByPLCTTN[i] });
             // cập nhật tiến độ của phân tích sản phẩm
-            // console.log("Cập nhật tiến độ khi khai báo lỗi", this.listOfChiTietSanPhamPhanTich[index]);
+            console.log('Cập nhật tiến độ khi khai báo lỗi', this.listOfChiTietSanPhamPhanTich);
             this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich += 1;
             this.listOfChiTietSanPhamPhanTich[index].slConLai =
               this.listOfChiTietSanPhamPhanTich[index].slTiepNhan - this.listOfChiTietSanPhamPhanTich[index].slDaPhanTich;
@@ -1438,20 +1439,20 @@ export class PhanTichSanPhamComponent implements OnInit {
             this.getColor(this.donBaoHanh.tienDo, 'donBaoHanh');
 
             //cập nhật tổng lỗi linh động, lỗi kĩ thuật
-            for (let j = 0; j < this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois.length; j++) {
-              // console.log({ checkIndex: this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois });
-              if (this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].ghiChu === 'Lỗi kỹ thuật') {
-                // console.log('test');
-                this.listOfChiTietSanPhamPhanTich[index].loiKyThuat =
-                  Number(this.listOfChiTietSanPhamPhanTich[index].loiKyThuat) +
-                  Number(this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].soLuong);
-              }
-              if (this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].ghiChu === 'Lỗi linh động') {
-                this.listOfChiTietSanPhamPhanTich[index].loiLinhDong =
-                  Number(this.listOfChiTietSanPhamPhanTich[index].loiLinhDong) +
-                  Number(this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].soLuong);
-              }
-            }
+            // for (let j = 0; j < this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois.length; j++) {
+            //   // console.log({ checkIndex: this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois });
+            //   if (this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].ghiChu === 'Lỗi kỹ thuật') {
+            //     // console.log('test');
+            //     this.listOfChiTietSanPhamPhanTich[index].loiKyThuat =
+            //       Number(this.listOfChiTietSanPhamPhanTich[index].loiKyThuat) +
+            //       Number(this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].soLuong);
+            //   }
+            //   if (this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].ghiChu === 'Lỗi linh động') {
+            //     this.listOfChiTietSanPhamPhanTich[index].loiLinhDong =
+            //       Number(this.listOfChiTietSanPhamPhanTich[index].loiLinhDong) +
+            //       Number(this.listOfPhanTichSanPhamByPLCTTN[i].phanTichLois[j].soLuong);
+            //   }
+            // }
           }
         }
         // cập nhật số lượng sản phẩm đã phân tích, số lượng còn lại, tiến độ phân tích(chưa làm)
